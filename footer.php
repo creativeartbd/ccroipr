@@ -17,7 +17,7 @@
 				<div class="col-md-12">
 					<?php
 					/* translators: 1: Theme name, 2: Theme author. */
-					printf( esc_html__( 'Theme: %1$s by %2$s.', 'ccroipr' ), 'ccroipr', '<a href="https://shibbir.dev/">shibbir.dev</a>' );
+					printf( esc_html__( 'Theme: %1$s by %2$s.', 'ccroipr' ), 'ccroipr', '<a href="https://shibbir.dev/">shibbir.dev</a>' ); 
 					?>
 				</div><!-- .site-info -->
 			</div>
