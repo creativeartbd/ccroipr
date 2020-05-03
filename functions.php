@@ -145,7 +145,7 @@ add_action( 'widgets_init', 'ccroipr_widgets_init' );
 function ccroipr_scripts() {	
 
 	wp_enqueue_style( 'boostrap', '//stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css', null, _S_VERSION );	
-	wp_enqueue_style( 'ccroipr-style', get_stylesheet_uri(), array(), _S_VERSION );
+	wp_enqueue_style( 'ccroipr-style', get_stylesheet_uri(), array(), _S_VERSION );	
 	wp_style_add_data( 'ccroipr-style', 'rtl', 'replace' );
 
 	wp_enqueue_script( 'slim-min', '//code.jquery.com/jquery-3.4.1.slim.min.js', array( 'jquery' ), _S_VERSION, true );
@@ -180,6 +180,11 @@ require get_template_directory() . '/inc/template-functions.php';
  * Customizer additions.
  */
 require get_template_directory() . '/inc/customizer.php';
+
+/**
+ * Theme Option Panel
+ */
+require get_template_directory() . '/inc/theme-settings.php';
 
 /**
  * Load Jetpack compatibility file.
