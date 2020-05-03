@@ -459,7 +459,7 @@ html {
 }
 
 body {
-	background: #fff;
+	background-color: #fbfbfb;
 }
 
 hr {
@@ -958,7 +958,8 @@ object {
 ## Header
 --------------------------------------------------------------*/
 .site-header .navbar{
-	padding: 15px;
+	padding: 20px;
+	background-color: #fff !important;
 }
 .site-header a.custom-logo-link img {
 	max-width: 300px;
@@ -975,9 +976,23 @@ object {
 }
 
 /*--------------------------------------------------------------
-## Header
+## Main container
 --------------------------------------------------------------*/
 .main-container {
 	margin-top: 35px;
 	margin-bottom: 35px;
+}
+
+/*--------------------------------------------------------------
+## Site footer
+--------------------------------------------------------------*/
+.site-footer {
+	background-color: #1e1c18;
+    padding-top: 60px;
+    padding-bottom: 60px;	
+    color: #747474;
+}
+
+.site-footer a {	
+    color: #747474;
 }
