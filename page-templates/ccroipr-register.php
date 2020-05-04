@@ -84,29 +84,11 @@ get_header();
 						</div>
 						<div class="col-md-3">
 							<div class="form-group">
-									<input type="file" name="file" id="file">
-								<!-- <div class="slim"
-		                             data-label="Drop your image here"
-		                             data-size="350,350"
-		                             data-push="true"
-		                             data-edit="true"
-		                             data-download="true"
-		                             data-download="false"
-		                             data-edit="false"
-		                             data-label-loading="Image is loading..."
-		                             data-max-file-size="10"
-		                             data-did-init="slimInitialised"
-		                             data-did-upload="imageUpload"
-		                             data-did-remove="imageRemoved"
-		                             data-meta-user-id="1234"
-		                             data-action="remove">
-		                            <input type="file" name="slim" id="file" />
-		                            <?php //wp_nonce_field( 'register_slim_file_action' ); ?>
-		                        </div> -->
+								<input type="file" name="file" id="file">
 		                    </div>
 							<div class="form-group">
 	                            <label for="">SHA256 (Hashwert der Originalabbildung)</label>
-	                            <input type="text" id="sha256" name="sha256" maxlength="64" class="form-control" placeholder="SHA256 (Hashwert der Originalabbildung)">
+	                            <input type="text" id="sha256" name="sha256" maxlength="64" class="form-control" placeholder="SHA256 (Hashwert der Originalabbildung)" readonly>
 	                        </div>
 	                        <div class="form-group">
 	                            <label for="">Werk-Beschreibung</label>

@@ -46,13 +46,19 @@ function register_action() {
 	$inch_habe_die 		= sanitize_text_field( $_POST[ 'inch_habe_die' ] ); 
 	$inh_habe_die_agb 	= sanitize_text_field( $_POST[ 'inh_habe_die_agb' ] ); 
 	$ich_habe_die 		= sanitize_text_field( $_POST[ 'ich_habe_die' ] ); 
-	$email 				= sanitize_email( $_POST[ 'email' ] ); 
-	$slim 				= $_POST[ 'slim' ]; 
-	$file 				= $_FILES['file']['name'];	
+    $ip                 = sanitize_text_field( $_POST[ 'ip' ] ); 
+	$email 				= sanitize_email( $_POST[ 'email' ] ); 	
+	$file 				= isset( $_FILES['file'] ) ? $_FILES['file'] : '';
+    $allowed_size       = 10485760;
+    $allowed_image      = ['jpg', 'png', 'gif'];
 
-	$posted_data =  isset( $_POST ) ? $_POST : array();
-	$file_data = isset( $_FILES ) ? $_FILES : array();
-	$data = array_merge( $posted_data, $file_data );
+    $filename = $extension = $filesize = '';
+    if( $file ) {
+        $filename = $file['name'];
+        $explode = explode( '.' , $filename );
+        $extension = strtolower( end( $explode ) );
+        $filesize = $file['size'];
+    }
     
     $errors 			= [];
 
@@ -130,6 +136,14 @@ function register_action() {
     		}
     	}
 
+        if( empty( $filename ) ) {
+            $errors[] = 'Please upload image';
+        } elseif( !in_array( $extension, $allowed_image ) ) {
+            $errors[] = 'Only jpg, png and gif images are allowed';
+        } elseif( $filesize > $allowed_size ) {
+            $errors[] = 'Maximum 10 MB image are allowd'; 
+        }
+
     	if( empty( $sha256 ) ) {
     		$errors[] = 'SHA256 (Hashwert der Originalabbildung) is required';
     	} elseif( strlen( $sha256 ) > 64 || strlen( $sha256 ) < 64  ) {
@@ -190,18 +204,15 @@ function register_action() {
     		$errors[] = 'Invalid E-mail address';
     	} elseif( email_exists( $email ) ) {
     		$errors[] = 'E-mail address is already exist, Please choose another';
-    	}   	
-
-    	if( empty( $slim ) ) {
-    		$errors[] = 'Please upload hochladen';
     	} 
 
-    	echo '<pre>';
+    	//echo '<pre>';
 	    	// print_r( $_FILES );
 	    	// print_r( $_REQUEST );
-    		print_r( $data );
-    	echo '</pre>';
-    	
+    		//print_r( $data );
+            //$attachment_id = media_handle_upload( 'file', 0 );
+    	//echo '</pre>';
+        //print_r( $attachment_id );
     }
 
     if( !empty( $errors ) ) {
@@ -212,7 +223,125 @@ function register_action() {
     	}
     	echo '</div>';
     } else {
-	
+
+        $userdata = array(            
+            'user_pass'             => '',   
+            'user_login'            => $surname,
+            'user_nicename'         => $vorname, 
+            'user_url'              => '',   
+            'user_email'            => $email,  
+            'display_name'          => $vorname,
+            'nickname'              => $vorname,
+            'first_name'            => $vorname,
+            'last_name'             => '', 
+            'description'           => '', 
+            'show_admin_bar_front'  => false,
+            'role'                  => '',   //(string) User's role.
+            'locale'                => '',   //(string) User's locale. Default empty.     
+        );
+
+        $user_id = wp_insert_user( $userdata ) ;
+
+        if ( ! is_wp_error( $user_id ) ) {
+            $attachment_id = media_handle_upload( 'file', 0 );
+            if ( !is_wp_error( $attachment_id ) ) { 
+                $meta_array = [
+                    'strabe_nr' => $strabe_nr, 
+                    'plz' => $plz, 
+                    'ort' => $ort,
+                    'e_post_address' => $e_post_address,
+                    'webseite' => $webseite,
+                    'werktitel' => $werktitel,
+                    'wiener' => $wiener, 
+                    'locarno' => $locarno, 
+                    'internationale' => $internationale, 
+                    'nizzaklassifikation' => $nizzaklassifikation, 
+                    'sha256' => $sha256, 
+                    'werk_beschreibung' => $werk_beschreibung, 
+                    'keywordnr1' => $keywordnr1, 
+                    'keywordnr2' => $keywordnr2, 
+                    'keywordnr3' => $keywordnr3, 
+                    'keywordnr4' => $keywordnr4, 
+                    'keywordnr5' => $keywordnr5, 
+                    'inch_habe_die' => $inch_habe_die, 
+                    'inh_habe_die_agb' => $inh_habe_die_agb, 
+                    'ich_habe_die' => $ich_habe_die,
+                    'user_ip' => $ip,
+                ];
+                add_user_meta( $user_id, 'register_user_meta_key', $meta_array );
+
+                $code = sha1( $user_id . time() );    
+                global $wpdb;    
+                $wpdb->update( 
+                    'wp_users', //table name     
+                        array( 'user_activation_key' => $code ),       
+                        array( 'ID' =>    $user_id ),     
+                        array( '%s', '%d' )
+                    );
+
+                $activation_link = add_query_arg( 
+                    array( 
+                        'key' => $code, 
+                        'user' => $user_id 
+                    ), get_permalink( 44 )
+                );  
+
+                wp_mail( $user_email, 'SUBJECT', 'Activation link : ' . $activation_link );
+
+                 $message = "<div style='padding : 20px; border : 1px solid #ddd; color : #000;'>Hello $surname, <br/><br/>Please confirm your email addresss for CCROIPR-Registration von $werktitel. Click this to confirm : <a href='$activation_link'>Confirm Now</a><br/><br/>http://ccroipr.org<br/>Thank You.<br/></div>";
+
+                $to = get_option( 'admin_email' );
+                $subject = 'Confirm your registration process"';
+                $body = $message;
+                $headers = array('Content-Type: text/html; charset=UTF-8');
+
+                wp_mail( $to, $subject, $body, $headers );
+
+            }
+        }
+
+        
+    
+
+        // $attachment_id = media_handle_upload( 'file', 0 );
+
+        // if ( is_wp_error( $attachment_id ) ) { 
+        //     $response['response']   = "ERROR";
+        //     $response['error']      = $fileErrors[ $_FILES['file']['error'] ];
+        // } else {
+        //     $fullsize_path          = get_attached_file( $attachment_id );
+        //     $pathinfo               = pathinfo( $fullsize_path );
+        //     $url                    = wp_get_attachment_url( $attachment_id );
+        //     $response['response']   = "SUCCESS";
+        //     $response['filename']   = $pathinfo['filename'];
+        //     $response['url']        = $url;
+        //     $type                   = $pathinfo['extension'];
+
+        //     if( $type == "jpeg" || $type == "jpg" || $type == "png" || $type == "gif" ) {
+        //         $type = "image/" . $type;
+        //     }
+        //     $response['type'] = $type;
+        // }
+        // echo '<pre>';
+        // print_r( $response );
+
+        // $imgName      = 'myimagename.jpg';
+        // $confirmCode  = rand(1000, 9999);
+        // $ex           = explode( '.', $imgName );
+
+        // $ex1          = strtolower(end($ex));
+        // $werktitel_R  = htmlspecialchars($werktitel);
+        // $newFileName  = str_replace(' ', '-', strtolower($werktitel_R)).'-'.rand(5).".$ex1";
+        // $userId         = 1254;
+
+        //  $message = "<div style='padding : 20px; border : 1px solid #ddd; color : #000;'>Hello $surname, <br/><br/>Please confirm your email addresss for CCROIPR-Registration von $werktitel. Click this to confirm : <a href='http://ccroipr.org/confirmation.php?code=$confirmCode&id=$userId'>Confirm Now</a><br/><br/>http://ccroipr.org<br/>Thank You.<br/></div>";
+
+        // $to = get_option( 'admin_email' );
+        // $subject = 'The subject';
+        // $body = $message;
+        // $headers = array('Content-Type: text/html; charset=UTF-8');
+
+        // wp_mail( $to, $subject, $body, $headers );
     }
 
     wp_die();
