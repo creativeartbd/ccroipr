@@ -144,10 +144,10 @@ get_header();
 		                        <label><input type="checkbox" required name="inch_habe_die" value="1">Ich habe die Hinweise heruntergeladen, gelesen undmeine Daten gepruft.</label>
 		                    </div>
 		                    <div class="checkbox">
-		                        <label><input type="checkbox" required name="inh_habe_die_agb" value="2">Inh habe die AGB heruntergeladen, gelesen und akzeptiert.</label>
+		                        <label><input type="checkbox" required name="inh_habe_die_agb" value="1">Inh habe die AGB heruntergeladen, gelesen und akzeptiert.</label>
 		                    </div>
 		                    <div class="checkbox">
-		                        <label><input type="checkbox" required name="ich_habe_die" value="3>"> Ich habe die Lizenzvereinbarung nach $30 Markengesetz uber die. Urheber-Kennzeichnug eines Werkes mit der Bezeichnung "CCROIPR" heruntergeladen, gelesen und akzeptiert.</label>
+		                        <label><input type="checkbox" required name="ich_habe_die" value="1">Ich habe die Lizenzvereinbarung nach $30 Markengesetz uber die. Urheber-Kennzeichnug eines Werkes mit der Bezeichnung "CCROIPR" heruntergeladen, gelesen und akzeptiert.</label>
 		                    </div>
 		                    <div class="form-group">
 		                        <p>Bittle geben Sie Ihre E-Mail-Addresse ein (Eintragsbestatigung nach Art.246a $ 1 EGBGB)</p>

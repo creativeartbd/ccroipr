@@ -1,10 +1,7 @@
-( function( $ ) {
-
+(function($){
     $( document ).ready( function() {
         $( '#register' ).on( 'submit', function( event ) {
-
-        	event.preventDefault();        	
-
+        	event.preventDefault();       	
 	        $.ajax({
 	        	type: 'POST',
 	        	url : settings.ajaxurl,
@@ -14,9 +11,6 @@
 	        		$('#form_result').html( result );	        		
 	        	}
 	        });
-		    
-
         })
     });
-
 })( jQuery );
