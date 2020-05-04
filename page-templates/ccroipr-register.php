@@ -84,7 +84,8 @@ get_header();
 						</div>
 						<div class="col-md-3">
 							<div class="form-group">
-								<div class="slim"
+									<input type="file" name="file" id="file">
+								<!-- <div class="slim"
 		                             data-label="Drop your image here"
 		                             data-size="350,350"
 		                             data-push="true"
@@ -100,7 +101,8 @@ get_header();
 		                             data-meta-user-id="1234"
 		                             data-action="remove">
 		                            <input type="file" name="slim" id="file" />
-		                        </div>
+		                            <?php //wp_nonce_field( 'register_slim_file_action' ); ?>
+		                        </div> -->
 		                    </div>
 							<div class="form-group">
 	                            <label for="">SHA256 (Hashwert der Originalabbildung)</label>
@@ -114,23 +116,23 @@ get_header();
 						<div class="col-md-3">
 							<div class="form-group">
 	                            <label for="">Keword Nr 1 </label>
-	                            <input type="text" name="keywordnr1" maxlength="40" class="form-control keyword1" placeholder="Keword Nr 1">
+	                            <input type="text" name="keywordnr1" maxlength="40" class="form-control keyword1" placeholder="Keword Nr 1" value="Stichwort / Schlagwort">
 	                        </div>
 	                        <div class="form-group">
 	                            <label for="">Keword Nr 2 </label>
-	                            <input type="text" name="keywordnr2" maxlength="40" class="form-control keyword2"  placeholder="Keyword Nr 2">
+	                            <input type="text" name="keywordnr2" maxlength="40" class="form-control keyword2"  placeholder="Keyword Nr 2" value="Stichwort / Schlagwort">
 	                        </div>
 	                        <div class="form-group">
 	                            <label for="">Keword Nr 3 </label>
-	                            <input type="text" name="keywordnr3" maxlength="40" class="form-control keyword3"  placeholder="Keword Nr 3">
+	                            <input type="text" name="keywordnr3" maxlength="40" class="form-control keyword3"  placeholder="Keword Nr 3"  value="Stichwort / Schlagwort">
 	                        </div>
 	                        <div class="form-group">
 	                            <label for="">Keword Nr 4 </label>
-	                            <input type="text" name="keywordnr4" maxlength="40" class="form-control keyword4"  placeholder="Keword Nr 4">
+	                            <input type="text" name="keywordnr4" maxlength="40" class="form-control keyword4"  placeholder="Keword Nr 4"  value="Stichwort / Schlagwort">
 	                        </div>
 	                        <div class="form-group">
 	                            <label for="">Keword Nr 5 </label>
-	                            <input type="text" name="keywordnr5" maxlength="40" class="form-control keyword5"  placeholder="Keword Nr 5">
+	                            <input type="text" name="keywordnr5" maxlength="40" class="form-control keyword5"  placeholder="Keword Nr 5"  value="Stichwort / Schlagwort">
 	                        </div>
 						</div>					
 					</div>				

@@ -7,6 +7,16 @@
  * @package ccroipr
  */
 
+add_action( 'wp_ajax_register_slim_file_action', 'register_slim_file_action' );
+add_action( 'wp_ajax_nopriv_register_slim_file_action', 'register_slim_file_action' );
+
+function register_slim_file_action() {
+
+	wp_verify_nonce( '_wpnoncne', 'register_slim_file_action' );
+	echo hash('sha256', uniqid());	
+	wp_die();
+}
+
 add_action( 'wp_ajax_register_action', 'register_action' );
 add_action( 'wp_ajax_nopriv_register_action', 'register_action' );
 
@@ -37,11 +47,16 @@ function register_action() {
 	$inh_habe_die_agb 	= sanitize_text_field( $_POST[ 'inh_habe_die_agb' ] ); 
 	$ich_habe_die 		= sanitize_text_field( $_POST[ 'ich_habe_die' ] ); 
 	$email 				= sanitize_email( $_POST[ 'email' ] ); 
-	$slim 				= sanitize_text_field( $_POST[ 'slim' ] ); 
+	$slim 				= $_POST[ 'slim' ]; 
+	$file 				= $_FILES['file']['name'];	
+
+	$posted_data =  isset( $_POST ) ? $_POST : array();
+	$file_data = isset( $_FILES ) ? $_FILES : array();
+	$data = array_merge( $posted_data, $file_data );
     
     $errors 			= [];
 
-    if( isset( $surname, $vorname, $strabe_nr, $plz, $ort, $e_post_address, $webseite, $werktitel, $wiener, $locarno, $internationale, $nizzaklassifikation, $sha256, $werk_beschreibung, $keywordnr1, $keywordnr2, $keywordnr3, $keywordnr4, $keywordnr5, $inch_habe_die, $inh_habe_die_agb, $ich_habe_die, $email, $slim ) ) {
+    if( isset( $surname, $vorname, $strabe_nr, $plz, $ort, $e_post_address, $webseite, $werktitel, $wiener, $locarno, $internationale, $nizzaklassifikation, $sha256, $werk_beschreibung, $keywordnr1, $keywordnr2, $keywordnr3, $keywordnr4, $keywordnr5, $inch_habe_die, $inh_habe_die_agb, $ich_habe_die, $email ) ) {
     	
     	if( empty( $surname ) ) {
     		$errors[] = 'Your surname is required';
@@ -168,10 +183,10 @@ function register_action() {
     	if( empty( $ich_habe_die ) ) {
     		$errors[] = 'ich habe die is required';
     	}
-    	
+
     	if( empty( $email ) ) {
     		$errors[] = 'E-mail address is required';
-    	} elseif( is_email( $email )  ) {
+    	} elseif( !is_email( $email )  ) {
     		$errors[] = 'Invalid E-mail address';
     	} elseif( email_exists( $email ) ) {
     		$errors[] = 'E-mail address is already exist, Please choose another';
@@ -180,6 +195,12 @@ function register_action() {
     	if( empty( $slim ) ) {
     		$errors[] = 'Please upload hochladen';
     	} 
+
+    	echo '<pre>';
+	    	// print_r( $_FILES );
+	    	// print_r( $_REQUEST );
+    		print_r( $data );
+    	echo '</pre>';
     	
     }
 
@@ -190,12 +211,10 @@ function register_action() {
     		echo '<br/>';
     	}
     	echo '</div>';
+    } else {
+	
     }
-     
-	// echo '<pre>';
-	// print_r( $_REQUEST );
-	// echo '</pre>';
 
-	wp_die();
+    wp_die();
     
 }
