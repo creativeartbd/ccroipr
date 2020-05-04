@@ -9,7 +9,7 @@
 
 if ( ! defined( '_S_VERSION' ) ) {
 	// Replace the version number of the theme on each release.
-	define( '_S_VERSION', '1.0.0' );
+	define( '_S_VERSION', '1.0.0-'. time() );
 }
 
 if ( ! function_exists( 'ccroipr_setup' ) ) :
@@ -146,11 +146,18 @@ function ccroipr_scripts() {
 
 	wp_enqueue_style( 'boostrap', '//stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css', null, _S_VERSION );	
 	wp_enqueue_style( 'ccroipr-style', get_stylesheet_uri(), array(), _S_VERSION );	
+	wp_enqueue_style( 'slim-css', get_template_directory_uri() . '/assets/vendor/slim/slim.css', array(), _S_VERSION );	
 	wp_style_add_data( 'ccroipr-style', 'rtl', 'replace' );
-
-	wp_enqueue_script( 'slim-min', '//code.jquery.com/jquery-3.4.1.slim.min.js', array( 'jquery' ), _S_VERSION, true );
+	
 	wp_enqueue_script( 'popper-min', '//cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js', array( 'jquery' ), _S_VERSION, true );
 	wp_enqueue_script( 'bootstrap-min', '//stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js', array( 'jquery' ), _S_VERSION, true );
+	wp_enqueue_script( 'slim', get_template_directory_uri() . '/assets/vendor/slim/slim.kickstart.js', array( 'jquery' ), _S_VERSION, true );
+
+	wp_enqueue_script( 'ccroipr-js', get_template_directory_uri() . '/assets/js/ccroipr.js', array( 'jquery' ), _S_VERSION, true );
+	// set variables for script
+    wp_localize_script( 'ccroipr-js', 'settings', array(
+    	'ajaxurl'    => admin_url( 'admin-ajax.php' ),        
+    ) );
 
 	wp_enqueue_script( 'ccroipr-navigation', get_template_directory_uri() . '/js/navigation.js', array(), _S_VERSION, true );
 	wp_enqueue_script( 'ccroipr-skip-link-focus-fix', get_template_directory_uri() . '/js/skip-link-focus-fix.js', array(), _S_VERSION, true );
@@ -185,6 +192,12 @@ require get_template_directory() . '/inc/customizer.php';
  * Theme Option Panel
  */
 require get_template_directory() . '/inc/theme-settings.php';
+
+/**
+ * Theme hooks
+ */
+require get_template_directory() . '/inc/hooks.php';
+
 
 /**
  * Load Jetpack compatibility file.

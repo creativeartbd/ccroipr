@@ -298,6 +298,7 @@ textarea {
 [type="radio"] {
 	box-sizing: border-box;
 	padding: 0;
+	margin-right: 15px;
 }
 
 /**
@@ -381,6 +382,10 @@ textarea {
 	font-size: 1rem;
 	line-height: 1.5;
 	font-weight: normal;
+}
+
+label {
+	font-weight: 500;
 }
 
 h1,
@@ -520,15 +525,14 @@ table {
 button,
 input[type="button"],
 input[type="reset"],
-input[type="submit"] {
-	border: 1px solid;
-	border-color: #ccc #ccc #bbb;
-	border-radius: 3px;
+input[type="submit"] {	
+	border :0;
+	border-radius: 0;
 	background: #e6e6e6;
-	color: rgba(0, 0, 0, 0.8);
-	font-size: 0.75rem;
+	color: #fff;
 	line-height: 1;
-	padding: 0.6em 1em 0.4em;
+	padding: 15px;
+	background-color: #0069d9;
 }
 
 button:hover,
@@ -536,6 +540,8 @@ input[type="button"]:hover,
 input[type="reset"]:hover,
 input[type="submit"]:hover {
 	border-color: #ccc #bbb #aaa;
+	border-radius: 5px;
+	text-shadow: 1px 1px 1px #000;
 }
 
 button:active,
