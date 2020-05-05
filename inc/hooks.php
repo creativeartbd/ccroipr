@@ -102,7 +102,9 @@ function register_action() {
 
     	if( empty( $webseite ) ) {
     		$errors[] = 'Your webseite is required';
-    	} elseif( strlen( $webseite ) > 150 || strlen( $webseite ) < 2  ) {
+    	} elseif( !filter_var( $webseite, FILTER_VALIDATE_URL ) ) {
+            $errors[] = 'Invalid webseite is given';
+        } elseif( strlen( $webseite ) > 150 || strlen( $webseite ) < 2  ) {
     		$errors[] = 'Your webseite must be between 2-150 characters long';
     	}
 
@@ -236,7 +238,7 @@ function register_action() {
             'last_name'             => '', 
             'description'           => '', 
             'show_admin_bar_front'  => false,
-            'role'                  => '',   //(string) User's role.
+            'role'                  => 'ccroipr_register_p',   //(string) User's role.
             'locale'                => '',   //(string) User's locale. Default empty.     
         );
 
@@ -271,13 +273,16 @@ function register_action() {
                 add_user_meta( $user_id, 'register_user_meta_key', $meta_array );
 
                 $code = sha1( $user_id . time() );    
-                global $wpdb;    
+
+                global $wpdb; 
+
                 $wpdb->update( 
-                    'wp_users', //table name     
-                        array( 'user_activation_key' => $code ),       
-                        array( 'ID' =>    $user_id ),     
-                        array( '%s', '%d' )
-                    );
+                    $wpdb->prefix.'users', //table name     
+                    array( 'user_activation_key' => $code ),       
+                    array( 'ID' =>    $user_id ),     
+                    array( '%s' ),
+                    array( '%d' ) 
+                );
 
                 $activation_link = add_query_arg( 
                     array( 
@@ -286,14 +291,15 @@ function register_action() {
                     ), get_permalink( 44 )
                 );  
 
-                wp_mail( $user_email, 'SUBJECT', 'Activation link : ' . $activation_link );
+                echo '<div class="alert alert-success">Please confirm your email addresss for CCROIPR-Registration von Werktitel.</div>';
 
-                 $message = "<div style='padding : 20px; border : 1px solid #ddd; color : #000;'>Hello $surname, <br/><br/>Please confirm your email addresss for CCROIPR-Registration von $werktitel. Click this to confirm : <a href='$activation_link'>Confirm Now</a><br/><br/>http://ccroipr.org<br/>Thank You.<br/></div>";
+                // Send email to user for activate the account 
+                $message = "<div style='padding : 20px; border : 1px solid #ddd; color : #000;'>Hello $surname, <br/><br/>Please confirm your email addresss for CCROIPR-Registration von $werktitel. Click this link to confirm : <a href='$activation_link'>Confirm Now</a><br/><br/>http://ccroipr.org<br/>Thank You.<br/></div>";
 
-                $to = get_option( 'admin_email' );
-                $subject = 'Confirm your registration process"';
-                $body = $message;
-                $headers = array('Content-Type: text/html; charset=UTF-8');
+                $to         = $email;
+                $subject    = 'Confirm your registration process"';
+                $body       = $message;
+                $headers    = array('Content-Type: text/html; charset=UTF-8');
 
                 wp_mail( $to, $subject, $body, $headers );
 
@@ -347,3 +353,13 @@ function register_action() {
     wp_die();
     
 }
+
+// Add new role
+function ccroipr_new_custom_roles() {
+    //if ( get_option( 'custom_roles_version' ) < 1 ) {
+        add_role( 'ccroipr_register_p', 'Reigster P', array( 'read' => true, 'level_0' => true ) );
+        add_role( 'ccroipr_register_t', 'Reigster T', array( 'read' => true, 'level_0' => true ) );
+        
+    //}
+}
+add_action( 'init', 'ccroipr_new_custom_roles' );
