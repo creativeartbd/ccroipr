@@ -251,6 +251,8 @@ function register_action() {
             if ( !is_wp_error( $attachment_id ) ) { 
 
                 $meta_array = [
+                    'surname' => $surname,
+                    'vorname' => $vorname,
                     'strabe_nr' => $strabe_nr, 
                     'plz' => $plz, 
                     'ort' => $ort,
@@ -272,6 +274,7 @@ function register_action() {
                     'inh_habe_die_agb' => $inh_habe_die_agb, 
                     'ich_habe_die' => $ich_habe_die,
                     'user_ip' => $ip,
+                    'thumb_id' =>  $attachment_id,
                 ];
 
                 add_user_meta( $user_id, 'register_user_meta_key', $meta_array );

@@ -18,6 +18,8 @@ get_header();
 						$key = isset( $_GET['key'] ) ? sanitize_text_field( $_GET['key'] ) : '';
 						$user_id = isset( $_GET['user'] ) ? intval( $_GET['user'] ) : '';
 
+						
+
 						if( isset( $key, $user_id ) ) {
 							if( !empty( $key) && !empty( $user_id ) ) {
 								
@@ -38,6 +40,7 @@ get_header();
 									     	array( '%d', '%s')
 										);		
 										echo "<div class='alert alert-success'>Congratulation! Your email has been confirmed.</div>";
+										$author_page = get_author_posts_url( $user_id );										
 									} else {
 										 echo "<div class='alert alert-danger'>Your email address is already confirmed</div>"; 
 									}
