@@ -85,6 +85,7 @@ get_header();
 						<div class="col-md-3">
 							<div class="form-group">
 								<input type="file" name="file" id="file">
+								<img src="" id="uploaded_img" width="100%" />
 		                    </div>
 							<div class="form-group">
 	                            <label for="">SHA256 (Hashwert der Originalabbildung)</label>

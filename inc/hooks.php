@@ -245,8 +245,11 @@ function register_action() {
         $user_id = wp_insert_user( $userdata ) ;
 
         if ( ! is_wp_error( $user_id ) ) {
+
             $attachment_id = media_handle_upload( 'file', 0 );
+
             if ( !is_wp_error( $attachment_id ) ) { 
+
                 $meta_array = [
                     'strabe_nr' => $strabe_nr, 
                     'plz' => $plz, 
@@ -270,6 +273,7 @@ function register_action() {
                     'ich_habe_die' => $ich_habe_die,
                     'user_ip' => $ip,
                 ];
+
                 add_user_meta( $user_id, 'register_user_meta_key', $meta_array );
 
                 $code = sha1( $user_id . time() );    
@@ -363,3 +367,32 @@ function ccroipr_new_custom_roles() {
     //}
 }
 add_action( 'init', 'ccroipr_new_custom_roles' );
+
+// Use this hook to check if the user account status is active or not
+add_filter( 'wp_authenticate_user', 'shibbir_authenticate_user', 10, 2 );
+function shibbir_authenticate_user( $user ) {
+    if ( $user->data->user_status  == 0 ) {
+        return new WP_Error( 'error', __( 'Your account is not activate, Please contact site admininstrator.' , 'shibbir' ) );
+    }
+    return $user;
+}
+
+// To delete user we need this file !!!
+// require_once(ABSPATH.'wp-admin/includes/user.php');
+// wp_delete_user( 2 );
+// wp_delete_user( 3 );    
+
+// Function to change email address
+ function wpb_sender_email( $original_email_address ) {
+    return get_option( 'admin_email');
+}
+ 
+// Function to change sender name
+function wpb_sender_name( $original_email_from ) {
+    return get_bloginfo( 'name' );
+}
+ 
+// Hooking up our functions to WordPress filters 
+add_filter( 'wp_mail_from', 'wpb_sender_email' );
+add_filter( 'wp_mail_from_name', 'wpb_sender_name' );
+
