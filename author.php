@@ -14,7 +14,7 @@ $thumb_id 		= hashMe( $thumb_id, 'e' );
 $author_status 	= $author->user_status;
 $author_id 		= $author->ID;
 $author_id 		= hashMe( $author_id, 'e' );
-$is_confirm     = $author_meta['is_confirm'];
+$is_confirm     = isset( $author_meta['is_confirm'] ) ? $author_meta['is_confirm'] : '';
 $author_email 	= get_the_author_meta( 'user_email', $author->ID );
 $home_page 		= site_url( '/' );
 
@@ -175,7 +175,7 @@ get_header();
 		                        <input type="submit" name="submit" id="button" value="Update Data" class="btn btn-success">
 		                        <input type="submit" name="submit" id="confirm_button" value="Confirm Data" class="btn btn-primary float-right">
 		                        <input type="hidden" name="submit_type" value="updatedata">
-		                        <input type="hidden" name="user_id" value="<?php echo $author_id; ?>">
+		                        <input type="hidden" name="user_id" id="user_id" value="<?php echo $author_id; ?>">
 		                        <input type="hidden" name="thumb_id" value="<?php echo $thumb_id; ?>">
 		                    </div>
 		                    <div class="form-group">

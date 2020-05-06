@@ -6,16 +6,87 @@
  *
  * @package ccroipr
  */
-add_action( 'wp_ajax_register_update_action', 'register_update_action' );
-add_action( 'wp_ajax_nopriv_register_update_action', 'register_update_action' );
+add_action( 'wp_ajax_register_confirm_action', 'register_confirm_action' );
+add_action( 'wp_ajax_nopriv_register_confirm_action', 'register_confirm_action' );
 
-function register_update_action() {
+function register_confirm_action() {
 
-    wp_verify_nonce( '_wpnoncne', 'register_update_action' );
-    echo '<pre>';
-        print_r( $_REQUEST );
-        print_r( $_FILES );
-    echo '</pre>';
+    wp_verify_nonce( '_wpnoncne', 'register_confirm_action' );
+    $user_id        = hashMe( sanitize_text_field( $_POST['user_id'] ), 'd' );    
+    $is_user_exist  = get_userdata( $user_id );
+    if( $is_user_exist ) {
+        $author_meta    = get_user_meta( $user_id, 'register_user_meta_key', true );
+
+        $author_meta['is_confirm']  = 1;
+        $confirm_id                 = 'ccroipr-'.date('Y'.'m'.'d'.'H'.'i'.'s').randomNumber(3);
+        $author_meta['confirm_id']  = $confirm_id;
+        $author_meta['kategorie']   = 'ccroipr-'.date('Y'.'-'.'m'.'-'.'d');        
+
+        $thumb                      = wp_get_attachment_image_src( $author_meta[ 'thumb_id' ], 'medium_large' );
+        $thumb_src                  = $thumb[0];
+        $explode                    = explode( '.', $thumb_src );
+        $extension                  = end( $explode );
+
+        image_resize_base_width( $thumb_src, $thumb_src, 350, $extension);
+
+        if( $extension == 'jpg') {
+            $jpg_image = imagecreatefromjpeg( $thumb_src );
+        } elseif( $extension == 'png' ) {
+            $jpg_image = imagecreatefrompng( $thumb_src );
+        } elseif ( $extension == 'gif' ) {
+            $jpg_image = imagecreatefromgif( $thumb_src );
+        }
+
+        // set font size
+        $font           = @imageloadfont($jpg_image);
+        $fontSize       = imagefontwidth($font);
+
+        $orig_width     = imagesx($jpg_image);
+        $orig_height    = imagesy($jpg_image);
+
+
+        // Create your canvas containing both image and text
+        $canvas = imagecreatetruecolor($orig_width,  ($orig_height + 40));
+        // Allocate A Color For The background
+        $bcolor = imagecolorallocate($canvas, 255, 255, 255);
+        // Add background colour into the canvas
+        imagefilledrectangle( $canvas, 0, 0, $orig_width, ($orig_height + 40), $bcolor);
+
+        // Save image to the new canvas
+        imagecopyresampled ( $canvas , $jpg_image , 0 , 0 , 0 , 0, $orig_width , $orig_height , $orig_width , $orig_height );
+
+        // Set Path to Font File
+        $font_path = get_template_directory_uri() . '/assets/fonts/arial.ttf';
+
+        // Set Text to Be Printed On Image
+        $text = 'cc-by-nd-'.$confirm_id;
+
+        // Allocate A Color For The Text
+        $color = imagecolorallocate($canvas, 0, 0, 0);
+
+        // Print Text On Image
+        imagettftext($canvas, 13, 0, 10, $orig_height+30, $color, $font_path, $text);
+
+
+        // Send Image to Browser
+        if( $extension == 'jpg') {
+            imagejpeg($canvas, $thumb_src );
+        } elseif( $extension == 'png' ) {
+            imagepng($canvas, $thumb_src );
+        } elseif ( $extension == 'gif' ) {
+            imagegif($canvas, $thumb_src );
+        }
+
+        // Clear Memory
+        imagedestroy($canvas);
+
+        // echo '<pre>';        
+        // print_r( $thumb );
+        update_user_meta( $user_id, 'register_user_meta_key', $author_meta );     
+        echo '<div class="alert alert-success">Successfully Confirmed your profile data.</div>';            
+    }
+
+    wp_die();
 }
 
 add_action( 'wp_ajax_register_slim_file_action', 'register_slim_file_action' );
@@ -35,12 +106,12 @@ function register_action() {
 
 	wp_verify_nonce( '_wpnoncne', 'register_action' );
 
-    //  echo '<pre>';
-    //     print_r( $_REQUEST );
-    //     print_r( $_FILES );         
-    // echo '</pre>';
+     echo '<pre>';
+        print_r( $_REQUEST );
+        print_r( $_FILES );         
+    echo '</pre>';
 
-    // wp_die();
+    wp_die();
 
     $submit_type        = isset( $_POST[ 'submit_type' ] ) ? sanitize_text_field( $_POST[ 'submit_type' ] ) : '';
 	$surname 			= sanitize_text_field( $_POST[ 'surname' ] );

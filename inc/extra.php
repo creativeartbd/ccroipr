@@ -27,3 +27,57 @@ function hashMe( $string, $action = 'e' ) {
  
     return $output;
 }
+
+/**
+* Generate random number
+*/
+function randomNumber($length) {
+    $result = '';
+    for($i = 0; $i < $length; $i++) {
+        $result .= mt_rand(0, 9);
+    }
+    return $result;
+}
+
+/**
+* Resize image based on width
+*/
+function image_resize_base_width ( $target, $newcopy, $w, $ext) {
+
+    $url = $target;
+    $width = $w;
+
+    // Loading the image and getting the original dimensions
+    $ext = strtolower($ext);
+    if ($ext == "gif"){
+        $image = imagecreatefromgif($target);
+    } elseif($ext =="png"){
+        $image = imagecreatefrompng($target);
+    } else {
+        $image = imagecreatefromjpeg($target);
+    }
+
+    $orig_width     = imagesx($image);
+    $orig_height    = imagesy($image);
+
+    // Calc the new height
+    $height = (($orig_height * $width) / $orig_width);
+
+    // Create new image to display
+    $new_image = imagecreatetruecolor($width, $height);
+
+    // Create new image with changed dimensions
+    imagecopyresized($new_image, $image,
+        0, 0, 0, 0,
+        $width, $height,
+        $orig_width, $orig_height);
+
+    // Print image
+    if ($ext == "gif"){
+        imagegif($new_image, $newcopy);
+    } else if($ext =="png"){
+        imagepng($new_image, $newcopy);
+    } else {
+        imagejpeg($new_image, $newcopy, 84);
+    }
+}

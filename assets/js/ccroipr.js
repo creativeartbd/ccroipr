@@ -1,43 +1,25 @@
 (function($){
     $( document ).ready( function() {
 
-
-		$("#confirm_button").on('click', function() {
+    	// Confirm register
+		$("#confirm_button").on('click', function(e) {
+			e.preventDefault();
+			var user_id = $("#user_id").val(); 
 			$.post( settings.ajaxurl, {
-				action: 'register_action',				
+				action: 'register_confirm_action',
+				user_id: user_id,
+				thumb_id: thumb_id,
 			},
-			function(data, status){
-				alert("Data: " + data + "\nStatus: " + status);
+			function( result ){
+				console.log( result );
 			});
 		});
 
-    	// Confirm the registration
-  //       $( '#confirm_button' ).on( 'click', function( e ) {       	
-        	
-  //       	e.preventDefault();
-		// 	 $.ajax({
-	 //        	type: 'POST',
-	 //        	url : settings.ajaxurl,
-	 //        	data : data,
-	 //        	cache: false,
-		// 		dataType: 'html',
-		// 		processData: false,
-		// 		contentType: false,
-		// 		beforeSend : function () {
-		//            	$('#updateData').val('loading...');
-		//         }, 
-	 //        	success: function( result ) {
-	 //        		$('#updateData').val( 'Update Data' );	        		
-	 //        		$('#form_result').html( result );	        		
-	 //        	}
-	 //        });
-		// });
-
-    	// Register form process start here. 
-        $( '#register' ).on( 'submit', function(e) {       	
+    	// Update and Register
+        $( '#button' ).on( 'click', function(e) {       	
         	
         	e.preventDefault();      
-        	var data =  new FormData(this);        	
+        	var data =  new FormData($('#register')[0]);        	
 			data.append("action", "register_action");			
 			var btn_label = $('#button').val();
 			
@@ -59,10 +41,9 @@
 	        		$('#form_result').html( result );	        		
 	        	}
 	        });
-        })
-        // Register form process start end here. 
+        })        
 
-        // Fiel upload process start here. 
+        // Generate hash value when file is upload
         $("#file").on('change', function(e) {
 
         	readURL(this);
@@ -81,8 +62,7 @@
 		            document.getElementById("sha256").value = result;     
 				}		       
 		    });		 	
-	    });
-	    // Fiel upload process end here. 
+	    });	    
 
 	    // show uploaded image preview
 	    function readURL(input) {
@@ -94,12 +74,7 @@
 	            }
 	            reader.readAsDataURL(input.files[0]);
 	        }
-	    }
-
-	    // $("#file").change(function(){
-	        
-	    // });
-
+	    }	   
 
 	    // Home page clock	    
 	    var timestamp = $("#timestamp");
