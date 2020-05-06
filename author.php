@@ -7,14 +7,23 @@
  * @package ccroipr
  */
 
-$author = get_queried_object();
-$author_meta = get_user_meta( $author->ID, 'register_user_meta_key', true );
-$author_status = $author->user_status;
+$author 		= get_queried_object();
+$author_meta 	= get_user_meta( $author->ID, 'register_user_meta_key', true );
+$thumb_id   	= isset( $author_meta[ 'thumb_id' ] ) ? $author_meta[ 'thumb_id' ] : '';
+$thumb_id 		= hashMe( $thumb_id, 'e' );
+$author_status 	= $author->user_status;
+$author_id 		= $author->ID;
+$author_id 		= hashMe( $author_id, 'e' );
+$is_confirm     = $author_meta['is_confirm'];
+$author_email 	= get_the_author_meta( 'user_email', $author->ID );
+$home_page 		= site_url( '/' );
 
 if( 0 == $author_status ){
-	wp_redirect( site_url( '/' ) );
+	echo "<div class='alert alert-warning'><strong>Your account is not confirmed or activated. Please contact administrator.</strong></div>";
+	header( "refresh:5;url=$home_page" );
 	exit();
 }
+
 get_header();
 ?>
 
@@ -153,17 +162,26 @@ get_header();
 		                    </div>
 		                    <div class="form-group">
 		                        <p>Bittle geben Sie Ihre E-Mail-Addresse ein (Eintragsbestatigung nach Art.246a $ 1 EGBGB)</p>
-		                        <input type="email" name="email" class="form-control" value="">
+		                        <input type="email" class="form-control" value="<?php echo $author_email; ?>" readonly>
 		                    </div>
 		                    <div class="form-group">
 		                        <label for="">Sie sind Eingeloggt mit der IP-Adresse: USER-IP</label>
 		                        <input type="text" name="ip" value="<?php echo $author_meta['user_ip']; ?>" class="form-control" readonly  style=" width: 25%;">
-		                    </div>                   
+		                    </div>         
+		                    <?php if( 0 == $is_confirm ) : ?>          
 		                    <div class="form-group">                      
-		                    	 <div id="form_result"></div>
-		                    	 <?php wp_nonce_field( 'register_action' ); ?>
-		                        <input type="submit" name="submit" id="registerButton" value="REGISTERBUTTON" class="btn btn-primary">
+		                    	<div id="form_result"></div>		                    	 
+		                    	<?php wp_nonce_field( 'register_action'); ?>
+		                        <input type="submit" name="submit" id="button" value="Update Data" class="btn btn-success">
+		                        <input type="submit" name="submit" id="confirm_button" value="Confirm Data" class="btn btn-primary float-right">
+		                        <input type="hidden" name="submit_type" value="updatedata">
+		                        <input type="hidden" name="user_id" value="<?php echo $author_id; ?>">
+		                        <input type="hidden" name="thumb_id" value="<?php echo $thumb_id; ?>">
 		                    </div>
+		                    <div class="form-group">
+		                    	<div class="text text-danger text-right">Note: If you confirm the data then you are not be able to edit/update the data anymore.</div>
+		                    </div>
+		                	<?php endif; ?>
 		                </div>
 					</div>
 				</form>				

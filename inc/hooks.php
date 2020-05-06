@@ -6,6 +6,17 @@
  *
  * @package ccroipr
  */
+add_action( 'wp_ajax_register_update_action', 'register_update_action' );
+add_action( 'wp_ajax_nopriv_register_update_action', 'register_update_action' );
+
+function register_update_action() {
+
+    wp_verify_nonce( '_wpnoncne', 'register_update_action' );
+    echo '<pre>';
+        print_r( $_REQUEST );
+        print_r( $_FILES );
+    echo '</pre>';
+}
 
 add_action( 'wp_ajax_register_slim_file_action', 'register_slim_file_action' );
 add_action( 'wp_ajax_nopriv_register_slim_file_action', 'register_slim_file_action' );
@@ -24,6 +35,14 @@ function register_action() {
 
 	wp_verify_nonce( '_wpnoncne', 'register_action' );
 
+    //  echo '<pre>';
+    //     print_r( $_REQUEST );
+    //     print_r( $_FILES );         
+    // echo '</pre>';
+
+    // wp_die();
+
+    $submit_type        = isset( $_POST[ 'submit_type' ] ) ? sanitize_text_field( $_POST[ 'submit_type' ] ) : '';
 	$surname 			= sanitize_text_field( $_POST[ 'surname' ] );
 	$vorname 			= sanitize_text_field( $_POST[ 'vorname' ] );
 	$strabe_nr 			= sanitize_text_field( $_POST[ 'strabe_nr' ] );
@@ -138,16 +157,26 @@ function register_action() {
     		}
     	}
 
-        if( empty( $filename ) ) {
-            $errors[] = 'Please upload image';
-        } elseif( !in_array( $extension, $allowed_image ) ) {
-            $errors[] = 'Only jpg, png and gif images are allowed';
-        } elseif( $filesize > $allowed_size ) {
-            $errors[] = 'Maximum 10 MB image are allowd'; 
-        }
+        if( 'updatedata' == $submit_type ) {
+            if( !empty( $filename ) ) {
+                if( !in_array( $extension, $allowed_image ) ) {
+                    $errors[] = 'Only jpg, png and gif images are allowed';
+                } elseif( $filesize > $allowed_size ) {
+                    $errors[] = 'Maximum 10 MB image are allowd'; 
+                }    
+            }            
+        } else {
+            if( empty( $filename ) ) {
+                $errors[] = 'Please upload image';
+            } elseif( !in_array( $extension, $allowed_image ) ) {
+                $errors[] = 'Only jpg, png and gif images are allowed';
+            } elseif( $filesize > $allowed_size ) {
+                $errors[] = 'Maximum 10 MB image are allowd'; 
+            }    
+        }        
 
     	if( empty( $sha256 ) ) {
-    		$errors[] = 'SHA256 (Hashwert der Originalabbildung) is required';
+    		$errors[] = 'SHA256 (Hashwert der Originalabbildung) is required, please upload the image again';
     	} elseif( strlen( $sha256 ) > 64 || strlen( $sha256 ) < 64  ) {
     		$errors[] = 'Invalid SHA256 (Hashwert der Originalabbildung) is given';
     	}
@@ -200,13 +229,15 @@ function register_action() {
     		$errors[] = 'ich habe die is required';
     	}
 
-    	if( empty( $email ) ) {
-    		$errors[] = 'E-mail address is required';
-    	} elseif( !is_email( $email )  ) {
-    		$errors[] = 'Invalid E-mail address';
-    	} elseif( email_exists( $email ) ) {
-    		$errors[] = 'E-mail address is already exist, Please choose another';
-    	} 
+        if( ! $submit_type ) {
+            if( empty( $email ) ) {
+                $errors[] = 'E-mail address is required';
+            } elseif( !is_email( $email )  ) {
+                $errors[] = 'Invalid E-mail address';
+            } elseif( email_exists( $email ) ) {
+                $errors[] = 'E-mail address is already exist, Please choose another';
+            } 
+        }    	
 
     	//echo '<pre>';
 	    	// print_r( $_FILES );
@@ -226,6 +257,7 @@ function register_action() {
     	echo '</div>';
     } else {
 
+        // Form value as meta key and value
         $userdata = array(            
             'user_pass'             => '',   
             'user_login'            => $surname,
@@ -242,76 +274,108 @@ function register_action() {
             'locale'                => '',   //(string) User's locale. Default empty.     
         );
 
-        $user_id = wp_insert_user( $userdata ) ;
+        $meta_array = [
+            'surname' => $surname,
+            'vorname' => $vorname,
+            'strabe_nr' => $strabe_nr, 
+            'plz' => $plz, 
+            'ort' => $ort,
+            'e_post_address' => $e_post_address,
+            'webseite' => $webseite,
+            'werktitel' => $werktitel,
+            'wiener' => $wiener, 
+            'locarno' => $locarno, 
+            'internationale' => $internationale, 
+            'nizzaklassifikation' => $nizzaklassifikation, 
+            'sha256' => $sha256, 
+            'werk_beschreibung' => $werk_beschreibung, 
+            'keywordnr1' => $keywordnr1, 
+            'keywordnr2' => $keywordnr2, 
+            'keywordnr3' => $keywordnr3, 
+            'keywordnr4' => $keywordnr4, 
+            'keywordnr5' => $keywordnr5, 
+            'inch_habe_die' => $inch_habe_die, 
+            'inh_habe_die_agb' => $inh_habe_die_agb, 
+            'ich_habe_die' => $ich_habe_die,
+            'user_ip' => $ip,
+            'is_confirm' => 0,            
+        ];
 
-        if ( ! is_wp_error( $user_id ) ) {
+        // Update data only
+        if( 'updatedata' == $submit_type ) {
 
-            $attachment_id = media_handle_upload( 'file', 0 );
+            $user_id        = hashMe( sanitize_text_field( $_POST['user_id'] ), 'd' );
+            $thumb_id       = hashMe( sanitize_text_field( $_POST['thumb_id'] ), 'd' );
+            $is_user_exist  = get_userdata( $user_id );
 
-            if ( !is_wp_error( $attachment_id ) ) { 
+            if( $is_user_exist ) {
 
-                $meta_array = [
-                    'surname' => $surname,
-                    'vorname' => $vorname,
-                    'strabe_nr' => $strabe_nr, 
-                    'plz' => $plz, 
-                    'ort' => $ort,
-                    'e_post_address' => $e_post_address,
-                    'webseite' => $webseite,
-                    'werktitel' => $werktitel,
-                    'wiener' => $wiener, 
-                    'locarno' => $locarno, 
-                    'internationale' => $internationale, 
-                    'nizzaklassifikation' => $nizzaklassifikation, 
-                    'sha256' => $sha256, 
-                    'werk_beschreibung' => $werk_beschreibung, 
-                    'keywordnr1' => $keywordnr1, 
-                    'keywordnr2' => $keywordnr2, 
-                    'keywordnr3' => $keywordnr3, 
-                    'keywordnr4' => $keywordnr4, 
-                    'keywordnr5' => $keywordnr5, 
-                    'inch_habe_die' => $inch_habe_die, 
-                    'inh_habe_die_agb' => $inh_habe_die_agb, 
-                    'ich_habe_die' => $ich_habe_die,
-                    'user_ip' => $ip,
-                    'thumb_id' =>  $attachment_id,
-                ];
+                if( $filename ) {
+                    $attachment_id = media_handle_upload( 'file', 0 );
+                   //if ( !is_wp_error( $attachment_id ) ) {
+                        $meta_array['thumb_id'] =  $attachment_id;   
+                        wp_delete_attachment( $thumb_id );    
+                    //}                    
+                } else {
+                    $meta_array['thumb_id'] = $thumb_id; 
+                }
+                update_user_meta( $user_id, 'register_user_meta_key', $meta_array );
+                echo '<div class="alert alert-success">Successfully updated the data..</div>';    
+                ?>
+                <script type="text/javascript">
+                    setTimeout(function(){// wait for 5 secs(2)
+                        location.reload(); // then reload the page.(3)
+                    }, 3000);
+                </script>
+                <?php
+            }            
 
-                add_user_meta( $user_id, 'register_user_meta_key', $meta_array );
+        } else {
 
-                $code = sha1( $user_id . time() );    
+            $user_id = wp_insert_user( $userdata ) ;
 
-                global $wpdb; 
+            if ( ! is_wp_error( $user_id ) ) {
+                if ( !is_wp_error( $attachment_id ) ) {
+                    $meta_array['thumb_id'] =  $attachment_id;  
+                    add_user_meta( $user_id, 'register_user_meta_key', $meta_array );
+                    $code = sha1( $user_id . time() );    
 
-                $wpdb->update( 
-                    $wpdb->prefix.'users', //table name     
-                    array( 'user_activation_key' => $code ),       
-                    array( 'ID' =>    $user_id ),     
-                    array( '%s' ),
-                    array( '%d' ) 
-                );
+                    global $wpdb; 
 
-                $activation_link = add_query_arg( 
-                    array( 
-                        'key' => $code, 
-                        'user' => $user_id 
-                    ), get_permalink( 44 )
-                );  
+                    $wpdb->update( 
+                        $wpdb->prefix.'users', //table name     
+                        array( 'user_activation_key' => $code ),       
+                        array( 'ID' =>    $user_id ),     
+                        array( '%s' ),
+                        array( '%d' ) 
+                    );
 
-                echo '<div class="alert alert-success">Please confirm your email addresss for CCROIPR-Registration von Werktitel.</div>';
+                    $activation_link = add_query_arg( 
+                        array( 
+                            'key' => $code, 
+                            'user' => $user_id 
+                        ), get_permalink( 44 )
+                    );  
 
-                // Send email to user for activate the account 
-                $message = "<div style='padding : 20px; border : 1px solid #ddd; color : #000;'>Hello $surname, <br/><br/>Please confirm your email addresss for CCROIPR-Registration von $werktitel. Click this link to confirm : <a href='$activation_link'>Confirm Now</a><br/><br/>http://ccroipr.org<br/>Thank You.<br/></div>";
+                    echo '<div class="alert alert-success">Please confirm your email addresss for CCROIPR-Registration von Werktitel.</div>';
 
-                $to         = $email;
-                $subject    = 'Confirm your registration process"';
-                $body       = $message;
-                $headers    = array('Content-Type: text/html; charset=UTF-8');
+                    // Send email to user for activate the account 
+                    $message = "<div style='padding : 20px; border : 1px solid #ddd; color : #000;'>Hello $surname, <br/><br/>Please confirm your email addresss for CCROIPR-Registration von $werktitel. Click this link to confirm : <a href='$activation_link'>Confirm Now</a><br/><br/>http://ccroipr.org<br/>Thank You.<br/></div>";
 
-                wp_mail( $to, $subject, $body, $headers );
+                    $to         = $email;
+                    $subject    = 'Confirm your registration process"';
+                    $body       = $message;
+                    $headers    = array('Content-Type: text/html; charset=UTF-8');
 
+                    wp_mail( $to, $subject, $body, $headers );
+
+                }
             }
         }
+
+
+        
+        
 
         
     

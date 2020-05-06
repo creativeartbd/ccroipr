@@ -145,7 +145,7 @@ get_header();
 		                    <div class="form-group">                      
 		                    	 <div id="form_result"></div>
 		                    	 <?php wp_nonce_field( 'register_action' ); ?>
-		                        <input type="submit" name="submit" id="registerButton" value="REGISTERBUTTON" class="btn btn-primary">
+		                        <input type="submit" name="submit" id="button" value="REGISTERBUTTON" class="btn btn-primary">
 		                    </div>
 		                </div>
 					</div>

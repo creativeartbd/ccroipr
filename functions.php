@@ -196,6 +196,11 @@ require get_template_directory() . '/inc/theme-settings.php';
  */
 require get_template_directory() . '/inc/hooks.php';
 
+/**
+ * Theme extra function
+ */
+require get_template_directory() . '/inc/extra.php';
+
 
 /**
  * Load Jetpack compatibility file.
