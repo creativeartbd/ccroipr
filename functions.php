@@ -32,6 +32,9 @@ if ( ! function_exists( 'ccroipr_setup' ) ) :
 		// Add default posts and comments RSS feed links to head.
 		add_theme_support( 'automatic-feed-links' );
 
+		// Add new image size
+		add_image_size( 'ccroipr', 350, 350, true );
+
 		/*
 		 * Let WordPress manage the document title.
 		 * By adding theme support, we declare that this theme does not use a

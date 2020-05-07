@@ -44,7 +44,7 @@ function randomNumber($length) {
 */
 function image_resize_base_width ( $target, $newcopy, $w, $ext) {
 
-    $url = $target;
+    $url = 'http://ccroipr.test/wp-content/uploads/2020/05/pl_icon-1.png';
     $width = $w;
 
     // Loading the image and getting the original dimensions
@@ -56,6 +56,8 @@ function image_resize_base_width ( $target, $newcopy, $w, $ext) {
     } else {
         $image = imagecreatefromjpeg($target);
     }
+
+    var_dump( $url );
 
     $orig_width     = imagesx($image);
     $orig_height    = imagesy($image);

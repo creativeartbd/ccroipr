@@ -14,21 +14,30 @@ function register_confirm_action() {
     wp_verify_nonce( '_wpnoncne', 'register_confirm_action' );
     $user_id        = hashMe( sanitize_text_field( $_POST['user_id'] ), 'd' );    
     $is_user_exist  = get_userdata( $user_id );
+
     if( $is_user_exist ) {
-        $author_meta    = get_user_meta( $user_id, 'register_user_meta_key', true );
+
+        $author_meta                = get_user_meta( $user_id, 'register_user_meta_key', true );
+        $upload_dir                 = wp_upload_dir();
+        $path                       = $upload_dir['path'];
 
         $author_meta['is_confirm']  = 1;
         $confirm_id                 = 'ccroipr-'.date('Y'.'m'.'d'.'H'.'i'.'s').randomNumber(3);
         $author_meta['confirm_id']  = $confirm_id;
         $author_meta['kategorie']   = 'ccroipr-'.date('Y'.'-'.'m'.'-'.'d');        
 
-        $thumb                      = wp_get_attachment_image_src( $author_meta[ 'thumb_id' ], 'medium_large' );
+        $thumb                      = wp_get_attachment_image_src( $author_meta[ 'thumb_id' ], 'ccroipr' );
+        $domain                     = get_site_url();
         $thumb_src                  = $thumb[0];
+        $relative_url               = str_replace( $domain, '', $thumb_src );
+        
         $explode                    = explode( '.', $thumb_src );
         $extension                  = end( $explode );
-
-        image_resize_base_width( $thumb_src, $thumb_src, 350, $extension);
-
+        $explode_2                  = explode( '/', $thumb_src );
+        $file_name                  = end( $explode_2 );
+        
+        
+        //image_resize_base_width( $relative_url, $relative_url, 350, $extension);
         if( $extension == 'jpg') {
             $jpg_image = imagecreatefromjpeg( $thumb_src );
         } elseif( $extension == 'png' ) {
@@ -38,11 +47,11 @@ function register_confirm_action() {
         }
 
         // set font size
-        $font           = @imageloadfont($jpg_image);
-        $fontSize       = imagefontwidth($font);
+        $font       = @imageloadfont($jpg_image);
+        $fontSize   = imagefontwidth($font);
 
-        $orig_width     = imagesx($jpg_image);
-        $orig_height    = imagesy($jpg_image);
+        $orig_width = imagesx($jpg_image);
+        $orig_height = imagesy($jpg_image);
 
 
         // Create your canvas containing both image and text
@@ -55,8 +64,15 @@ function register_confirm_action() {
         // Save image to the new canvas
         imagecopyresampled ( $canvas , $jpg_image , 0 , 0 , 0 , 0, $orig_width , $orig_height , $orig_width , $orig_height );
 
+        // Tidy up:
+        // imagedestroy($jpg_image);
+
         // Set Path to Font File
-        $font_path = get_template_directory_uri() . '/assets/fonts/arial.ttf';
+        //$font_path = get_template_directory_uri() . '/assets/fonts/arial.ttf';
+        //$font_path = get_template_directory_uri() . '/assets/fonts/arial.ttf';
+        //$font_path = 'C:/laragon/www/ccroipr/wp-content/themes/ccroipr/assets/fonts/arial.ttf';
+        $font_path = get_template_directory() . '/assets/fonts/arial.ttf';
+
 
         // Set Text to Be Printed On Image
         $text = 'cc-by-nd-'.$confirm_id;
@@ -65,16 +81,15 @@ function register_confirm_action() {
         $color = imagecolorallocate($canvas, 0, 0, 0);
 
         // Print Text On Image
-        imagettftext($canvas, 13, 0, 10, $orig_height+30, $color, $font_path, $text);
-
+        imagettftext($canvas, 13, 0, 10, $orig_height + 25, $color, $font_path, $text);        
 
         // Send Image to Browser
         if( $extension == 'jpg') {
-            imagejpeg($canvas, $thumb_src );
+            imagejpeg($canvas, $path .'/'. $file_name );
         } elseif( $extension == 'png' ) {
-            imagepng($canvas, $thumb_src );
+            imagepng($canvas, $path .'/'. $file_name );
         } elseif ( $extension == 'gif' ) {
-            imagegif($canvas, $thumb_src );
+            imagegif($canvas, $path .'/'. $file_name );
         }
 
         // Clear Memory
@@ -82,8 +97,15 @@ function register_confirm_action() {
 
         // echo '<pre>';        
         // print_r( $thumb );
-        update_user_meta( $user_id, 'register_user_meta_key', $author_meta );     
-        echo '<div class="alert alert-success">Successfully Confirmed your profile data.</div>';            
+        update_user_meta( $user_id, 'register_user_meta_key', $author_meta );         
+        echo '<div class="alert alert-success">Successfully Confirmed your profile data.</div>';     
+        ?>
+        <script type="text/javascript">
+            setTimeout(function(){// wait for 5 secs(2)
+                location.reload(); // then reload the page.(3)
+            }, 3000);
+        </script>
+        <?php       
     }
 
     wp_die();
@@ -106,38 +128,38 @@ function register_action() {
 
 	wp_verify_nonce( '_wpnoncne', 'register_action' );
 
-     echo '<pre>';
-        print_r( $_REQUEST );
-        print_r( $_FILES );         
-    echo '</pre>';
+    //  echo '<pre>';
+    //     print_r( $_REQUEST );
+    //     print_r( $_FILES );         
+    // echo '</pre>';
 
-    wp_die();
+    // wp_die();
 
     $submit_type        = isset( $_POST[ 'submit_type' ] ) ? sanitize_text_field( $_POST[ 'submit_type' ] ) : '';
-	$surname 			= sanitize_text_field( $_POST[ 'surname' ] );
-	$vorname 			= sanitize_text_field( $_POST[ 'vorname' ] );
-	$strabe_nr 			= sanitize_text_field( $_POST[ 'strabe_nr' ] );
-	$plz 				= sanitize_text_field( $_POST[ 'plz' ] );
-	$ort 				= sanitize_text_field( $_POST[ 'ort' ] );
-	$e_post_address 	= sanitize_text_field( $_POST[ 'e_post_address' ] );
-	$webseite 			= sanitize_text_field( $_POST[ 'webseite' ] );
-	$werktitel 			= sanitize_text_field( $_POST[ 'werktitel' ] );
-	$wiener 			= sanitize_text_field( $_POST[ 'wiener' ] );
-	$locarno 			= sanitize_text_field( $_POST[ 'locarno' ] );
-	$internationale 	= sanitize_text_field( $_POST[ 'internationale' ] );
-	$nizzaklassifikation= sanitize_text_field( $_POST[ 'nizzaklassifikation' ] );         
-	$sha256 			= sanitize_text_field( $_POST[ 'sha256' ] ); 
-	$werk_beschreibung 	= sanitize_text_field( $_POST[ 'werk_beschreibung' ] ); 
-	$keywordnr1 		= sanitize_text_field( $_POST[ 'keywordnr1' ] ); 
-	$keywordnr2 		= sanitize_text_field( $_POST[ 'keywordnr2' ] ); 
-	$keywordnr3 		= sanitize_text_field( $_POST[ 'keywordnr3' ] ); 
-	$keywordnr4 		= sanitize_text_field( $_POST[ 'keywordnr4' ] ); 
-	$keywordnr5 		= sanitize_text_field( $_POST[ 'keywordnr5' ] ); 
-	$inch_habe_die 		= sanitize_text_field( $_POST[ 'inch_habe_die' ] ); 
-	$inh_habe_die_agb 	= sanitize_text_field( $_POST[ 'inh_habe_die_agb' ] ); 
-	$ich_habe_die 		= sanitize_text_field( $_POST[ 'ich_habe_die' ] ); 
-    $ip                 = sanitize_text_field( $_POST[ 'ip' ] ); 
-	$email 				= sanitize_email( $_POST[ 'email' ] ); 	
+	$surname 			= isset( $_POST['surname'] ) ? sanitize_text_field( $_POST[ 'surname' ] ) : '';
+	$vorname 			= isset( $_POST['vorname'] ) ? sanitize_text_field( $_POST[ 'vorname' ] ) : '';
+	$strabe_nr 			= isset( $_POST['strabe_nr'] ) ? sanitize_text_field( $_POST[ 'strabe_nr' ] ) : '';
+	$plz 				= isset( $_POST['plz'] ) ? sanitize_text_field( $_POST[ 'plz' ] ) : '';
+	$ort 				= isset( $_POST['ort'] ) ? sanitize_text_field( $_POST[ 'ort' ] ) : '';
+	$e_post_address 	= isset( $_POST['e_post_address'] ) ? sanitize_text_field( $_POST[ 'e_post_address' ] ) : '';
+	$webseite 			= isset( $_POST['webseite'] ) ? sanitize_text_field( $_POST[ 'webseite' ] ) : '';
+	$werktitel 			= isset( $_POST['werktitel'] ) ? sanitize_text_field( $_POST[ 'werktitel' ] ) : '';
+	$wiener 			= isset( $_POST['wiener'] ) ? sanitize_text_field( $_POST[ 'wiener' ] ) : '';
+	$locarno 			= isset( $_POST['locarno'] ) ? sanitize_text_field( $_POST[ 'locarno' ] ) : '';
+	$internationale 	= isset( $_POST['internationale'] ) ? sanitize_text_field( $_POST[ 'internationale' ] ) : '';
+	$nizzaklassifikation= isset( $_POST['nizzaklassifikation'] ) ? sanitize_text_field( $_POST[ 'nizzaklassifikation' ] ) : '';
+	$sha256 			= isset( $_POST['sha256'] ) ? sanitize_text_field( $_POST[ 'sha256' ] ) : '';
+	$werk_beschreibung 	= isset( $_POST['werk_beschreibung'] ) ? sanitize_text_field( $_POST[ 'werk_beschreibung' ] ) : '';
+	$keywordnr1 		= isset( $_POST['keywordnr1'] ) ? sanitize_text_field( $_POST[ 'keywordnr1' ] ) : ''; 
+	$keywordnr2 		= isset( $_POST['keywordnr2'] ) ? sanitize_text_field( $_POST[ 'keywordnr2' ] ) : ''; 
+	$keywordnr3 		= isset( $_POST['keywordnr3'] ) ? sanitize_text_field( $_POST[ 'keywordnr3' ] ) : ''; 
+	$keywordnr4 		= isset( $_POST['keywordnr4'] ) ? sanitize_text_field( $_POST[ 'keywordnr4' ] ) : ''; 
+	$keywordnr5 		= isset( $_POST['keywordnr5'] ) ? sanitize_text_field( $_POST[ 'keywordnr5' ] ) : ''; 
+	$inch_habe_die 		= isset( $_POST['inch_habe_die'] ) ? sanitize_text_field( $_POST[ 'inch_habe_die' ] ) : ''; 
+	$inh_habe_die_agb 	= isset( $_POST['inh_habe_die_agb'] ) ? sanitize_text_field( $_POST[ 'inh_habe_die_agb' ] ) : ''; 
+	$ich_habe_die 		= isset( $_POST['ich_habe_die'] ) ? sanitize_text_field( $_POST[ 'ich_habe_die' ] ) : ''; 
+    $ip                 = isset( $_POST['ip'] ) ? sanitize_text_field( $_POST[ 'ip' ] ) : ''; 
+	$email 				= isset( $_POST['email'] ) ? sanitize_email( $_POST[ 'email' ] ) : ''; 	
 	$file 				= isset( $_FILES['file'] ) ? $_FILES['file'] : '';
     $allowed_size       = 10485760;
     $allowed_image      = ['jpg', 'png', 'gif'];

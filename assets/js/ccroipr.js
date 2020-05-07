@@ -5,13 +5,20 @@
 		$("#confirm_button").on('click', function(e) {
 			e.preventDefault();
 			var user_id = $("#user_id").val(); 
+			var btn_label = $('#button').val();
+
 			$.post( settings.ajaxurl, {
 				action: 'register_confirm_action',
-				user_id: user_id,
-				thumb_id: thumb_id,
+				user_id: user_id,	
+				beforeSend : function () {
+					$('#confirm_button').prop('disabled', true );
+		           	$('#confirm_button').val('loading...');
+		        }, 			
 			},
 			function( result ){
-				console.log( result );
+				$('#confirm_button').prop('disabled', false );
+	        	$('#confirm_button').val( btn_label );
+				$('#form_result').html( result );
 			});
 		});
 

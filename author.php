@@ -102,7 +102,7 @@ get_header();
 							<div class="form-group">
 								<input type="file" name="file" id="file">
 								<?php 
-								$thumb = wp_get_attachment_image_src( $author_meta['thumb_id'], 'full' ); 
+								$thumb = wp_get_attachment_image_src( $author_meta['thumb_id'], 'ccroipr' ); 
 								if( $thumb ) {
 									$thumb_src = $thumb[0];
 									echo "<img id='uploaded_img' src='$thumb_src'>";	
