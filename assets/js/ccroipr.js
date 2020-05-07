@@ -12,7 +12,7 @@
 				user_id: user_id,	
 				beforeSend : function () {
 					$('#confirm_button').prop('disabled', true );
-		           	$('#confirm_button').val('loading...');
+		           	$('#confirm_button').val('Please Wait...');
 		        }, 			
 			},
 			function( result ){
@@ -40,7 +40,7 @@
 				contentType: false,
 				beforeSend : function () {
 					$('#button').prop('disabled', true );
-		           	$('#button').val('loading...');
+		           	$('#button').val('Please Wait...');
 		        }, 
 	        	success: function( result ) {
 	        		$('#button').prop('disabled', false );

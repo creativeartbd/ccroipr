@@ -447,7 +447,7 @@ function register_action() {
                         array( 
                             'key' => $code, 
                             'user' => $user_id 
-                        ), get_permalink( 44 )
+                        ), get_permalink( get_page_by_path( 'registration-confirmation' ) )
                     );  
 
                     echo '<div class="alert alert-success">Please confirm your email addresss for CCROIPR-Registration von Werktitel.</div>';
