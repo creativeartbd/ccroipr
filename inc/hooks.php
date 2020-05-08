@@ -428,7 +428,9 @@ function register_action() {
             $user_id = wp_insert_user( $userdata ) ;
 
             if ( ! is_wp_error( $user_id ) ) {
+
                 if ( !is_wp_error( $attachment_id ) ) {
+                    
                     $meta_array['thumb_id'] =  $attachment_id;  
                     add_user_meta( $user_id, 'register_user_meta_key', $meta_array );
                     $code = sha1( $user_id . time() );    
@@ -450,9 +452,6 @@ function register_action() {
                         ), get_permalink( get_page_by_path( 'registration-confirmation' ) )
                     );  
 
-                    echo '<div class="alert alert-success">Please confirm your email addresss for CCROIPR-Registration von Werktitel.</div>';
-
-                    // Send email to user for activate the account 
                     $message = "<div style='padding : 20px; border : 1px solid #ddd; color : #000;'>Hello $surname, <br/><br/>Please confirm your email addresss for CCROIPR-Registration von $werktitel. Click this link to confirm : <a href='$activation_link'>Confirm Now</a><br/><br/>http://ccroipr.org<br/>Thank You.<br/></div>";
 
                     $to         = $email;
@@ -460,8 +459,10 @@ function register_action() {
                     $body       = $message;
                     $headers    = array('Content-Type: text/html; charset=UTF-8');
 
-                    wp_mail( $to, $subject, $body, $headers );
-
+                    // Send email to user for activate the account 
+                    if( wp_mail( $to, $subject, $body, $headers ) ) {
+                        echo '<div class="alert alert-success">Please confirm your email addresss for CCROIPR-Registration von Werktitel.</div>';    
+                    }
                 }
             }
         }
