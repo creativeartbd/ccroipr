@@ -430,7 +430,7 @@ function register_action() {
             if ( ! is_wp_error( $user_id ) ) {
 
                 if ( !is_wp_error( $attachment_id ) ) {
-                    
+
                     $meta_array['thumb_id'] =  $attachment_id;  
                     add_user_meta( $user_id, 'register_user_meta_key', $meta_array );
                     $code = sha1( $user_id . time() );    
@@ -544,16 +544,22 @@ function shibbir_authenticate_user( $user ) {
 // wp_delete_user( 3 );    
 
 // Function to change email address
- function wpb_sender_email( $original_email_address ) {
+add_filter( 'wp_mail_from', 'shibbir_mail_from' );
+function shibbir_mail_from( $original_email_address ) {
     return get_option( 'admin_email');
 }
  
 // Function to change sender name
-function wpb_sender_name( $original_email_from ) {
+add_filter( 'wp_mail_from_name', 'shibbir_mail_from_name' );
+function shibbir_mail_from_name( $original_email_from ) {
     return get_bloginfo( 'name' );
 }
+
+add_filter( 'wp_mail_content_type', 'shibbir_set_content_type' );
+function shibbir_set_content_type() {
+    return 'text/html';
+}
  
-// Hooking up our functions to WordPress filters 
-add_filter( 'wp_mail_from', 'wpb_sender_email' );
-add_filter( 'wp_mail_from_name', 'wpb_sender_name' );
+
+
 
