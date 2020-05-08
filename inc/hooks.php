@@ -12,6 +12,7 @@ add_action( 'wp_ajax_nopriv_register_confirm_action', 'register_confirm_action' 
 function register_confirm_action() {
 
     wp_verify_nonce( '_wpnoncne', 'register_confirm_action' );
+
     $user_id        = hashMe( sanitize_text_field( $_POST['user_id'] ), 'd' );    
     $is_user_exist  = get_userdata( $user_id );
 
@@ -60,29 +61,16 @@ function register_confirm_action() {
         $bcolor = imagecolorallocate($canvas, 255, 255, 255);
         // Add background colour into the canvas
         imagefilledrectangle( $canvas, 0, 0, $orig_width, ($orig_height + 40), $bcolor);
-
         // Save image to the new canvas
         imagecopyresampled ( $canvas , $jpg_image , 0 , 0 , 0 , 0, $orig_width , $orig_height , $orig_width , $orig_height );
-
-        // Tidy up:
-        // imagedestroy($jpg_image);
-
-        // Set Path to Font File
-        //$font_path = get_template_directory_uri() . '/assets/fonts/arial.ttf';
-        //$font_path = get_template_directory_uri() . '/assets/fonts/arial.ttf';
-        //$font_path = 'C:/laragon/www/ccroipr/wp-content/themes/ccroipr/assets/fonts/arial.ttf';
+        
         $font_path = get_template_directory() . '/assets/fonts/arial.ttf';
-
-
         // Set Text to Be Printed On Image
         $text = 'cc-by-nd-'.$confirm_id;
-
         // Allocate A Color For The Text
         $color = imagecolorallocate($canvas, 0, 0, 0);
-
         // Print Text On Image
-        imagettftext($canvas, 13, 0, 10, $orig_height + 25, $color, $font_path, $text);        
-
+        imagettftext($canvas, 13, 0, 10, $orig_height + 25, $color, $font_path, $text);
         // Send Image to Browser
         if( $extension == 'jpg') {
             imagejpeg($canvas, $path .'/'. $file_name );
@@ -91,21 +79,36 @@ function register_confirm_action() {
         } elseif ( $extension == 'gif' ) {
             imagegif($canvas, $path .'/'. $file_name );
         }
-
         // Clear Memory
         imagedestroy($canvas);
 
         // echo '<pre>';        
         // print_r( $thumb );
+        $category_id = get_category_by_slug( 'cat-p' ); // 
+
         update_user_meta( $user_id, 'register_user_meta_key', $author_meta );         
-        echo '<div class="alert alert-success">Successfully Confirmed your profile data.</div>';     
-        ?>
-        <script type="text/javascript">
-            setTimeout(function(){// wait for 5 secs(2)
-                location.reload(); // then reload the page.(3)
-            }, 3000);
-        </script>
-        <?php       
+        // create psot by the $confirm_id 
+        $post_option = [
+            'post_title'    => $confirm_id,      
+            'post_status'   => 'publish',
+            'post_author'   => $user_id,
+            'post_category' => array( $category_id )
+        ];
+
+        $post_id = wp_insert_post( $post_option );
+
+        if( ! is_wp_error( $post_id ) ) {
+            set_post_thumbnail( $post_id, $author_meta[ 'thumb_id' ] );
+            echo '<div class="alert alert-success">Successfully Confirmed your profile data.</div>';     
+            $permalink = get_permalink( $post_id );
+            ?>
+            <script type="text/javascript">
+                setTimeout(function(){// wait for 5 secs(2)
+                    window.location.href = <?php echo "'".$permalink."';"; ?>; // then reload the page.(3)
+                }, 3000);
+            </script>
+            <?php       
+        }        
     }
 
     wp_die();
@@ -430,7 +433,7 @@ function register_action() {
             if ( ! is_wp_error( $user_id ) ) {
 
                 $attachment_id = media_handle_upload( 'file', 0 );
-                
+
                 if ( !is_wp_error( $attachment_id ) ) {
 
                     $meta_array['thumb_id'] =  $attachment_id;  

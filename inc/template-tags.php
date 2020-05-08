@@ -128,7 +128,7 @@ if ( ! function_exists( 'ccroipr_post_thumbnail' ) ) :
 			?>
 
 			<div class="post-thumbnail">
-				<?php the_post_thumbnail(); ?>
+				<?php the_post_thumbnail( 'ccroipr' ); ?>
 			</div><!-- .post-thumbnail -->
 
 		<?php else : ?>
