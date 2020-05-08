@@ -429,6 +429,8 @@ function register_action() {
 
             if ( ! is_wp_error( $user_id ) ) {
 
+                $attachment_id = media_handle_upload( 'file', 0 );
+                
                 if ( !is_wp_error( $attachment_id ) ) {
 
                     $meta_array['thumb_id'] =  $attachment_id;  
@@ -455,7 +457,7 @@ function register_action() {
                     $message = "<div style='padding : 20px; border : 1px solid #ddd; color : #000;'>Hello $surname, <br/><br/>Please confirm your email addresss for CCROIPR-Registration von $werktitel. Click this link to confirm : <a href='$activation_link'>Confirm Now</a><br/><br/>http://ccroipr.org<br/>Thank You.<br/></div>";
 
                     $to         = $email;
-                    $subject    = 'Confirm your registration process"';
+                    $subject    = 'Confirm your registration process at ccroipr.org';
                     $body       = $message;
                     $headers    = array('Content-Type: text/html; charset=UTF-8');
 
