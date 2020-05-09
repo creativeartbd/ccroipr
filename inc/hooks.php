@@ -18,97 +18,103 @@ function register_confirm_action() {
 
     if( $is_user_exist ) {
 
-        $author_meta                = get_user_meta( $user_id, 'register_user_meta_key', true );
-        $upload_dir                 = wp_upload_dir();
-        $path                       = $upload_dir['path'];
-
-        $author_meta['is_confirm']  = 1;
-        $confirm_id                 = 'ccroipr-'.date('Y'.'m'.'d'.'H'.'i'.'s').randomNumber(3);
-        $author_meta['confirm_id']  = $confirm_id;
-        $author_meta['kategorie']   = 'ccroipr-'.date('Y'.'-'.'m'.'-'.'d');        
-
-        $thumb                      = wp_get_attachment_image_src( $author_meta[ 'thumb_id' ], 'ccroipr' );
         $domain                     = get_site_url();
-        $thumb_src                  = $thumb[0];
-        $relative_url               = str_replace( $domain, '', $thumb_src );
-        
-        $explode                    = explode( '.', $thumb_src );
-        $extension                  = end( $explode );
-        $explode_2                  = explode( '/', $thumb_src );
-        $file_name                  = end( $explode_2 );
-        
-        
-        //image_resize_base_width( $relative_url, $relative_url, 350, $extension);
-        if( $extension == 'jpg') {
-            $jpg_image = imagecreatefromjpeg( $thumb_src );
-        } elseif( $extension == 'png' ) {
-            $jpg_image = imagecreatefrompng( $thumb_src );
-        } elseif ( $extension == 'gif' ) {
-            $jpg_image = imagecreatefromgif( $thumb_src );
-        }
+        $author_meta                = get_user_meta( $user_id, 'register_user_meta_key', true );
 
-        // set font size
-        $font       = @imageloadfont($jpg_image);
-        $fontSize   = imagefontwidth($font);
+        if( $author_meta['is_confirm'] == 0 ) {
 
-        $orig_width = imagesx($jpg_image);
-        $orig_height = imagesy($jpg_image);
+            $author_meta['is_confirm']  = 1;
+            $confirm_id                 = 'ccroipr-'.date('Y'.'m'.'d'.'H'.'i'.'s').randomNumber(3);
+            $author_meta['confirm_id']  = $confirm_id;
+            $author_meta['kategorie']   = 'ccroipr-'.date('Y'.'-'.'m'.'-'.'d');        
+
+            $upload_dir                 = wp_upload_dir();
+            $path                       = $upload_dir['path'];
+
+            $thumb                      = wp_get_attachment_image_src( $author_meta[ 'thumb_id' ], 'ccroipr' );
+            $thumb_src                  = $thumb[0];                
+            $relative_url               = str_replace( $domain, '', $thumb_src );
+
+            $explode                    = explode( '.', $thumb_src );
+            $extension                  = end( $explode );
+            $explode_2                  = explode( '/', $thumb_src );
+            $file_name                  = end( $explode_2 );        
+            
+            //image_resize_base_width( $relative_url, $relative_url, 350, $extension);
+            if( $extension == 'jpg') {
+                $jpg_image = imagecreatefromjpeg( $thumb_src );
+            } elseif( $extension == 'png' ) {
+                $jpg_image = imagecreatefrompng( $thumb_src );
+            } elseif ( $extension == 'gif' ) {
+                $jpg_image = imagecreatefromgif( $thumb_src );
+            }
+
+            // set font size
+            $font       = @imageloadfont($jpg_image);
+            $fontSize   = imagefontwidth($font);
+
+            $orig_width = imagesx($jpg_image);
+            $orig_height = imagesy($jpg_image);
 
 
-        // Create your canvas containing both image and text
-        $canvas = imagecreatetruecolor($orig_width,  ($orig_height + 40));
-        // Allocate A Color For The background
-        $bcolor = imagecolorallocate($canvas, 255, 255, 255);
-        // Add background colour into the canvas
-        imagefilledrectangle( $canvas, 0, 0, $orig_width, ($orig_height + 40), $bcolor);
-        // Save image to the new canvas
-        imagecopyresampled ( $canvas , $jpg_image , 0 , 0 , 0 , 0, $orig_width , $orig_height , $orig_width , $orig_height );
-        
-        $font_path = get_template_directory() . '/assets/fonts/arial.ttf';
-        // Set Text to Be Printed On Image
-        $text = 'cc-by-nd-'.$confirm_id;
-        // Allocate A Color For The Text
-        $color = imagecolorallocate($canvas, 0, 0, 0);
-        // Print Text On Image
-        imagettftext($canvas, 13, 0, 10, $orig_height + 25, $color, $font_path, $text);
-        // Send Image to Browser
-        if( $extension == 'jpg') {
-            imagejpeg($canvas, $path .'/'. $file_name );
-        } elseif( $extension == 'png' ) {
-            imagepng($canvas, $path .'/'. $file_name );
-        } elseif ( $extension == 'gif' ) {
-            imagegif($canvas, $path .'/'. $file_name );
-        }
-        // Clear Memory
-        imagedestroy($canvas);
+            // Create your canvas containing both image and text
+            $canvas = imagecreatetruecolor($orig_width,  ($orig_height + 40));
+            // Allocate A Color For The background
+            $bcolor = imagecolorallocate($canvas, 255, 255, 255);
+            // Add background colour into the canvas
+            imagefilledrectangle( $canvas, 0, 0, $orig_width, ($orig_height + 40), $bcolor);
+            // Save image to the new canvas
+            imagecopyresampled ( $canvas , $jpg_image , 0 , 0 , 0 , 0, $orig_width , $orig_height , $orig_width , $orig_height );
+            
+            $font_path = get_template_directory() . '/assets/fonts/arial.ttf';
+            // Set Text to Be Printed On Image
+            $text = 'cc-by-nd-'.$confirm_id;
+            // Allocate A Color For The Text
+            $color = imagecolorallocate($canvas, 0, 0, 0);
+            // Print Text On Image
+            imagettftext($canvas, 13, 0, 10, $orig_height + 25, $color, $font_path, $text);
+            // Send Image to Browser
+            if( $extension == 'jpg') {
+                imagejpeg($canvas, $path .'/'. $file_name );
+            } elseif( $extension == 'png' ) {
+                imagepng($canvas, $path .'/'. $file_name );
+            } elseif ( $extension == 'gif' ) {
+                imagegif($canvas, $path .'/'. $file_name );
+            }
+            // Clear Memory
+            imagedestroy($canvas);
 
-        // echo '<pre>';        
-        // print_r( $thumb );
-        $category_id = get_category_by_slug( 'cat-p' ); // 
+            // echo '<pre>';        
+            // print_r( $thumb );
+            $category_id = get_category_by_slug( 'cat-p' ); // 
+            $category_id = $category_id->term_id;
 
-        update_user_meta( $user_id, 'register_user_meta_key', $author_meta );         
-        // create psot by the $confirm_id 
-        $post_option = [
-            'post_title'    => $confirm_id,      
-            'post_status'   => 'publish',
-            'post_author'   => $user_id,
-            'post_category' => array( $category_id )
-        ];
+            update_user_meta( $user_id, 'register_user_meta_key', $author_meta );         
+            // create psot by the $confirm_id 
+            $post_option = [
+                'post_title'    => $confirm_id,      
+                'post_status'   => 'publish',
+                'post_author'   => $user_id,
+                'post_category' => array( $category_id )
+            ];
 
-        $post_id = wp_insert_post( $post_option );
+            $post_id = wp_insert_post( $post_option );
 
-        if( ! is_wp_error( $post_id ) ) {
-            set_post_thumbnail( $post_id, $author_meta[ 'thumb_id' ] );
-            echo '<div class="alert alert-success">Successfully Confirmed your profile data.</div>';     
-            $permalink = get_permalink( $post_id );
-            ?>
-            <script type="text/javascript">
-                setTimeout(function(){// wait for 5 secs(2)
-                    window.location.href = <?php echo "'".$permalink."';"; ?>; // then reload the page.(3)
-                }, 3000);
-            </script>
-            <?php       
-        }        
+            if( ! is_wp_error( $post_id ) ) {
+                set_post_thumbnail( $post_id, $author_meta[ 'thumb_id' ] );
+                wp_send_json( '<div class="alert alert-success">Successfully Confirmed your profile data.</div>' );            
+                $permalink = get_permalink( $post_id );
+                ?>
+                <script type="text/javascript">
+                    setTimeout(function(){// wait for 5 secs(2)
+                        window.location.href = <?php echo "'".$permalink."';"; ?>; // then reload the page.(3)
+                    }, 3000);
+                </script>
+                <?php       
+            } 
+        } else {
+            wp_send_json_error( 'You already confirmed your data'  );
+        }             
     }
 
     wp_die();
@@ -168,6 +174,7 @@ function register_action() {
     $allowed_image      = ['jpg', 'png', 'gif'];
 
     $filename = $extension = $filesize = '';
+
     if( $file ) {
         $filename = $file['name'];
         $explode = explode( '.' , $filename );
@@ -345,15 +352,17 @@ function register_action() {
     }
 
     if( !empty( $errors ) ) {
-    	echo '<div class="alert alert-danger">';
+        
+    	//echo '<div class="alert alert-danger">';
     	foreach ( $errors as $error ) {
-    		echo $error;
-    		echo '<br/>';
+    		wp_send_json_error( '<div class="alert alert-danger">'.$error.'</div>' );
+    		//echo '<br/>';
     	}
-    	echo '</div>';
+    	//echo '</div>';
     } else {
 
         // Form value as meta key and value
+       
         $userdata = array(            
             'user_pass'             => '',   
             'user_login'            => $surname,
@@ -407,16 +416,15 @@ function register_action() {
             if( $is_user_exist ) {
 
                 if( $filename ) {
-                    $attachment_id = media_handle_upload( 'file', 0 );
-                   //if ( !is_wp_error( $attachment_id ) ) {
-                        $meta_array['thumb_id'] =  $attachment_id;   
-                        wp_delete_attachment( $thumb_id );    
-                    //}                    
+                    $attachment_id = media_handle_upload( 'file', 0 );                   
+                    $meta_array['thumb_id'] =  $attachment_id;   
+                    wp_delete_attachment( $thumb_id );                    
                 } else {
                     $meta_array['thumb_id'] = $thumb_id; 
                 }
+
                 update_user_meta( $user_id, 'register_user_meta_key', $meta_array );
-                echo '<div class="alert alert-success">Successfully updated the data..</div>';    
+                wp_send_json_success( '<div class="alert alert-success">Successfully updated the data..</div>' );                
                 ?>
                 <script type="text/javascript">
                     setTimeout(function(){// wait for 5 secs(2)
@@ -466,7 +474,7 @@ function register_action() {
 
                     // Send email to user for activate the account 
                     if( wp_mail( $to, $subject, $body, $headers ) ) {
-                        echo '<div class="alert alert-success">Please confirm your email addresss for CCROIPR-Registration von Werktitel.</div>';    
+                        wp_send_json_success( '<div class="alert alert-success">Please confirm your email addresss for CCROIPR-Registration von Werktitel.</div>' );
                     }
                 }
             }

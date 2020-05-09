@@ -14,24 +14,17 @@ get_header();
 		<div class="col-lg">
 			<main id="primary" class="site-main">
 				<?php
+				echo '<pre>';
+				print_r( get_queried_object() );
+				print_r( get_category_by_slug( 'cat-p' ) );
+				print_r( get_the_category() );
 				while ( have_posts() ) :
 					the_post();
-					get_template_part( 'template-parts/content', get_post_type() );
-					the_post_navigation(
-						array(
-							'prev_text' => '<span class="nav-subtitle">' . esc_html__( 'Previous:', 'ccroipr' ) . '</span> <span class="nav-title">%title</span>',
-							'next_text' => '<span class="nav-subtitle">' . esc_html__( 'Next:', 'ccroipr' ) . '</span> <span class="nav-title">%title</span>',
-						)
-					);
-					// If comments are open or we have at least one comment, load up the comment template.
-					if ( comments_open() || get_comments_number() ) :
-						comments_template();
-					endif;
+					get_template_part( 'template-parts/content', get_post_type() );					
 				endwhile; // End of the loop.
 				?>
 			</main><!-- #main -->
-		</div>
-		<?php get_sidebar(); ?>
+		</div>		
 	</div>
 </div>
 

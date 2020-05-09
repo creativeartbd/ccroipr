@@ -41,7 +41,7 @@ get_header();
                         </div>
                     </div>
                 </div>
-                <form action="" class="form" method="POST" id="register" enctype="multipart/form-data">
+                <form action="" class="form" method="POST" id="confirm" enctype="multipart/form-data">
 					<div class="row mt-5">					
 						<div class="col-md-3">
 							<div class="form-group">

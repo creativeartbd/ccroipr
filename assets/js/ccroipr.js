@@ -18,7 +18,7 @@
 			function( result ){
 				$('#confirm_button').prop('disabled', false );
 	        	$('#confirm_button').val( btn_label );
-				$('#form_result').html( result );
+				$('#form_result').html( result.data );
 			});
 		});
 
@@ -34,8 +34,8 @@
 	        	type: 'POST',
 	        	url : settings.ajaxurl,
 	        	data : data,
-	        	cache: false,
-				dataType: 'html',
+	        	dataType: 'json',
+	        	cache: false,				
 				processData: false,
 				contentType: false,
 				beforeSend : function () {
@@ -44,8 +44,8 @@
 		        }, 
 	        	success: function( result ) {
 	        		$('#button').prop('disabled', false );
-	        		$('#button').val( btn_label );
-	        		$('#form_result').html( result );	        		
+	        		$('#button').val( btn_label );	        			        		
+	        		$('#form_result').html( result.data )
 	        	}
 	        });
         })        
