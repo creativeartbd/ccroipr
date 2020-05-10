@@ -1,24 +1,51 @@
 (function($){
     $( document ).ready( function() {
 
+    	// Download profile
+		$("#download-profile").on('click', function(e) {
+			e.preventDefault();
+			var user_id = $(this).data('id');
+			var nonce = $(this).data('nonce');			
+
+			$.ajax({
+	        	type: 'POST',
+	        	url : settings.ajaxurl,
+	        	data : {
+	        		user_id : user_id,
+	        		_wpnonce : nonce,
+	        		action: 'download_profile_action',
+	        	},
+	        	dataType: 'json',
+	        	success: function( result ) {
+	        		console.log( result );	
+	        	}
+	        });
+		});
+
     	// Confirm register
 		$("#confirm_button").on('click', function(e) {
 			e.preventDefault();
 			var user_id = $("#user_id").val(); 
-			var btn_label = $('#button').val();
+			var btn_label = $('#confirm_button').val();
 
 			$.post( settings.ajaxurl, {
 				action: 'register_confirm_action',
 				user_id: user_id,	
+				dataType: 'json',
 				beforeSend : function () {
 					$('#confirm_button').prop('disabled', true );
 		           	$('#confirm_button').val('Please Wait...');
 		        }, 			
 			},
 			function( result ){
-				$('#confirm_button').prop('disabled', false );
-	        	$('#confirm_button').val( btn_label );
-				$('#form_result').html( result.data );
+				if(  result.success == true ) {
+					$('#confirm_button, #button').prop('disabled', true );	
+					$('#confirm_button').val( btn_label );		
+					$('.confirm-wrapper').remove();			
+				} else {
+					$('#confirm_button').prop('disabled', false );
+				}
+				$('#form_result').html( result.data );	     				
 			});
 		});
 

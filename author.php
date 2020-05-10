@@ -33,15 +33,19 @@ get_header();
 			<main id="primary" class="site-main">
 				<div class="row">
 					<div class="col-md-12">
-                        <div class="section-title">
-                            <h1>Profile                                
+                        <div class="section-title">                        	
+                            <h1>Profile 
+                            	<?php if( 1 == $is_confirm) { 
+                            		$nonce = wp_create_nonce( 'download-nonce' );
+                            		echo "<a class='download btn btn-success float-right' id='download-profile' data-id='$author_id' data-nonce='$nonce' target='_new'>Download</a></span>"; } 
+                            	?>
                             </h1>                           
                             <p>Antrag auf kostenlose Eintragung und Veroffentlichung eines Urheberanspruchs nach Prioritatsprinzip</p>  
                             <h2>Common Copyright Register of Intellectual Property Rights / CCROIPR-CAT-P</h2>
                         </div>
                     </div>
                 </div>
-                <form action="" class="form" method="POST" id="confirm" enctype="multipart/form-data">
+                <form action="" class="form" method="POST" id="register" enctype="multipart/form-data">
 					<div class="row mt-5">					
 						<div class="col-md-3">
 							<div class="form-group">
@@ -168,20 +172,22 @@ get_header();
 		                        <label for="">Sie sind Eingeloggt mit der IP-Adresse: USER-IP</label>
 		                        <input type="text" name="ip" value="<?php echo $author_meta['user_ip']; ?>" class="form-control" readonly  style=" width: 25%;">
 		                    </div>         
-		                    <?php if( 0 == $is_confirm ) : ?>          
-		                    <div class="form-group">                      
-		                    	<div id="form_result"></div>		                    	 
-		                    	<?php wp_nonce_field( 'register_action'); ?>
-		                        <input type="submit" name="submit" id="button" value="Update Data" class="btn btn-success">
-		                        <input type="submit" name="submit" id="confirm_button" value="Confirm Data" class="btn btn-primary float-right">
-		                        <input type="hidden" name="submit_type" value="updatedata">
-		                        <input type="hidden" name="user_id" id="user_id" value="<?php echo $author_id; ?>">
-		                        <input type="hidden" name="thumb_id" value="<?php echo $thumb_id; ?>">
-		                    </div>
-		                    <div class="form-group">
-		                    	<div class="text text-danger text-right">Note: If you confirm the data then you are not be able to edit/update the data anymore.</div>
-		                    </div>
-		                	<?php endif; ?>
+		                    <?php if( 0 == $is_confirm ) : ?>   
+		                    <div class="confirm-wrapper">
+			                    <div class="form-group">		                    	
+			                    	<?php wp_nonce_field( 'register_action'); ?>
+			                        <input type="submit" name="submit" id="button" value="Update Data" class="btn btn-success">
+			                        <input type="submit" name="submit" id="confirm_button" value="Confirm Data" class="btn btn-primary float-right">
+			                        <input type="hidden" name="submit_type" value="updatedata">
+			                        <input type="hidden" name="user_id" id="user_id" value="<?php echo $author_id; ?>">
+			                        <input type="hidden" name="thumb_id" value="<?php echo $thumb_id; ?>">
+			                    </div>
+			                    <div class="form-group">
+			                    	<div class="text text-danger text-right">Note: If you confirm the data then you are not be able to edit/update the data anymore.</div>
+			                    </div>
+			                </div>       
+			                <div id="form_result"></div>
+		                	<?php endif; ?>		                	
 		                </div>
 					</div>
 				</form>				

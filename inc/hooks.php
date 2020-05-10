@@ -6,6 +6,228 @@
  *
  * @package ccroipr
  */
+
+add_action( 'wp_ajax_download_profile_action', 'download_profile_action' );
+add_action( 'wp_ajax_nopriv_download_profile_action', 'download_profile_action' );
+
+function download_profile_action() {
+
+    wp_verify_nonce( '_wpnoncne', 'download_profile_action' );
+
+    $user_id        = hashMe( sanitize_text_field( $_POST['user_id'] ), 'd' );    
+    $is_user_exist  = get_userdata( $user_id );
+
+    if( $is_user_exist ) {
+
+        $author_meta        = get_user_meta( $user_id, 'register_user_meta_key', true );  
+        $confirm_id         = $author_meta['confirm_id'];
+        $surname            = $author_meta['surname'];
+        $vorname            = $author_meta['vorname'];
+        $strabe_nr          = $author_meta['strabe_nr'];
+        $plz                = $author_meta['plz'];
+        $ort                = $author_meta['ort'];
+        $e_post_address     = $author_meta['e_post_address'];
+        $webseite           = $author_meta['webseite'];
+        $werktitel          = $author_meta['werktitel'];
+        $wiener             = $author_meta['wiener'];
+        $locarno            = $author_meta['locarno'];
+        $internationale     = $author_meta['internationale'];
+        $nizzaklassifikation= $author_meta['nizzaklassifikation'];
+        $sha256             = $author_meta['sha256'];
+        $werk_beschreibung  = $author_meta['werk_beschreibung'];
+        $keywordnr1         = $author_meta['keywordnr1']; 
+        $keywordnr2         = $author_meta['keywordnr2']; 
+        $keywordnr3         = $author_meta['keywordnr3']; 
+        $keywordnr4         = $author_meta['keywordnr4']; 
+        $keywordnr5         = $author_meta['keywordnr5']; 
+        $inch_habe_die      = $author_meta['inch_habe_die']; 
+        $inh_habe_die_agb   = $author_meta['inh_habe_die_agb']; 
+        $ich_habe_die       = $author_meta['ich_habe_die']; 
+        $ip                 = $author_meta['ip']; 
+        $email              = get_the_author_meta( 'email', $user_id );
+
+
+        require_once get_template_directory() . '/assets/vendor/tcpdf/tcpdf.php';
+        //echo get_template_directory() . '/assets/vendor/tcpdf/tcpdf_include.php';
+        // create new PDF document
+        $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+
+        // set document information
+        $pdf->SetCreator(PDF_CREATOR);
+        $pdf->SetAuthor('CCROIPR');
+        $pdf->SetTitle($name);
+        $pdf->SetSubject($name . 'profile');
+        $pdf->SetKeywords('');
+
+        // set default header data
+        $pdf->SetHeaderData('', PDF_HEADER_LOGO_WIDTH, ' ', '');
+
+        // set header and footer fonts
+        $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+        $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+
+        // set default monospaced font
+        $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+        // set margins
+        $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+        $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+        $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+        // set auto page breaks
+        $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+        // set image scale factor
+        $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+
+        // set some language-dependent strings (optional)
+        if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
+            require_once(dirname(__FILE__).'/lang/eng.php');
+            $pdf->setLanguageArray($l);
+        }
+
+        // ---------------------------------------------------------
+
+        // set font
+        $pdf->SetFont('freesans', '', 11);
+
+        $pdf->AddPage();
+
+        $thumb      = wp_get_attachment_image_src( $author_meta[ 'thumb_id' ], 'ccroipr' );
+        $thumb_src  = $thumb[0]; 
+
+        $image      = $thumb_src;
+        $explode    = explode('.', $image);
+        $extension  = strtolower(end($explode));
+        //$extension  = strtoupper($explode[1]);
+
+$html = <<<EOD
+<h4>Common Copyright Register of Intellectual Property Rights</h4>
+<p>$confirm_id</p>
+    <table border="0" width="355" cellpadding="5">
+        <tr>
+            <td>Name</td>
+            <td>$surname</td>
+        </tr>
+        <tr>
+            <td>Vorname</td>
+            <td>$vorname</td>
+        </tr>
+        <tr>
+            <td>Straße / Nr</td>
+            <td>$strabe_nr</td>
+        </tr>
+        <tr>
+            <td>Plz</td>
+            <td>$plz</td>
+        </tr>
+        <tr>
+            <td>Ort / Stadt</td>
+            <td>$ort</td>
+        </tr>
+        <tr>
+            <td>E-Post-Address</td>
+            <td>$e_post_address</td>
+        </tr>
+        <tr>
+            <td>Webseite</td>
+            <td>$webseite</td>
+        </tr>
+        <tr>
+            <td>SHA256 (Hashwert der Originalabbildung)</td>
+            <td colspan="2">$sha256</td>
+        </tr>
+        <tr>
+            <td>Werktitel</td>
+            <td colspan="2">$werktitel</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td colspan="2"></td>
+        </tr>
+    </table>
+    <table border="0" width="355" cellpadding="5">
+        <tr>
+            <td>CCROIPR-Kategorie</td>
+            <td>$kategorie</td>
+        </tr>
+        <tr>
+            <td>Wiener Klassifikation</td>
+            <td>ccroipr-cfe-$wiener</td>
+        </tr>        
+        <tr>
+            <td>Locarno Klassifikation</td>
+            <td>ccroipr-loc-$locarno</td>
+        </tr>        
+        <tr>
+            <td>Internationale Patentklassifikation</td>
+            <td>ccroipr-ipc-$internationale</td>
+        </tr>        
+        <tr>
+            <td>Nizzaklassifikation</td>
+            <td>ccroipr-ncl-$nizzaklassifikation</td>
+        </tr>       
+        <tr>
+            <td>Keword Nr 1</td>
+            <td>$keywordnr1</td>
+        </tr>        
+        <tr>
+            <td>Keword Nr 2</td>
+            <td>$keywordnr2</td>
+        </tr>        
+        <tr>
+            <td>Keword Nr 3</td>
+            <td>$keywordnr3</td>
+        </tr>        
+        <tr>
+            <td>Keword Nr 4</td>
+            <td>$keywordnr4</td>
+        </tr>       
+        <tr>
+            <td>Keword Nr 5</td>
+            <td>$keywordnr5</td>
+        </tr>       
+    </table>
+    <table border="0" cellpadding="5">
+        <tr>
+            <td>Werk-Beschreibung</td>
+        </tr>
+        <tr>
+            <td colspan="3">$werk_beschreibung</td>
+        </tr>    
+    </table>   
+EOD;
+
+        $html .= '<table border="0" cellpadding="5">';
+        $html .= "<tr><td colspan='2'></td></tr>";
+        $html .= "<tr><td colspan='2'><b>Freigabeerklärung zu $confirm_id</b></td></tr>";
+        $html .= "<tr><td colspan='2'>Mein Datenupload ist unter der IP-Adresse $ip erfolgt.</td></tr>";
+        $html .= "</table>";
+
+        $html .= '<table border="0" cellpadding="5">';            
+        $html .= "<tr><td>Ich habe die Hinweise zur Anmeldung heruntergeladen, gelesen und meine Daten geprüft.</td></tr>";
+        $html .= "<tr><td>Ich habe die aktuellen Geschäftsbedingungen heruntergeladen, gelesen und akzeptiert.</td></tr>";
+        $html .= "<tr><td>Ich habe die CCROIPR - Lizenzvereinbarungen heruntergeladen, gelesen und akzeptiert.</td></tr>";
+        $html .= "<tr><td>Ich habe mit der E-Mail-Adresse $email die Anmeldung bestätigt.</td></tr>";
+        $html .= "<tr><td>und erteile hiermit die Freigabe zur Langzeitarchivierung im.</td></tr>";
+        $html .= "<tr><td>Common Popyright Register of Intellectual Property Rights.</td></tr>";
+        $html .= "</table>";
+
+        $pdf->Image($image, '', '45', '75', '', $extension, '', '', true, 300, 'R', false, false, 1, false, false, false);
+
+        $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
+
+        $path = get_template_directory() . '/assets/pdf/';
+        $filename= $path.$confirm_id.'.pdf';
+        $pdf->Output($filename,'F');
+   
+        wp_send_json_success( '<div class="alert alert-success">Successfully Confirmed your profile data.</div>'.$permalink );
+        
+    }
+    wp_die();
+}
+
+
 add_action( 'wp_ajax_register_confirm_action', 'register_confirm_action' );
 add_action( 'wp_ajax_nopriv_register_confirm_action', 'register_confirm_action' );
 
@@ -26,7 +248,7 @@ function register_confirm_action() {
             $author_meta['is_confirm']  = 1;
             $confirm_id                 = 'ccroipr-'.date('Y'.'m'.'d'.'H'.'i'.'s').randomNumber(3);
             $author_meta['confirm_id']  = $confirm_id;
-            $author_meta['kategorie']   = 'ccroipr-'.date('Y'.'-'.'m'.'-'.'d');        
+            $author_meta['kategorie']   = 'ccroipr-cat-p-'.date('Y'.'-'.'m'.'-'.'d');        
 
             $upload_dir                 = wp_upload_dir();
             $path                       = $upload_dir['path'];
@@ -102,8 +324,8 @@ function register_confirm_action() {
 
             if( ! is_wp_error( $post_id ) ) {
                 set_post_thumbnail( $post_id, $author_meta[ 'thumb_id' ] );
-                wp_send_json( '<div class="alert alert-success">Successfully Confirmed your profile data.</div>' );            
-                $permalink = get_permalink( $post_id );
+                $permalink = get_the_permalink( $post_id );
+                wp_send_json_success( '<div class="alert alert-success">Successfully Confirmed your profile data.</div>' );
                 ?>
                 <script type="text/javascript">
                     setTimeout(function(){// wait for 5 secs(2)
@@ -424,7 +646,7 @@ function register_action() {
                 }
 
                 update_user_meta( $user_id, 'register_user_meta_key', $meta_array );
-                wp_send_json_success( '<div class="alert alert-success">Successfully updated the data..</div>' );                
+                wp_send_json_success( '<div class="alert alert-success">Successfully updated your data.</div>' );                
                 ?>
                 <script type="text/javascript">
                     setTimeout(function(){// wait for 5 secs(2)
