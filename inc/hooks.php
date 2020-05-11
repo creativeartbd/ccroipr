@@ -227,7 +227,7 @@ EOD;
         }        
 
         $filename= $confirm_id.'.pdf';      
-        $pdf->Output($upload_dir.$filename,'F');        
+        $pdf->Output($upload_dir.$filename,'D');        
         echo $upload['baseurl'] . '/ccroipr-pdf/' . $confirm_id . '.pdf';
 
         //echo $upload_dir     = $upload_dir . '/ccroipr-pdf/'.$confirm_id.'.pdf';
@@ -333,14 +333,7 @@ function register_confirm_action() {
             if( ! is_wp_error( $post_id ) ) {
                 set_post_thumbnail( $post_id, $author_meta[ 'thumb_id' ] );
                 $permalink = get_the_permalink( $post_id );
-                wp_send_json_success( '<div class="alert alert-success">Successfully Confirmed your profile data.</div>' );
-                ?>
-                <script type="text/javascript">
-                    setTimeout(function(){// wait for 5 secs(2)
-                        window.location.href = <?php echo "'".$permalink."';"; ?>; // then reload the page.(3)
-                    }, 3000);
-                </script>
-                <?php       
+                wp_send_json_success( '<div class="alert alert-success">Successfully Confirmed your profile data.</div>' );                 
             } 
         } else {
             wp_send_json_error( 'You already confirmed your data'  );
@@ -654,14 +647,7 @@ function register_action() {
                 }
 
                 update_user_meta( $user_id, 'register_user_meta_key', $meta_array );
-                wp_send_json_success( '<div class="alert alert-success">Successfully updated your data.</div>' );                
-                ?>
-                <script type="text/javascript">
-                    setTimeout(function(){// wait for 5 secs(2)
-                        location.reload(); // then reload the page.(3)
-                    }, 3000);
-                </script>
-                <?php
+                wp_send_json_success( '<div class="alert alert-success">Successfully updated your data.</div>' ); 
             }            
 
         } else {
@@ -709,53 +695,6 @@ function register_action() {
                 }
             }
         }
-
-
-        
-        
-
-        
-    
-
-        // $attachment_id = media_handle_upload( 'file', 0 );
-
-        // if ( is_wp_error( $attachment_id ) ) { 
-        //     $response['response']   = "ERROR";
-        //     $response['error']      = $fileErrors[ $_FILES['file']['error'] ];
-        // } else {
-        //     $fullsize_path          = get_attached_file( $attachment_id );
-        //     $pathinfo               = pathinfo( $fullsize_path );
-        //     $url                    = wp_get_attachment_url( $attachment_id );
-        //     $response['response']   = "SUCCESS";
-        //     $response['filename']   = $pathinfo['filename'];
-        //     $response['url']        = $url;
-        //     $type                   = $pathinfo['extension'];
-
-        //     if( $type == "jpeg" || $type == "jpg" || $type == "png" || $type == "gif" ) {
-        //         $type = "image/" . $type;
-        //     }
-        //     $response['type'] = $type;
-        // }
-        // echo '<pre>';
-        // print_r( $response );
-
-        // $imgName      = 'myimagename.jpg';
-        // $confirmCode  = rand(1000, 9999);
-        // $ex           = explode( '.', $imgName );
-
-        // $ex1          = strtolower(end($ex));
-        // $werktitel_R  = htmlspecialchars($werktitel);
-        // $newFileName  = str_replace(' ', '-', strtolower($werktitel_R)).'-'.rand(5).".$ex1";
-        // $userId         = 1254;
-
-        //  $message = "<div style='padding : 20px; border : 1px solid #ddd; color : #000;'>Hello $surname, <br/><br/>Please confirm your email addresss for CCROIPR-Registration von $werktitel. Click this to confirm : <a href='http://ccroipr.org/confirmation.php?code=$confirmCode&id=$userId'>Confirm Now</a><br/><br/>http://ccroipr.org<br/>Thank You.<br/></div>";
-
-        // $to = get_option( 'admin_email' );
-        // $subject = 'The subject';
-        // $body = $message;
-        // $headers = array('Content-Type: text/html; charset=UTF-8');
-
-        // wp_mail( $to, $subject, $body, $headers );
     }
 
     wp_die();
@@ -763,14 +702,11 @@ function register_action() {
 }
 
 // Add new role
-function ccroipr_new_custom_roles() {
-    //if ( get_option( 'custom_roles_version' ) < 1 ) {
-        add_role( 'ccroipr_register_p', 'Reigster P', array( 'read' => true, 'level_0' => true ) );
-        add_role( 'ccroipr_register_t', 'Reigster T', array( 'read' => true, 'level_0' => true ) );
-        
-    //}
-}
 add_action( 'init', 'ccroipr_new_custom_roles' );
+function ccroipr_new_custom_roles() {    
+    add_role( 'ccroipr_register_p', 'Reigster P', array( 'read' => true, 'level_0' => true ) );
+    add_role( 'ccroipr_register_t', 'Reigster T', array( 'read' => true, 'level_0' => true ) );
+}
 
 // Use this hook to check if the user account status is active or not
 add_filter( 'wp_authenticate_user', 'shibbir_authenticate_user', 10, 2 );

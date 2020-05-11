@@ -9,7 +9,6 @@
 
 $author 		= get_queried_object();
 $author_meta 	= get_user_meta( $author->ID, 'register_user_meta_key', true );
-$confirm_id 	= $author_meta['confirm_id'];
 $thumb_id   	= isset( $author_meta[ 'thumb_id' ] ) ? $author_meta[ 'thumb_id' ] : '';
 $thumb_id 		= hashMe( $thumb_id, 'e' );
 $author_status 	= $author->user_status;

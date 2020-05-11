@@ -41,7 +41,10 @@
 				if(  result.success == true ) {
 					$('#confirm_button, #button').prop('disabled', true );	
 					$('#confirm_button').val( btn_label );		
-					$('.confirm-wrapper').remove();			
+					$('.confirm-wrapper').remove();							
+        			 setTimeout(function(){// wait for 5 secs(2)
+                        location.reload(); // then reload the page.(3)
+                    }, 3000);	        		
 				} else {
 					$('#confirm_button').prop('disabled', false );
 				}
@@ -73,6 +76,11 @@
 	        		$('#button').prop('disabled', false );
 	        		$('#button').val( btn_label );	        			        		
 	        		$('#form_result').html( result.data )
+	        		if( result.success == true ) {
+	        			 setTimeout(function(){// wait for 5 secs(2)
+	                        location.reload(); // then reload the page.(3)
+	                    }, 3000);
+	        		}
 	        	}
 	        });
         })        
