@@ -227,7 +227,7 @@ EOD;
         }        
 
         $filename= $confirm_id.'.pdf';      
-        $pdf->Output($upload_dir.$filename,'D');        
+        $pdf->Output($upload_dir.$filename,'F');        
         echo $upload['baseurl'] . '/ccroipr-pdf/' . $confirm_id . '.pdf';
 
         //echo $upload_dir     = $upload_dir . '/ccroipr-pdf/'.$confirm_id.'.pdf';
