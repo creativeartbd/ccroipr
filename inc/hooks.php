@@ -223,7 +223,7 @@ EOD;
         $upload_dir     = $upload_dir . '/ccroipr-pdf/';
 
         if (! is_dir($upload_dir)) {
-            mkdir( $upload_dir, 0700 );
+            mkdir( $upload_dir, 0777 );
         }        
 
         $filename= $confirm_id.'.pdf';      
