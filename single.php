@@ -13,16 +13,26 @@ get_header();
 	<div class="row">
 		<div class="col-lg">
 			<main id="primary" class="site-main">
-				<?php
-				echo '<pre>';
-				print_r( get_queried_object() );
-				print_r( get_category_by_slug( 'cat-p' ) );
-				print_r( get_the_category() );
-				while ( have_posts() ) :
-					the_post();
-					get_template_part( 'template-parts/content', get_post_type() );					
-				endwhile; // End of the loop.
-				?>
+				<div class="row">
+					<div class="col-md-12">
+					<?php				
+					if( have_posts() ) {
+						while ( have_posts() ) {
+							the_post();
+							$categories = get_the_category();
+							foreach ( $categories as $category ) {
+								$slug = $category->slug;
+								if( in_array( $slug, [ 'cat-p', 'cat-t' ] ) ) {
+									get_template_part( 'template-parts/content', 'ccroipr' );
+								} else {
+									get_template_part( 'template-parts/content', get_post_type() );
+								}
+							}
+						}
+					}					
+					?>
+					</div>
+				</div>
 			</main><!-- #main -->
 		</div>		
 	</div>

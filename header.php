@@ -8,6 +8,8 @@
  *
  * @package ccroipr
  */
+// Exit if accessed directly.
+defined( 'ABSPATH' ) || exit;
 
 ?>
 <!doctype html>

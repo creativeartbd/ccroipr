@@ -10,14 +10,14 @@
 			$.ajax({
 	        	type: 'POST',
 	        	url : settings.ajaxurl,
+	        	dataType: 'html',
 	        	data : {
 	        		user_id : user_id,
 	        		_wpnonce : nonce,
 	        		action: 'download_profile_action',
 	        	},
-	        	dataType: 'json',
-	        	success: function( result ) {
-	        		console.log( result );	
+	        	success: function( result ) {	        		
+	        		window.open( result, '_blank' );
 	        	}
 	        });
 		});

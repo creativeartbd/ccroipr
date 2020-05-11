@@ -27,6 +27,7 @@ function download_profile_action() {
         $plz                = $author_meta['plz'];
         $ort                = $author_meta['ort'];
         $e_post_address     = $author_meta['e_post_address'];
+        $kategorie          = $author_meta['kategorie'];
         $webseite           = $author_meta['webseite'];
         $werktitel          = $author_meta['werktitel'];
         $wiener             = $author_meta['wiener'];
@@ -43,7 +44,7 @@ function download_profile_action() {
         $inch_habe_die      = $author_meta['inch_habe_die']; 
         $inh_habe_die_agb   = $author_meta['inh_habe_die_agb']; 
         $ich_habe_die       = $author_meta['ich_habe_die']; 
-        $ip                 = $author_meta['ip']; 
+        $ip                 = $author_meta['user_ip']; 
         $email              = get_the_author_meta( 'email', $user_id );
 
 
@@ -55,8 +56,8 @@ function download_profile_action() {
         // set document information
         $pdf->SetCreator(PDF_CREATOR);
         $pdf->SetAuthor('CCROIPR');
-        $pdf->SetTitle($name);
-        $pdf->SetSubject($name . 'profile');
+        $pdf->SetTitle($surname);
+        $pdf->SetSubject($surname . 'profile');
         $pdf->SetKeywords('');
 
         // set default header data
@@ -217,12 +218,19 @@ EOD;
 
         $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
 
-        $path = get_template_directory() . '/assets/pdf/';
-        $filename= $path.$confirm_id.'.pdf';
-        $pdf->Output($filename,'F');
-   
-        wp_send_json_success( '<div class="alert alert-success">Successfully Confirmed your profile data.</div>'.$permalink );
-        
+        $upload         = wp_upload_dir();
+        $upload_dir     = $upload['basedir'];
+        $upload_dir     = $upload_dir . '/ccroipr-pdf/';
+
+        if (! is_dir($upload_dir)) {
+            mkdir( $upload_dir, 0700 );
+        }        
+
+        $filename= $confirm_id.'.pdf';      
+        $pdf->Output($upload_dir.$filename,'F');        
+        echo $upload['baseurl'] . '/ccroipr-pdf/' . $confirm_id . '.pdf';
+
+        //echo $upload_dir     = $upload_dir . '/ccroipr-pdf/'.$confirm_id.'.pdf';
     }
     wp_die();
 }

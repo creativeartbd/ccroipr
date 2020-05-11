@@ -9,6 +9,7 @@
 
 $author 		= get_queried_object();
 $author_meta 	= get_user_meta( $author->ID, 'register_user_meta_key', true );
+$confirm_id 	= $author_meta['confirm_id'];
 $thumb_id   	= isset( $author_meta[ 'thumb_id' ] ) ? $author_meta[ 'thumb_id' ] : '';
 $thumb_id 		= hashMe( $thumb_id, 'e' );
 $author_status 	= $author->user_status;
@@ -34,12 +35,13 @@ get_header();
 				<div class="row">
 					<div class="col-md-12">
                         <div class="section-title">                        	
+                        	<div id="download">	</div>
                             <h1>Profile 
                             	<?php if( 1 == $is_confirm) { 
                             		$nonce = wp_create_nonce( 'download-nonce' );
                             		echo "<a class='download btn btn-success float-right' id='download-profile' data-id='$author_id' data-nonce='$nonce' target='_new'>Download</a></span>"; } 
                             	?>
-                            </h1>                           
+                            </h1>                            
                             <p>Antrag auf kostenlose Eintragung und Veroffentlichung eines Urheberanspruchs nach Prioritatsprinzip</p>  
                             <h2>Common Copyright Register of Intellectual Property Rights / CCROIPR-CAT-P</h2>
                         </div>
