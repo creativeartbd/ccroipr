@@ -32,11 +32,13 @@ get_header();
 <div class="container main-container">
 	<div class="row">
 		<div class="col-lg">           	
-        	<div id="download">	</div>
+        	<div id="download"></div>
             <h1>Profile 
-            	<?php if( 1 == $is_confirm) { 
+            	<?php 
+            	if( 1 == $is_confirm) { 
             		$nonce = wp_create_nonce( 'download-nonce' );
-            		echo "<a class='download btn btn-success float-right' id='download-profile' data-id='$author_id' data-nonce='$nonce' target='_new'>Download</a></span>"; } 
+            		echo "<input type='button' value='Download' class='download btn btn-success float-right' id='download_profile' data-id='$author_id' data-nonce='$nonce'>"; 
+            	} 
             	?>
             </h1>                            
             <p>Antrag auf kostenlose Eintragung und Veroffentlichung eines Urheberanspruchs nach Prioritatsprinzip</p>  

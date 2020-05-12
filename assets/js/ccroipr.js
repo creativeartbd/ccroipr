@@ -78,10 +78,11 @@
 		});
 
     	// Download profile
-		$("#download-profile").on('click', function(e) {
+		$("#download_profile").on('click', function(e) {
 			e.preventDefault();
 			var user_id = $(this).data('id');
-			var nonce = $(this).data('nonce');			
+			var nonce = $(this).data('nonce');		
+			var btn_label = $('#download_profile').val();			
 
 			$.ajax({
 	        	type: 'POST',
@@ -92,7 +93,11 @@
 	        		_wpnonce : nonce,
 	        		action: 'download_profile_action',
 	        	},
-	        	success: function( result ) {	        		
+	        	beforeSend: function() {
+	        		$('#download_profile').val('Downloading...');
+	        	},
+	        	success: function( result ) {	    
+	        		$('#download_profile').val( btn_label );
 	        		window.open( result, '_blank' );
 	        	}
 	        });
