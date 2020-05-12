@@ -45,14 +45,8 @@ get_header();
 ?>
 <div class="container main-container">
 	<div class="row">
-		<div class="col-lg">
-			<main id="primary" class="site-main">
-				<div class="rows">
-					<div class="col-mnd-12">
-						<?php echo $message; ?>
-					</div>
-				</div>
-			</main>
+		<div class="col-lg">			
+			<?php echo $message; ?>
 		</div>
 	</div>
 </div>
