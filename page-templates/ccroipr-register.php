@@ -13,7 +13,7 @@ get_header();
 	<div class="row">
 		<div class="col-lg">
 			<main id="primary" class="site-main">
-				<div class="rows">
+				<div class="row">
 					<div class="col-mnd-12">
 					<?php 
 					if( have_posts() ) {
@@ -25,7 +25,7 @@ get_header();
 					?>	
 					</div>
 				</div>
-				<form action="" class="form" method="POST" id="register" enctype="multipart/form-data">
+				<form action="" class="form" method="POST" id="form" enctype="multipart/form-data">
 					<div class="row mt-5">					
 						<div class="col-md-3">
 							<div class="form-group">
@@ -143,9 +143,9 @@ get_header();
 		                        <input type="text" name="ip" value="<?php echo $_SERVER['REMOTE_ADDR']; ?>" class="form-control" readonly  style=" width: 25%;">
 		                    </div>                   
 		                    <div class="form-group">                      
-		                    	 <div id="form_result"></div>
-		                    	 <?php wp_nonce_field( 'register_action' ); ?>
-		                        <input type="submit" name="submit" id="button" value="Register" class="btn btn-primary">
+		                    	<div id="form_result"></div>
+		                    	<?php wp_nonce_field( 'register_action' ); ?>		                    	
+		                        <input type="submit" name="submit" data-register-type="<?php echo hashMe('ccroipr_register_p', 'e'); ?>"  id="register_btn" value="Register" class="btn btn-primary">
 		                    </div>
 		                </div>
 					</div>

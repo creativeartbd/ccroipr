@@ -9,8 +9,10 @@
 
 $author 		= get_queried_object();
 $author_meta 	= get_user_meta( $author->ID, 'register_user_meta_key', true );
+$author_role 	= $author->roles[0];
 $thumb_id   	= isset( $author_meta[ 'thumb_id' ] ) ? $author_meta[ 'thumb_id' ] : '';
 $thumb_id 		= hashMe( $thumb_id, 'e' );
+$data_type      = hashMe( $author_role, 'e' );
 $author_status 	= $author->user_status;
 $author_id 		= $author->ID;
 $author_id 		= hashMe( $author_id, 'e' );
@@ -46,16 +48,18 @@ get_header();
                         </div>
                     </div>
                 </div>
-                <form action="" class="form" method="POST" id="register" enctype="multipart/form-data">
+                <form action="" class="form" method="POST" id="form" enctype="multipart/form-data">
 					<div class="row mt-5">					
-						<div class="col-md-3">
+						<div class="col-md-12">
 							<div class="form-group">
 	                            <label for="">Urheber - Impressum nach $55 RStV</label>
 	                        </div>
+						</div>
+						<div class="col-md-3">							
 							<div class="form-group">
-								<label for="">Surname</label>
-								<input type="text" name="surname" value="<?php echo $author_meta['surname']; ?>" class="form-control" placeholder="Surname">
-							</div>
+	                            <label for="">Surename</label>
+	                            <input type="text" name="surname" value="<?php echo $author_meta['surname']; ?>" maxlength="25" class="form-control" placeholder="Surname">
+	                        </div>
 							<div class="form-group">
 								<label for="">Vorname</label>
 	                        	<input type="text" name="vorname" value="<?php echo $author_meta['vorname']; ?>" maxlength="25" class="form-control" placeholder="Vorname">
@@ -71,21 +75,22 @@ get_header();
 	                        <div class="form-group">
 	                            <label for="">Ort / Stadt</label>
 	                            <input type="text" name="ort" value="<?php echo $author_meta['ort']; ?>" class="form-control" maxlength="35" placeholder="Ort / Stadt">
-	                        </div>
+	                        </div>	      
 	                        <div class="form-group">
 	                            <label for="">E-Post-Address</label>
 	                            <input type="text" name="e_post_address" value="<?php echo $author_meta['e_post_address']; ?>" maxlength="50" class="form-control" placeholder="E-Post-Address">
-	                        </div>
+	                        </div>                  
+						</div>
+						<div class="col-md-3">								
 	                        <div class="form-group">
 	                            <label for="">Webseite</label>
 	                            <input type="text" name="webseite" value="<?php echo $author_meta['webseite']; ?>" maxlength="150" class="form-control" placeholder="Webseite">
 	                        </div>
-						</div>
-						<div class="col-md-3">	
 						 	<div class="form-group">
 	                            <label for="">Werktitel</label>
 	                            <input type="text" name="werktitel" value="<?php echo $author_meta['werktitel']; ?>" id="werktitel" maxlength="30" class="form-control" placeholder="Werktitel">
 	                        </div>
+	                        <?php if( 'ccroipr_register_p' == $author_role ) : ?>
 	                        <div class="form-group">
 	                            <label for="">Wiener Klassifikation</label>
 	                            <input type="text" name="wiener" value="<?php echo $author_meta['wiener']; ?>" class="form-control" maxlength="50" value="00.00">
@@ -101,9 +106,11 @@ get_header();
 	                        <div class="form-group">
 	                            <label for="">Nizzaklassifikation</label>
 	                            <input type="text" name="nizzaklassifikation" value="<?php echo $author_meta['nizzaklassifikation']; ?>" class="form-control" maxlength="50" value="00.00">
-	                        </div>					
+	                        </div>
+	                        <?php endif; ?>					
 						</div>
 						<div class="col-md-3">
+							<?php if( 'ccroipr_register_p' == $author_role ) : ?>
 							<div class="form-group">
 								<input type="file" name="file" id="file">
 								<?php 
@@ -118,11 +125,13 @@ get_header();
 	                            <label for="">SHA256 (Hashwert der Originalabbildung)</label>
 	                            <input type="text" id="sha256" name="sha256" value="<?php echo $author_meta['sha256']; ?>" maxlength="64" class="form-control" placeholder="SHA256 (Hashwert der Originalabbildung)" readonly>
 	                        </div>
+	                    	<?php endif; ?>
 	                        <div class="form-group">
 	                            <label for="">Werk-Beschreibung</label>
 	                            <textarea id="limit" name="werk_beschreibung" cols="30" rows="10" class="form-control" placeholder="Werk-Beschreibung"><?php echo $author_meta['werk_beschreibung']; ?></textarea><span class="counter"></span>
 	                        </div>
 						</div>
+						<?php if( 'ccroipr_register_p' == $author_role ) : ?>
 						<div class="col-md-3">
 							<div class="form-group">
 	                            <label for="">Keword Nr 1 </label>
@@ -144,7 +153,8 @@ get_header();
 	                            <label for="">Keword Nr 5 </label>
 	                            <input type="text" name="keywordnr5" value="<?php echo $author_meta['keywordnr5']; ?>" maxlength="40" class="form-control keyword5"  placeholder="Keword Nr 5"  value="Stichwort / Schlagwort">
 	                        </div>
-						</div>					
+						</div>	
+						<?php endif; ?>				
 					</div>				
 					<div class="row">
 						<div class="col-md-12">
@@ -177,11 +187,11 @@ get_header();
 		                    <div class="confirm-wrapper">
 			                    <div class="form-group">		                    	
 			                    	<?php wp_nonce_field( 'register_action'); ?>
-			                        <input type="submit" name="submit" id="button" value="Update Data" class="btn btn-success">
-			                        <input type="submit" name="submit" id="confirm_button" value="Confirm Data" class="btn btn-primary float-right">
-			                        <input type="hidden" name="submit_type" value="updatedata">
+			                        <input type="submit" name="submit" id="register_btn" data-register-type="<?php echo $data_type; ?>" value="Update Data" class="btn btn-success">
+			                        <input type="submit" name="submit" id="confirm_btn" data-nonce="<?php echo wp_create_nonce( 'register_confirm_action' ); ?>" data-register-type="<?php echo $data_type; ?>" value="Confirm Data" class="btn btn-primary float-right">			                        
 			                        <input type="hidden" name="user_id" id="user_id" value="<?php echo $author_id; ?>">
 			                        <input type="hidden" name="thumb_id" value="<?php echo $thumb_id; ?>">
+			                        <input type="hidden" name="submit_type" value="<?php echo hashMe( 'updatedata', 'e' ); ?>">
 			                    </div>
 			                    <div class="form-group">
 			                    	<div class="text text-danger text-right">Note: If you confirm the data then you are not be able to edit/update the data anymore.</div>

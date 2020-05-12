@@ -83,3 +83,50 @@ function image_resize_base_width ( $target, $newcopy, $w, $ext) {
         imagejpeg($new_image, $newcopy, 84);
     }
 }
+
+function textToImg($text, $image_width, $imageName, $colour = array(0,0,0), $background = array(255,255,255) ) {
+    $font         = 35;
+    $line_height  = 50;
+    $padding      = 120;
+    $textArr      = array();
+    $count        = array();
+    $ex           = explode(' ', $text);
+    foreach ($ex as $key => $value) {
+        $count[] = strlen($value);
+    }
+
+    $max          = max($count);
+    $textArr      = wordwrap($text, $max);
+    $lines        = explode("\n", $textArr);
+    $hochladen    = get_template_directory_uri() . '/assets/img/sample.png';
+    $image        = imagecreatefrompng($hochladen);
+    $background   = imagecolorallocate($image, $background[0], $background[1], $background[2]);
+    $colour       = imagecolorallocate($image,$colour[0],$colour[1],$colour[2]);
+    imagefill($image, 0, 0, $background);
+    $i            = $padding;
+
+    $fontPath = get_template_directory() . '/assets/fonts/arial.ttf';
+    $count = 1;
+    foreach($lines as $line){
+        imagettftext($image, $font, 0, 150, $i, $colour, $fontPath, $line);
+        if($count == 2 ) {
+            $i += 150;
+            $font -= 15;
+        } else {
+            $i += $line_height;
+        }
+        //$font -= 10;
+        $count++;
+    }
+
+    imagejpeg($image, $imageName.'.jpg');
+    imagedestroy($image);  
+}
+
+function random ($length) {
+    $random = '';
+    for ($i = 0; $i < $length; $i++) {
+        $random .= chr(rand(ord('a'), ord('z')));
+    }
+    return $random;
+}

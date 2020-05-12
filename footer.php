@@ -11,7 +11,7 @@
 
 ?>
 	
-	<footer id="colophon" class="site-footer">
+	<footer class="site-footer">
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12">
@@ -22,8 +22,7 @@
 				</div><!-- .site-info -->
 			</div>
 		</div>			
-	</footer><!-- #colophon -->			
-			
+	</footer><!-- #colophon -->	
 	
 </div><!-- #page -->
 <?php wp_footer(); ?>

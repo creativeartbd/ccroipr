@@ -1,6 +1,82 @@
 (function($){
     $( document ).ready( function() {
 
+    	// Update and Register form data for "Register" and "Register T"
+        $( '#register_btn' ).on( 'click', function(e) {       	
+        	
+        	e.preventDefault();      
+        	var btn_label 	= $('#register_btn').val();
+        	var register_type 	= '' ;
+        		register_type	= $(this).data('register-type');
+        	var data 		=  new FormData($('#form')[0]);        	        	
+				data.append("action", "register_action");
+				data.append("register_type", register_type);
+			
+	        $.ajax({
+	        	type: 'POST',
+	        	url : settings.ajaxurl,
+	        	data : data,
+	        	dataType: 'json',
+	        	cache: false,				
+				processData: false,
+				contentType: false,
+				beforeSend : function () {
+					$('#register_btn').prop('disabled', true );
+		           	$('#register_btn').val('Please Wait...');
+		        }, 
+	        	success: function( result ) {
+	        		$('#register_btn').prop('disabled', false );
+	        		$('#register_btn').val( btn_label );
+	        		$('#form_result').html( result.data )
+	        		if( result.success == true ) {
+	        			$('#register_btn').prop('disabled', true );
+	        			 setTimeout(function(){// wait for 5 secs(2)
+	                        location.reload(); // then reload the page.(3)
+	                    }, 3000);
+	        		}
+	        	}
+	        });
+        })   
+
+        // Confirm "Register" and "Register T" form
+		$("#confirm_btn").on('click', function(e) {
+
+			e.preventDefault();
+
+			var user_id 		= $("#user_id").val(); 
+			var btn_label 		= $('#confirm_btn').val();		
+			var register_type 	= $(this).data('register-type');
+
+			$.ajax({
+	        	type: 'POST',
+	        	url : settings.ajaxurl,
+	        	data : {
+	        		user_id : user_id,
+	        		register_type : register_type,
+	        		action : 'register_confirm_action'
+	        	},
+	        	dataType: 'json',	        	
+				beforeSend : function () {
+					//$('#confirm_btn').prop('disabled', true );
+		           	$('#confirm_btn').val('Please Wait...');
+		        }, 
+	        	success: function( result ) {
+	        		if(  result.success == true ) {
+						$('#confirm_btn, #register_btn').prop('disabled', true );	
+						$('#confirm_btn').val( btn_label );		
+						$('.confirm-wrapper').remove();							
+	        			setTimeout(function(){// wait for 5 secs(2)
+	                        location.reload(); // then reload the page.(3)
+	                    }, 3000);	        		
+					} else {
+						//$('#confirm_btn').prop('disabled', false );
+					}
+					$('#form_result').html( result.data );	     
+	        	}
+	        });
+			
+		});
+
     	// Download profile
 		$("#download-profile").on('click', function(e) {
 			e.preventDefault();
@@ -22,59 +98,33 @@
 	        });
 		});
 
-    	// Confirm register
-		$("#confirm_button").on('click', function(e) {
-			e.preventDefault();
-			var user_id = $("#user_id").val(); 
-			var btn_label = $('#confirm_button').val();
+    	
 
-			$.post( settings.ajaxurl, {
-				action: 'register_confirm_action',
-				user_id: user_id,	
-				dataType: 'json',
-				beforeSend : function () {
-					$('#confirm_button').prop('disabled', true );
-		           	$('#confirm_button').val('Please Wait...');
-		        }, 			
-			},
-			function( result ){
-				if(  result.success == true ) {
-					$('#confirm_button, #button').prop('disabled', true );	
-					$('#confirm_button').val( btn_label );		
-					$('.confirm-wrapper').remove();							
-        			 setTimeout(function(){// wait for 5 secs(2)
-                        location.reload(); // then reload the page.(3)
-                    }, 3000);	        		
-				} else {
-					$('#confirm_button').prop('disabled', false );
-				}
-				$('#form_result').html( result.data );	     				
-			});
-		});
+    	     
 
-    	// Update and Register
-        $( '#button' ).on( 'click', function(e) {       	
+        // Update and Register T
+        $( '#button_t' ).on( 'click', function(e) {
         	
         	e.preventDefault();      
-        	var data =  new FormData($('#register')[0]);        	
-			data.append("action", "register_action");			
-			var btn_label = $('#button').val();
+        	var btn_label 	= $('#button_t').val();
+        	var data 		=  new FormData($('#register_t')[0]);
+			data.append("action", "register_t_action");			
 			
 	        $.ajax({
 	        	type: 'POST',
 	        	url : settings.ajaxurl,
 	        	data : data,
-	        	dataType: 'json',
+	        	dataType: 'json',	        	
 	        	cache: false,				
 				processData: false,
 				contentType: false,
 				beforeSend : function () {
-					$('#button').prop('disabled', true );
-		           	$('#button').val('Please Wait...');
+					//$('#button_t').prop('disabled', true );
+		           	$('#button_t').val('Please Wait...');
 		        }, 
 	        	success: function( result ) {
-	        		$('#button').prop('disabled', false );
-	        		$('#button').val( btn_label );	        			        		
+	        		//$('#button_t').prop('disabled', false );
+	        		$('#button_t').val( btn_label );	        			        		
 	        		$('#form_result').html( result.data )
 	        		if( result.success == true ) {
 	        			 setTimeout(function(){// wait for 5 secs(2)
@@ -83,7 +133,7 @@
 	        		}
 	        	}
 	        });
-        })        
+        })      
 
         // Generate hash value when file is upload
         $("#file").on('change', function(e) {
