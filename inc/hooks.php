@@ -393,6 +393,7 @@ function register_confirm_action() {
                 }
 
                 textToImg($text, $image_width, $upload_dir.$generatedImage);  
+                $author_meta['thumb_id_t'] = $generatedImage;
 
                 $category_id = get_category_by_slug( 'cat-t' ); //
             } 
