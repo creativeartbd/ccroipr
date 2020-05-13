@@ -15,12 +15,16 @@ function download_profile_action() {
     wp_verify_nonce( '_wpnoncne', 'download_profile_action' );
 
     $user_id        = hashMe( sanitize_text_field( $_POST['user_id'] ), 'd' );    
+    $submit_type    = hashMe( sanitize_text_field( $_POST['submit_type'] ), 'd' );    // ccroipr_register_p or ccroipr_register_t
+
     $is_user_exist  = get_userdata( $user_id );
 
     if( $is_user_exist ) {
 
         $author_meta        = get_user_meta( $user_id, 'register_user_meta_key', true );  
+
         $confirm_id         = $author_meta['confirm_id'];
+
         $surname            = $author_meta['surname'];
         $vorname            = $author_meta['vorname'];
         $strabe_nr          = $author_meta['strabe_nr'];
@@ -30,23 +34,29 @@ function download_profile_action() {
         $kategorie          = $author_meta['kategorie'];
         $webseite           = $author_meta['webseite'];
         $werktitel          = $author_meta['werktitel'];
-        $wiener             = $author_meta['wiener'];
-        $locarno            = $author_meta['locarno'];
-        $internationale     = $author_meta['internationale'];
-        $nizzaklassifikation= $author_meta['nizzaklassifikation'];
-        $sha256             = $author_meta['sha256'];
         $werk_beschreibung  = $author_meta['werk_beschreibung'];
-        $keywordnr1         = $author_meta['keywordnr1']; 
-        $keywordnr2         = $author_meta['keywordnr2']; 
-        $keywordnr3         = $author_meta['keywordnr3']; 
-        $keywordnr4         = $author_meta['keywordnr4']; 
-        $keywordnr5         = $author_meta['keywordnr5']; 
         $inch_habe_die      = $author_meta['inch_habe_die']; 
         $inh_habe_die_agb   = $author_meta['inh_habe_die_agb']; 
         $ich_habe_die       = $author_meta['ich_habe_die']; 
         $ip                 = $author_meta['user_ip']; 
         $email              = get_the_author_meta( 'email', $user_id );
 
+        if( 'ccroipr_register_p' == $submit_type ) {
+            $wiener             = $author_meta['wiener'];
+            $locarno            = $author_meta['locarno'];
+            $internationale     = $author_meta['internationale'];
+            $nizzaklassifikation= $author_meta['nizzaklassifikation'];
+            $sha256             = $author_meta['sha256'];
+            $keywordnr1         = $author_meta['keywordnr1']; 
+            $keywordnr2         = $author_meta['keywordnr2']; 
+            $keywordnr3         = $author_meta['keywordnr3']; 
+            $keywordnr4         = $author_meta['keywordnr4']; 
+            $keywordnr5         = $author_meta['keywordnr5'];    
+        }     
+
+        if( 'ccroipr-register-t' == $submit_type ) {
+            $kategorie          = str_replace('ccroipr-', 'ccroipr-cat-t-', $kategorie);
+        }
 
         require_once get_template_directory() . '/assets/vendor/tcpdf/tcpdf.php';
         //echo get_template_directory() . '/assets/vendor/tcpdf/tcpdf_include.php';
@@ -94,115 +104,148 @@ function download_profile_action() {
 
         $pdf->AddPage();
 
-        $thumb      = wp_get_attachment_image_src( $author_meta[ 'thumb_id' ], 'ccroipr' );
-        $thumb_src  = $thumb[0]; 
+        if( 'ccroipr_register_p' == $submit_type ) {
+            $thumb      = wp_get_attachment_image_src( $author_meta[ 'thumb_id' ], 'ccroipr' );
+            $thumb_src  = $thumb[0]; 
 
-        $image      = $thumb_src;
-        $explode    = explode('.', $image);
-        $extension  = strtolower(end($explode));
-        //$extension  = strtoupper($explode[1]);
+            $image      = $thumb_src;
+            $explode    = explode('.', $image);
+            $extension  = strtolower(end($explode));
+            //$extension  = strtoupper($explode[1]);    
+        }
+        
+        $html = '';
+        $html .= '<h4>Common Copyright Register of Intellectual Property Rights</h4>';
+        $html .= "<p>$confirm_id</p>";
+        $html .= "
+                <table border=\"0\" width=\"355\" cellpadding=\"5\">
+                    <tr>
+                        <td>Name</td>
+                        <td>$surname</td>
+                    </tr>
+                    <tr>
+                        <td>Vorname</td>
+                        <td>$vorname</td>
+                    </tr>
+                    <tr>
+                        <td>Straße / Nr</td>
+                        <td>$strabe_nr</td>
+                    </tr>
+                    <tr>
+                        <td>Plz</td>
+                        <td>$plz</td>
+                    </tr>
+                    <tr>
+                        <td>Ort / Stadt</td>
+                        <td>$ort</td>
+                    </tr>
+                    <tr>
+                        <td>E-Post-Address</td>
+                        <td>$e_post_address</td>
+                    </tr>
+                    <tr>
+                        <td>Webseite</td>
+                        <td>$webseite</td>
+                    </tr>";
 
-$html = <<<EOD
-<h4>Common Copyright Register of Intellectual Property Rights</h4>
-<p>$confirm_id</p>
-    <table border="0" width="355" cellpadding="5">
-        <tr>
-            <td>Name</td>
-            <td>$surname</td>
-        </tr>
-        <tr>
-            <td>Vorname</td>
-            <td>$vorname</td>
-        </tr>
-        <tr>
-            <td>Straße / Nr</td>
-            <td>$strabe_nr</td>
-        </tr>
-        <tr>
-            <td>Plz</td>
-            <td>$plz</td>
-        </tr>
-        <tr>
-            <td>Ort / Stadt</td>
-            <td>$ort</td>
-        </tr>
-        <tr>
-            <td>E-Post-Address</td>
-            <td>$e_post_address</td>
-        </tr>
-        <tr>
-            <td>Webseite</td>
-            <td>$webseite</td>
-        </tr>
-        <tr>
-            <td>SHA256 (Hashwert der Originalabbildung)</td>
-            <td colspan="2">$sha256</td>
-        </tr>
-        <tr>
-            <td>Werktitel</td>
-            <td colspan="2">$werktitel</td>
-        </tr>
-        <tr>
-            <td></td>
-            <td colspan="2"></td>
-        </tr>
-    </table>
-    <table border="0" width="355" cellpadding="5">
-        <tr>
-            <td>CCROIPR-Kategorie</td>
-            <td>$kategorie</td>
-        </tr>
-        <tr>
-            <td>Wiener Klassifikation</td>
-            <td>ccroipr-cfe-$wiener</td>
-        </tr>        
-        <tr>
-            <td>Locarno Klassifikation</td>
-            <td>ccroipr-loc-$locarno</td>
-        </tr>        
-        <tr>
-            <td>Internationale Patentklassifikation</td>
-            <td>ccroipr-ipc-$internationale</td>
-        </tr>        
-        <tr>
-            <td>Nizzaklassifikation</td>
-            <td>ccroipr-ncl-$nizzaklassifikation</td>
-        </tr>       
-        <tr>
-            <td>Keword Nr 1</td>
-            <td>$keywordnr1</td>
-        </tr>        
-        <tr>
-            <td>Keword Nr 2</td>
-            <td>$keywordnr2</td>
-        </tr>        
-        <tr>
-            <td>Keword Nr 3</td>
-            <td>$keywordnr3</td>
-        </tr>        
-        <tr>
-            <td>Keword Nr 4</td>
-            <td>$keywordnr4</td>
-        </tr>       
-        <tr>
-            <td>Keword Nr 5</td>
-            <td>$keywordnr5</td>
-        </tr>       
-    </table>
-    <table border="0" cellpadding="5">
-        <tr>
-            <td>Werk-Beschreibung</td>
-        </tr>
-        <tr>
-            <td colspan="3">$werk_beschreibung</td>
-        </tr>    
-    </table>   
-EOD;
+        if( 'ccroipr_register_p' == $submit_type ) {
+            $html .= "
+                <tr>
+                    <td>SHA256 (Hashwert der Originalabbildung)</td>
+                    <td colspan=\"2\">$sha256</td>
+                </tr>
+                <tr>
+                    <td>Werktitel</td>
+                    <td colspan=\"2\">$werktitel</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan=\"2\"></td>
+                </tr>
+            </table>         
+            <table border=\"0\" width=\"355\" cellpadding=\"5\">
+                <tr>
+                    <td>CCROIPR-Kategorie</td>
+                    <td>$kategorie</td>
+                </tr>
+                <tr>
+                    <td>Wiener Klassifikation</td>
+                    <td>ccroipr-cfe-$wiener</td>
+                </tr>        
+                <tr>
+                    <td>Locarno Klassifikation</td>
+                    <td>ccroipr-loc-$locarno</td>
+                </tr>        
+                <tr>
+                    <td>Internationale Patentklassifikation</td>
+                    <td>ccroipr-ipc-$internationale</td>
+                </tr>        
+                <tr>
+                    <td>Nizzaklassifikation</td>
+                    <td>ccroipr-ncl-$nizzaklassifikation</td>
+                </tr>       
+                <tr>
+                    <td>Keword Nr 1</td>
+                    <td>$keywordnr1</td>
+                </tr>        
+                <tr>
+                    <td>Keword Nr 2</td>
+                    <td>$keywordnr2</td>
+                </tr>        
+                <tr>
+                    <td>Keword Nr 3</td>
+                    <td>$keywordnr3</td>
+                </tr>        
+                <tr>
+                    <td>Keword Nr 4</td>
+                    <td>$keywordnr4</td>
+                </tr>       
+                <tr>
+                    <td>Keword Nr 5</td>
+                    <td>$keywordnr5</td>
+                </tr>       
+            </table>
+            <table border=\"0\" cellpadding=\"5\">
+                <tr>
+                    <td>Werk-Beschreibung</td>
+                </tr>
+                <tr>
+                    <td colspan=\"3\">$werk_beschreibung</td>
+                </tr>    
+            </table>
+            ";
+        } else {
+            $html .= "
+                <tr>
+                    <td>Werktitel</td>
+                    <td colspan=\"2\">$werktitel</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan=\"2\"></td>
+                </tr>
+            </table>
+            <table border=\"0\" width=\"355\" cellpadding=\"5\">
+                <tr>
+                    <td>CCROIPR-Kategorie</td>
+                    <td>$kategorie</td>
+                </tr>              
+            </table>
+            <table border=\"0\" cellpadding=\"5\">
+                <tr>
+                    <td>Werk-Beschreibung</td>
+                </tr>
+                <tr>
+                    <td colspan=\"3\">$werk_beschreibung</td>
+                </tr>    
+            </table>
+            ";
+        }                
 
         $html .= '<table border="0" cellpadding="5">';
-        $html .= "<tr><td colspan='2'></td></tr>";
-        $html .= "<tr><td colspan='2'><b>Freigabeerklärung zu $confirm_id</b></td></tr>";
-        $html .= "<tr><td colspan='2'>Mein Datenupload ist unter der IP-Adresse $ip erfolgt.</td></tr>";
+        $html .= "<tr><td colspan=\"2\"></td></tr>";
+        $html .= "<tr><td colspan=\"2\"><b>Freigabeerklärung zu $confirm_id</b></td></tr>";
+        $html .= "<tr><td colspan=\"2\">Mein Datenupload ist unter der IP-Adresse $ip erfolgt.</td></tr>";
         $html .= "</table>";
 
         $html .= '<table border="0" cellpadding="5">';            
@@ -214,8 +257,10 @@ EOD;
         $html .= "<tr><td>Common Popyright Register of Intellectual Property Rights.</td></tr>";
         $html .= "</table>";
 
-        $pdf->Image($image, '', '45', '75', '', $extension, '', '', true, 300, 'R', false, false, 1, false, false, false);
-
+        if( 'ccroipr_register_p' == $submit_type ) {
+            $pdf->Image($image, '', '45', '75', '', $extension, '', '', true, 300, 'R', false, false, 1, false, false, false);
+        }
+        
         $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
 
         $upload         = wp_upload_dir();
@@ -339,7 +384,15 @@ function register_confirm_action() {
                 $imageName              = str_replace($search, $replace, $werktitel);
                 $generatedImage         = $imageName.'-'.random(5);
 
-                textToImg($text, $image_width, get_template_directory() . '/assets/img/'.$generatedImage);  
+                $upload         = wp_upload_dir();
+                $upload_dir     = $upload['basedir'];
+                $upload_dir     = $upload_dir . '/ccroipr-t/';
+
+                if (! is_dir($upload_dir)) {
+                    mkdir( $upload_dir, 0755 );
+                }
+
+                textToImg($text, $image_width, $upload_dir.$generatedImage);  
 
                 $category_id = get_category_by_slug( 'cat-t' ); //
             } 
@@ -356,8 +409,6 @@ function register_confirm_action() {
             ];
 
             $post_id = wp_insert_post( $post_option );
-
-
 
             if( ! is_wp_error( $post_id ) ) {
                 if( 'ccroipr_register_p' == $register_type ) {

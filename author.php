@@ -37,12 +37,18 @@ get_header();
             	<?php 
             	if( 1 == $is_confirm) { 
             		$nonce = wp_create_nonce( 'download-nonce' );
-            		echo "<input type='button' value='Download' class='download btn btn-success float-right' id='download_profile' data-id='$author_id' data-nonce='$nonce'>"; 
+            		echo "<input type='button' value='Download' data-submit-type='$data_type' class='download btn btn-success float-right' id='download_profile' data-id='$author_id' data-nonce='$nonce'>"; 
             	} 
             	?>
-            </h1>                            
+            </h1>          
+
             <p>Antrag auf kostenlose Eintragung und Veroffentlichung eines Urheberanspruchs nach Prioritatsprinzip</p>  
-            <h2>Common Copyright Register of Intellectual Property Rights / CCROIPR-CAT-P</h2>                
+            <?php if( 'ccroipr_register_p' == $author_role ) : ?>
+            	<h2>Common Copyright Register of Intellectual Property Rights / CCROIPR-CAT-P</h2>   
+            <?php else : ?>
+            	<h2>Common Copyright Register of Intellectual Property Rights / CCROIPR-CAT-T</h2>
+            <?php endif; ?>
+
             <form action="" class="form" method="POST" id="form" enctype="multipart/form-data">
 				<div class="row mt-5">					
 					<div class="col-md-12">
