@@ -500,6 +500,7 @@ function register_action() {
         }
     }
     
+    $pattern            = '/(?:https?:\/\/)?(?:[a-zA-Z0-9.-]+?\.(?:[a-zA-Z])|\d+\.\d+\.\d+\.\d+)/';
     $errors 			= [];
    
 	if( empty( $surname ) ) {
@@ -540,7 +541,7 @@ function register_action() {
 
 	if( empty( $webseite ) ) {
 		$errors[] = 'Your webseite is required';
-	} elseif( !filter_var( $webseite, FILTER_VALIDATE_URL ) ) {
+	} elseif( !preg_match( $pattern, $webseite ) ) {
         $errors[] = 'Invalid webseite is given';
     } elseif( strlen( $webseite ) > 150 || strlen( $webseite ) < 2  ) {
 		$errors[] = 'Your webseite must be between 2-150 characters long';
