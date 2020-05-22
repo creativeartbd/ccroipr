@@ -242,26 +242,30 @@ function download_profile_action() {
             ";
         }                
 
-        $html .= '<table border="0" cellpadding="5">';
-        $html .= "<tr><td colspan=\"2\"></td></tr>";
-        $html .= "<tr><td colspan=\"2\"><b>Freigabeerklärung zu $confirm_id</b></td></tr>";
-        $html .= "<tr><td colspan=\"2\">Mein Datenupload ist unter der IP-Adresse $ip erfolgt.</td></tr>";
-        $html .= "</table>";
+        $html2 = '';
+        $html2 .= '<table border="0" cellpadding="5">';
+        $html2 .= "<tr><td colspan=\"2\"></td></tr>";
+        $html2 .= "<tr><td colspan=\"2\"><b>Freigabeerklärung zu $confirm_id</b></td></tr>";
+        $html2 .= "<tr><td colspan=\"2\">Mein Datenupload ist unter der IP-Adresse $ip erfolgt.</td></tr>";
+        $html2 .= "</table>";
 
-        $html .= '<table border="0" cellpadding="5">';            
-        $html .= "<tr><td>Ich habe die Hinweise zur Anmeldung heruntergeladen, gelesen und meine Daten geprüft.</td></tr>";
-        $html .= "<tr><td>Ich habe die aktuellen Geschäftsbedingungen heruntergeladen, gelesen und akzeptiert.</td></tr>";
-        $html .= "<tr><td>Ich habe die CCROIPR - Lizenzvereinbarungen heruntergeladen, gelesen und akzeptiert.</td></tr>";
-        $html .= "<tr><td>Ich habe mit der E-Mail-Adresse $email die Anmeldung bestätigt.</td></tr>";
-        $html .= "<tr><td>und erteile hiermit die Freigabe zur Langzeitarchivierung im.</td></tr>";
-        $html .= "<tr><td>Common Popyright Register of Intellectual Property Rights.</td></tr>";
-        $html .= "</table>";
+        $html2 .= '<table border="0" cellpadding="5">';            
+        $html2 .= "<tr><td>Ich habe die Hinweise zur Anmeldung heruntergeladen, gelesen und meine Daten geprüft.</td></tr>";
+        $html2 .= "<tr><td>Ich habe die aktuellen Geschäftsbedingungen heruntergeladen, gelesen und akzeptiert.</td></tr>";
+        $html2 .= "<tr><td>Ich habe die CCROIPR - Lizenzvereinbarungen heruntergeladen, gelesen und akzeptiert.</td></tr>";
+        $html2 .= "<tr><td>Ich habe mit der E-Mail-Adresse $email die Anmeldung bestätigt.</td></tr>";
+        $html2 .= "<tr><td>und erteile hiermit die Freigabe zur Langzeitarchivierung im.</td></tr>";
+        $html2 .= "<tr><td>Common Popyright Register of Intellectual Property Rights.</td></tr>";
+        $html2 .= "</table>";
 
         if( 'ccroipr_register_p' == $submit_type ) {
             $pdf->Image($image, '', '45', '75', '', $extension, '', '', true, 300, 'R', false, false, 1, false, false, false);
         }
         
         $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
+
+        $pdf->AddPage();
+        $pdf->writeHTMLCell(0, 0, '', '', $html2, 0, 1, 0, true, '', true);        
 
         $upload         = wp_upload_dir();
         $upload_dir     = $upload['basedir'];
@@ -657,8 +661,6 @@ function register_action() {
             $errors[] = 'E-mail address is required';
         } elseif( !is_email( $email )  ) {
             $errors[] = 'Invalid E-mail address';
-        } elseif( email_exists( $email ) ) {
-            $errors[] = 'E-mail address is already exist, Please choose another';
         } 
     } 
 
@@ -673,7 +675,7 @@ function register_action() {
             'user_pass'             => '',       
             'user_login'            => $surname . rand(10000, 99999),
             'user_nicename'         => $vorname,             
-            'user_email'            => $email,  
+            'user_email'            => rand(10000, 99999) . '-'. $email,  
             'display_name'          => $vorname,
             'nickname'              => $vorname,
             'first_name'            => $vorname,
@@ -781,8 +783,12 @@ function register_action() {
                 $body       = $message;
                 $headers    = array('Content-Type: text/html; charset=UTF-8');
 
+                $toArray[]  = 'registration@ccroipr.org';
+                $toArray[]  =  $to;
+                ///
+
                 // Send email to user for activate the account 
-                if( wp_mail( $to, $subject, $body, $headers ) ) {
+                if( wp_mail( $toArray, $subject, $body, $headers ) ) {
                     wp_send_json_success( '<div class="alert alert-success">Please confirm your email addresss for CCROIPR-Registration von Werktitel.</div>' );
                 }               
             }
