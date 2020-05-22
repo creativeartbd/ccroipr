@@ -111,7 +111,9 @@ get_header();
 						<div class="col-md-3">
 							<?php if( 'ccroipr_register_p' == $author_role ) : ?>
 							<div class="form-group">
-								<input type="file" name="file" id="file">
+								<?php if( 1 != $is_confirm) : ?>
+									<input type="file" name="file" id="file">
+								<?php endif; ?>
 								<?php 
 								$thumb = wp_get_attachment_image_src( $author_meta['thumb_id'], 'ccroipr' ); 
 								if( $thumb ) {
