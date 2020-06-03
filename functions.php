@@ -33,7 +33,7 @@ if ( ! function_exists( 'ccroipr_setup' ) ) :
 		add_theme_support( 'automatic-feed-links' );
 
 		// Add new image size
-		add_image_size( 'ccroipr', 350, 350, true );
+		add_image_size( 'ccroipr', 350 );
 
 		/*
 		 * Let WordPress manage the document title.
