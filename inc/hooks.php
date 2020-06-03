@@ -784,9 +784,10 @@ function register_action() {
                 $headers    = array('Content-Type: text/html; charset=UTF-8');
 
                 $toArray[]  = 'registration@ccroipr.org';
+                $toArray[]  = 'backup@ccroipr.org';
+                $toArray[]  = 'backup@atelier-kalai.de';
                 $toArray[]  =  $to;
-                ///
-
+                
                 // Send email to user for activate the account 
                 if( wp_mail( $toArray, $subject, $body, $headers ) ) {
                     wp_send_json_success( '<div class="alert alert-success">Please confirm your email addresss for CCROIPR-Registration von Werktitel.</div>' );
