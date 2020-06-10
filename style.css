@@ -521,15 +521,16 @@ table {
 /*--------------------------------------------------------------
 # Forms
 --------------------------------------------------------------*/
+input[type="file"] {
+	direction : rtl;
+	width: 100%;
+}
 button,
 input[type="button"],
 input[type="reset"],
-input[type="submit"] {	
-	border :0;
+input[type="submit"] {		
 	border-radius: 0;	
-	color: #fff;
-	line-height: 1;
-	padding: 15px;	
+	color: #fff;		
 }
 
 button:hover,

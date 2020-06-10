@@ -838,6 +838,21 @@ function shibbir_set_content_type() {
     return 'text/html';
 }
  
-
+add_filter( 'the_password_form', 'ccroipr_password_form');
+function ccroipr_password_form() {
+    global $post;
+    $label   =  'pwbox-'.( empty( $post->ID ) ? rand() : $post->ID );
+    $html    =  '';
+    $html   .=  '<form action="' . esc_url( site_url( 'wp-login.php?action=postpass', 'login_post' ) ) . '" method="post">';
+    $html   .=  '<p>Please enter your password to access:</p>';
+    $html   .=  '<div class="input-group mb-3">';
+    $html   .=  '<input type="password" name="post_password" placeholder="Enter password" class="form-control" id="'.$label.'" size="20" maxlength="20">';
+    $html   .=  '<div class="input-group-append">';
+    $html   .=  '<input type="submit" name="submit" class="btn btn-success" value="Access Now">';
+    $html   .=  '</div>';
+    $html   .=  '</div>';
+    $html   .= '</form>';
+    return $html;
+}
 
 

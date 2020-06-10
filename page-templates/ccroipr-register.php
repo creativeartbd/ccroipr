@@ -22,19 +22,19 @@ get_header();
 			?>	
 			<form action="" class="form" method="POST" id="form" enctype="multipart/form-data">
 				<div class="row mt-5">					
-					<div class="col-md-3">
+					<div class="col-sm-6 col-md-3 col-lg-3">
 						<div class="form-group">
                             <label for="">Urheber - Impressum nach $55 RStV</label>
                         </div>
-						<div class="form-group">
-							<label for="">Surname</label>
-							<input type="text" name="surname" class="form-control" placeholder="Surname">
-						</div>
-						<div class="form-group">
-							<label for="">Vorname</label>
-                        	<input type="text" name="vorname" maxlength="25" class="form-control" placeholder="Vorname">
-						</div>
-						 <div class="form-group">
+					<div class="form-group">
+						<label for="">Surname</label>
+						<input type="text" name="surname" class="form-control" placeholder="Surname">
+					</div>
+					<div class="form-group">
+						<label for="">Vorname</label>
+                        		<input type="text" name="vorname" maxlength="25" class="form-control" placeholder="Vorname">
+					</div>
+					<div class="form-group">
                             <label for="">Straße / Nr</label>
                             <input type="text" name="strabe_nr" maxlength="55" class="form-control" placeholder="Straße / Nr">
                         </div>
@@ -55,7 +55,7 @@ get_header();
                             <input type="text" name="webseite" maxlength="150" class="form-control" placeholder="Webseite">
                         </div>
 					</div>
-					<div class="col-md-3">	
+					<div class="col-sm-6 col-md-3 col-lg-3">	
 					 	<div class="form-group">
                             <label for="">Werktitel</label>
                             <input type="text" name="werktitel" id="werktitel" maxlength="30" class="form-control" placeholder="Werktitel">
@@ -77,7 +77,7 @@ get_header();
                             <input type="text" name="nizzaklassifikation" class="form-control" maxlength="50" value="00.00">
                         </div>					
 					</div>
-					<div class="col-md-3">
+					<div class="col-sm-6 col-md-3 col-lg-3">
 						<div class="form-group">
 							<input type="file" name="file" id="file">
 							<img src="" id="uploaded_img" width="100%" />
@@ -91,7 +91,7 @@ get_header();
                             <textarea id="limit" name="werk_beschreibung" cols="30" rows="10" class="form-control" placeholder="Werk-Beschreibung"></textarea><span class="counter"></span>
                         </div>
 					</div>
-					<div class="col-md-3">
+					<div class="col-sm-6 col-md-3 col-lg-3">
 						<div class="form-group">
                             <label for="">Keword Nr 1 </label>
                             <input type="text" name="keywordnr1" maxlength="40" class="form-control keyword1" placeholder="Keword Nr 1" value="Stichwort / Schlagwort">
