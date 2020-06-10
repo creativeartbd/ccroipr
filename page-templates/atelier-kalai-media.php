@@ -122,7 +122,7 @@ get_header();
                                    <p>Der Urheber ist vollständig fur den Inhalt der Darstellung verantworlich und erklärt, dass er alle Rechte am beschriebenen Werk besitzt.</p>
                                    <p class="text-danger">Diese Angaben zur Registeranmeldung werden nicht veröffentlicht!</p>
                               </div>
-                              0<div class="checkbox">
+                              <div class="checkbox">
                                    <label><input type="checkbox" required name="inch_habe_die" value="1">Ich habe die Hinweise heruntergeladen, gelesen und meine Daten geprüft.</label>
                               </div>
                               <div class="checkbox">
