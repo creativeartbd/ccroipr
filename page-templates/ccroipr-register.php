@@ -117,20 +117,20 @@ get_header();
 				<div class="row">
 					<div class="col-md-12">
 						<div class="form-group">
-	                        <p>Der Urheber ist vollstandig fur den i nhalt der Darstellung verantworlich und drklart, dass er alle Rechte am beschriebenen Werk besitzt.</p>
-	                        <p class="text-danger">Diese Angaben zur Registeranmeldung werden nicht veroffentlicht!</p>
+	                        <p>Der Urheber ist vollständig fur den Inhalt der Darstellung verantworlich und erklärt, dass er alle Rechte am beschriebenen Werk besitzt.</p>
+	                        <p class="text-danger">Diese Angaben zur Registeranmeldung werden nicht veröffentlicht!</p>
 	                    </div>
 	                    <div class="checkbox">
-	                        <label><input type="checkbox" required name="inch_habe_die" value="1">Ich habe die Hinweise heruntergeladen, gelesen undmeine Daten gepruft.</label>
+	                        <label><input type="checkbox" required name="inch_habe_die" value="1">Ich habe die Hinweise heruntergeladen, gelesen und meine Daten geprüft.</label>
 	                    </div>
 	                    <div class="checkbox">
-	                        <label><input type="checkbox" required name="inh_habe_die_agb" value="1">Inh habe die AGB heruntergeladen, gelesen und akzeptiert.</label>
+	                        <label><input type="checkbox" required name="inh_habe_die_agb" value="1">Ich habe die AGB heruntergeladen, gelesen und akzeptiert.</label>
 	                    </div>
 	                    <div class="checkbox">
-	                        <label><input type="checkbox" required name="ich_habe_die" value="1">Ich habe die Lizenzvereinbarung nach $30 Markengesetz uber die. Urheber-Kennzeichnug eines Werkes mit der Bezeichnung "CCROIPR" heruntergeladen, gelesen und akzeptiert.</label>
+	                        <label><input type="checkbox" required name="ich_habe_die" value="1">Ich habe die Lizenzvereinbarung nach §30 Markengesetz über die Urheber-Kennzeichnug eines Werkes mit der Bezeichnung "CCROIPR" heruntergeladen, gelesen und akzeptiert.</label>
 	                    </div>
 	                    <div class="form-group">
-	                        <p>Bittle geben Sie Ihre E-Mail-Addresse ein (Eintragsbestatigung nach Art.246a $ 1 EGBGB)</p>
+	                        <p>Bittle geben Sie Ihre E-Mail-Addresse ein (Eintragsbestätigung nach Art.246a § 1 EGBGB)</p>
 	                        <input type="email" name="email" class="form-control" value="">
 	                    </div>
 	                    <div class="form-group">
