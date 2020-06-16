@@ -27,17 +27,16 @@ defined( 'ABSPATH' ) || exit;
 <div id="page" class="site">
 	<a class="skip-link screen-reader-text" href="#primary"><?php esc_html_e( 'Skip to content', 'ccroipr' ); ?></a>
 
-	<header id="masthead" class="site-header">		
+	<header id="masthead" class="site-header">	
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">				
+					<img src="<?php echo get_template_directory_uri() . '/assets/img/logoline-padp-art.jpg'; ?>" alt="">
+				</div>	
+			</div>
+		</div>
 		<nav class="navbar navbar-expand-lg navbar-light bg-light">
 			<div class="container">
-				<?php
-				if( has_custom_logo() ) {
-					the_custom_logo();	
-				} else {
-					sprintf("<h1 class='%'><a class='%s' href='%s'>%s</a></h1>", 'site-title', 'navbar-brand', esc_rul( home_url( '/' ) ), get_bloginfo( 'name' ) );
-				}
-				?>		
-			
 				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 		    		<span class="navbar-toggler-icon"></span>
 		  		</button>
@@ -49,11 +48,18 @@ defined( 'ABSPATH' ) || exit;
 						'container_id'    => 'navbarSupportedContent',
 						'theme_location' => 'menu-1',
 						'menu_id'        => 'primary-menu',
-						'menu_class'	=>	'navbar-nav ml-auto',
+						'menu_class'	=>	'navbar-nav',
 
 					)
 				);
 				?>	    		
   			</div>
 		</nav>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12 mt-2">
+					<img src="<?php echo get_template_directory_uri() . '/assets/img/header.jpg'; ?>" alt="">
+				</div>
+			</div>
+		</div>
 	</header><!-- #masthead -->
