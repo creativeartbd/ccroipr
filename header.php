@@ -54,12 +54,5 @@ defined( 'ABSPATH' ) || exit;
 				);
 				?>	    		
   			</div>
-		</nav>
-		<div class="container">
-			<div class="row">
-				<div class="col-md-12 mt-2">
-					<img src="<?php echo get_template_directory_uri() . '/assets/img/header.jpg'; ?>" alt="">
-				</div>
-			</div>
-		</div>
+		</nav>		
 	</header><!-- #masthead -->

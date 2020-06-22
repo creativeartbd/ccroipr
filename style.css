@@ -1018,3 +1018,12 @@ object {
 #uploaded_img {
 	margin-top: 15px;
 }
+
+.bg-color {
+	background-color: #171717;
+	color : #fff;
+}
+
+.bg-color a:hover {
+	color : #fff;
+}

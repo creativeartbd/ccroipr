@@ -14,11 +14,11 @@
 	<footer class="site-footer">
 		<div class="container">
 			<div class="row">
-				<div class="col-md-12">
-					<?php
-					/* translators: 1: Theme name, 2: Theme author. */
-					printf( esc_html__( 'Theme: %1$s by %2$s.', 'ccroipr' ), 'ccroipr', '<a href="https://shibbir.dev/">shibbir.dev</a>' ); 
-					?>
+				<div class="col-md-12 text-center">
+					<h4>Zurück zum Seitenanfang von "Kunstverlag Atelier Kalai "</h4>
+					<a href="https://vcounter.de/stat.xhtml?id=1503599950871" target="_new">
+						<img src="<?php echo get_template_directory_uri() . '/assets/img/c.png'; ?>" alt="">
+					</a>
 				</div><!-- .site-info -->
 			</div>
 		</div>			
