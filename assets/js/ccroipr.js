@@ -2,6 +2,45 @@
     $( document ).ready( function() {
 
     	// Update and Register form data for "Register" and "Register T"
+        $( '#secret_register_btn' ).on( 'click', function(e) {       	
+        	
+        	e.preventDefault();      
+        	var btn_label 		= $('#secret_register_btn').val();
+        	var register_type 	= '' ;
+        		register_type	= $(this).data('register-type');
+        	var data 			=  new FormData($('#form')[0]);        	        	
+				data.append("action", "secret_register_action");
+				data.append("register_type", register_type);
+			
+	        $.ajax({
+	        	type: 'POST',
+	        	url : settings.ajaxurl,
+	        	data : data,
+	        	dataType: 'json',
+	        	cache: false,				
+				processData: false,
+				contentType: false,
+				beforeSend : function () {
+					$('#secret_register_btn').prop('disabled', true );
+		           	$('#secret_register_btn').val('Please Wait...');
+		        }, 
+	        	success: function( result ) {
+	        		$('#secret_register_btn').prop('disabled', false );
+	        		$('#secret_register_btn').val( btn_label );	        		
+	        		if( result.success == true ) {
+					$('#secret_register_btn').prop('disabled', true );
+					$('#form_result').html( '<div class="alert alert-success">'+ result.data.message + '</div>' );
+	        			setTimeout(function(){// wait for 5 secs(2)
+	                        location.reload(); // then reload the page.(3)
+	                    }, 3000);
+	        		} else {
+					$('#form_result').html( '<div class="alert alert-danger">'+ result.data.message + '</div>' );
+				}
+	        	}
+	        });
+        })  
+
+    	// Update and Register form data for "Register" and "Register T"
         $( '#register_btn' ).on( 'click', function(e) {       	
         	
         	e.preventDefault();      

@@ -22,7 +22,7 @@ get_header();
                ?>	
                
                <?php if( !post_password_required() ) : ?>
-			<form action="" class="form" method="POST" enctype="multipart/form-data">
+			<form action="" class="form" method="POST" id="form" enctype="multipart/form-data">
 				<div class="row mt-5">					
 					<div class="col-sm-6 col-md-3 col-lg-3">
 						<div class="form-group">
@@ -38,7 +38,7 @@ get_header();
                               </div>
                               <div class="form-group">
                                    <label for="">Straße / Nr</label>
-                                   <inpu0t type="text" name="strabe_nr" maxlength="55" class="form-control" placeholder="Straße / Nr">
+                                   <input type="text" name="strabe_nr" maxlength="55" class="form-control" placeholder="Straße / Nr">
                               </div>
                               <div class="form-group">
                                    <label for="">Plz</label>
@@ -141,8 +141,8 @@ get_header();
                               </div>                   
                               <div class="form-group">                      
                                    <div id="form_result"></div>
-                                   <?php wp_nonce_field( 'register_action' ); ?>		                    	
-                                   <input type="submit" name="submit" data-register-type="<?php echo hashMe('ccroipr_register_p', 'e'); ?>"  id="register_btn" value="Secret Register" class="btn btn-primary">
+                                   <?php wp_nonce_field( 'secret_register_action' ); ?>
+                                   <input type="submit" name="submit" data-register-type="<?php echo hashMe('secret', 'e'); ?>" id="secret_register_btn" value="Secret Register" class="btn btn-primary">
                               </div>
 	                    </div>
 				</div>
