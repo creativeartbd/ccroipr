@@ -31,7 +31,7 @@
 					$('#secret_register_btn').prop('disabled', true );
 					$('#form_result').html( '<div class="alert alert-success">'+ result.data.message + '</div>' );
 	        			setTimeout(function(){// wait for 5 secs(2)
-	                        window.location.href = result.data.pdf_link; // Redirect to pdf link
+	                        location.reload();
 	                    }, 3000);
 	        		} else {
 					$('#form_result').html( '<div class="alert alert-danger">'+ result.data.message + '</div>' );
