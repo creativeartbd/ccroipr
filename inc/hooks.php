@@ -1044,11 +1044,14 @@ function secret_register_action() {
             $post_meta['thumb_id'] = $attachment_id;
 
             $post_option = [
-                'post_title'  => $confirm_id,
-                'post_status' => 'publish',
-                'post_author' => 1, 
-                'post_type'   => 'atelier_kalai_media',         
-            ];
+                'post_title'   => $confirm_id,
+                'post_status'  => 'publish',
+                'post_author'  => 1, 
+                'post_type'    => 'atelier_kalai_media',
+                'post_content' => $werk_beschreibung,
+                'post_password' =>  'demo',
+            ];    
+
 
             $post_id = wp_insert_post( $post_option );
 
@@ -1056,11 +1059,150 @@ function secret_register_action() {
 
                 set_post_thumbnail( $post_id, $post_meta[ 'thumb_id' ] );  
                 update_post_meta( $post_id, 'secret_akm', $post_meta );
-                $permalink = get_the_permalink( $post_id );             
+                $permalink = get_the_permalink( $post_id );  
+
+                // Generate the PDF 
+
+                require_once get_template_directory() . '/assets/vendor/tcpdf/tcpdf.php';
+                //echo get_template_directory() . '/assets/vendor/tcpdf/tcpdf_include.php';
+                // create new PDF document
+                $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+
+                // set document information
+                $pdf->SetCreator(PDF_CREATOR);
+                $pdf->SetAuthor('CCROIPR');
+                $pdf->SetTitle($surname);
+                $pdf->SetSubject($surname . 'profile');
+                $pdf->SetKeywords('');
+
+                // set default header data
+                $pdf->SetHeaderData('', PDF_HEADER_LOGO_WIDTH, ' ', '');
+
+                // set header and footer fonts
+                $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+                $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+
+                // set default monospaced font
+                $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+                // set margins
+                $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+                $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+                $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+                // set auto page breaks
+                $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+                // set image scale factor
+                $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+
+                // set some language-dependent strings (optional)
+                if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
+                    require_once(dirname(__FILE__).'/lang/eng.php');
+                    $pdf->setLanguageArray($l);
+                }
+
+                // ---------------------------------------------------------
+
+                // set font
+                $pdf->SetFont('freesans', '', 11);
+
+                $pdf->AddPage();
+                
+                $thumb      = wp_get_attachment_image_src( $attachment_id, 'ccroipr' );
+                $thumb_src  = $thumb[0]; 
+
+                $image      = $thumb_src;
+                $explode    = explode('.', $image);
+                $extension  = strtolower(end($explode));
+                //$extension  = strtoupper($explode[1]);    
+                
+                
+                $html = '';
+                $html .= '<h4>Common Copyright Register of Intellectual Property Rights</h4>';
+                $html .= "<p>$confirm_id</p>";
+                $html .= "
+                        <table border=\"0\" width=\"355\" cellpadding=\"5\">
+                            <tr>
+                                <td>Name</td>
+                                <td>$surname</td>
+                            </tr>
+                            <tr>
+                                <td>Vorname</td>
+                                <td>$vorname</td>
+                            </tr>
+                            <tr>
+                                <td>Straße / Nr</td>
+                                <td>$strabe_nr</td>
+                            </tr>
+                            <tr>
+                                <td>Plz</td>
+                                <td>$plz</td>
+                            </tr>
+                            <tr>
+                                <td>Ort / Stadt</td>
+                                <td>$ort</td>
+                            </tr>
+                            <tr>
+                                <td>E-Post-Address</td>
+                                <td>$e_post_address</td>
+                            </tr>
+                            <tr>
+                                <td>SHA256 (Hashwert der Originalabbildung)</td>
+                                <td colspan=\"2\">$sha256</td>
+                            </tr>
+                            <tr>
+                                <td>Werktitel</td>
+                                <td colspan=\"2\">$werktitel</td>
+                            </tr>
+                            <tr>
+                                <td>Werk-Beschreibung</td>
+                                <td colspan=\"3\">$werk_beschreibung</td>
+                            </tr>                            
+                        </table>
+                    ";                      
+
+                $html2 = '';
+                $html2 .= '<table border="0" cellpadding="5">';
+                $html2 .= "<tr><td colspan=\"2\"></td></tr>";
+                $html2 .= "<tr><td colspan=\"2\"><b>Freigabeerklärung zu $confirm_id</b></td></tr>";
+                $html2 .= "<tr><td colspan=\"2\">Mein Datenupload ist unter der IP-Adresse $ip erfolgt.</td></tr>";
+                $html2 .= "</table>";
+
+                $html2 .= '<table border="0" cellpadding="5">';            
+                $html2 .= "<tr><td>Ich habe die Hinweise zur Anmeldung heruntergeladen, gelesen und meine Daten geprüft.</td></tr>";
+                $html2 .= "<tr><td>Ich habe die aktuellen Geschäftsbedingungen heruntergeladen, gelesen und akzeptiert.</td></tr>";
+                $html2 .= "<tr><td>Ich habe die CCROIPR - Lizenzvereinbarungen heruntergeladen, gelesen und akzeptiert.</td></tr>";
+                $html2 .= "<tr><td>Ich habe mit der E-Mail-Adresse $email die Anmeldung bestätigt.</td></tr>";
+                $html2 .= "<tr><td>und erteile hiermit die Freigabe zur Langzeitarchivierung im.</td></tr>";
+                $html2 .= "<tr><td>Common Popyright Register of Intellectual Property Rights.</td></tr>";
+                $html2 .= "</table>";
+                
+                $pdf->Image($image, '', '45', '75', '', $extension, '', '', true, 300, 'R', false, false, 1, false, false, false);
+                
+                
+                $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
+
+                $pdf->AddPage();
+                $pdf->writeHTMLCell(0, 0, '', '', $html2, 0, 1, 0, true, '', true);        
+
+                $upload         = wp_upload_dir();
+                $upload_dir     = $upload['basedir'];
+                $upload_dir     = $upload_dir . '/ccroipr-secret-pdf/';
+
+                if (! is_dir($upload_dir)) {
+                    mkdir( $upload_dir, 0755 );
+                }        
+
+                $filename= $confirm_id.'.pdf';      
+                $pdf->Output($upload_dir.$filename,'F');        
+                $pdf_link =  $upload['baseurl'] . '/ccroipr-secret-pdf/' . $confirm_id . '.pdf';
+
                 wp_send_json_success( [
-                    'message'   =>  __( 'Successfully Submited', 'ccroipr'),
-                    'permalink' =>  $permalink,
+                    'message'  => __( 'Successfully Submited', 'ccroipr'),
+                    'pdf_link' => $pdf_link,
                 ] );
+
             }          
         } 
         

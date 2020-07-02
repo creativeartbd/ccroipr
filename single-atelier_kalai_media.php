@@ -19,10 +19,24 @@ get_header();
 	<div class="row">
 		<div class="col-lg">		
 			<?php
-               $post_meta = get_post_meta( get_the_ID(), 'secret_akm', true );
-               echo '<pre>';
-                    print_r( $post_meta );
-               echo '</pre>';
+
+
+			if( have_posts() ) {
+				while( have_posts() ) {
+					the_post();
+					the_content();
+
+					if( ! post_password_required() ) {
+			
+						$post_meta = get_post_meta( get_the_ID(), 'secret_akm', true );
+						echo '<pre>';
+							print_r( $post_meta );
+						echo '</pre>';
+		
+						print_r( wp_get_attachment_image_src( $post_meta['thumb_id'], 'ccroipr') );
+					}
+				}
+			}
 			?>
 		</div>		
 	</div>
