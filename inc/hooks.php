@@ -143,10 +143,7 @@ function download_profile_action() {
                         <td>E-Post-Address</td>
                         <td>$e_post_address</td>
                     </tr>
-                    <tr>
-                        <td>Webseite</td>
-                        <td>$webseite</td>
-                    </tr>";
+                    ";
 
         if( 'ccroipr_register_p' == $submit_type ) {
             $html .= "
@@ -157,53 +154,7 @@ function download_profile_action() {
                 <tr>
                     <td>Werktitel</td>
                     <td colspan=\"2\">$werktitel</td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td colspan=\"2\"></td>
-                </tr>
-            </table>         
-            <table border=\"0\" width=\"355\" cellpadding=\"5\">
-                <tr>
-                    <td>CCROIPR-Kategorie</td>
-                    <td>$kategorie</td>
-                </tr>
-                <tr>
-                    <td>Wiener Klassifikation</td>
-                    <td>ccroipr-cfe-$wiener</td>
-                </tr>        
-                <tr>
-                    <td>Locarno Klassifikation</td>
-                    <td>ccroipr-loc-$locarno</td>
-                </tr>        
-                <tr>
-                    <td>Internationale Patentklassifikation</td>
-                    <td>ccroipr-ipc-$internationale</td>
-                </tr>        
-                <tr>
-                    <td>Nizzaklassifikation</td>
-                    <td>ccroipr-ncl-$nizzaklassifikation</td>
-                </tr>       
-                <tr>
-                    <td>Keword Nr 1</td>
-                    <td>$keywordnr1</td>
-                </tr>        
-                <tr>
-                    <td>Keword Nr 2</td>
-                    <td>$keywordnr2</td>
-                </tr>        
-                <tr>
-                    <td>Keword Nr 3</td>
-                    <td>$keywordnr3</td>
-                </tr>        
-                <tr>
-                    <td>Keword Nr 4</td>
-                    <td>$keywordnr4</td>
-                </tr>       
-                <tr>
-                    <td>Keword Nr 5</td>
-                    <td>$keywordnr5</td>
-                </tr>       
+                </tr>                
             </table>
             <table border=\"0\" cellpadding=\"5\">
                 <tr>
