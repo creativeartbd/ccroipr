@@ -17,7 +17,7 @@ get_header();
 <div class="container main-container">
 	<div class="row">
 		<div class="col-lg">
-			<?php
+			<?php			
 			while ( have_posts() ) :
 				the_post();
 				get_template_part( 'template-parts/content', 'page' );

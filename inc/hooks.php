@@ -1031,10 +1031,12 @@ function secret_register_action() {
             'internationale'      => $internationale, 
             'nizzaklassifikation' => $nizzaklassifikation, 
             'sha256'              => $sha256,
+            'keywordnr1'          => $keywordnr1, 
             'keywordnr2'          => $keywordnr2, 
             'keywordnr3'          => $keywordnr3, 
             'keywordnr4'          => $keywordnr4, 
-            'keywordnr5'          => $keywordnr5, 
+            'keywordnr5'          => $keywordnr5,
+            'confirm_id'          => $confirm_id, 
         ];        
                     
         $attachment_id          = media_handle_upload( 'file', 0 );   
