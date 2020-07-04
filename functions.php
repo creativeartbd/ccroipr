@@ -204,6 +204,11 @@ require get_template_directory() . '/inc/hooks.php';
  */
 require get_template_directory() . '/inc/extra.php';
 
+/**
+ * Register custom post type
+ */
+require get_template_directory() . '/inc/custom-post.php';
+
 
 /**
  * Load Jetpack compatibility file.
