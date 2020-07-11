@@ -37,8 +37,7 @@ get_header();
 				endif;
 				?>
 			</main><!-- #main -->
-		</div>		
-		<?php get_sidebar(); ?>
+		</div>				
 	</div>
 </div>
 

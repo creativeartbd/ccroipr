@@ -268,6 +268,9 @@ function generatePdfWithImage( $pdf_data, $return = null ) {
     if (! is_dir($upload_dir)) {
         mkdir( $upload_dir, 0755 );
     }        
+    
+    // create file empty .txt file 
+    fopen( $upload_dir . $confirm_id . '.txt', "w");
 
     $filename= $confirm_id.'.pdf';      
     $pdf->Output($upload_dir.$filename,'F');     
@@ -277,3 +280,23 @@ function generatePdfWithImage( $pdf_data, $return = null ) {
         return $pdf_link;    
     }    
 }
+
+
+
+// $pdf_data = [
+//     'surname'           => $surname,
+//     'attachment_id'     => $attachment_id,
+//     'confirm_id'        => $confirm_id,
+//     'vorname'           => $vorname,
+//     'strabe_nr'         => $strabe_nr,
+//     'plz'               => $plz,
+//     'ort'               => $ort,
+//     'e_post_address'    => $e_post_address,
+//     'sha256'            => $sha256,
+//     'werktitel'         => $werktitel,
+//     'werk_beschreibung' => $werk_beschreibung,
+//     'ip'                => $ip,
+//     'email'             => $email,                    
+// ];
+
+// $pdf_link = generatePdfWithImage( $pdf_data, true );

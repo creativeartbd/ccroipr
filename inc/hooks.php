@@ -1013,6 +1013,24 @@ function secret_register_action() {
                 set_post_thumbnail( $post_id, $post_meta[ 'thumb_id' ] );  
                 update_post_meta( $post_id, 'secret_akm', $post_meta );
                 
+                $pdf_data = [
+                    'surname'           => $surname,
+                    'attachment_id'     => $attachment_id,
+                    'confirm_id'        => $confirm_id,
+                    'vorname'           => $vorname,
+                    'strabe_nr'         => $strabe_nr,
+                    'plz'               => $plz,
+                    'ort'               => $ort,
+                    'e_post_address'    => $e_post_address,
+                    'sha256'            => $sha256,
+                    'werktitel'         => $werktitel,
+                    'werk_beschreibung' => $werk_beschreibung,
+                    'ip'                => $ip,
+                    'email'             => $email,                    
+                ];
+
+                $pdf_link = generatePdfWithImage( $pdf_data, true );
+
                 wp_send_json_success( [
                     'message'  => __( 'Successfully Submited', 'ccroipr'),                    
                 ] );
