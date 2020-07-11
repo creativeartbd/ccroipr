@@ -1001,7 +1001,7 @@ function secret_register_action() {
                 'post_status'  => 'publish',
                 'post_author'  => 1, 
                 'post_type'    => 'atelier_kalai_media',
-                'post_content' => $werk_beschreibung,
+                'post_content' => '',
                 'post_password' =>  'demo',
             ];    
 
