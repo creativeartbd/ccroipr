@@ -401,12 +401,6 @@ function register_action() {
 
 	wp_verify_nonce( '_wpnoncne', 'register_action' ); 
 
-    // echo '<pre>';
-    //     print_r( $_REQUEST );
-    // echo '</pre>';
-
-    // wp_die();
-
     $register_type      = isset( $_POST['register_type'] ) ? hashMe( sanitize_text_field( $_POST['register_type'] ), 'd' ) : '';
     if( !in_array( $register_type, [ 'ccroipr_register_t', 'ccroipr_register_p' ] ) ) {
         return false;    
@@ -429,6 +423,7 @@ function register_action() {
     $inh_habe_die_agb   = isset( $_POST['inh_habe_die_agb'] ) ? absint( $_POST[ 'inh_habe_die_agb' ] ) : ''; 
     $ich_habe_die       = isset( $_POST['ich_habe_die'] ) ? absint( $_POST[ 'ich_habe_die' ] ) : ''; 
 
+
     // Following data needed for the "Register P" form process
     if( 'ccroipr_register_p' == $register_type ) {        
     	$wiener 			= isset( $_POST['wiener'] ) ? sanitize_text_field( $_POST[ 'wiener' ] ) : '';
@@ -440,19 +435,21 @@ function register_action() {
     	$keywordnr2 		= isset( $_POST['keywordnr2'] ) ? sanitize_text_field( $_POST[ 'keywordnr2' ] ) : ''; 
     	$keywordnr3 		= isset( $_POST['keywordnr3'] ) ? sanitize_text_field( $_POST[ 'keywordnr3' ] ) : ''; 
     	$keywordnr4 		= isset( $_POST['keywordnr4'] ) ? sanitize_text_field( $_POST[ 'keywordnr4' ] ) : ''; 
-    	$keywordnr5 		= isset( $_POST['keywordnr5'] ) ? sanitize_text_field( $_POST[ 'keywordnr5' ] ) : ''; 
-    	
-        $file 				= isset( $_FILES['file'] ) ? $_FILES['file'] : '';
-        $allowed_size       = 10485760;
-        $allowed_image      = ['jpg', 'png', 'gif'];
-        $filename = $extension = $filesize = '';
+        $keywordnr5 		= isset( $_POST['keywordnr5'] ) ? sanitize_text_field( $_POST[ 'keywordnr5' ] ) : '';         
+        $slim               = sanitize_text_field( $_POST['slim'] );
 
-        if( $file ) {
-            $filename = $file['name'];
-            $explode = explode( '.' , $filename );
-            $extension = strtolower( end( $explode ) );
-            $filesize = $file['size'];
-        }
+        $decode             = json_decode( str_replace( '\\', '', $slim ) );       
+
+        $image_name         = $decode->input->name;
+        $image_size         = $decode->input->size;
+        $final_image        = $decode->output->image;
+
+        $explode            = explode('.', $image_name);
+        $extension          = strtolower( end( $explode ) );
+
+        $allowed_size       = 10485760;
+        $allowed_image      = ['jpg', 'png', 'gif', 'jpeg'];      
+        
     }
     
     $pattern            = '/(?:https?:\/\/)?(?:[a-zA-Z0-9.-]+?\.(?:[a-zA-Z])|\d+\.\d+\.\d+\.\d+)/';
@@ -561,11 +558,11 @@ function register_action() {
                 }    
             }            
         } else {
-            if( empty( $filename ) ) {
+            if( empty( $image_name ) ) {
                 $errors[] = 'Please upload image';
             } elseif( !in_array( $extension, $allowed_image ) ) {
                 $errors[] = 'Only jpg, png and gif images are allowed';
-            } elseif( $filesize > $allowed_size ) {
+            } elseif( $image_size > $allowed_size ) {
                 $errors[] = 'Maximum 10 MB image are allowd'; 
             }    
         }   
@@ -619,20 +616,20 @@ function register_action() {
     	foreach ( $errors as $error ) {
     		wp_send_json_error( '<div class="alert alert-danger">'.$error.'</div>' );
     	}    	
-    } else {
+    } else {        
 
         // Form value as meta key and value       
         $userdata = [     
             'user_pass'             => '',       
-            'user_login'            => $surname . rand(10000, 99999),
+            'user_login'            => $surname,
             'user_nicename'         => $vorname,             
-            'user_email'            => rand(10000, 99999) . '-'. $email,  
+            'user_email'            => $email,  
             'display_name'          => $vorname,
             'nickname'              => $vorname,
             'first_name'            => $vorname,
             'show_admin_bar_front'  => false,
-            
         ];
+
         if( 'ccroipr_register_p' == $register_type ) {
             $userdata['role']       = 'ccroipr_register_p';
         } elseif( 'ccroipr_register_t' == $register_type ) {
@@ -640,34 +637,34 @@ function register_action() {
         }
 
         $meta_array = [
-            'surname' => $surname,
-            'vorname' => $vorname,
-            'strabe_nr' => $strabe_nr, 
-            'plz' => $plz, 
-            'ort' => $ort,
-            'e_post_address' => $e_post_address,
-            'webseite' => $webseite,
-            'werktitel' => $werktitel,
+            'surname'           => $surname,
+            'vorname'           => $vorname,
+            'strabe_nr'         => $strabe_nr, 
+            'plz'               => $plz, 
+            'ort'               => $ort,
+            'e_post_address'    => $e_post_address,
+            'webseite'          => $webseite,
+            'werktitel'         => $werktitel,
             'werk_beschreibung' => $werk_beschreibung, 
-            'inch_habe_die' => $inch_habe_die, 
-            'inh_habe_die_agb' => $inh_habe_die_agb, 
-            'ich_habe_die' => $ich_habe_die,
-            'user_ip' => $ip,
-            'is_confirm' => 0,
+            'inch_habe_die'     => $inch_habe_die, 
+            'inh_habe_die_agb'  => $inh_habe_die_agb, 
+            'ich_habe_die'      => $ich_habe_die,
+            'user_ip'           => $ip,
+            'is_confirm'        => 0,
         ];
 
         if( 'ccroipr_register_p' == $register_type ) {  
-            $meta_array['wiener']           = $wiener; 
-            $meta_array['locarno']          = $locarno; 
-            $meta_array['internationale']   = $internationale; 
+            $meta_array['wiener']              = $wiener; 
+            $meta_array['locarno']             = $locarno; 
+            $meta_array['internationale']      = $internationale; 
             $meta_array['nizzaklassifikation'] = $nizzaklassifikation; 
-            $meta_array['sha256']           = $sha256;
-            $meta_array['keywordnr1']       = $keywordnr1;
-            $meta_array['keywordnr2']       = $keywordnr2; 
-            $meta_array['keywordnr3']       = $keywordnr3; 
-            $meta_array['keywordnr4']       = $keywordnr4; 
-            $meta_array['keywordnr5']       = $keywordnr5; 
-        }
+            $meta_array['sha256']              = $sha256;
+            $meta_array['keywordnr1']          = $keywordnr1;
+            $meta_array['keywordnr2']          = $keywordnr2; 
+            $meta_array['keywordnr3']          = $keywordnr3; 
+            $meta_array['keywordnr4']          = $keywordnr4; 
+            $meta_array['keywordnr5']          = $keywordnr5; 
+        }       
 
         // Update data only
         if( 'updatedata' == $submit_type ) {
@@ -693,17 +690,20 @@ function register_action() {
             update_user_meta( $user_id, 'register_user_meta_key', $meta_array );
             wp_send_json_success( '<div class="alert alert-success">Successfully updated your data.</div>' ); 
 
-        } else {
+        } else {          
 
             $user_id = wp_insert_user( $userdata ) ;
 
             if ( ! is_wp_error( $user_id ) ) {
-
+                
                 if( 'ccroipr_register_p' == $register_type ) {
-                    $attachment_id = media_handle_upload( 'file', 0 );
-                    if ( !is_wp_error( $attachment_id ) ) {
-                        $meta_array['thumb_id'] =  $attachment_id;  
-                    }
+                    
+                    $data                   = base64_decode( preg_replace( '#^data: image/\w+;base64,#i', '', $final_image ) );
+                    $final_image            = $surname . '-' . rand(1000,9999) . '.' . $extension;
+                    $upload                 = wp_upload_dir();
+                    $upload_dir             = $upload['basedir'];
+                    file_put_contents( $upload_dir . '/' . $final_image, $data );
+                    $meta_array['thumb_id'] = $final_image;
                 }
                     
                 add_user_meta( $user_id, 'register_user_meta_key', $meta_array );
@@ -743,7 +743,7 @@ function register_action() {
                 if( wp_mail( $toArray, $subject, $body, $headers ) ) {
                     wp_send_json_success( '<div class="alert alert-success">Please confirm your email addresss for CCROIPR-Registration von Werktitel.</div>' );
                 }               
-            }
+            } 
         }
     }
 
@@ -794,7 +794,7 @@ function secret_register_action() {
     
     $file               = isset( $_FILES['file'] ) ? $_FILES['file'] : '';
     $allowed_size       = 10485760;
-    $allowed_image      = ['jpg', 'png', 'gif'];
+    $allowed_image      = ['jpg', 'png', 'gif', 'jpeg'];
     $filename = $extension = $filesize = '';
 
     if( $file ) {

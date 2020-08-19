@@ -47,7 +47,7 @@
         	var btn_label 	= $('#register_btn').val();
         	var register_type 	= '' ;
         		register_type	= $(this).data('register-type');
-        	var data 		=  new FormData($('#form')[0]);        	        	
+			var data 		=  new FormData($('#form')[0]); 			       	        	
 				data.append("action", "register_action");
 				data.append("register_type", register_type);
 			
@@ -60,11 +60,11 @@
 				processData: false,
 				contentType: false,
 				beforeSend : function () {
-					$('#register_btn').prop('disabled', true );
+					//$('#register_btn').prop('disabled', true );
 		           	$('#register_btn').val('Please Wait...');
 		        }, 
 	        	success: function( result ) {
-	        		$('#register_btn').prop('disabled', false );
+	        		//$('#register_btn').prop('disabled', false );
 	        		$('#register_btn').val( btn_label );
 	        		$('#form_result').html( result.data )
 	        		if( result.success == true ) {
@@ -142,11 +142,7 @@
 	        		window.open( result, '_blank' );
 	        	}
 	        });
-		});
-
-    	
-
-    	     
+		}); 
 
         // Update and Register T
         $( '#button_t' ).on( 'click', function(e) {
@@ -182,7 +178,7 @@
         })      
 
         // Generate hash value when file is upload
-        $("#file").on('change', function(e) {
+        $("#myCropper").on('change', function(e) {
 
         	readURL(this);
 		    e.preventDefault();
@@ -237,7 +233,34 @@
 				return i;
 			}
 			startTime();	
-	    }	    
+		}
+		
+		// For the image crop
+		var cropper = new Slim(document.getElementById('myCropper'), {
+			ratio: '3:4',
+			minSize: {
+				width: 250,
+				height: 300,
+			},
+			size: {
+				width: 250,
+				height: 300,
+			},
+			download: true,
+			instantEdit: true,
+			label: 'Upload: Click here or drag an image file onto it',
+			buttonConfirmLabel: 'Finished',
+			buttonConfirmTitle: 'Finished',
+			buttonCancelLabel: 'Cancel',
+			buttonCancelTitle: 'Cancel',
+			buttonEditTitle: 'To Edit',
+			buttonRemoveTitle: 'Remove',
+			buttonDownloadTitle: 'Download',
+			buttonRotateTitle: 'Rotate',
+			buttonUploadTitle: 'Upload',
+			statusImageTooSmall: 'This picture is too small. The minimum size is 250 X 300 pixel.'
+		});
+		
 
     });
 })( jQuery );

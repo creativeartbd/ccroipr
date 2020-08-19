@@ -20,7 +20,7 @@ get_header();
 				}
 			}
 			?>	
-			<form action="" class="form" method="POST" id="form" enctype="multipart/form-data">
+			<form action="" method="POST" id="form" enctype="multipart/form-data">
 				<div class="row mt-5">					
 					<div class="col-sm-6 col-md-3 col-lg-3">
 						<div class="form-group">
@@ -79,8 +79,9 @@ get_header();
 					</div>
 					<div class="col-sm-6 col-md-3 col-lg-3">
 						<div class="form-group">
-							<input type="file" name="file" id="file">
-							<img src="" id="uploaded_img" width="100%" />
+							<div class="frame">
+								<input type="file" id="myCropper" name="slim"/>
+							</div>
 	                    </div>
 						<div class="form-group">
                             <label for="">SHA256 (Hashwert der Originalabbildung)</label>

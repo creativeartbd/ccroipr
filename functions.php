@@ -147,10 +147,12 @@ add_action( 'widgets_init', 'ccroipr_widgets_init' );
  */
 function ccroipr_scripts() {	
 
+	wp_enqueue_style( 'slim', get_template_directory_uri() . '/slim/slim.min.css', null, _S_VERSION );			
 	wp_enqueue_style( 'boostrap', '//stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css', null, _S_VERSION );		
 	wp_enqueue_style( 'ccroipr-style', get_stylesheet_uri(), array(), _S_VERSION );		
 	wp_style_add_data( 'ccroipr-style', 'rtl', 'replace' );
 	
+	wp_enqueue_script( 'slim', get_template_directory_uri() . '/slim/slim.kickstart.min.js', array( 'jquery' ), _S_VERSION, true );
 	wp_enqueue_script( 'popper-min', '//cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js', array( 'jquery' ), _S_VERSION, true );
 	wp_enqueue_script( 'bootstrap-min', '//stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js', array( 'jquery' ), _S_VERSION, true );	
 

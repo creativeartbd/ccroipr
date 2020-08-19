@@ -9,6 +9,11 @@
 
 $author 		= get_queried_object();
 $author_meta 	= get_user_meta( $author->ID, 'register_user_meta_key', true );
+
+echo '<pre>';
+print_r( $author_meta );
+echo '</pre>';
+
 $author_role 	= $author->roles[0];
 $thumb_id   	= isset( $author_meta[ 'thumb_id' ] ) ? $author_meta[ 'thumb_id' ] : '';
 $thumb_id 		= hashMe( $thumb_id, 'e' );
