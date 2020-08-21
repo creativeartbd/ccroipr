@@ -60,19 +60,13 @@
 				processData: false,
 				contentType: false,
 				beforeSend : function () {
-					//$('#register_btn').prop('disabled', true );
+					$('#register_btn').prop('disabled', true );
 		           	$('#register_btn').val('Please Wait...');
 		        }, 
 	        	success: function( result ) {
-	        		//$('#register_btn').prop('disabled', false );
+	        		$('#register_btn').prop('disabled', false );
 	        		$('#register_btn').val( btn_label );
 	        		$('#form_result').html( result.data )
-	        		if( result.success == true ) {
-	        			$('#register_btn').prop('disabled', true );
-	        			 setTimeout(function(){// wait for 5 secs(2)
-	                        location.reload(); // then reload the page.(3)
-	                    }, 3000);
-	        		}
 	        	}
 	        });
         })   
@@ -178,7 +172,7 @@
         })      
 
         // Generate hash value when file is upload
-        $("#myCropper").on('change', function(e) {
+        $("#file_change").on('change', function(e) {
 
         	readURL(this);
 		    e.preventDefault();
@@ -239,8 +233,8 @@
 		var cropper = new Slim(document.getElementById('myCropper'), {
 			ratio: '3:4',
 			minSize: {
-				width: 250,
-				height: 300,
+				width: 150,
+				height: 200,
 			},
 			size: {
 				width: 250,
@@ -260,7 +254,10 @@
 			buttonUploadTitle: 'Upload',
 			statusImageTooSmall: 'This picture is too small. The minimum size is 250 X 300 pixel.'
 		});
-		
+
+		let src = 'http://localhost:8888/ccroipr/wp-content/uploads/shibbir-8978.jpg';
+
+		//cropper.load( src );		
 
     });
 })( jQuery );

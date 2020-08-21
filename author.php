@@ -10,9 +10,8 @@
 $author 		= get_queried_object();
 $author_meta 	= get_user_meta( $author->ID, 'register_user_meta_key', true );
 
-echo '<pre>';
-print_r( $author_meta );
-echo '</pre>';
+// var_dump( $author_meta );
+
 
 $author_role 	= $author->roles[0];
 $thumb_id   	= isset( $author_meta[ 'thumb_id' ] ) ? $author_meta[ 'thumb_id' ] : '';
@@ -116,16 +115,15 @@ get_header();
 						<div class="col-md-3">
 							<?php if( 'ccroipr_register_p' == $author_role ) : ?>
 							<div class="form-group">
-								<?php if( 1 != $is_confirm) : ?>
-									<input type="file" name="file" id="file">
-								<?php endif; ?>
 								<?php 
-								$thumb = wp_get_attachment_image_src( $author_meta['thumb_id'], 'ccroipr' ); 
-								if( $thumb ) {
-									$thumb_src = $thumb[0];
-									echo "<img id='uploaded_img' src='$thumb_src'>";	
-								}
-								?>								
+								$upload                 = wp_upload_dir();							
+								$upload_dir             = $upload['baseurl'];
+								$image_url 				= $author_meta['thumb_id'];							
+								?>		
+								<div class="slim" data-download="true" data-instant-edit="true">
+									<img src="<?php echo $upload_dir .'/'. $image_url; ?>" alt="">	
+									<input type="file" name="slim" id="file_change"/>
+								</div>				
 		                    </div>
 							<div class="form-group">
 	                            <label for="">SHA256 (Hashwert der Originalabbildung)</label>

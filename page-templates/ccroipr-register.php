@@ -79,8 +79,11 @@ get_header();
 					</div>
 					<div class="col-sm-6 col-md-3 col-lg-3">
 						<div class="form-group">
-							<div class="frame">
+							<!-- <div class="frame">
 								<input type="file" id="myCropper" name="slim"/>
+							</div> -->
+							<div class="slim" data-instant-edit="true">
+								<input type="file" name="slim" id="file_change"/>
 							</div>
 	                    </div>
 						<div class="form-group">
