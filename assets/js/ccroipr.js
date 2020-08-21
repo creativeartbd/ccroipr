@@ -66,7 +66,12 @@
 	        	success: function( result ) {
 	        		$('#register_btn').prop('disabled', false );
 	        		$('#register_btn').val( btn_label );
-	        		$('#form_result').html( result.data )
+					$('#form_result').html( result.data.message )
+					if( result.success ) {
+						if( result.data.type == 'update' )  {
+							$('#register_btn').prop('disabled', false );
+						}						
+					}
 	        	}
 	        });
         })   

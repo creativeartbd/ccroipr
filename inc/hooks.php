@@ -251,24 +251,25 @@ function register_confirm_action()
         return false;
     }
 
-    $user_id        = hashMe(sanitize_text_field($_POST['user_id']), 'd');
-    $is_user_exist  = get_userdata($user_id);
+    $post_id = hashMe(sanitize_text_field($_POST['post_id']), 'd');
+    $post    = get_post( $post_id );
+    
 
-    if ($is_user_exist) {
+    if ( $post ) {
 
+        $domain      = get_site_url();
+        $post_status = $post->post_status;
+        $post_meta   = get_post_meta( get_the_ID() );
+        
 
+        if ( 'pending' == $post_status ) {
 
-        $domain                     = get_site_url();
-        $author_meta                = get_user_meta($user_id, 'register_user_meta_key', true);
-
-        if ($author_meta['is_confirm'] == 0) {
-
-            $author_meta['is_confirm']  = 1;
+            //$author_meta['is_confirm']  = 1;
             $confirm_id                 = 'ccroipr-' . date('Y' . 'm' . 'd' . 'H' . 'i' . 's') . randomNumber(3);
-            $author_meta['confirm_id']  = $confirm_id;
+            $post_meta['confirm_id']  = $confirm_id;
 
 
-            if ('ccroipr_register_p' == $register_type) {
+            if ('ccroipr-p' == $register_type) {
 
                 $author_meta['kategorie']   = 'ccroipr-cat-p-' . date('Y' . '-' . 'm' . '-' . 'd');
 
@@ -276,13 +277,16 @@ function register_confirm_action()
                 $path                       = $upload_dir['path'];
 
                 //$thumb                      = wp_get_attachment_image_src( $author_meta[ 'thumb_id' ], 'ccroipr' );
-                $thumb_src                  = $path . '/' . $author_meta['thumb_id'];
-                $relative_url               = str_replace($domain, '', $thumb_src);
+                //$thumb_src                  = $path . '/' . $author_meta['thumb_id'];
+                $thumb_src                  = get_the_post_thumbnail_url( $post_id );
+                //$relative_url               = str_replace($domain, '', $thumb_src);
+
+
 
                 $explode                    = explode('.', $thumb_src);
                 $extension                  = end($explode);
-                $explode_2                  = explode('/', $thumb_src);
-                $file_name                  = end($explode_2);
+                //$explode_2                  = explode('/', $thumb_src);
+                $file_name                  = $explode[0];
 
                 //image_resize_base_width( $relative_url, $relative_url, 350, $extension);
                 if ($extension == 'jpg') {
@@ -329,11 +333,11 @@ function register_confirm_action()
                 imagedestroy($canvas);
                 $category_id = get_category_by_slug('cat-p'); //  
 
-            } elseif ('ccroipr_register_t' == $register_type) {
+            } elseif ( 'ccroipr-t' == $register_type) {
 
-                $werktitel = $author_meta['werktitel'];
+                $werktitel = $post_meta['werktitel'];
 
-                $author_meta['kategorie']   = 'ccroipr-' . date('Y' . '-' . 'm' . '-' . 'd');
+                $post_meta['kategorie']   = 'ccroipr-' . date('Y' . '-' . 'm' . '-' . 'd');
                 $text = "TITELSCHUTZANMELDUNG $confirm_id $werktitel";
                 $image_width = 1140;
 
@@ -351,23 +355,23 @@ function register_confirm_action()
                 }
 
                 textToImg($text, $image_width, $upload_dir . $generatedImage);
-                $author_meta['thumb_id_t'] = $generatedImage;
+                $post_meta['thumb_id_t'] = $generatedImage;
 
                 $category_id = get_category_by_slug('cat-t'); //
             }
 
             $category_id = $category_id->term_id;
 
-            update_user_meta($user_id, 'register_user_meta_key', $author_meta);
-            // create psot by the $confirm_id 
-            $post_option = [
-                'post_title'    => $confirm_id,
-                'post_status'   => 'publish',
-                'post_author'   => $user_id,
-                'post_category' => array($category_id)
-            ];
-
-            $post_id = wp_insert_post($post_option);
+           
+            // Create post object
+            $post_array = array(
+                'ID'            => $post_id,
+                'meta_input'    => $post_meta,     
+                'post_status'   =>  'publish'          
+            );            
+            
+            // Insert the post into the database
+            $post_id = wp_update_post( $post_array );
 
             if (!is_wp_error($post_id)) {
                 if ('ccroipr_register_p' == $register_type) {
@@ -403,14 +407,17 @@ add_action('wp_ajax_nopriv_register_action', 'register_action');
 
 function register_action()
 {
+    // Verify nonce
+    wp_verify_nonce('_wpnoncne', 'register_action');   
+   
 
-    wp_verify_nonce('_wpnoncne', 'register_action');
+    $register_type      = isset($_POST['register_type']) ? hashMe(sanitize_text_field($_POST['register_type']), 'd') : '';    
 
-    $register_type      = isset($_POST['register_type']) ? hashMe(sanitize_text_field($_POST['register_type']), 'd') : '';
-
-    if (!in_array($register_type, ['ccroipr_register_t', 'ccroipr_register_p'])) {
+    if (!in_array($register_type, ['ccroipr-t', 'ccroipr-p'])) {
         return false;
-    }
+    }    
+
+    
 
     // Check form submit type wheather is for update or new registration
     $submit_type        = isset($_POST['submit_type']) ? hashMe(sanitize_text_field($_POST['submit_type']), 'd') : '';
@@ -429,10 +436,10 @@ function register_action()
     $inch_habe_die      = isset($_POST['inch_habe_die']) ? absint($_POST['inch_habe_die']) : '';
     $inh_habe_die_agb   = isset($_POST['inh_habe_die_agb']) ? absint($_POST['inh_habe_die_agb']) : '';
     $ich_habe_die       = isset($_POST['ich_habe_die']) ? absint($_POST['ich_habe_die']) : '';
-
+    $pattern            = '/(?:https?:\/\/)?(?:[a-zA-Z0-9.-]+?\.(?:[a-zA-Z])|\d+\.\d+\.\d+\.\d+)/';
 
     // Following data needed for the "Register P" form process
-    if ('ccroipr_register_p' == $register_type) {
+    if ('ccroipr-p' == $register_type) {
 
         $wiener                 = isset($_POST['wiener']) ? sanitize_text_field($_POST['wiener']) : '';
         $locarno                = isset($_POST['locarno']) ? sanitize_text_field($_POST['locarno']) : '';
@@ -445,7 +452,6 @@ function register_action()
         $keywordnr4             = isset($_POST['keywordnr4']) ? sanitize_text_field($_POST['keywordnr4']) : '';
         $keywordnr5             = isset($_POST['keywordnr5']) ? sanitize_text_field($_POST['keywordnr5']) : '';
         $slim                   = sanitize_text_field($_POST['slim']);
-        $existing_image         = sanitize_text_field($_POST['existing_image']);
         $decode                 = json_decode(str_replace('\\', '', $slim));
 
         $image_name             = $decode->input->name;
@@ -459,7 +465,7 @@ function register_action()
         $allowed_image          = ['jpg', 'png', 'gif', 'jpeg'];
     }
 
-    $pattern                    = '/(?:https?:\/\/)?(?:[a-zA-Z0-9.-]+?\.(?:[a-zA-Z])|\d+\.\d+\.\d+\.\d+)/';
+    // Store all errors message
     $errors                     = [];
 
     // Check error messages and store them to $errors array
@@ -555,7 +561,7 @@ function register_action()
         $errors[] = 'ich habe die is required';
     }
 
-    if ('ccroipr_register_p' == $register_type) {
+    if ('ccroipr-p' == $register_type) {
 
         if ('updatedata' == $submit_type) {
             if (!empty($image_name)) {
@@ -626,25 +632,15 @@ function register_action()
         }
     } else {
 
-        // Form value as meta key and value       
-        $userdata = [
-            'user_pass'             => '',
-            'user_login'            => $surname,
-            'user_nicename'         => $vorname,
-            'user_email'            => $email,
-            'display_name'          => $vorname,
-            'nickname'              => $vorname,
-            'first_name'            => $vorname,
-            'show_admin_bar_front'  => false,
-        ];
-
-        if ('ccroipr_register_p' == $register_type) {
-            $userdata['role']       = 'ccroipr_register_p';
-        } elseif ('ccroipr_register_t' == $register_type) {
-            $userdata['role']       = 'ccroipr_register_t';
+        $confirm_id         = 'ccroipr-' . date('Y' . 'm' . 'd' . 'H' . 'i' . 's') . randomNumber(3);
+        $category           = get_category_by_slug( 'ccroipr-p' );
+        
+        $category_id        =   '';
+        if ( $category instanceof WP_Term ) {
+            $category_id = $category->term_id;
         }
 
-        $meta_array = [
+        $post_meta = [
             'surname'           => $surname,
             'vorname'           => $vorname,
             'strabe_nr'         => $strabe_nr,
@@ -659,81 +655,118 @@ function register_action()
             'ich_habe_die'      => $ich_habe_die,
             'user_ip'           => $ip,
             'is_confirm'        => 0,
+            'confirm_id'        => $confirm_id,
+            'kategorie'         => 'ccroipr-cat-p-' . date('Y' . '-' . 'm' . '-' . 'd'),
+            'email'             => $email,
         ];
 
-        if ('ccroipr_register_p' == $register_type) {
-            $meta_array['wiener']              = $wiener;
-            $meta_array['locarno']             = $locarno;
-            $meta_array['internationale']      = $internationale;
-            $meta_array['nizzaklassifikation'] = $nizzaklassifikation;
-            $meta_array['sha256']              = $sha256;
-            $meta_array['keywordnr1']          = $keywordnr1;
-            $meta_array['keywordnr2']          = $keywordnr2;
-            $meta_array['keywordnr3']          = $keywordnr3;
-            $meta_array['keywordnr4']          = $keywordnr4;
-            $meta_array['keywordnr5']          = $keywordnr5;
+        
+
+        if ('ccroipr-p' == $register_type) {
+
+            $post_meta['wiener']              = $wiener;
+            $post_meta['locarno']             = $locarno;
+            $post_meta['internationale']      = $internationale;
+            $post_meta['nizzaklassifikation'] = $nizzaklassifikation;
+            $post_meta['sha256']              = $sha256;
+            $post_meta['keywordnr1']          = $keywordnr1;
+            $post_meta['keywordnr2']          = $keywordnr2;
+            $post_meta['keywordnr3']          = $keywordnr3;
+            $post_meta['keywordnr4']          = $keywordnr4;
+            $post_meta['keywordnr5']          = $keywordnr5;
         }
 
+
+        
+
+
         // Update data only
-        if ('updatedata' == $submit_type) {
-            if ('ccroipr_register_p' == $register_type) {
+        if ( 'updatedata' == $submit_type ) {          
 
-                $user_id        = hashMe(sanitize_text_field($_POST['user_id']), 'd');
-                $is_user_exist  = get_userdata($user_id);
+            if ( 'ccroipr-p' == $register_type ) {
+             
 
-                if ($is_user_exist) {
+                $post_id        = hashMe(sanitize_text_field($_POST['post_id']), 'd');
+                $post = get_post( $post_id );
 
+                if( $post ) {
 
-                    $new_file_name          = strtolower($surname) . '-' . rand(1000, 9999) . '.' . $extension;
-                    $upload                 = wp_upload_dir();
-                    $upload_dir             = $upload['basedir'];
+                    
+                    
 
-                    $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $final_image));
-                    file_put_contents($upload_dir . '/' . $new_file_name, $data);
-                    $meta_array['thumb_id'] = $new_file_name;
+                    // Create post object
+                    $post_array = array(
+                        'ID'            => $post_id,
+                        'meta_input'    => $post_meta,               
+                    );            
+                    
+                    // Insert the post into the database
+                    $post_id = wp_update_post( $post_array );
 
+                    if( ! is_wp_error( $post_id) ) { 
+                        if( $image_name ) {
+                        
+                            $new_file_name          = strtolower($surname) . '-' . rand(1000, 9999) . '.' . $extension;
+                            $upload                 = wp_upload_dir();
+                            $upload_dir             = $upload['basedir'];
+        
+                            $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $final_image));
+                            file_put_contents($upload_dir . '/' . $new_file_name, $data);
+                            
+                            $getImageFile   = $upload_dir . '/' . $new_file_name;
 
-                    update_user_meta($user_id, 'register_user_meta_key', $meta_array);
-                    wp_send_json_success('<div class="alert alert-success">Successfully updated your data.</div>');
+                            // Set featured image
+                            Generate_Featured_Image( $getImageFile, $post_id );
+                        }
+                        
+                        //wp_send_json_success('<div class="alert alert-success">Successfully updated the data.</div>');
+                        wp_send_json_success( [
+                            'message'   =>  '<div class="alert alert-success">Successfully updated the data.</div>',
+                            'type'      =>  'update'
+                        ] );
+                    }
                 }
             }
+
         } else {
+        
+           
 
+            $new_file_name          = strtolower($surname) . '-' . rand(1000, 9999) . '.' . $extension;
+            $upload                 = wp_upload_dir();
+            $upload_dir             = $upload['basedir'];
 
-            $user_id = wp_insert_user($userdata);
+            $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $final_image));
+            file_put_contents($upload_dir . '/' . $new_file_name, $data);
+            
+            $getImageFile   = $upload_dir . '/' . $new_file_name;          
+           
 
-            if (!is_wp_error($user_id)) {
-                if ('ccroipr_register_p' == $register_type) {
+            // Create post object
+            $post_array = array(
+                'post_title'    => $confirm_id,
+                'post_content'  => '',
+                'post_status'   => 'draft',
+                'post_author'   => 1,
+                'post_category' => array( $category_id ),
+                'meta_input'    => $post_meta,               
+            );            
+            
+            // Insert the post into the database
+            $post_id = wp_insert_post( $post_array );
 
-                    $new_file_name          = strtolower($surname) . '-' . rand(1000, 9999) . '.' . $extension;
-                    $upload                 = wp_upload_dir();
-                    $upload_dir             = $upload['basedir'];
+            if( ! is_wp_error( $post_id) ) {
 
-                    $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $final_image));
-                    file_put_contents($upload_dir . '/' . $new_file_name, $data);
-                    $meta_array['thumb_id'] = $new_file_name;
-                }
+                // Set featured image
+                Generate_Featured_Image( $getImageFile, $post_id );
 
-                add_user_meta($user_id, 'register_user_meta_key', $meta_array);
-
-                $code = sha1($user_id . time());
-
-                global $wpdb;
-
-                $wpdb->update(
-                    $wpdb->prefix . 'users', //table name     
-                    array('user_activation_key' => $code),
-                    array('ID' =>    $user_id),
-                    array('%s'),
-                    array('%d')
-                );
-
+                $code = sha1($post_id . time());
                 $activation_link = add_query_arg(
                     array(
                         'key' => $code,
-                        'user' => $user_id
+                        'post_id' => $post_id
                     ),
-                    get_permalink(get_page_by_path('registration-confirmation'))
+                    get_permalink( get_page_by_path('registration-confirmation') )
                 );
 
                 $message = "<div style='padding : 20px; border : 1px solid #ddd; color : #000;'>Hello $surname, <br/><br/>Please confirm your email addresss for CCROIPR-Registration von $werktitel. Click this link to confirm : <a href='$activation_link'>Confirm Now</a><br/><br/>http://ccroipr.org<br/>Thank You.<br/></div>";
@@ -742,19 +775,83 @@ function register_action()
                 $subject    = 'Confirm your registration process at ccroipr.org';
                 $body       = $message;
                 $headers    = array('Content-Type: text/html; charset=UTF-8');
-
+    
                 $toArray[]  = 'registration@ccroipr.org';
                 $toArray[]  = 'backup@ccroipr.org';
                 $toArray[]  = 'backup@atelier-kalai.de';
                 $toArray[]  =  $to;
-
+    
                 // Send email to user for activate the account 
                 if (wp_mail($toArray, $subject, $body, $headers)) {
-                    wp_send_json_success('<div class="alert alert-success">Please confirm your email addresss for CCROIPR-Registration von Werktitel.</div>');
+                    //wp_send_json_success('<div class="alert alert-success">Please confirm your email addresss for CCROIPR-Registration von Werktitel.</div>');
+                    wp_send_json_success( [
+                        'message'   =>  '<div class="alert alert-success">lease confirm your email addresss for CCROIPR-Registration von Werktitel.</div>',
+                        'type'      =>  'register'
+                    ] );
                 } else {
                     wp_send_json_error('<div class="alert alert-danger">Opps! For some reasons a confirmation email is not sending. Please contact admin</div>');
                 }
             }
+
+            
+            
+            
+
+            // `$user_id = wp_insert_user($userdata);
+
+            // if (!is_wp_error($user_id)) {
+            //     if ('ccroipr_register_p' == $register_type) {
+
+            //         $new_file_name          = strtolower($surname) . '-' . rand(1000, 9999) . '.' . $extension;
+            //         $upload                 = wp_upload_dir();
+            //         $upload_dir             = $upload['basedir'];
+
+            //         $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $final_image));
+            //         file_put_contents($upload_dir . '/' . $new_file_name, $data);
+            //         $meta_array['thumb_id'] = $new_file_name;
+            //     }
+
+            //     add_user_meta($user_id, 'register_user_meta_key', $meta_array);
+
+            //     $code = sha1($user_id . time());
+
+            //     global $wpdb;
+
+            //     $wpdb->update(
+            //         $wpdb->prefix . 'users', //table name     
+            //         array('user_activation_key' => $code),
+            //         array('ID' =>    $user_id),
+            //         array('%s'),
+            //         array('%d')
+            //     );
+
+            //     $activation_link = add_query_arg(
+            //         array(
+            //             'key' => $code,
+            //             'user' => $user_id
+            //         ),
+            //         get_permalink(get_page_by_path('registration-confirmation'))
+            //     );
+
+            //     $message = "<div style='padding : 20px; border : 1px solid #ddd; color : #000;'>Hello $surname, <br/><br/>Please confirm your email addresss for CCROIPR-Registration von $werktitel. Click this link to confirm : <a href='$activation_link'>Confirm Now</a><br/><br/>http://ccroipr.org<br/>Thank You.<br/></div>";
+
+            //     $to         = $email;
+            //     $subject    = 'Confirm your registration process at ccroipr.org';
+            //     $body       = $message;
+            //     $headers    = array('Content-Type: text/html; charset=UTF-8');
+
+            //     $toArray[]  = 'registration@ccroipr.org';
+            //     $toArray[]  = 'backup@ccroipr.org';
+            //     $toArray[]  = 'backup@atelier-kalai.de';
+            //     $toArray[]  =  $to;
+
+            //     // Send email to user for activate the account 
+            //     if (wp_mail($toArray, $subject, $body, $headers)) {
+            //         wp_send_json_success('<div class="alert alert-success">Please confirm your email addresss for CCROIPR-Registration von Werktitel.</div>');
+            //     } else {
+            //         wp_send_json_error('<div class="alert alert-danger">Opps! For some reasons a confirmation email is not sending. Please contact admin</div>');
+            //     }
+            // }`
         }
     }
 

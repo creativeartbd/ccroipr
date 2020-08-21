@@ -7,226 +7,194 @@
  * @package ccroipr
  */
 
-$author_id 			= get_the_author_meta( 'ID' );
-$user_meta          = get_userdata( $author_id );
-$author_role        = $user_meta->roles[0];
-$author_status      = $user_meta->user_status;
-$author_meta 		= get_user_meta( $author_id, 'register_user_meta_key', true );
+$post_id  = get_the_ID();
+$post = get_post( $post_id );
 
-$thumb_id_t         = isset( $author_meta['thumb_id_t'] ) ? $author_meta['thumb_id_t'] : '';
-$confirm_id         = $author_meta['confirm_id'];
-$surname            = $author_meta['surname'];
-$vorname            = $author_meta['vorname'];
-$strabe_nr          = $author_meta['strabe_nr'];
-$plz                = $author_meta['plz'];
-$ort                = $author_meta['ort'];
-$e_post_address     = $author_meta['e_post_address'];
-$kategorie          = $author_meta['kategorie'];
-$webseite           = $author_meta['webseite'];
-$werktitel          = $author_meta['werktitel'];
-$werk_beschreibung  = $author_meta['werk_beschreibung'];
-$inch_habe_die      = $author_meta['inch_habe_die']; 
-$inh_habe_die_agb   = $author_meta['inh_habe_die_agb']; 
-$ich_habe_die       = $author_meta['ich_habe_die']; 
-$ip                 = $author_meta['user_ip']; 
-$email              = get_the_author_meta( 'email', $author_id );
+if( ! $post ) return;
 
-if( 'ccroipr_register_p' ==  $author_role ) {
-    $wiener             = $author_meta['wiener'];
-    $locarno            = $author_meta['locarno'];
-    $internationale     = $author_meta['internationale'];
-    $nizzaklassifikation= $author_meta['nizzaklassifikation'];
-    $sha256             = $author_meta['sha256'];
-
-    $keywordnr1         = $author_meta['keywordnr1']; 
-    $keywordnr2         = $author_meta['keywordnr2']; 
-    $keywordnr3         = $author_meta['keywordnr3']; 
-    $keywordnr4         = $author_meta['keywordnr4']; 
-    $keywordnr5         = $author_meta['keywordnr5'];     
-}
-
-
-
-if( 0 == $author_status ) {
-    return;
-}
+$post_status   = $post->post_status;
+$category      = get_the_category();
+$category_name = $category[0]->name;
+$data_type     = hashMe( $category_name, 'e' );
+$post_meta     = get_post_meta( get_the_ID() );
 ?>
 
-<div class="row">
-	<div class="col-md-12">
-	<h1><?php echo $werktitel; ?></h1>
-	<?php 
-    if( 'ccroipr_register_p' ==  $author_role ) {
-        if( has_post_thumbnail() ){
-            $thumbnail_url = get_the_post_thumbnail_url( '', 'ccroipr');
-            echo "<img src='$thumbnail_url' alt='$werktitel' title='$werktitel'>";
-            echo '<br/>';
-            echo "<span>Copyright Vermerk $confirm_id</span>";
-        }    
-    } elseif( 'ccroipr_register_t' == $author_role ) {
-        $upload_dir     = wp_upload_dir();
-        $upload_dir     = $upload_dir['baseurl'];
-        $img_url        = $upload_dir . '/ccroipr-t/'.$thumb_id_t.'.jpg';
-        echo "<img src='$img_url' width='500' alt='$werktitel' title='$werktitel'>";
-        echo '<br/>';
-        echo "<small>Copyright Vermerk $confirm_id</small>";
-    }	
-	?>		
+<div class="container main-container">
+	<div class="row">
+		<div class="col-lg">   
+			<?php 
+			if( 'pending' != $post_status  ){
+				echo "<div class='alert alert-warning'><strong>Your account is not confirmed or activated. Please contact administrator.</strong></div>";				
+			} else {
+				?>
+	        	<div id="download"></div>
+	            <h1>Profile 
+	            	<?php 
+	            	if( 'publish' == $post_status ) { 
+	            		$nonce = wp_create_nonce( 'download-nonce' );
+	            		echo "<input type='button' value='Download' data-submit-type='' class='download btn btn-success float-right' id='download_profile' data-id='$post_id' data-nonce='$nonce'>"; 
+	            	} 
+	            	?>
+	            </h1>          
+
+	            <p>Antrag auf kostenlose Eintragung und Veroffentlichung eines Urheberanspruchs nach Prioritatsprinzip</p>  
+	            <?php if( 'ccroipr-p' == $category_name ) : ?>
+	            	<h2>Common Copyright Register of Intellectual Property Rights / CCROIPR-CAT-P</h2>   
+	            <?php else : ?>
+	            	<h2>Common Copyright Register of Intellectual Property Rights / CCROIPR-CAT-T</h2>
+	            <?php endif; ?>
+
+	            <form action="" class="form" method="POST" id="form" enctype="multipart/form-data">
+					<div class="row mt-5">					
+						<div class="col-md-12">
+							<div class="form-group">
+	                            <label for="">Urheber - Impressum nach $55 RStV</label>
+	                        </div>
+						</div>
+						<div class="col-md-3">							
+							<div class="form-group">
+	                            <label for="">Surename</label>
+	                            <input type="text" name="surname" value="<?php echo $post_meta['surname'][0]; ?>" maxlength="25" class="form-control" placeholder="Surname">
+	                        </div>
+							<div class="form-group">
+								<label for="">Vorname</label>
+	                        	<input type="text" name="vorname" value="<?php echo $post_meta['vorname'][0]; ?>" maxlength="25" class="form-control" placeholder="Vorname">
+							</div>
+							 <div class="form-group">
+	                            <label for="">Straße / Nr</label>
+	                            <input type="text" name="strabe_nr" value="<?php echo $post_meta['strabe_nr'][0]; ?>" maxlength="55" class="form-control" placeholder="Straße / Nr">
+	                        </div>
+	                        <div class="form-group">
+	                            <label for="">Plz</label>
+	                            <input type="text" name="plz" value="<?php echo $post_meta['plz'][0]; ?>" class="form-control" maxlength="10" placeholder="Plz">
+	                        </div>
+	                        <div class="form-group">
+	                            <label for="">Ort / Stadt</label>
+	                            <input type="text" name="ort" value="<?php echo $post_meta['ort'][0]; ?>" class="form-control" maxlength="35" placeholder="Ort / Stadt">
+	                        </div>	      
+	                        <div class="form-group">
+	                            <label for="">E-Post-Address</label>
+	                            <input type="text" name="e_post_address" value="<?php echo $post_meta['e_post_address'][0]; ?>" maxlength="50" class="form-control" placeholder="E-Post-Address">
+	                        </div>                  
+						</div>
+						<div class="col-md-3">								
+	                        <div class="form-group">
+	                            <label for="">Webseite</label>
+	                            <input type="text" name="webseite" value="<?php echo $post_meta['webseite'][0]; ?>" maxlength="150" class="form-control" placeholder="Webseite">
+	                        </div>
+						 	<div class="form-group">
+	                            <label for="">Werktitel</label>
+	                            <input type="text" name="werktitel" value="<?php echo $post_meta['werktitel'][0]; ?>" id="werktitel" maxlength="30" class="form-control" placeholder="Werktitel">
+	                        </div>
+	                        <?php if( 'ccroipr-p' == $category_name ) : ?>
+	                        <div class="form-group">
+	                            <label for="">Wiener Klassifikation</label>
+	                            <input type="text" name="wiener" value="<?php echo $post_meta['wiener'][0]; ?>" class="form-control" maxlength="50" value="00.00">
+	                        </div>
+	                        <div class="form-group">
+	                            <label for="">Locarno Klassifikation</label>
+	                            <input type="text" name="locarno" value="<?php echo $post_meta['locarno'][0]; ?>" class="form-control" maxlength="50" value="00.00">
+	                        </div>
+	                        <div class="form-group">
+	                            <label for="">Internationale Patentklassifikation</label>
+	                            <input type="text" name="internationale" value="<?php echo $post_meta['internationale'][0]; ?>" class="form-control" maxlength="50" value="00.00">
+	                        </div>
+	                        <div class="form-group">
+	                            <label for="">Nizzaklassifikation</label>
+	                            <input type="text" name="nizzaklassifikation" value="<?php echo $post_meta['nizzaklassifikation'][0]; ?>" class="form-control" maxlength="50" value="00.00">
+	                        </div>
+	                        <?php endif; ?>					
+						</div>
+						<div class="col-md-3">
+							<?php if( 'ccroipr-p' == $category_name ) : ?>
+							<div class="form-group">
+								<?php $thumbnail_url = get_the_post_thumbnail_url( $post_id ); ?>		
+								<div class="slim" data-download="true" data-instant-edit="true">
+									<img src="<?php echo $thumbnail_url; ?>" alt="">	
+									<input type="file" name="slim" id="file_change"/>
+								</div>				
+		                    </div>
+							<div class="form-group">
+	                            <label for="">SHA256 (Hashwert der Originalabbildung)</label>
+	                            <input type="text" id="sha256" name="sha256" value="<?php echo $post_meta['sha256'][0]; ?>" maxlength="64" class="form-control" placeholder="SHA256 (Hashwert der Originalabbildung)" readonly>
+	                        </div>
+	                    	<?php endif; ?>
+	                        <div class="form-group">
+	                            <label for="">Werk-Beschreibung</label>
+	                            <textarea id="limit" name="werk_beschreibung" cols="30" rows="10" class="form-control" placeholder="Werk-Beschreibung"><?php echo $post_meta['werk_beschreibung'][0]; ?></textarea><span class="counter"></span>
+	                        </div>
+						</div>
+						<?php if( 'ccroipr-p' == $category_name ) : ?>
+						<div class="col-md-3">
+							<div class="form-group">
+	                            <label for="">Keword Nr 1 </label>
+	                            <input type="text" name="keywordnr1" value="<?php echo $post_meta['keywordnr1'][0]; ?>" maxlength="40" class="form-control keyword1" placeholder="Keword Nr 1" value="Stichwort / Schlagwort">
+	                        </div>
+	                        <div class="form-group">
+	                            <label for="">Keword Nr 2 </label>
+	                            <input type="text" name="keywordnr2" value="<?php echo $post_meta['keywordnr2'][0]; ?>" maxlength="40" class="form-control keyword2"  placeholder="Keyword Nr 2" value="Stichwort / Schlagwort">
+	                        </div>
+	                        <div class="form-group">
+	                            <label for="">Keword Nr 3 </label>
+	                            <input type="text" name="keywordnr3" value="<?php echo $post_meta['keywordnr3'][0]; ?>" maxlength="40" class="form-control keyword3"  placeholder="Keword Nr 3"  value="Stichwort / Schlagwort">
+	                        </div>
+	                        <div class="form-group">
+	                            <label for="">Keword Nr 4 </label>
+	                            <input type="text" name="keywordnr4" value="<?php echo $post_meta['keywordnr4'][0]; ?>" maxlength="40" class="form-control keyword4"  placeholder="Keword Nr 4"  value="Stichwort / Schlagwort">
+	                        </div>
+	                        <div class="form-group">
+	                            <label for="">Keword Nr 5 </label>
+	                            <input type="text" name="keywordnr5" value="<?php echo $post_meta['keywordnr5'][0]; ?>" maxlength="40" class="form-control keyword5"  placeholder="Keword Nr 5"  value="Stichwort / Schlagwort">
+	                        </div>
+						</div>	
+						<?php endif; ?>				
+					</div>				
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group">
+		                        <p>Der Urheber ist vollstandig fur den i nhalt der Darstellung verantworlich und drklart, dass er alle Rechte am beschriebenen Werk besitzt.</p>
+		                        <p class="text-danger">Diese Angaben zur Registeranmeldung werden nicht veroffentlicht!</p>
+		                    </div>
+		                    <div class="checkbox">
+		                        <label>
+		                        	<input type="checkbox" name="inch_habe_die" <?php if($post_meta['inch_habe_die'][0] == 1 ) echo 'checked="checked"'; ?> value="1" required >Ich habe die Hinweise heruntergeladen, gelesen undmeine Daten gepruft.
+		                        </label>
+		                    </div>
+		                    <div class="checkbox">
+		                        <label>
+		                        	<input type="checkbox" name="inh_habe_die_agb" <?php if( $post_meta['inh_habe_die_agb'][0] == 1 ) echo 'checked="checked"'; ?> value="1" required>Inh habe die AGB heruntergeladen, gelesen und akzeptiert.</label>
+		                    </div>
+		                    <div class="checkbox">
+		                        <label>
+		                        	<input type="checkbox" name="ich_habe_die" <?php if( $post_meta['ich_habe_die'][0] == 1 ) echo 'checked="checked"'; ?> value="1" required>Ich habe die Lizenzvereinbarung nach $30 Markengesetz uber die. Urheber-Kennzeichnug eines Werkes mit der Bezeichnung "CCROIPR" heruntergeladen, gelesen und akzeptiert.</label>
+		                    </div>
+		                    <div class="form-group">
+		                        <p>Bittle geben Sie Ihre E-Mail-Addresse ein (Eintragsbestatigung nach Art.246a $ 1 EGBGB)</p>
+		                        <input type="email" class="form-control" value="<?php echo $post_meta['email'][0]; ?>" readonly>
+		                    </div>
+		                    <div class="form-group">
+		                        <label for="">Sie sind Eingeloggt mit der IP-Adresse: USER-IP</label>
+		                        <input type="text" name="ip" value="<?php echo $post_meta['user_ip'][0]; ?>" class="form-control" readonly  style=" width: 25%;">
+		                    </div>         
+		                    <?php if( 'publish' != $post_status ) : ?>   
+		                    <div class="confirm-wrapper">
+			                    <div class="form-group">		                    	
+			                    	<?php wp_nonce_field( 'register_action'); ?>
+			                        <input type="submit" name="submit" id="register_btn" data-register-type="<?php echo $data_type; ?>" value="Update Data" class="btn btn-success">
+			                        <input type="submit" name="submit" id="confirm_btn" data-nonce="<?php echo wp_create_nonce( 'register_confirm_action' ); ?>" data-register-type="<?php echo $data_type; ?>" value="Confirm Data" class="btn btn-primary float-right">			                        
+			                        <input type="hidden" name="post_id" id="post_id" value="<?php echo hashMe( $post_id, 'e' ); ?>">
+			                        <input type="hidden" name="submit_type" value="<?php echo hashMe( 'updatedata', 'e' ); ?>">
+			                    </div>
+			                    <div class="form-group">
+			                    	<div class="text text-danger text-right">Note: If you confirm the data then you are not be able to edit/update the data anymore.</div>
+			                    </div>
+			                </div>       
+			                <div id="form_result"></div>
+		                	<?php endif; ?>		                	
+		                </div>
+					</div>
+				</form>
+			<?php } ?>
+		</div>				
 	</div>
-    <div class="col-sm-12 mt-5 mb-5"><h3>Urheber - Impressum nach $55 RStV</h3></div>
-</div>
-<div class="row">
-    <div class="col-sm-2">
-        <p><strong>Name</strong></p>
-    </div>
-    <div class="col-sm-4">
-        <p><?php echo ($surname); ?></p>
-    </div>
-    <div class="col-sm-2">
-        <p><strong>CCROIPR-Kategorie</strong></p>
-    </div>
-    <div class="col-sm-4">
-        <p><?php echo ($kategorie); ?></p>
-    </div>
-
-    <div class="col-sm-2">
-        <p><strong>Vorname</strong></p>
-    </div>
-    <div class="col-sm-4">
-        <p><?php echo ($vorname); ?></p>
-    </div>
-    <?php if( 'ccroipr_register_p' ==  $author_role ) : ?>
-    <div class="col-sm-2">
-        <p><strong>Wiener Klassifikation</strong></p>
-    </div>    
-    <div class="col-sm-4">
-        <p>ccroipr-cfe-<?php echo ($wiener); ?></p>
-    </div>
-    <?php endif; ?>
-
-    <div class="col-sm-2">
-        <p><strong>Straße / Nr</strong></p>
-    </div>
-    <div class="col-sm-4">
-        <p><?php echo ($strabe_nr); ?></p>
-    </div>
-    <?php if( 'ccroipr_register_p' ==  $author_role ) : ?>
-    <div class="col-sm-2">
-        <p><strong>Locarno Klassifikation</strong></p>
-    </div>    
-    <div class="col-sm-4">
-        <p>ccroipr-loc-<?php echo ($locarno); ?></p>
-    </div>
-    <?php endif; ?>
-
-    <div class="col-sm-2">
-        <p><strong>Plz</strong></p>
-    </div>
-    <div class="col-sm-4">
-        <p><?php echo ($plz); ?></p>
-    </div>
-    <?php if( 'ccroipr_register_p' ==  $author_role ) : ?>    
-    <div class="col-sm-2">
-        <p><strong>Internationale Patentklassifikation</strong></p>
-    </div>
-    <div class="col-sm-4">
-        <p>ccroipr-ipc-<?php echo ($internationale); ?></p>
-    </div>
-    <?php endif; ?>
-
-    <div class="col-sm-2">
-        <p><strong>Ort / Stadt</strong></p>
-    </div>
-    <div class="col-sm-4">
-        <p><?php echo ($ort); ?></p>
-    </div>
-    <?php if( 'ccroipr_register_p' ==  $author_role ) : ?>
-    <div class="col-sm-2">
-        <p><strong>Nizzaklassifikation</strong></p>
-    </div>    
-    <div class="col-sm-4">
-        <p>ccroipr-ncl-<?php echo ($nizzaklassifikation); ?></p>
-    </div>
-    <?php endif; ?>
-
-    <div class="col-sm-2">
-        <p><strong>E-Post-Address</strong></p>
-    </div>
-    <div class="col-sm-4">
-        <p><?php echo ($e_post_address); ?></p>
-    </div>
-    <div class="col-sm-2">
-        <p><strong>Webseite</strong></p>
-    </div>
-    <div class="col-sm-4">
-        <p><?php echo ($webseite); ?></p>
-    </div>
-
-    <?php if( 'ccroipr_register_p' == $author_role ) : ?>
-        <div class="col-sm-6">
-            <p><strong>SHA256 (Hashwert der Originalabbildung)</strong></p>
-        </div>
-        <div class="col-sm-6">
-            <p><?php echo $sha256; ?></p>
-        </div>
-    <?php endif; ?>
-    <div class="col-sm-2">
-         <p><strong>Werktitel</strong></p>
-    </div>
-    <div class="col-sm-10">
-        <p><?php echo $werktitel; ?></p>
-    </div>
-    <div class="col-sm-2">
-        <p><strong>Werk-Beschreibung</strong></p>
-    </div>
-    <div class="col-sm-10">
-        <p><?php echo ($werk_beschreibung); ?></p>
-    </div>
-
-    <?php if( 'ccroipr_register_p' == $author_role ) : ?>
-   
-        <div class="col-sm-2">
-            <p><strong>Keword Nr 1</strong></p>
-        </div>
-        <div class="col-sm-4">
-            <p><?php echo ($keywordnr1); ?></p>
-        </div>
-        <div class="col-sm-2">
-             <p><strong>Keword Nr 2</strong></p>
-        </div>
-        <div class="col-sm-4">
-            <p><?php echo ($keywordnr2); ?></p>
-        </div>
-
-        <div class="col-sm-2">
-            <p><strong>Keword Nr 3</strong></p>
-        </div>
-        <div class="col-sm-4">
-            <p><?php echo ($keywordnr3); ?></p>
-        </div>
-        <div class="col-sm-2">
-            <p><strong>Keword Nr 4</strong></p>
-        </div>
-        <div class="col-sm-4">
-            <p><?php echo ($keywordnr4); ?></p>
-        </div>
-
-        <div class="col-sm-2">
-            <p><strong>Keword Nr 5</strong></p>
-        </div>
-        <div class="col-sm-4">
-            <p><?php echo ($keywordnr5); ?></p>
-        </div>
-    
-    <?php endif; ?>
-</div>
-
-<div class="row">
-    <div class="col-sm-12 text-center copyright">
-        <p>Der Urheber ist vollständig für den Inhalt der Darstellung verantworlich und erklärt, dass er alle Rechte am beschriebenen Werk besitzt.</p>
-        <p>Public Art & Design Project<br/>© Atelier Kalai 2017</p>
-        <p>Kunstverlag Atelier Kalai • Kerstin Winter • Kirchengasse 12 • 91245 Simmelsdorf</p>
-        <p>Telefon Ortsvorwahl: 09155 Rufnummer 927 420 eMail: info (at) atelier-kalai (.) de</p>
-        <p>Umsatzsteuer-Identifikationsnummer DE 239 876 301</p>
-    </div>
 </div>
