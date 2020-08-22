@@ -770,7 +770,7 @@ function register_action()
                 if (wp_mail($toArray, $subject, $body, $headers)) {
                     //wp_send_json_success('<div class="alert alert-success">Please confirm your email addresss for CCROIPR-Registration von Werktitel.</div>');
                     wp_send_json_success( [
-                        'message'   =>  '<div class="alert alert-success">lease confirm your email addresss for CCROIPR-Registration von Werktitel.</div>',
+                        'message'   =>  '<div class="alert alert-success">please confirm your email addresss for CCROIPR-Registration von Werktitel.</div>',
                         'type'      =>  'register'
                     ] );
                 } else {
