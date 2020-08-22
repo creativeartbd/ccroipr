@@ -408,20 +408,16 @@ add_action('wp_ajax_nopriv_register_action', 'register_action');
 function register_action()
 {
     // Verify nonce
-    wp_verify_nonce('_wpnoncne', 'register_action');   
-   
+    wp_verify_nonce('_wpnoncne', 'register_action');
 
-    $register_type      = isset($_POST['register_type']) ? hashMe(sanitize_text_field($_POST['register_type']), 'd') : '';    
+    $register_type      = isset($_POST['register_type']) ? hashMe(sanitize_text_field($_POST['register_type']), 'd') : '';      
 
-    if (!in_array($register_type, ['ccroipr-t', 'ccroipr-p'])) {
+    if ( !in_array ( $register_type, ['ccroipr-t', 'ccroipr-p'] ) ) {
         return false;
-    }    
-
-    
+    } 
 
     // Check form submit type wheather is for update or new registration
     $submit_type        = isset($_POST['submit_type']) ? hashMe(sanitize_text_field($_POST['submit_type']), 'd') : '';
-
     $surname            = isset($_POST['surname']) ? sanitize_text_field($_POST['surname']) : '';
     $vorname            = isset($_POST['vorname']) ? sanitize_text_field($_POST['vorname']) : '';
     $strabe_nr          = isset($_POST['strabe_nr']) ? sanitize_text_field($_POST['strabe_nr']) : '';
@@ -562,7 +558,6 @@ function register_action()
     }
 
     if ('ccroipr-p' == $register_type) {
-
         if ('updatedata' == $submit_type) {
             if (!empty($image_name)) {
                 if (!in_array($extension, $allowed_image)) {
@@ -628,7 +623,9 @@ function register_action()
 
     if (!empty($errors)) {
         foreach ($errors as $error) {
-            wp_send_json_error('<div class="alert alert-danger">' . $error . '</div>');
+            wp_send_json_error( [
+                'message'   =>  '<div class="alert alert-danger">' . $error . '</div>'
+            ]);
         }
     } else {
 
@@ -636,6 +633,7 @@ function register_action()
         $category           = get_category_by_slug( 'ccroipr-p' );
         
         $category_id        =   '';
+
         if ( $category instanceof WP_Term ) {
             $category_id = $category->term_id;
         }
@@ -658,9 +656,7 @@ function register_action()
             'confirm_id'        => $confirm_id,
             'kategorie'         => 'ccroipr-cat-p-' . date('Y' . '-' . 'm' . '-' . 'd'),
             'email'             => $email,
-        ];
-
-        
+        ];        
 
         if ('ccroipr-p' == $register_type) {
 
@@ -676,23 +672,15 @@ function register_action()
             $post_meta['keywordnr5']          = $keywordnr5;
         }
 
-
-        
-
-
         // Update data only
         if ( 'updatedata' == $submit_type ) {          
 
-            if ( 'ccroipr-p' == $register_type ) {
-             
+            if ( 'ccroipr-p' == $register_type ) {             
 
                 $post_id        = hashMe(sanitize_text_field($_POST['post_id']), 'd');
                 $post = get_post( $post_id );
 
                 if( $post ) {
-
-                    
-                    
 
                     // Create post object
                     $post_array = array(
@@ -729,8 +717,6 @@ function register_action()
             }
 
         } else {
-        
-           
 
             $new_file_name          = strtolower($surname) . '-' . rand(1000, 9999) . '.' . $extension;
             $upload                 = wp_upload_dir();
@@ -741,7 +727,6 @@ function register_action()
             
             $getImageFile   = $upload_dir . '/' . $new_file_name;          
            
-
             // Create post object
             $post_array = array(
                 'post_title'    => $confirm_id,
@@ -791,9 +776,7 @@ function register_action()
                 } else {
                     wp_send_json_error('<div class="alert alert-danger">Opps! For some reasons a confirmation email is not sending. Please contact admin</div>');
                 }
-            }
-
-            
+            }          
             
             
 

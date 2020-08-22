@@ -144,7 +144,7 @@ get_header();
 	                    <div class="form-group">                      
 	                    	<div id="form_result"></div>
 	                    	<?php wp_nonce_field( 'register_action' ); ?>		                    	
-	                        <input type="submit" name="submit" data-register-type="<?php echo hashMe('ccroipr_register_p', 'e'); ?>"  id="register_btn" value="Register" class="btn btn-primary">
+	                        <input type="submit" name="submit" data-register-type="<?php echo hashMe('ccroipr-p', 'e'); ?>"  id="register_btn" value="Register" class="btn btn-primary">
 	                    </div>
 	                </div>
 				</div>
