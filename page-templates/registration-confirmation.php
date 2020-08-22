@@ -21,10 +21,10 @@ if( isset( $key, $post_id ) ) {
 			$code = $post_meta['code'][0];
 
 			if( $key === $code ) {
-				if( 'draft' === $post_status ) {
+				if( 'pending' === $post_status ) {
 					$post_id = wp_update_post( [
 						'ID' => $post_id, 
-						'post_status' => 'pending'
+						'post_status' => 'publish'
 					] );
 					if( ! is_wp_error( $post_id ) ) {
 						$permalink = get_the_permalink( $post_id );

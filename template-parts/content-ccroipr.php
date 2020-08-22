@@ -23,14 +23,14 @@ $post_meta     = get_post_meta( get_the_ID() );
 	<div class="row">
 		<div class="col-lg">   
 			<?php 
-			if( 'pending' != $post_status  ){
+			if( 'publish' != $post_status  ){
 				echo "<div class='alert alert-warning'><strong>Your account is not confirmed or activated. Please contact administrator.</strong></div>";				
 			} else {
 				?>
 	        	<div id="download"></div>
 	            <h1>Profile 
 	            	<?php 
-	            	if( 'publish' == $post_status ) { 
+	            	if( 'confirmed' == $post_status ) { 
 	            		$nonce = wp_create_nonce( 'download-nonce' );
 	            		echo "<input type='button' value='Download' data-submit-type='' class='download btn btn-success float-right' id='download_profile' data-id='$post_id' data-nonce='$nonce'>"; 
 	            	} 
@@ -176,7 +176,7 @@ $post_meta     = get_post_meta( get_the_ID() );
 		                        <label for="">Sie sind Eingeloggt mit der IP-Adresse: USER-IP</label>
 		                        <input type="text" name="ip" value="<?php echo $post_meta['user_ip'][0]; ?>" class="form-control" readonly  style=" width: 25%;">
 		                    </div>         
-		                    <?php if( 'publish' != $post_status ) : ?>   
+		                    <?php if( 'publish' == $post_status ) : ?>   
 		                    <div class="confirm-wrapper">
 			                    <div class="form-group">		                    	
 			                    	<?php wp_nonce_field( 'register_action'); ?>

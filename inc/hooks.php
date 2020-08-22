@@ -687,7 +687,7 @@ function register_action()
                     // Create post object
                     $post_array = array(
                         'ID'            => $post_id,
-                        'meta_input'    => $post_meta,               
+                        'meta_input'    => $post_meta,                                    
                     );            
                     
                     // Insert the post into the database
@@ -734,7 +734,7 @@ function register_action()
             $post_array = array(
                 'post_title'    => $confirm_id,
                 'post_content'  => '',
-                'post_status'   => 'draft',
+                'post_status'   => 'pending',
                 'post_author'   => 1,
                 'post_category' => array( $category_id ),
                 'meta_input'    => $post_meta,               
@@ -1194,3 +1194,27 @@ function ccroipr_password_form()
     $html   .= '</form>';
     return $html;
 }
+
+function wpdocs_custom_post_status(){
+    register_post_status( 'confirmed', array(
+        'label'                     => _x( 'Confirmed', 'post' ),
+        'public'                    => true,
+        'exclude_from_search'       => false,
+        'show_in_admin_all_list'    => true,
+        'show_in_admin_status_list' => true,
+        'label_count'               => _n_noop( 'Confirmed <span class="count">(%s)</span>', 'Confirmed <span class="count">(%s)</span>' ),
+    ) );
+}
+add_action( 'init', 'wpdocs_custom_post_status' );
+
+// Remove WP admin dashboard widgets
+function isa_disable_dashboard_widgets() {
+    if( ! is_admin() ) {
+        remove_meta_box('dashboard_right_now', 'dashboard', 'normal');// Remove "At a Glance"
+        remove_meta_box('dashboard_activity', 'dashboard', 'normal');// Remove "Activity" which includes "Recent Comments"
+        remove_meta_box('dashboard_quick_press', 'dashboard', 'side');// Remove Quick Draft
+        remove_meta_box('dashboard_primary', 'dashboard', 'core');// Remove WordPress Events and News
+    }
+    
+}
+add_action('admin_menu', 'isa_disable_dashboard_widgets');
