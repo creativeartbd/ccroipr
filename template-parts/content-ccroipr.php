@@ -17,13 +17,17 @@ $category      = get_the_category();
 $category_name = $category[0]->name;
 $data_type     = hashMe( $category_name, 'e' );
 $post_meta     = get_post_meta( get_the_ID() );
+
+// echo '<pre>';
+// 	print_r( $post_meta );
+// echo '</pre>';
 ?>
 
 <div class="container main-container">
 	<div class="row">
 		<div class="col-lg">   
-			<?php 
-			if( 'publish' != $post_status  ){
+			<?php
+			if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
 				echo "<div class='alert alert-warning'><strong>Your account is not confirmed or activated. Please contact administrator.</strong></div>";				
 			} else {
 				?>

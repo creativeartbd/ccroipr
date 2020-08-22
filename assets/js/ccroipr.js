@@ -81,7 +81,7 @@
 
 			e.preventDefault();
 
-			var user_id 		= $("#user_id").val(); 
+			var post_id 		= $("#post_id").val(); 
 			var btn_label 		= $('#confirm_btn').val();		
 			var register_type 	= $(this).data('register-type');
 
@@ -89,7 +89,7 @@
 	        	type: 'POST',
 	        	url : settings.ajaxurl,
 	        	data : {
-	        		user_id : user_id,
+	        		post_id : post_id,
 	        		register_type : register_type,
 	        		action : 'register_confirm_action'
 	        	},

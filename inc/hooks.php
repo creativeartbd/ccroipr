@@ -247,11 +247,11 @@ function register_confirm_action()
     wp_verify_nonce('_wpnoncne', 'register_confirm_action');
 
     $register_type      = isset($_POST['register_type']) ? hashMe(sanitize_text_field($_POST['register_type']), 'd') : '';
-    if (!in_array($register_type, ['ccroipr_register_t', 'ccroipr_register_p'])) {
+    if (!in_array($register_type, ['ccroipr-t', 'ccroipr-p'])) {
         return false;
     }
 
-    $post_id = hashMe(sanitize_text_field($_POST['post_id']), 'd');
+    $post_id = hashMe(sanitize_text_field( $_POST['post_id']), 'd');
     $post    = get_post( $post_id );
     
 
@@ -262,7 +262,7 @@ function register_confirm_action()
         $post_meta   = get_post_meta( get_the_ID() );
         
 
-        if ( 'pending' == $post_status ) {
+        if ( 'publish' == $post_status ) {
 
             //$author_meta['is_confirm']  = 1;
             $confirm_id                 = 'ccroipr-' . date('Y' . 'm' . 'd' . 'H' . 'i' . 's') . randomNumber(3);
@@ -331,7 +331,7 @@ function register_confirm_action()
                 }
                 // Clear Memory
                 imagedestroy($canvas);
-                $category_id = get_category_by_slug('cat-p'); //  
+                $category_id = get_category_by_slug('ccroipr-p'); //  
 
             } elseif ( 'ccroipr-t' == $register_type) {
 
@@ -357,7 +357,7 @@ function register_confirm_action()
                 textToImg($text, $image_width, $upload_dir . $generatedImage);
                 $post_meta['thumb_id_t'] = $generatedImage;
 
-                $category_id = get_category_by_slug('cat-t'); //
+                $category_id = get_category_by_slug('ccroipr-t'); //
             }
 
             $category_id = $category_id->term_id;
@@ -367,7 +367,7 @@ function register_confirm_action()
             $post_array = array(
                 'ID'            => $post_id,
                 'meta_input'    => $post_meta,     
-                'post_status'   =>  'publish'          
+                'post_status'   => 'confirmed'          
             );            
             
             // Insert the post into the database
@@ -378,7 +378,9 @@ function register_confirm_action()
                     set_post_thumbnail($post_id, $author_meta['thumb_id']);
                     $permalink = get_the_permalink($post_id);
                 }
-                wp_send_json_success('<div class="alert alert-success">Successfully Confirmed your profile data.</div>');
+                wp_send_json_success( [
+                    'message'   =>  '<div class="alert alert-success">Successfully Confirmed your profile data.</div>'
+                ]);
             }
         } else {
             wp_send_json_error('You already confirmed your data');
@@ -655,10 +657,14 @@ function register_action()
             'user_ip'           => $ip,
             'is_confirm'        => 0,
             'confirm_id'        => $confirm_id,
-            'kategorie'         => 'ccroipr-cat-p-' . date('Y' . '-' . 'm' . '-' . 'd'),
-            'email'             => $email,
+            'kategorie'         => 'ccroipr-cat-p-' . date('Y' . '-' . 'm' . '-' . 'd'),           
             'code'              => $code
         ];        
+
+        if( 'updatedata' != $submit_type ) {
+            $post_meta['email'] =  $email;
+        }
+
 
         if ('ccroipr-p' == $register_type) {
 
