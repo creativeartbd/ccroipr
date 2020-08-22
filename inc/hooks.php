@@ -631,6 +631,7 @@ function register_action()
 
         $confirm_id         = 'ccroipr-' . date('Y' . 'm' . 'd' . 'H' . 'i' . 's') . randomNumber(3);
         $category           = get_category_by_slug( 'ccroipr-p' );
+        $code               = sha1( $confirm_id . time());
         
         $category_id        =   '';
 
@@ -656,6 +657,7 @@ function register_action()
             'confirm_id'        => $confirm_id,
             'kategorie'         => 'ccroipr-cat-p-' . date('Y' . '-' . 'm' . '-' . 'd'),
             'email'             => $email,
+            'code'              => $code
         ];        
 
         if ('ccroipr-p' == $register_type) {
@@ -726,6 +728,7 @@ function register_action()
             file_put_contents($upload_dir . '/' . $new_file_name, $data);
             
             $getImageFile   = $upload_dir . '/' . $new_file_name;          
+            
            
             // Create post object
             $post_array = array(
@@ -744,8 +747,7 @@ function register_action()
 
                 // Set featured image
                 Generate_Featured_Image( $getImageFile, $post_id );
-
-                $code = sha1($post_id . time());
+                
                 $activation_link = add_query_arg(
                     array(
                         'key' => $code,

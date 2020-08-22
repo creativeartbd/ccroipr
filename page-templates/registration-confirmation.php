@@ -15,22 +15,27 @@ if( isset( $key, $post_id ) ) {
 	if( !empty( $key) && !empty( $post_id ) ) {				
 		$post = get_post( $post_id );
 		if( $post ) {
-			$post_status = $post->post_status;
 			$post_id 	= 	$post->ID;
-			if( 'draft' === $post_status ) {
-				$post_id = wp_update_post( [
-					'ID' => $post_id, 
-					'post_status' => 'pending'
-				] );
-				if( ! is_wp_error( $post_id ) ) {
-					$permalink = get_the_permalink( $post_id );
-					$message .= "<div class='alert alert-success'>Congratulation! Your email has been confirmed.</div>";
-					header( "refresh:5;url=$permalink" );
-				} else {
-					$message .= "<div class='alert alert-warning'>Your email address is already confirmed</div>"; 
-		 			header( "refresh:5;url=$permalink" );
+			$post_status = $post->post_status;
+			$post_meta = get_post_meta( $post_id );
+			$code = $post_meta['code'][0];
+
+			if( $key === $code ) {
+				if( 'draft' === $post_status ) {
+					$post_id = wp_update_post( [
+						'ID' => $post_id, 
+						'post_status' => 'pending'
+					] );
+					if( ! is_wp_error( $post_id ) ) {
+						$permalink = get_the_permalink( $post_id );
+						$message .= "<div class='alert alert-success'>Congratulation! Your email has been confirmed.</div>";
+						header( "refresh:5;url=$permalink" );
+					} else {
+						$message .= "<div class='alert alert-warning'>Your email address is already confirmed</div>"; 
+						 header( "refresh:5;url=$permalink" );
+					}
 				}
-			}			
+			}		
 		}
 		
 	}						
