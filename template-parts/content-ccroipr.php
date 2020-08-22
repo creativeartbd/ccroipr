@@ -36,7 +36,7 @@ $post_meta     = get_post_meta( get_the_ID() );
 	            	<?php 
 	            	if( 'confirmed' == $post_status ) { 
 	            		$nonce = wp_create_nonce( 'download-nonce' );
-	            		echo "<input type='button' value='Download' data-submit-type='' class='download btn btn-success float-right' id='download_profile' data-id='$post_id' data-nonce='$nonce'>"; 
+	            		echo "<input type='button' value='Download' data-submit-type='$data_type' class='download btn btn-success float-right' id='download_profile' data-id='".hashMe($post_id, 'e')."' data-nonce='$nonce'>"; 
 	            	} 
 	            	?>
 	            </h1>          

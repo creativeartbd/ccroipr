@@ -118,7 +118,7 @@
     	// Download profile
 		$("#download_profile").on('click', function(e) {
 			e.preventDefault();
-			var user_id = $(this).data('id');
+			var post_id = $(this).data('id');
 			var nonce = $(this).data('nonce');		
 			var submit_type = $(this).data('submit-type');
 			var btn_label = $('#download_profile').val();			
@@ -128,7 +128,7 @@
 	        	url : settings.ajaxurl,
 	        	dataType: 'html',
 	        	data : {
-	        		user_id : user_id,
+	        		post_id : post_id,
 	        		_wpnonce : nonce,
 	        		action: 'download_profile_action',
 	        		submit_type: submit_type,

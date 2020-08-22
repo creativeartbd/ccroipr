@@ -16,47 +16,47 @@ function download_profile_action()
 
     wp_verify_nonce('_wpnoncne', 'download_profile_action');
 
-    $user_id        = hashMe(sanitize_text_field($_POST['user_id']), 'd');
+    $post_id        = hashMe(sanitize_text_field($_POST['post_id']), 'd');
     $submit_type    = hashMe(sanitize_text_field($_POST['submit_type']), 'd');    // ccroipr_register_p or ccroipr_register_t
 
-    $is_user_exist  = get_userdata($user_id);
+    $post = get_post( $post_id );
 
-    if ($is_user_exist) {
+    if( $post ) {
 
-        $author_meta        = get_user_meta($user_id, 'register_user_meta_key', true);
+       
+   
+        $post_meta          = get_post_meta( $post_id );
+        $confirm_id         = $post_meta['confirm_id'][0];
+        $surname            = $post_meta['surname'][0];
+        $vorname            = $post_meta['vorname'][0];
+        $strabe_nr          = $post_meta['strabe_nr'][0];
+        $plz                = $post_meta['plz'][0];
+        $ort                = $post_meta['ort'][0];
+        $e_post_address     = $post_meta['e_post_address'][0];
+        $kategorie          = $post_meta['kategorie'][0];
+        $webseite           = $post_meta['webseite'][0];
+        $werktitel          = $post_meta['werktitel'][0];
+        $werk_beschreibung  = $post_meta['werk_beschreibung'][0];
+        $inch_habe_die      = $post_meta['inch_habe_die'][0];
+        $inh_habe_die_agb   = $post_meta['inh_habe_die_agb'][0];
+        $ich_habe_die       = $post_meta['ich_habe_die'][0];
+        $ip                 = $post_meta['user_ip'][0];
+        $email              = $post_meta['email'][0];
 
-        $confirm_id         = $author_meta['confirm_id'];
-
-        $surname            = $author_meta['surname'];
-        $vorname            = $author_meta['vorname'];
-        $strabe_nr          = $author_meta['strabe_nr'];
-        $plz                = $author_meta['plz'];
-        $ort                = $author_meta['ort'];
-        $e_post_address     = $author_meta['e_post_address'];
-        $kategorie          = $author_meta['kategorie'];
-        $webseite           = $author_meta['webseite'];
-        $werktitel          = $author_meta['werktitel'];
-        $werk_beschreibung  = $author_meta['werk_beschreibung'];
-        $inch_habe_die      = $author_meta['inch_habe_die'];
-        $inh_habe_die_agb   = $author_meta['inh_habe_die_agb'];
-        $ich_habe_die       = $author_meta['ich_habe_die'];
-        $ip                 = $author_meta['user_ip'];
-        $email              = get_the_author_meta('email', $user_id);
-
-        if ('ccroipr_register_p' == $submit_type) {
-            $wiener             = $author_meta['wiener'];
-            $locarno            = $author_meta['locarno'];
-            $internationale     = $author_meta['internationale'];
-            $nizzaklassifikation = $author_meta['nizzaklassifikation'];
-            $sha256             = $author_meta['sha256'];
-            $keywordnr1         = $author_meta['keywordnr1'];
-            $keywordnr2         = $author_meta['keywordnr2'];
-            $keywordnr3         = $author_meta['keywordnr3'];
-            $keywordnr4         = $author_meta['keywordnr4'];
-            $keywordnr5         = $author_meta['keywordnr5'];
+        if ('ccroipr-p' == $submit_type) {
+            $wiener             = $post_meta['wiener'][0];
+            $locarno            = $post_meta['locarno'][0];
+            $internationale     = $post_meta['internationale'][0];
+            $nizzaklassifikation = $post_meta['nizzaklassifikation'][0];
+            $sha256             = $post_meta['sha256'][0];
+            $keywordnr1         = $post_meta['keywordnr1'][0];
+            $keywordnr2         = $post_meta['keywordnr2'][0];
+            $keywordnr3         = $post_meta['keywordnr3'][0];
+            $keywordnr4         = $post_meta['keywordnr4'][0];
+            $keywordnr5         = $post_meta['keywordnr5'][0];
         }
 
-        if ('ccroipr-register-t' == $submit_type) {
+        if ('ccroipr-t' == $submit_type) {
             $kategorie          = str_replace('ccroipr-', 'ccroipr-cat-t-', $kategorie);
         }
 
@@ -106,9 +106,9 @@ function download_profile_action()
 
         $pdf->AddPage();
 
-        if ('ccroipr_register_p' == $submit_type) {
+        if ('ccroipr-p' == $submit_type) {
             //$thumb      = wp_get_attachment_image_src( $author_meta[ 'thumb_id' ], 'ccroipr' );
-            $thumb_src  = $author_meta['thumb_id'];
+            $thumb_src  = get_the_post_thumbnail_url( $post_id );
 
             $image      = $thumb_src;
             $explode    = explode('.', $image);
@@ -211,7 +211,7 @@ function download_profile_action()
         $html2 .= "<tr><td>Common Popyright Register of Intellectual Property Rights.</td></tr>";
         $html2 .= "</table>";
 
-        if ('ccroipr_register_p' == $submit_type) {
+        if ('ccroipr-p' == $submit_type) {
             $pdf->Image($image, '', '45', '75', '', $extension, '', '', true, 300, 'R', false, false, 1, false, false, false);
         }
 
@@ -272,20 +272,9 @@ function register_confirm_action()
             if ('ccroipr-p' == $register_type) {
 
                 $author_meta['kategorie']   = 'ccroipr-cat-p-' . date('Y' . '-' . 'm' . '-' . 'd');
-
-                $upload_dir                 = wp_upload_dir();
-                $path                       = $upload_dir['path'];
-
-                //$thumb                      = wp_get_attachment_image_src( $author_meta[ 'thumb_id' ], 'ccroipr' );
-                //$thumb_src                  = $path . '/' . $author_meta['thumb_id'];
                 $thumb_src                  = get_the_post_thumbnail_url( $post_id );
-                //$relative_url               = str_replace($domain, '', $thumb_src);
-
-
-
                 $explode                    = explode('.', $thumb_src);
                 $extension                  = end($explode);
-                //$explode_2                  = explode('/', $thumb_src);
                 $file_name                  = $explode[0];
 
                 //image_resize_base_width( $relative_url, $relative_url, 350, $extension);
@@ -374,16 +363,14 @@ function register_confirm_action()
             $post_id = wp_update_post( $post_array );
 
             if (!is_wp_error($post_id)) {
-                if ('ccroipr_register_p' == $register_type) {
-                    set_post_thumbnail($post_id, $author_meta['thumb_id']);
-                    $permalink = get_the_permalink($post_id);
-                }
                 wp_send_json_success( [
                     'message'   =>  '<div class="alert alert-success">Successfully Confirmed your profile data.</div>'
                 ]);
             }
         } else {
-            wp_send_json_error('You already confirmed your data');
+            wp_send_json_error( [
+                'message' => 'You already confirmed your data'
+            ]);
         }
     }
 
