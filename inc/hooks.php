@@ -261,6 +261,7 @@ function register_confirm_action()
         $post_status = $post->post_status;
         $post_meta   = get_post_meta( get_the_ID() );
         
+        
 
         if ( 'publish' == $post_status ) {
 
@@ -363,9 +364,19 @@ function register_confirm_action()
             $post_id = wp_update_post( $post_array );
 
             if (!is_wp_error($post_id)) {
+                
                 wp_send_json_success( [
                     'message'   =>  '<div class="alert alert-success">Successfully Confirmed your profile data.</div>'
                 ]);
+
+                // send an email to user and site owner 
+                $email      = $post_meta['email'][0];
+                $attachment = get_the_post_thumbnail_url( $post_id  );
+                $subject    = 'Copy of your document from ccroipr';
+                $body       = 'Please download the copy of your document from ccroipr';
+                $headers    = 'From: My Name <myname@example.com>' . "\r\n";
+
+                wp_mail( $email, $subject, $body, $headers, $attachment );
             }
         } else {
             wp_send_json_error( [
