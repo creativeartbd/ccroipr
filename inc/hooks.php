@@ -275,6 +275,11 @@ function register_confirm_action()
                 $author_meta['kategorie']   = 'ccroipr-cat-p-' . date('Y' . '-' . 'm' . '-' . 'd');
                 $thumb_src                  = get_the_post_thumbnail_url( $post_id );
                 $explode                    = explode('.', $thumb_src);
+
+                echo '<pre>';
+                print_r( $explode );
+                echo '</pre>';
+
                 $extension                  = end($explode);
                 $file_name                  = $explode[0];
 
@@ -293,6 +298,9 @@ function register_confirm_action()
 
                 $orig_width = imagesx($jpg_image);
                 $orig_height = imagesy($jpg_image);
+
+                $upload_dir                 = wp_upload_dir();
+                $path                       = $upload_dir['path'];
 
 
                 // Create your canvas containing both image and text
@@ -313,11 +321,11 @@ function register_confirm_action()
                 imagettftext($canvas, 13, 0, 10, $orig_height + 25, $color, $font_path, $text);
                 // Send Image to Browser
                 if ($extension == 'jpg') {
-                    imagejpeg($canvas, $path . '/' . $file_name);
+                    imagejpeg( $canvas );
                 } elseif ($extension == 'png') {
-                    imagepng($canvas, $path . '/' . $file_name);
+                    imagepng( $canvas );
                 } elseif ($extension == 'gif') {
-                    imagegif($canvas, $path . '/' . $file_name);
+                    imagegif( $canvas );
                 }
                 // Clear Memory
                 imagedestroy($canvas);
