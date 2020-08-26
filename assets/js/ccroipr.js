@@ -1,6 +1,42 @@
 (function($){
     $( document ).ready( function() {
 
+		// Update and Register form data for "Register" and "Register T"
+        $( '#register_btn' ).on( 'click', function(e) {       	
+        	
+        	e.preventDefault();      
+        	var btn_label 	= $('#register_btn').val();
+        	var register_type 	= '' ;
+        		register_type	= $(this).data('register-type');
+			var data 		=  new FormData($('#form')[0]); 			       	        	
+				data.append("action", "register_action");
+				data.append("register_type", register_type);
+			
+	        $.ajax({
+	        	type: 'POST',
+	        	url : settings.ajaxurl,
+	        	data : data,
+	        	dataType: 'json',
+	        	cache: false,				
+				processData: false,
+				contentType: false,
+				beforeSend : function () {
+					$('#register_btn').prop('disabled', true );
+		           	$('#register_btn').val('Please Wait...');
+		        }, 
+	        	success: function( result ) {
+	        		$('#register_btn').prop('disabled', false );
+	        		$('#register_btn').val( btn_label );
+					$('#form_result').html( result.data.message )
+					if( result.success ) {
+						if( result.data.type == 'update' )  {
+							$('#register_btn').prop('disabled', false );
+						}						
+					}
+	        	}
+	        });
+        })   
+
     	// Update and Register form data for "Register" and "Register T"
         $( '#secret_register_btn' ).on( 'click', function(e) {       	
         	
@@ -40,41 +76,7 @@
 	        });
         })  
 
-    	// Update and Register form data for "Register" and "Register T"
-        $( '#register_btn' ).on( 'click', function(e) {       	
-        	
-        	e.preventDefault();      
-        	var btn_label 	= $('#register_btn').val();
-        	var register_type 	= '' ;
-        		register_type	= $(this).data('register-type');
-			var data 		=  new FormData($('#form')[0]); 			       	        	
-				data.append("action", "register_action");
-				data.append("register_type", register_type);
-			
-	        $.ajax({
-	        	type: 'POST',
-	        	url : settings.ajaxurl,
-	        	data : data,
-	        	dataType: 'json',
-	        	cache: false,				
-				processData: false,
-				contentType: false,
-				beforeSend : function () {
-					$('#register_btn').prop('disabled', true );
-		           	$('#register_btn').val('Please Wait...');
-		        }, 
-	        	success: function( result ) {
-	        		$('#register_btn').prop('disabled', false );
-	        		$('#register_btn').val( btn_label );
-					$('#form_result').html( result.data.message )
-					if( result.success ) {
-						if( result.data.type == 'update' )  {
-							$('#register_btn').prop('disabled', false );
-						}						
-					}
-	        	}
-	        });
-        })   
+    	
 
         // Confirm "Register" and "Register T" form
 		$("#confirm_btn").on('click', function(e) {
@@ -103,9 +105,9 @@
 						$('#confirm_btn, #register_btn').prop('disabled', true );	
 						$('#confirm_btn').val( btn_label );		
 						$('.confirm-wrapper').remove();							
-	        			setTimeout(function(){// wait for 5 secs(2)
-	                        location.reload(); // then reload the page.(3)
-	                    }, 3000);	        		
+	        			// setTimeout(function(){// wait for 5 secs(2)
+	                    //     location.reload(); // then reload the page.(3)
+	                    // }, 3000);	        		
 					} else {
 						//$('#confirm_btn').prop('disabled', false );
 					}

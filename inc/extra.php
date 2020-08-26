@@ -323,3 +323,39 @@ function generatePdfWithImage($pdf_data, $return = null)
         return $pdf_link;
     }
 }
+
+function upload_post_thumbnail( $surname, $extension, $final_image, $post_id ) {
+    
+    $new_file_name = strtolower($surname) . '-' . rand(1000, 9999) . '.' . $extension;
+    $wp_upload_dir = wp_upload_dir();
+    $path          = $wp_upload_dir['path']; // /Applications/MAMP/htdocs/ccroipr/wp-content/uploads/2020/08    
+    $image_parts   = explode(";base64,", $final_image);
+    $image_base64  = base64_decode($image_parts[1]);
+    $filename      = $path . '/' . $new_file_name;      
+    file_put_contents( $filename, $image_base64 );                              
+    
+    // Check the type of file. We'll use this as the 'post_mime_type'.
+    $filetype = wp_check_filetype( basename( $filename ), null );     
+
+    // Prepare an array of post data for the attachment.
+    $attachment = array(
+        'guid'           => $path['url'] . '/' . basename( $filename ), 
+        'post_mime_type' => $filetype['type'],
+        'post_title'     => preg_replace( '/\.[^.]+$/', '', basename( $filename ) ),
+        'post_content'   => '',
+        'post_status'    => 'inherit'
+    );
+    
+    // Insert the attachment.
+    $attach_id = wp_insert_attachment( $attachment, $filename, $post_id );
+    
+    // Make sure that this file is included, as wp_generate_attachment_metadata() depends on it.
+    require_once( ABSPATH . 'wp-admin/includes/image.php' );
+    
+    // Generate the metadata for the attachment, and update the database record.
+    $attach_data = wp_generate_attachment_metadata( $attach_id, $filename );
+    wp_update_attachment_metadata( $attach_id, $attach_data );
+
+    // set the post thumbnail
+    set_post_thumbnail( $post_id, $attach_id );
+}

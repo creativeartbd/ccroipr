@@ -27,6 +27,7 @@ $post_meta     = get_post_meta( get_the_ID() );
 	<div class="row">
 		<div class="col-lg">   
 			<?php
+
 			if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
 				echo "<div class='alert alert-warning'><strong>Your account is not confirmed or activated. Please contact administrator.</strong></div>";				
 			} else {
@@ -116,7 +117,7 @@ $post_meta     = get_post_meta( get_the_ID() );
 								<div class="slim" data-download="true" data-instant-edit="true">
 									<img src="<?php echo $thumbnail_url; ?>" alt="">	
 									<input type="file" name="slim" id="file_change"/>
-								</div>				
+								</div>								
 		                    </div>
 							<div class="form-group">
 	                            <label for="">SHA256 (Hashwert der Originalabbildung)</label>
