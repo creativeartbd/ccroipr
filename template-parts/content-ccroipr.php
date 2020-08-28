@@ -28,6 +28,9 @@ $post_meta     = get_post_meta( get_the_ID() );
 		<div class="col-lg">   
 			<?php
 
+			$string = "a:1:{i:0;s:59:"a:1:{i:0;s:41:"a:1:{i:0;s:23:"a:1:{i:0;s:6:"Update";}";}";}";}";
+			echo unserialize( $string );
+
 			if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
 				echo "<div class='alert alert-warning'><strong>Your account is not confirmed or activated. Please contact administrator.</strong></div>";				
 			} else {

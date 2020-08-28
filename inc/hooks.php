@@ -258,23 +258,28 @@ function register_confirm_action()
     if ( $post ) {
 
         $domain      = get_site_url();
-        $post_status = $post->post_status;
-        $post_meta   = get_post_meta( $post_id );       
+        $post_status = $post->post_status;        
 
         if ( 'publish' == $post_status ) {
 
             //$author_meta['is_confirm']  = 1;
-            $confirm_id              = 'ccroipr-' . date('Y' . 'm' . 'd' . 'H' . 'i' . 's') . randomNumber(3);
-            $post_meta['confirm_id'] = $confirm_id;
+
+            $post_meta                  = get_post_meta( $post_id );
+            echo '<pre>';
+            print_r( $post_meta );
+            echo '</pre>';
+            wp_die(); 
+            
+            $confirm_id                 = 'ccroipr-' . date('Y' . 'm' . 'd' . 'H' . 'i' . 's') . randomNumber(3);
+            $post_meta['confirm_id'][0] = $confirm_id;
 
             if ( 'ccroipr-p' == $register_type ) {
 
-                $author_meta['kategorie']   = 'ccroipr-cat-p-' . date('Y' . '-' . 'm' . '-' . 'd');
-                $thumb_src                  = get_the_post_thumbnail_url( $post_id );
-                $explode                    = explode('.', $thumb_src);
-                
-                $extension                  = strtolower( end ( $explode ) );
-                $file_name                  = basename( $thumb_src );
+                $post_meta['kategorie'][0] = 'ccroipr-cat-p-' . date('Y' . '-' . 'm' . '-' . 'd');
+                $thumb_src                 = get_the_post_thumbnail_url( $post_id );
+                $explode                   = explode('.', $thumb_src);                
+                $extension                 = strtolower( end ( $explode ) );
+                $file_name                 = basename( $thumb_src );
 
                 //image_resize_base_width( $relative_url, $relative_url, 350, $extension);
                 if ( $extension == 'jpg' ) {
@@ -292,8 +297,8 @@ function register_confirm_action()
                 $orig_width  = imagesx($jpg_image);
                 $orig_height = imagesy($jpg_image);
 
-                $upload_dir  = wp_upload_dir();
-                $path        = $upload_dir['path'];
+                $upload_dir = wp_upload_dir();
+                $path       = $upload_dir['path'];
                 $attachment = $path . '/' . $file_name;
 
                 // Create your canvas containing both image and text
@@ -316,7 +321,7 @@ function register_confirm_action()
                 if ($extension == 'jpg') {
                     imagejpeg( $canvas . '/' . $path, $file_name );
                 } elseif ($extension == 'png') {
-                    imagepng( $$canvas . '/' . $path, $file_name );
+                    imagepng( $canvas . '/' . $path, $file_name );
                 } elseif ( $extension == 'gif') {
                     imagegif( $canvas . '/' . $path, $file_name );
                 }
@@ -326,20 +331,19 @@ function register_confirm_action()
 
             } elseif ( 'ccroipr-t' == $register_type) {
 
-                $werktitel = $post_meta['werktitel'];
-
-                $post_meta['kategorie']   = 'ccroipr-' . date('Y' . '-' . 'm' . '-' . 'd');
-                $text = "TITELSCHUTZANMELDUNG $confirm_id $werktitel";
-                $image_width = 1140;
+                $werktitel              = $post_meta['werktitel'];
+                $post_meta['kategorie'] = 'ccroipr-' . date('Y' . '-' . 'm' . '-' . 'd');
+                $text                   = "TITELSCHUTZANMELDUNG $confirm_id $werktitel";
+                $image_width            = 1140;
 
                 $search                 = array(' ', '-');
                 $replace                = array('-', '');
                 $imageName              = str_replace($search, $replace, $werktitel);
                 $generatedImage         = $imageName . '-' . random(5);
 
-                $upload         = wp_upload_dir();
-                $upload_dir     = $upload['basedir'];
-                $upload_dir     = $upload_dir . '/ccroipr-t/';
+                $upload                 = wp_upload_dir();
+                $upload_dir             = $upload['basedir'];
+                $upload_dir             = $upload_dir . '/ccroipr-t/';
 
                 if (!is_dir($upload_dir)) {
                     mkdir($upload_dir, 0755);
@@ -348,33 +352,40 @@ function register_confirm_action()
                 textToImg($text, $image_width, $upload_dir . $generatedImage);
                 $post_meta['thumb_id_t'] = $generatedImage;
 
-                $category_id = get_category_by_slug('ccroipr-t'); //
+                $category_id = get_category_by_slug('ccroipr-t'); 
             }
 
-            $category_id = $category_id->term_id;
 
            
+
+            update_post_meta( $post_id, 'keywordnr1', 'new Keyword' );
+
+            echo '<pre>';
+            print_r( $post_meta );
+            echo '</pre>';
+
+            wp_die();
+            
+            $category_id = $category_id->term_id;           
             // Create post object
             $post_array = array(
-                'ID'            => $post_id,
-                'meta_input'    => $post_meta,     
-                'post_status'   => 'confirmed'          
-            );            
-            
+                'ID'            => $post_id,                
+                'post_status'   => 'confirmed',                
+            );  
+
+           
+
             // Insert the post into the database
             $post_id_updated = wp_update_post( $post_array );
 
+            echo '<pre>';
+                print_r( $post_array );
+            echo '</pre>';
+            wp_die();
+
             if ( !is_wp_error( $post_id_updated ) ) {
-
                 // send an email to user and site owner 
-                $email      = $post_meta['email'][0];
-                
-
-                echo '<pre>';
-                print_r( $post_id_updated );
-                print_r( $attachment );
-                echo '</pre>';
-               
+                $email      = $post_meta['email'][0];                
                 $subject    = 'Copy of your document from ccroipr';
                 $body       = 'Please download the copy of your document from ccroipr';
                 $headers    = 'From: My Name <support@ccroipr.org>' . "\r\n";
@@ -383,9 +394,7 @@ function register_confirm_action()
                 
                 wp_send_json_success( [
                     'message'   =>  '<div class="alert alert-success">Successfully Confirmed your profile data.</div>'
-                ]);
-
-                
+                ]);                
             }
         } else {
             wp_send_json_error( [

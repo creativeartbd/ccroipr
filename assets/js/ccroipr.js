@@ -74,9 +74,7 @@
 				}
 	        	}
 	        });
-        })  
-
-    	
+        })      	
 
         // Confirm "Register" and "Register T" form
 		$("#confirm_btn").on('click', function(e) {
@@ -101,17 +99,18 @@
 		           	$('#confirm_btn').val('Please Wait...');
 		        }, 
 	        	success: function( result ) {
-	        		if(  result.success == true ) {
+	        		if(  result.success ) {
 						$('#confirm_btn, #register_btn').prop('disabled', true );	
 						$('#confirm_btn').val( btn_label );		
-						$('.confirm-wrapper').remove();							
-	        			// setTimeout(function(){// wait for 5 secs(2)
-	                    //     location.reload(); // then reload the page.(3)
-	                    // }, 3000);	        		
+						$('.confirm-wrapper').remove();		
+						$('#form_result').html( result.data.message );
+	        			setTimeout(function(){// wait for 5 secs(2)
+	                        location.reload(); // then reload the page.(3)
+	                    }, 3000);	        		
 					} else {
-						//$('#confirm_btn').prop('disabled', false );
+						$('#confirm_btn').prop('disabled', false );
 					}
-					$('#form_result').html( result.data );	     
+					$('#form_result').html( result.data.message );	     
 	        	}
 	        });
 			
