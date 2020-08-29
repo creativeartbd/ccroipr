@@ -265,9 +265,11 @@ function register_confirm_action()
             //$author_meta['is_confirm']  = 1;
 
             $post_meta                  = get_post_meta( $post_id );
+            update_post_meta( $post_id, 'surname', 'new surename' );
             echo '<pre>';
             print_r( $post_meta );
             echo '</pre>';
+
             wp_die(); 
             
             $confirm_id                 = 'ccroipr-' . date('Y' . 'm' . 'd' . 'H' . 'i' . 's') . randomNumber(3);
@@ -677,7 +679,8 @@ function register_action()
         ];        
 
         if( 'updatedata' != $submit_type ) {
-            $post_meta['email'] =  $email;
+            $existing_post_meta = get_post_meta( $post_id, 'ccroipr_register_meta', true );
+            $post_meta['email'] =  $existing_post_meta['email'];
         }
 
         if ('ccroipr-p' == $register_type) {
@@ -702,28 +705,21 @@ function register_action()
                 $post    = get_post( $post_id );
 
                 if( $post ) {
-                    // Create post object
-                    $post_array = array(
-                        'ID'            => $post_id,
-                        'meta_input'    => $post_meta,                                    
-                    );            
                     
-                    // Insert the post into the database
-                    $updated_post_id = wp_update_post( $post_array );
-
-                    if( ! is_wp_error( $updated_post_id) ) { 
-                      
-                        if( $image_name ) {                        
-                            // Upload new post thumbnail
-                            upload_post_thumbnail( $surname, $extension, $final_image, $post_id );
-                        }
-                        
-                        //wp_send_json_success('<div class="alert alert-success">Successfully updated the data.</div>');
-                        wp_send_json_success( [
-                            'message'   =>  '<div class="alert alert-success">Successfully updated the data.</div>',
-                            'type'      =>  'update'
-                        ] );
+                    // Update post meta
+                    update_post_meta( $post_id, 'ccroipr_register_meta', $post_meta );
+                    
+                    if( $image_name ) {                        
+                        // Upload new post thumbnail
+                        upload_post_thumbnail( $surname, $extension, $final_image, $post_id );
                     }
+                    
+                    //wp_send_json_success('<div class="alert alert-success">Successfully updated the data.</div>');
+                    wp_send_json_success( [
+                        'message'   =>  '<div class="alert alert-success">Successfully updated the data.</div>',
+                        'type'      =>  'update'
+                    ] );
+                    
                 }
             }
 
@@ -736,14 +732,16 @@ function register_action()
                 'post_status'   => 'pending',
                 'post_author'   => 1,
                 'post_category' => array( $category_id ),
-                'meta_input'    => $post_meta,               
-            );            
+            );   
             
             // Insert the post into the database
             $post_id = wp_insert_post( $post_array );            
 
             // If the post is successfully craeted
             if( ! is_wp_error( $post_id ) ) {
+
+                // Insert post meta
+                add_post_meta( $post_id, 'ccroipr_register_meta', $post_meta );
 
                 // Insert new post thumbnail
                 upload_post_thumbnail( $surname, $extension, $final_image, $post_id );

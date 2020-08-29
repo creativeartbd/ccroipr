@@ -14,11 +14,12 @@ $message 	= '';
 if( isset( $key, $post_id ) ) {
 	if( !empty( $key) && !empty( $post_id ) ) {				
 		$post = get_post( $post_id );
-		if( $post ) {
-			$post_id 	= 	$post->ID;
+		if( $post ) 
+		
+			$post_id 	   = $post->ID;
 			$post_status = $post->post_status;
-			$post_meta = get_post_meta( $post_id );
-			$code = $post_meta['code'][0];
+			$post_meta   = get_post_meta( $post_id, 'ccroipr_register_meta', true );
+			$code        = $post_meta['code'];
 
 			if( $key === $code ) {
 				if( 'pending' === $post_status ) {
