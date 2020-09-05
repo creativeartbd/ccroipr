@@ -262,26 +262,17 @@ function register_confirm_action()
 
         if ( 'publish' == $post_status ) {
 
-            //$author_meta['is_confirm']  = 1;
-
-            $post_meta                  = get_post_meta( $post_id );
-            update_post_meta( $post_id, 'surname', 'new surename' );
-            echo '<pre>';
-            print_r( $post_meta );
-            echo '</pre>';
-
-            wp_die(); 
-            
+            $post_meta                  = get_post_meta( $post_id, 'ccroipr_register_meta', true );
             $confirm_id                 = 'ccroipr-' . date('Y' . 'm' . 'd' . 'H' . 'i' . 's') . randomNumber(3);
-            $post_meta['confirm_id'][0] = $confirm_id;
+            $post_meta['confirm_id']    = $confirm_id;
 
             if ( 'ccroipr-p' == $register_type ) {
 
-                $post_meta['kategorie'][0] = 'ccroipr-cat-p-' . date('Y' . '-' . 'm' . '-' . 'd');
-                $thumb_src                 = get_the_post_thumbnail_url( $post_id );
-                $explode                   = explode('.', $thumb_src);                
-                $extension                 = strtolower( end ( $explode ) );
-                $file_name                 = basename( $thumb_src );
+                $post_meta['kategorie'] = 'ccroipr-cat-p-' . date('Y' . '-' . 'm' . '-' . 'd');
+                $thumb_src              = get_the_post_thumbnail_url( $post_id );
+                $explode                = explode('.', $thumb_src);                
+                $extension              = strtolower( end ( $explode ) );
+                $file_name              = basename( $thumb_src );
 
                 //image_resize_base_width( $relative_url, $relative_url, 350, $extension);
                 if ( $extension == 'jpg' ) {
@@ -356,38 +347,22 @@ function register_confirm_action()
 
                 $category_id = get_category_by_slug('ccroipr-t'); 
             }
-
-
-           
-
-            update_post_meta( $post_id, 'keywordnr1', 'new Keyword' );
-
-            echo '<pre>';
-            print_r( $post_meta );
-            echo '</pre>';
-
-            wp_die();
             
             $category_id = $category_id->term_id;           
             // Create post object
             $post_array = array(
                 'ID'            => $post_id,                
                 'post_status'   => 'confirmed',                
-            );  
-
-           
+            ); 
 
             // Insert the post into the database
             $post_id_updated = wp_update_post( $post_array );
 
-            echo '<pre>';
-                print_r( $post_array );
-            echo '</pre>';
-            wp_die();
-
             if ( !is_wp_error( $post_id_updated ) ) {
+                // update post meta
+                update_post_meta( $post_id, 'ccroipr_register_meta', $post_meta );
                 // send an email to user and site owner 
-                $email      = $post_meta['email'][0];                
+                $email      = $post_meta['email'];                
                 $subject    = 'Copy of your document from ccroipr';
                 $body       = 'Please download the copy of your document from ccroipr';
                 $headers    = 'From: My Name <support@ccroipr.org>' . "\r\n";
@@ -427,17 +402,19 @@ add_action('wp_ajax_nopriv_register_action', 'register_action');
 
 function register_action()
 {
+
     // Verify nonce
     wp_verify_nonce('_wpnoncne', 'register_action');
 
-    $register_type      = isset($_POST['register_type']) ? hashMe(sanitize_text_field($_POST['register_type']), 'd') : '';      
-
+    // Check register form type. Must be ccroipr-p or ccroipr-t
+    $register_type = isset($_POST['register_type']) ? hashMe(sanitize_text_field($_POST['register_type']), 'd'): '';      
+    
     if ( !in_array ( $register_type, ['ccroipr-t', 'ccroipr-p'] ) ) {
         return false;
-    } 
+    }
 
     // Check form submit type wheather is for update or new registration
-    $submit_type        = isset($_POST['submit_type']) ? hashMe(sanitize_text_field($_POST['submit_type']), 'd') : '';
+    $submit_type        = isset($_POST['submit_type']) ? hashMe(sanitize_text_field($_POST['submit_type']), 'd') : ''; // Either register or update
     $surname            = isset($_POST['surname']) ? sanitize_text_field($_POST['surname']) : '';
     $vorname            = isset($_POST['vorname']) ? sanitize_text_field($_POST['vorname']) : '';
     $strabe_nr          = isset($_POST['strabe_nr']) ? sanitize_text_field($_POST['strabe_nr']) : '';
@@ -576,22 +553,22 @@ function register_action()
         $errors[] = 'ich habe die is required';
     }
 
-    if ('ccroipr-p' == $register_type) {
-        if ('updatedata' == $submit_type) {
-            if (!empty($image_name)) {
-                if (!in_array($extension, $allowed_image)) {
-                    $errors[] = 'Only jpg, png and gif images are allowed';
-                } elseif ($image_size > $allowed_size) {
-                    $errors[] = 'Maximum 10 MB image are allowd';
-                }
-            }
-        } else {
+    if ( 'ccroipr-p' == $register_type ) {
+        if ('register' == $submit_type) {
             if (empty($image_name)) {
                 $errors[] = 'Please upload image';
             } elseif (!in_array($extension, $allowed_image)) {
                 $errors[] = 'Only jpg, png and gif images are allowed';
             } elseif ($image_size > $allowed_size) {
                 $errors[] = 'Maximum 10 MB image are allowd';
+            }
+        } elseif( 'update' == $submit_type ) {
+            if (!empty($image_name)) {
+                if (!in_array($extension, $allowed_image)) {
+                    $errors[] = 'Only jpg, png and gif images are allowed';
+                } elseif ($image_size > $allowed_size) {
+                    $errors[] = 'Maximum 10 MB image are allowd';
+                }
             }
         }
 
@@ -632,7 +609,7 @@ function register_action()
         }
     }
 
-    if (!$submit_type) {
+    if ( 'register' === $submit_type) {
         if (empty($email)) {
             $errors[] = 'E-mail address is required';
         } elseif (!is_email($email)) {
@@ -651,9 +628,8 @@ function register_action()
         $confirm_id         = 'ccroipr-' . date('Y' . 'm' . 'd' . 'H' . 'i' . 's') . randomNumber(3);
         $category           = get_category_by_slug( 'ccroipr-p' );
         $code               = sha1( $confirm_id . time());
-        
-        $category_id        = '';
 
+        $category_id        = '';
         if ( $category instanceof WP_Term ) {
             $category_id = $category->term_id;
         }
@@ -671,16 +647,23 @@ function register_action()
             'inch_habe_die'     => $inch_habe_die,
             'inh_habe_die_agb'  => $inh_habe_die_agb,
             'ich_habe_die'      => $ich_habe_die,
-            'user_ip'           => $ip,
             'is_confirm'        => 0,
             'confirm_id'        => $confirm_id,
             'kategorie'         => 'ccroipr-cat-p-' . date('Y' . '-' . 'm' . '-' . 'd'),           
-            'code'              => $code
+            'code'              => $code,
+            'email'             => $email
         ];        
 
-        if( 'updatedata' != $submit_type ) {
-            $existing_post_meta = get_post_meta( $post_id, 'ccroipr_register_meta', true );
-            $post_meta['email'] =  $existing_post_meta['email'];
+        if( 'register' == $submit_type ) {
+            $post_meta['email']   = $email;
+            $post_meta['user_ip'] = $ip;
+        } elseif( 'update' == $submit_type ) {
+            $post_id = hashMe( $_POST['post_id'], 'd' );
+            if( get_post( $post_id ) ) {
+                $ext_post_meta = get_post_meta( $post_id, 'ccroipr_register_meta', true );
+                $post_meta['email']   = $ext_post_meta['email'];
+                $post_meta['user_ip'] = $ext_post_meta['user_ip'];
+            }
         }
 
         if ('ccroipr-p' == $register_type) {
@@ -696,44 +679,42 @@ function register_action()
             $post_meta['keywordnr4']          = $keywordnr4;
             $post_meta['keywordnr5']          = $keywordnr5;
         }
+        
+        // Update form data
+        if ( 'update' == $submit_type ) { 
+            
+            if ( 'ccroipr-p' == $register_type ) { 
 
-        // Update data only
-        if ( 'updatedata' == $submit_type ) { 
-            if ( 'ccroipr-p' == $register_type ) {             
-
-                $post_id = hashMe(sanitize_text_field($_POST['post_id']), 'd');
+                // get the post id from the input hidden field
+                $post_id = hashMe( $_POST['post_id'], 'd' );
                 $post    = get_post( $post_id );
-
+               
                 if( $post ) {
-                    
+                  
                     // Update post meta
                     update_post_meta( $post_id, 'ccroipr_register_meta', $post_meta );
-                    
+                    // If, there is a new post thumbnail
                     if( $image_name ) {                        
                         // Upload new post thumbnail
                         upload_post_thumbnail( $surname, $extension, $final_image, $post_id );
                     }
-                    
-                    //wp_send_json_success('<div class="alert alert-success">Successfully updated the data.</div>');
+                    // Successfully uddated
                     wp_send_json_success( [
                         'message'   =>  '<div class="alert alert-success">Successfully updated the data.</div>',
                         'type'      =>  'update'
                     ] );
-                    
                 }
             }
+        } elseif( 'register' == $submit_type ) {
 
-        } else {
-
-            // Create posxt object
+            // Create post object
             $post_array = array(
                 'post_title'    => $confirm_id,
                 'post_content'  => '',
                 'post_status'   => 'pending',
                 'post_author'   => 1,
                 'post_category' => array( $category_id ),
-            );   
-            
+            ); 
             // Insert the post into the database
             $post_id = wp_insert_post( $post_array );            
 

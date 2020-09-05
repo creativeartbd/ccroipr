@@ -16,11 +16,11 @@ $post_status   = $post->post_status;
 $category      = get_the_category();
 $category_name = $category[0]->name;
 $data_type     = hashMe( $category_name, 'e' );
-$post_meta   	 = get_post_meta( $post_id, 'ccroipr_register_meta', true );
+$post_meta   	= get_post_meta( $post_id, 'ccroipr_register_meta', true );
 
-echo '<pre>';
-	print_r( $post_meta );
-echo '</pre>';
+// echo '<pre>';
+// print_r( $post_meta );
+// echo '</pre>';
 ?>
 
 <div class="container main-container">
@@ -48,7 +48,7 @@ echo '</pre>';
 	            	<h2>Common Copyright Register of Intellectual Property Rights / CCROIPR-CAT-T</h2>
 	            <?php endif; ?>
 
-	            <form action="" class="form" method="POST" id="form" enctype="multipart/form-data">
+	            <form action="" class="form" method="POST" id="ccroipr_ru_form" enctype="multipart/form-data">
 					<div class="row mt-5">					
 						<div class="col-md-12">
 							<div class="form-group">
@@ -182,13 +182,15 @@ echo '</pre>';
 		                    </div>         
 		                    <?php if( 'publish' == $post_status ) : ?>   
 		                    <div class="confirm-wrapper">
-			                    <div class="form-group">		                    	
-			                    	<?php wp_nonce_field( 'register_action'); ?>
-			                        <input type="submit" name="submit" id="register_btn" data-register-type="<?php echo $data_type; ?>" value="Update Data" class="btn btn-success">
-			                        <input type="submit" name="submit" id="confirm_btn" data-nonce="<?php echo wp_create_nonce( 'register_confirm_action' ); ?>" data-register-type="<?php echo $data_type; ?>" value="Confirm Data" class="btn btn-primary float-right">			                        
-			                        <input type="hidden" name="post_id" id="post_id" value="<?php echo hashMe( $post_id, 'e' ); ?>">
-			                        <input type="hidden" name="submit_type" value="<?php echo hashMe( 'updatedata', 'e' ); ?>">
-			                    </div>
+								<div id="form_result"></div>
+									<?php wp_nonce_field( 'register_action' ); ?>		
+									<input type="hidden" name="action" value="register_action">                    	
+									<input type="submit" name="submit" value="Update Data" class="btn btn-primary" id="btn">
+									<input type="hidden" name="register_type" value="<?php echo hashMe('ccroipr-p', 'e'); ?>">
+									<input type="hidden" name="submit_type" value="<?php echo hashMe('update', 'e'); ?>">
+									<input type="hidden" name="post_id" value="<?php echo hashMe( get_the_ID(), 'e'); ?>" id="post_id">
+									<input type="submit" name="submit" value="Confirm Data" class="btn btn-success float-right" id="confirm_btn" data-nonce="<?php echo wp_create_nonce( 'register_confirm_action' ); ?>" data-register-type="<?php echo $data_type; ?>" >
+		                    	</div>
 			                    <div class="form-group">
 			                    	<div class="text text-danger text-right">Note: If you confirm the data then you are not be able to edit/update the data anymore.</div>
 			                    </div>

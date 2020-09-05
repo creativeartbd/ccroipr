@@ -20,7 +20,7 @@ get_header();
 				}
 			}
 			?>	
-			<form action="" method="POST" id="form" enctype="multipart/form-data">
+			<form action="" method="POST" enctype="multipart/form-data" id="ccroipr_ru_form">
 				<div class="row mt-5">					
 					<div class="col-sm-6 col-md-3 col-lg-3">
 						<div class="form-group">
@@ -140,8 +140,11 @@ get_header();
 	                    </div>                   
 	                    <div class="form-group">                      
 	                    	<div id="form_result"></div>
-	                    	<?php wp_nonce_field( 'register_action' ); ?>		                    	
-	                        <input type="submit" name="submit" data-register-type="<?php echo hashMe('ccroipr-p', 'e'); ?>"  id="register_btn" value="Register" class="btn btn-primary">
+	                    	<?php wp_nonce_field( 'register_action' ); ?>		
+							<input type="hidden" name="action" value="register_action">                    	
+	                        <input type="submit" name="submit" value="Register" class="btn btn-primary" id="btn">
+							<input type="hidden" name="register_type" value="<?php echo hashMe('ccroipr-p', 'e'); ?>">
+							<input type="hidden" name="submit_type" value="<?php echo hashMe('register', 'e'); ?>">
 	                    </div>
 	                </div>
 				</div>

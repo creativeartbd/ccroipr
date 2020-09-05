@@ -1,42 +1,35 @@
 (function($){
     $( document ).ready( function() {
 
-		// Update and Register form data for "Register" and "Register T"
-        $( '#register_btn' ).on( 'click', function(e) {       	
-        	
-        	e.preventDefault();      
-        	var btn_label 	= $('#register_btn').val();
-        	var register_type 	= '' ;
-        		register_type	= $(this).data('register-type');
-			var data 		=  new FormData($('#form')[0]); 			       	        	
-				data.append("action", "register_action");
-				data.append("register_type", register_type);
+		// Register and Update form for the Register Menu
+		$('#ccroipr_ru_form').submit(function(e) {
+			e.preventDefault();
+			var btn_label 	= $('#btn').val();
+			var form_data = $(this).serialize();
 			
-	        $.ajax({
+			$.ajax({
 	        	type: 'POST',
 	        	url : settings.ajaxurl,
-	        	data : data,
+	        	data : form_data,
 	        	dataType: 'json',
-	        	cache: false,				
-				processData: false,
-				contentType: false,
 				beforeSend : function () {
-					$('#register_btn').prop('disabled', true );
-		           	$('#register_btn').val('Please Wait...');
+					$('#btn').prop('disabled', true );
+		           	$('#btn').val('Please Wait...');
 		        }, 
 	        	success: function( result ) {
-	        		$('#register_btn').prop('disabled', false );
-	        		$('#register_btn').val( btn_label );
+	        		$('#btn').prop('disabled', false );
+	        		$('#btn').val( btn_label );
 					$('#form_result').html( result.data.message )
 					if( result.success ) {
 						if( result.data.type == 'update' )  {
-							$('#register_btn').prop('disabled', false );
+							$('#btn').prop('disabled', false );
 						}						
 					}
 	        	}
 	        });
-        })   
-
+		});
+		
+	
     	// Update and Register form data for "Register" and "Register T"
         $( '#secret_register_btn' ).on( 'click', function(e) {       	
         	
@@ -95,7 +88,7 @@
 	        	},
 	        	dataType: 'json',	        	
 				beforeSend : function () {
-					//$('#confirm_btn').prop('disabled', true );
+					$('#confirm_btn').prop('disabled', true );
 		           	$('#confirm_btn').val('Please Wait...');
 		        }, 
 	        	success: function( result ) {
