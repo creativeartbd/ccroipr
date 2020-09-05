@@ -21,12 +21,6 @@ function download_profile_action()
 
     $post = get_post( $post_id );
 
-    // echo '<pre>';
-    //     print_r( get_post_meta( $post_id, 'ccroipr_register_meta', true ) );
-    // echo '</pre>';
-
-    // wp_die();
-
     if( $post ) {       
    
         $post_meta          = get_post_meta( $post_id, 'ccroipr_register_meta', true );
