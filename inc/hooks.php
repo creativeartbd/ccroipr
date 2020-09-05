@@ -21,39 +21,43 @@ function download_profile_action()
 
     $post = get_post( $post_id );
 
-    if( $post ) {
+    // echo '<pre>';
+    //     print_r( get_post_meta( $post_id, 'ccroipr_register_meta', true ) );
+    // echo '</pre>';
 
-       
+    // wp_die();
+
+    if( $post ) {       
    
-        $post_meta          = get_post_meta( $post_id );
-        $confirm_id         = $post_meta['confirm_id'][0];
-        $surname            = $post_meta['surname'][0];
-        $vorname            = $post_meta['vorname'][0];
-        $strabe_nr          = $post_meta['strabe_nr'][0];
-        $plz                = $post_meta['plz'][0];
-        $ort                = $post_meta['ort'][0];
-        $e_post_address     = $post_meta['e_post_address'][0];
-        $kategorie          = $post_meta['kategorie'][0];
-        $webseite           = $post_meta['webseite'][0];
-        $werktitel          = $post_meta['werktitel'][0];
-        $werk_beschreibung  = $post_meta['werk_beschreibung'][0];
-        $inch_habe_die      = $post_meta['inch_habe_die'][0];
-        $inh_habe_die_agb   = $post_meta['inh_habe_die_agb'][0];
-        $ich_habe_die       = $post_meta['ich_habe_die'][0];
-        $ip                 = $post_meta['user_ip'][0];
-        $email              = $post_meta['email'][0];
+        $post_meta          = get_post_meta( $post_id, 'ccroipr_register_meta', true );
+        $confirm_id         = $post_meta['confirm_id'];
+        $surname            = $post_meta['surname'];
+        $vorname            = $post_meta['vorname'];
+        $strabe_nr          = $post_meta['strabe_nr'];
+        $plz                = $post_meta['plz'];
+        $ort                = $post_meta['ort'];
+        $e_post_address     = $post_meta['e_post_address'];
+        $kategorie          = $post_meta['kategorie'];
+        $webseite           = $post_meta['webseite'];
+        $werktitel          = $post_meta['werktitel'];
+        $werk_beschreibung  = $post_meta['werk_beschreibung'];
+        $inch_habe_die      = $post_meta['inch_habe_die'];
+        $inh_habe_die_agb   = $post_meta['inh_habe_die_agb'];
+        $ich_habe_die       = $post_meta['ich_habe_die'];
+        $ip                 = $post_meta['user_ip'];
+        $email              = $post_meta['email'];
 
         if ('ccroipr-p' == $submit_type) {
-            $wiener             = $post_meta['wiener'][0];
-            $locarno            = $post_meta['locarno'][0];
-            $internationale     = $post_meta['internationale'][0];
-            $nizzaklassifikation = $post_meta['nizzaklassifikation'][0];
-            $sha256             = $post_meta['sha256'][0];
-            $keywordnr1         = $post_meta['keywordnr1'][0];
-            $keywordnr2         = $post_meta['keywordnr2'][0];
-            $keywordnr3         = $post_meta['keywordnr3'][0];
-            $keywordnr4         = $post_meta['keywordnr4'][0];
-            $keywordnr5         = $post_meta['keywordnr5'][0];
+            $wiener              = $post_meta['wiener'];
+            $locarno             = $post_meta['locarno'];
+            $internationale      = $post_meta['internationale'];
+            $nizzaklassifikation = $post_meta['nizzaklassifikation'];
+            $sha256              = $post_meta['sha256'];
+            $keywordnr1          = $post_meta['keywordnr1'];
+            $keywordnr2          = $post_meta['keywordnr2'];
+            $keywordnr3          = $post_meta['keywordnr3'];
+            $keywordnr4          = $post_meta['keywordnr4'];
+            $keywordnr5          = $post_meta['keywordnr5'];
         }
 
         if ('ccroipr-t' == $submit_type) {
@@ -109,11 +113,10 @@ function download_profile_action()
         if ('ccroipr-p' == $submit_type) {
             //$thumb      = wp_get_attachment_image_src( $author_meta[ 'thumb_id' ], 'ccroipr' );
             $thumb_src  = get_the_post_thumbnail_url( $post_id );
-
-            $image      = $thumb_src;
+            $image      = str_replace(' ', '', $thumb_src);
             $explode    = explode('.', $image);
             $extension  = strtolower(end($explode));
-            //$extension  = strtoupper($explode[1]);    
+            //$extension  = strtoupper($explode[1]);          
         }
 
         $html = '';
@@ -220,7 +223,8 @@ function download_profile_action()
         $pdf->AddPage();
         $pdf->writeHTMLCell(0, 0, '', '', $html2, 0, 1, 0, true, '', true);
 
-        $upload         = wp_upload_dir();
+        $upload         = wp_upload_dir();        
+
         $upload_dir     = $upload['basedir'];
         $upload_dir     = $upload_dir . '/ccroipr-pdf/';
 

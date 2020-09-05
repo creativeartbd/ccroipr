@@ -326,7 +326,7 @@ function generatePdfWithImage($pdf_data, $return = null)
 
 function upload_post_thumbnail( $surname, $extension, $final_image, $post_id ) {
     
-    $new_file_name = strtolower($surname) . '-' . rand(1000, 9999) . '.' . $extension;
+    $new_file_name = rand(1000, 9999) . '.' . $extension;
     $wp_upload_dir = wp_upload_dir();
     $path          = $wp_upload_dir['path']; // /Applications/MAMP/htdocs/ccroipr/wp-content/uploads/2020/08    
     $image_parts   = explode(";base64,", $final_image);
