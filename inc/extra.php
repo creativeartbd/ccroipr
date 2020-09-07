@@ -176,7 +176,7 @@ function random($length)
 /**
  * Gnerate PDF file
  */
-function generatePdfWithImage($pdf_data, $return = null)
+function generatePdfWithImage($pdf_data, $return = false, $create_txt = false )
 {
 
     extract($pdf_data);
@@ -306,18 +306,21 @@ function generatePdfWithImage($pdf_data, $return = null)
 
     $upload         = wp_upload_dir();
     $upload_dir     = $upload['basedir'];
-    $upload_dir     = $upload_dir . '/ccroipr-secret-pdf/';
+    $upload_dir     = $upload_dir . '/ccroipr-pdf/';
 
     if (!is_dir($upload_dir)) {
         mkdir($upload_dir, 0755);
     }
-
+    
     // create file empty .txt file 
-    fopen($upload_dir . $confirm_id . '.txt', "w");
+    if( $create_txt ) {
+        $fopen = fopen($upload_dir . $confirm_id . '.txt', "w");
+        fclose( $fopen );
+    }    
 
     $filename = $confirm_id . '.pdf';
     $pdf->Output($upload_dir . $filename, 'F');
-    $pdf_link =  $upload['baseurl'] . '/ccroipr-secret-pdf/' . $confirm_id . '.pdf';
+    $pdf_link =  $upload['baseurl'] . '/ccroipr-pdf/' . $confirm_id . '.pdf';
 
     if ($return) {
         return $pdf_link;
@@ -339,7 +342,7 @@ function upload_post_thumbnail( $surname, $extension, $final_image, $post_id ) {
 
     // Prepare an array of post data for the attachment.
     $attachment = array(
-        'guid'           => $path['url'] . '/' . basename( $filename ), 
+        'guid'           => $path . '/' . basename( $filename ), 
         'post_mime_type' => $filetype['type'],
         'post_title'     => preg_replace( '/\.[^.]+$/', '', basename( $filename ) ),
         'post_content'   => '',

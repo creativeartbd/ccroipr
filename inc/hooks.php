@@ -96,7 +96,6 @@ function download_profile_action()
             require_once(dirname(__FILE__) . '/lang/eng.php');
             $pdf->setLanguageArray($l);
         }
-
         // ---------------------------------------------------------
 
         // set font
@@ -236,6 +235,10 @@ function download_profile_action()
 }
 
 
+// ====================================================================
+// Confirm Register T data
+// ===================================================================
+
 add_action('wp_ajax_register_confirm_action', 'register_confirm_action');
 add_action('wp_ajax_nopriv_register_confirm_action', 'register_confirm_action');
 
@@ -288,12 +291,13 @@ function register_confirm_action()
                 $orig_width  = imagesx($jpg_image);
                 $orig_height = imagesy($jpg_image);
 
-                $upload_dir = wp_upload_dir();
-                $path       = $upload_dir['path'];
-                $attachment = $path . '/' . $file_name;
+                $upload_dir  = wp_upload_dir();
+                $path        = $upload_dir['path'];
+                $path_2      = $upload_dir['basedir'];
+                $attachment  = $path_2 . '/ccroipr-pdf/' . $confirm_id . '.pdf';
 
                 // Create your canvas containing both image and text
-                $canvas = imagecreatetruecolor( $orig_width, ($orig_height + 40 ) );
+                $canvas = imagecreatetruecolor( $orig_width, ($orig_height + 40 ) );              
                 // Allocate A Color For The background
                 $bcolor = imagecolorallocate( $canvas, 255, 255, 255 );
                 // Add background colour into the canvas
@@ -310,11 +314,11 @@ function register_confirm_action()
                 imagettftext( $canvas, 13, 0, 10, $orig_height + 25, $color, $font_path, $text) ;
                 // Send Image to Browser
                 if ($extension == 'jpg') {
-                    imagejpeg( $canvas . '/' . $path, $file_name );
+                    imagejpeg( $canvas, $path . '/' . $file_name );
                 } elseif ($extension == 'png') {
-                    imagepng( $canvas . '/' . $path, $file_name );
+                    imagepng( $canvas, $path  . '/' . $file_name );
                 } elseif ( $extension == 'gif') {
-                    imagegif( $canvas . '/' . $path, $file_name );
+                    imagegif( $canvas, $path . '/' . $file_name );
                 }
                 // Clear Memory
                 imagedestroy($canvas);
@@ -357,23 +361,49 @@ function register_confirm_action()
             $post_id_updated = wp_update_post( $post_array );
 
             if ( !is_wp_error( $post_id_updated ) ) {
+                
                 // update post meta
                 update_post_meta( $post_id, 'ccroipr_register_meta', $post_meta );
-                // send an email to user and site owner 
-                $email      = $post_meta['email'];                
-                $subject    = 'Copy of your document from ccroipr';
-                $body       = 'Please download the copy of your document from ccroipr';
-                $headers    = 'From: My Name <support@ccroipr.org>' . "\r\n";
+                                          
+                // Generate PDF file
+                $pdf_data = [
+                    'surname'           => $post_meta['surname'],
+                    'attachment_id'     => get_post_thumbnail_id( $post_id ),
+                    'confirm_id'        => $confirm_id,
+                    'vorname'           => $post_meta['vorname'],
+                    'strabe_nr'         => $post_meta['strabe_nr'],
+                    'plz'               => $post_meta['plz'],
+                    'ort'               => $post_meta['ort'],
+                    'e_post_address'    => $post_meta['e_post_address'],
+                    'sha256'            => $post_meta['sha256'],
+                    'werktitel'         => $post_meta['werktitel'],
+                    'werk_beschreibung' => $post_meta['werk_beschreibung'],
+                    'ip'                => $post_meta['user_ip'],
+                    'email'             => $post_meta['email'],
+                ];               
 
-                wp_mail( $email, $subject, $body, $headers, $attachment );
-                
+                $pdf_link = generatePdfWithImage( $pdf_data, false, false );
+
+                // send an email to user and site owner
+                $toArray[]  = $post_meta['email'];  
+                $toArray[]  = 'backup@ccroipr.org';              
+                $toArray[]  = 'backup@atelier-kalai.de';              
+                $subject    = 'Copy of your document from ccroipr';
+                $body       = 'Please download the PDF version of your document from ccroipr';
+                $headers    = 'From: My Name <support@ccroipr.org>' . "\r\n";   
+
+                wp_mail( $toArray, $subject, $body, $headers, $attachment );  
+
+                // Finally show a confirmation message
                 wp_send_json_success( [
                     'message'   =>  '<div class="alert alert-success">Successfully Confirmed your profile data.</div>'
-                ]);                
+                ]);  
             }
+
         } else {
+
             wp_send_json_error( [
-                'message' => 'You already confirmed your data'
+                'message' => '<div class="alert alert-danger">You already confirmed your data.</div>'
             ]);
         }
     }
@@ -624,10 +654,12 @@ function register_action()
     } else {
 
         $confirm_id         = 'ccroipr-' . date('Y' . 'm' . 'd' . 'H' . 'i' . 's') . randomNumber(3);
+        $kategorie          = 'ccroipr-cat-p-' . date('Y' . '-' . 'm' . '-' . 'd');
         $category           = get_category_by_slug( 'ccroipr-p' );
         $code               = sha1( $confirm_id . time());
 
         $category_id        = '';
+
         if ( $category instanceof WP_Term ) {
             $category_id = $category->term_id;
         }
@@ -647,17 +679,22 @@ function register_action()
             'ich_habe_die'      => $ich_habe_die,
             'is_confirm'        => 0,
             'confirm_id'        => $confirm_id,
-            'kategorie'         => 'ccroipr-cat-p-' . date('Y' . '-' . 'm' . '-' . 'd'),           
+            'kategorie'         => $kategorie,
             'code'              => $code,
             'email'             => $email
         ];        
 
         if( 'register' == $submit_type ) {
+
             $post_meta['email']   = $email;
             $post_meta['user_ip'] = $ip;
+
         } elseif( 'update' == $submit_type ) {
+
             $post_id = hashMe( $_POST['post_id'], 'd' );
+
             if( get_post( $post_id ) ) {
+
                 $ext_post_meta = get_post_meta( $post_id, 'ccroipr_register_meta', true );
                 $post_meta['email']   = $ext_post_meta['email'];
                 $post_meta['user_ip'] = $ext_post_meta['user_ip'];
