@@ -137,37 +137,62 @@
 	        });
 		}); 
 
-        // Update and Register T
-        $( '#button_t' ).on( 'click', function(e) {
-        	
-        	e.preventDefault();      
-        	var btn_label 	= $('#button_t').val();
-        	var data 		=  new FormData($('#register_t')[0]);
-			data.append("action", "register_t_action");			
+		// Update and Register T		
+        $( '#ccroipr_t_ru_form' ).submit(function(e) {
+
+			e.preventDefault();
+			var btn_label 	= $('#btn').val();
+			var form_data = $(this).serialize();
 			
-	        $.ajax({
+			$.ajax({
 	        	type: 'POST',
 	        	url : settings.ajaxurl,
-	        	data : data,
-	        	dataType: 'json',	        	
-	        	cache: false,				
-				processData: false,
-				contentType: false,
+	        	data : form_data,
+	        	dataType: 'json',
 				beforeSend : function () {
-					//$('#button_t').prop('disabled', true );
-		           	$('#button_t').val('Please Wait...');
+					$('#btn').prop('disabled', true );
+		           	$('#btn').val('Please Wait...');
 		        }, 
 	        	success: function( result ) {
-	        		//$('#button_t').prop('disabled', false );
-	        		$('#button_t').val( btn_label );	        			        		
-	        		$('#form_result').html( result.data )
-	        		if( result.success == true ) {
-	        			 setTimeout(function(){// wait for 5 secs(2)
-	                        location.reload(); // then reload the page.(3)
-	                    }, 3000);
-	        		}
+	        		$('#btn').prop('disabled', false );
+	        		$('#btn').val( btn_label );
+					$('#form_result').html( result.data.message )
+					if( result.success ) {
+						if( result.data.type == 'update' )  {
+							$('#btn').prop('disabled', false );
+						}						
+					}
 	        	}
 	        });
+        	
+        	// e.preventDefault();      
+        	// var btn_label 	= $('#button_t').val();
+        	// var data 		=  new FormData($('#register_t')[0]);
+			// data.append("action", "register_t_action");			
+			
+	        // $.ajax({
+	        // 	type: 'POST',
+	        // 	url : settings.ajaxurl,
+	        // 	data : data,
+	        // 	dataType: 'json',	        	
+	        // 	cache: false,				
+			// 	processData: false,
+			// 	contentType: false,
+			// 	beforeSend : function () {
+			// 		//$('#button_t').prop('disabled', true );
+		    //        	$('#button_t').val('Please Wait...');
+		    //     }, 
+	        // 	success: function( result ) {
+	        // 		//$('#button_t').prop('disabled', false );
+	        // 		$('#button_t').val( btn_label );	        			        		
+	        // 		$('#form_result').html( result.data )
+	        // 		if( result.success == true ) {
+	        // 			 setTimeout(function(){// wait for 5 secs(2)
+	        //                 location.reload(); // then reload the page.(3)
+	        //             }, 3000);
+	        // 		}
+	        // 	}
+	        // });
         })      
 
         // Generate hash value when file is upload

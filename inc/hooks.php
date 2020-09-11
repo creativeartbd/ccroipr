@@ -434,9 +434,9 @@ function register_slim_file_action()
     wp_die();
 }
 
-// ====================================================================
-// Registration and Update process for the "Register" and "Register T"
-// ===================================================================
+// ========================================================================
+// Registration and Update process for the "Register" and "Register T" form
+// ========================================================================
 add_action('wp_ajax_register_action', 'register_action');
 add_action('wp_ajax_nopriv_register_action', 'register_action');
 
@@ -616,10 +616,12 @@ function register_action()
             }
         }
 
-        if (empty($sha256)) {
-            $errors[] = 'SHA256 (Hashwert der Originalabbildung) is required, please upload the image again';
-        } elseif (strlen($sha256) > 64 || strlen($sha256) < 64) {
-            $errors[] = 'Invalid SHA256 (Hashwert der Originalabbildung) is given';
+        if ('ccroipr-p' == $register_type) {
+            if (empty($sha256)) {
+                $errors[] = 'SHA256 (Hashwert der Originalabbildung) is required, please upload the image again';
+            } elseif (strlen($sha256) > 64 || strlen($sha256) < 64) {
+                $errors[] = 'Invalid SHA256 (Hashwert der Originalabbildung) is given';
+            }
         }
 
         if (empty($keywordnr1)) {
@@ -671,9 +673,8 @@ function register_action()
 
         $confirm_id         = 'ccroipr-' . date('Y' . 'm' . 'd' . 'H' . 'i' . 's') . randomNumber(3);
         $kategorie          = 'ccroipr-cat-p-' . date('Y' . '-' . 'm' . '-' . 'd');
-        $category           = get_category_by_slug( 'ccroipr-p' );
+        $category           = get_category_by_slug( $register_type );
         $code               = sha1( $confirm_id . time());
-
         $category_id        = '';
 
         if ( $category instanceof WP_Term ) {
@@ -752,6 +753,22 @@ function register_action()
                     // Successfully uddated
                     wp_send_json_success( [
                         'message'   =>  '<div class="alert alert-success">Successfully updated the data.</div>',
+                        'type'      =>  'update'
+                    ] );
+                }
+            } elseif ( 'ccroipr-t' == $register_type ) {
+                // get the post id from the input hidden field
+                $post_id = hashMe( $_POST['post_id'], 'd' );
+                $post    = get_post( $post_id );
+               
+                if( $post ) {
+                  
+                    // Update post meta                    
+                    update_post_meta( $post_id, 'ccroipr_register_meta', $post_meta );
+                   
+                    // Successfully uddated
+                    wp_send_json_success( [
+                        'message'   =>  '<div class="alert alert-success">Successfully updated the data t.</div>',
                         'type'      =>  'update'
                     ] );
                 }
@@ -978,7 +995,7 @@ function secret_register_action()
     } elseif ($filesize > $allowed_size) {
         $errors[] = 'Maximum 10 MB image are allowd';
     }
-
+    
     if (empty($sha256)) {
         $errors[] = 'SHA256 (Hashwert der Originalabbildung) is required, please upload the image again';
     } elseif (strlen($sha256) > 64 || strlen($sha256) < 64) {

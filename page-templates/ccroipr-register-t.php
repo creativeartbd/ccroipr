@@ -19,8 +19,8 @@ get_header();
 					the_content();
 				}
 			}
-			?>	
-            <form action="" class="form" method="POST" id="form">
+            ?>	            
+            <form action="" class="form" method="POST" id="ccroipr_ru_form">
             	<div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
@@ -90,12 +90,15 @@ get_header();
                         <div class="form-group">
                             <label for="">Sie sind Eingeloggt mit der IP-Adresse: USER-IP</label>
                             <input type="text" name="ip" value="<?php echo $_SERVER['REMOTE_ADDR']; ?>" class="form-control" readonly  style=" width: 25%;">
-                        </div>                                                         
+                        </div>        
                         <div class="form-group">                      
 	                    	<div id="form_result"></div>
-	                    	<?php wp_nonce_field( 'register_action' ); ?>                            
-	                        <input type="submit" data-register-type="<?php echo hashMe('ccroipr_register_t', 'e'); ?>" name="submit" id="register_btn" value="Register" class="btn btn-primary">
-	                    </div>
+	                    	<?php wp_nonce_field( 'register_action' ); ?>		
+							<input type="hidden" name="action" value="register_action">                    	
+	                        <input type="submit" name="submit" value="Register" class="btn btn-primary" id="btn">
+							<input type="hidden" name="register_type" value="<?php echo hashMe('ccroipr-t', 'e'); ?>">
+							<input type="hidden" name="submit_type" value="<?php echo hashMe('register', 'e'); ?>">
+                        </div>
                     </div>
                 </div>
             </form>	            			
