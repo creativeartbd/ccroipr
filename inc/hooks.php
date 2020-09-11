@@ -347,7 +347,9 @@ function register_confirm_action()
 
                 $upload                 = wp_upload_dir();
                 $upload_dir             = $upload['basedir'];
-                $upload_dir             = $upload_dir . '/ccroipr-t/';
+                $upload_dir             = $upload_dir . '/ccroipr-t/';               
+             
+                $attachment             = $upload_dir . '/ccroipr-pdf/' . $confirm_id . '.pdf';
 
                 if (!is_dir($upload_dir)) {
                     mkdir($upload_dir, 0755);
@@ -405,13 +407,9 @@ function register_confirm_action()
                 $toArray[]  = 'backup@atelier-kalai.de';              
                 $subject    = 'Copy of your document from ccroipr';
                 $body       = 'Please download the PDF version of your document from ccroipr';
-                $headers    = 'From: My Name <support@ccroipr.org>' . "\r\n";   
+                $headers    = 'From: My Name <support@ccroipr.org>' . "\r\n";
                 
-                if( 'ccroipr-p' == $register_type ) {
-                    wp_mail( $toArray, $subject, $body, $headers, $attachment );  
-                } else {
-                    wp_mail( $toArray, $subject, $body, $headers );  
-                }                
+                 wp_mail( $toArray, $subject, $body, $headers, $attachment );                  
 
                 // Finally show a confirmation message
                 wp_send_json_success( [
