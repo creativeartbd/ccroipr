@@ -385,13 +385,17 @@ function register_confirm_action()
                     'strabe_nr'         => $post_meta['strabe_nr'],
                     'plz'               => $post_meta['plz'],
                     'ort'               => $post_meta['ort'],
-                    'e_post_address'    => $post_meta['e_post_address'],
-                    'sha256'            => $post_meta['sha256'],
+                    'e_post_address'    => $post_meta['e_post_address'],                    
                     'werktitel'         => $post_meta['werktitel'],
                     'werk_beschreibung' => $post_meta['werk_beschreibung'],
                     'ip'                => $post_meta['user_ip'],
                     'email'             => $post_meta['email'],
-                ];               
+                    'type'              => $register_type
+                ];        
+                
+                if( 'ccroipr-p' == $register_type ) {
+                    $pdf_data['sha256'] = $post_meta['sha256'];
+                }
 
                 $pdf_link = generatePdfWithImage( $pdf_data, false, false );
 
@@ -402,8 +406,12 @@ function register_confirm_action()
                 $subject    = 'Copy of your document from ccroipr';
                 $body       = 'Please download the PDF version of your document from ccroipr';
                 $headers    = 'From: My Name <support@ccroipr.org>' . "\r\n";   
-
-                wp_mail( $toArray, $subject, $body, $headers, $attachment );  
+                
+                if( 'ccroipr-p' == $register_type ) {
+                    wp_mail( $toArray, $subject, $body, $headers, $attachment );  
+                } else {
+                    wp_mail( $toArray, $subject, $body, $headers );  
+                }                
 
                 // Finally show a confirmation message
                 wp_send_json_success( [

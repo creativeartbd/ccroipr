@@ -227,58 +227,65 @@ function generatePdfWithImage($pdf_data, $return = false, $create_txt = false )
 
     $pdf->AddPage();
 
-    $thumb      = wp_get_attachment_image_src($attachment_id, 'ccroipr');
-    $thumb_src  = $thumb[0];
-
-    $image      = $thumb_src;
-    $explode    = explode('.', $image);
-    $extension  = strtolower(end($explode));
-    //$extension  = strtoupper($explode[1]);    
-
+    if( 'ccroipr-p' == $type ) {
+        $thumb      = wp_get_attachment_image_src($attachment_id, 'ccroipr');
+        $thumb_src  = $thumb[0];
+        $image      = $thumb_src;
+        $explode    = explode('.', $image);
+        $extension  = strtolower(end($explode));
+    }
 
     $html = '';
     $html .= '<h4>Common Copyright Register of Intellectual Property Rights</h4>';
     $html .= "<p>$confirm_id</p>";
     $html .= "
-            <table border=\"0\" width=\"355\" cellpadding=\"5\">
-                <tr>
-                    <td>Name</td>
-                    <td>$surname</td>
-                </tr>
-                <tr>
-                    <td>Vorname</td>
-                    <td>$vorname</td>
-                </tr>
-                <tr>
-                    <td>Straße / Nr</td>
-                    <td>$strabe_nr</td>
-                </tr>
-                <tr>
-                    <td>Plz</td>
-                    <td>$plz</td>
-                </tr>
-                <tr>
-                    <td>Ort / Stadt</td>
-                    <td>$ort</td>
-                </tr>
-                <tr>
-                    <td>E-Post-Address</td>
-                    <td>$e_post_address</td>
-                </tr>
-                <tr>
-                    <td>SHA256 (Hashwert der Originalabbildung)</td>
-                    <td colspan=\"2\">$sha256</td>
-                </tr>
-                <tr>
-                    <td>Werktitel</td>
-                    <td colspan=\"2\">$werktitel</td>
-                </tr>
-                <tr>
-                    <td>Werk-Beschreibung</td>
-                    <td colspan=\"3\">$werk_beschreibung</td>
-                </tr>                            
-            </table>
+        <table border=\"0\" width=\"355\" cellpadding=\"5\">
+            <tr>
+                <td>Name</td>
+                <td>$surname</td>
+            </tr>
+            <tr>
+                <td>Vorname</td>
+                <td>$vorname</td>
+            </tr>
+            <tr>
+                <td>Straße / Nr</td>
+                <td>$strabe_nr</td>
+            </tr>
+            <tr>
+                <td>Plz</td>
+                <td>$plz</td>
+            </tr>
+            <tr>
+                <td>Ort / Stadt</td>
+                <td>$ort</td>
+            </tr>
+            <tr>
+                <td>E-Post-Address</td>
+                <td>$e_post_address</td>
+            </tr>
+    ";
+
+    if( 'ccroipr-p' == $type ) {
+        $html .= "
+        <tr>
+            <td>SHA256 (Hashwert der Originalabbildung)</td>
+            <td colspan=\"2\">$sha256</td>
+        </tr>
         ";
+    }
+    
+    $html .= "
+            <tr>
+                <td>Werktitel</td>
+                <td colspan=\"2\">$werktitel</td>
+            </tr>
+            <tr>
+                <td>Werk-Beschreibung</td>
+                <td colspan=\"3\">$werk_beschreibung</td>
+            </tr>                            
+        </table>
+    ";
 
     $html2 = '';
     $html2 .= '<table border="0" cellpadding="5">';
@@ -296,8 +303,9 @@ function generatePdfWithImage($pdf_data, $return = false, $create_txt = false )
     $html2 .= "<tr><td>Common Popyright Register of Intellectual Property Rights.</td></tr>";
     $html2 .= "</table>";
 
-    $pdf->Image($image, '', '45', '75', '', $extension, '', '', true, 300, 'R', false, false, 1, false, false, false);
-
+    if( 'ccroipr-p' == $type ) {
+        $pdf->Image($image, '', '45', '75', '', $extension, '', '', true, 300, 'R', false, false, 1, false, false, false);
+    }    
 
     $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
 
