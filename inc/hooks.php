@@ -22,212 +22,221 @@ function download_profile_action()
     $post = get_post( $post_id );
 
     if( $post ) {       
-   
-        $post_meta          = get_post_meta( $post_id, 'ccroipr_register_meta', true );
-        $confirm_id         = $post_meta['confirm_id'];
-        $surname            = $post_meta['surname'];
-        $vorname            = $post_meta['vorname'];
-        $strabe_nr          = $post_meta['strabe_nr'];
-        $plz                = $post_meta['plz'];
-        $ort                = $post_meta['ort'];
-        $e_post_address     = $post_meta['e_post_address'];
-        $kategorie          = $post_meta['kategorie'];
-        $webseite           = $post_meta['webseite'];
-        $werktitel          = $post_meta['werktitel'];
-        $werk_beschreibung  = $post_meta['werk_beschreibung'];
-        $inch_habe_die      = $post_meta['inch_habe_die'];
-        $inh_habe_die_agb   = $post_meta['inh_habe_die_agb'];
-        $ich_habe_die       = $post_meta['ich_habe_die'];
-        $ip                 = $post_meta['user_ip'];
-        $email              = $post_meta['email'];
 
-        if ('ccroipr-p' == $submit_type) {
-            $wiener              = $post_meta['wiener'];
-            $locarno             = $post_meta['locarno'];
-            $internationale      = $post_meta['internationale'];
-            $nizzaklassifikation = $post_meta['nizzaklassifikation'];
-            $sha256              = $post_meta['sha256'];
-            $keywordnr1          = $post_meta['keywordnr1'];
-            $keywordnr2          = $post_meta['keywordnr2'];
-            $keywordnr3          = $post_meta['keywordnr3'];
-            $keywordnr4          = $post_meta['keywordnr4'];
-            $keywordnr5          = $post_meta['keywordnr5'];
-        }
+        $upload     = wp_upload_dir();        
+        $upload_dir = $upload['basedir'];
+        $upload_dir = $upload_dir . '/ccroipr-pdf/';
 
-        if ('ccroipr-t' == $submit_type) {
-            $kategorie          = str_replace('ccroipr-', 'ccroipr-cat-t-', $kategorie);
-        }
+        $post_meta  = get_post_meta( $post_id, 'ccroipr_register_meta', true );
+        $confirm_id = $post_meta['confirm_id'];
 
-        require_once get_template_directory() . '/assets/vendor/tcpdf/tcpdf.php';
-        //echo get_template_directory() . '/assets/vendor/tcpdf/tcpdf_include.php';
-        // create new PDF document
-        $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
-
-        // set document information
-        $pdf->SetCreator(PDF_CREATOR);
-        $pdf->SetAuthor('CCROIPR');
-        $pdf->SetTitle($surname);
-        $pdf->SetSubject($surname . 'profile');
-        $pdf->SetKeywords('');
-
-        // set default header data
-        $pdf->SetHeaderData('', PDF_HEADER_LOGO_WIDTH, ' ', '');
-
-        // set header and footer fonts
-        $pdf->setHeaderFont(array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
-        $pdf->setFooterFont(array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
-
-        // set default monospaced font
-        $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
-
-        // set margins
-        $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
-        $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
-        $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
-
-        // set auto page breaks
-        $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
-
-        // set image scale factor
-        $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
-
-        // set some language-dependent strings (optional)
-        if (@file_exists(dirname(__FILE__) . '/lang/eng.php')) {
-            require_once(dirname(__FILE__) . '/lang/eng.php');
-            $pdf->setLanguageArray($l);
-        }
-        // ---------------------------------------------------------
-
-        // set font
-        $pdf->SetFont('freesans', '', 11);
-
-        $pdf->AddPage();
-
-        if ('ccroipr-p' == $submit_type) {
-            //$thumb      = wp_get_attachment_image_src( $author_meta[ 'thumb_id' ], 'ccroipr' );
-            $thumb_src  = get_the_post_thumbnail_url( $post_id );
-            $image      = str_replace(' ', '', $thumb_src);
-            $explode    = explode('.', $image);
-            $extension  = strtolower(end($explode));
-            //$extension  = strtoupper($explode[1]);          
-        }
-
-        $html = '';
-        $html .= '<h4>Common Copyright Register of Intellectual Property Rights</h4>';
-        $html .= "<p>$confirm_id</p>";
-        $html .= "
-                <table border=\"0\" width=\"355\" cellpadding=\"5\">
-                    <tr>
-                        <td>Name</td>
-                        <td>$surname</td>
-                    </tr>
-                    <tr>
-                        <td>Vorname</td>
-                        <td>$vorname</td>
-                    </tr>
-                    <tr>
-                        <td>Straße / Nr</td>
-                        <td>$strabe_nr</td>
-                    </tr>
-                    <tr>
-                        <td>Plz</td>
-                        <td>$plz</td>
-                    </tr>
-                    <tr>
-                        <td>Ort / Stadt</td>
-                        <td>$ort</td>
-                    </tr>
-                    <tr>
-                        <td>E-Post-Address</td>
-                        <td>$e_post_address</td>
-                    </tr>
-                    ";
-
-        if ('ccroipr_register_p' == $submit_type) {
-            $html .= "
-                <tr>
-                    <td>SHA256 (Hashwert der Originalabbildung)</td>
-                    <td colspan=\"2\">$sha256</td>
-                </tr>
-                <tr>
-                    <td>Werktitel</td>
-                    <td colspan=\"2\">$werktitel</td>
-                </tr>                
-            </table>
-            <table border=\"0\" cellpadding=\"5\">
-                <tr>
-                    <td>Werk-Beschreibung</td>
-                </tr>
-                <tr>
-                    <td colspan=\"3\">$werk_beschreibung</td>
-                </tr>    
-            </table>
-            ";
-        } else {
-            $html .= "
-                <tr>
-                    <td>Werktitel</td>
-                    <td colspan=\"2\">$werktitel</td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td colspan=\"2\"></td>
-                </tr>
-            </table>
-            <table border=\"0\" width=\"355\" cellpadding=\"5\">
-                <tr>
-                    <td>CCROIPR-Kategorie</td>
-                    <td>$kategorie</td>
-                </tr>              
-            </table>
-            <table border=\"0\" cellpadding=\"5\">
-                <tr>
-                    <td>Werk-Beschreibung</td>
-                </tr>
-                <tr>
-                    <td colspan=\"3\">$werk_beschreibung</td>
-                </tr>    
-            </table>
-            ";
-        }
-
-        $html2 = '';
-        $html2 .= '<table border="0" cellpadding="5">';
-        $html2 .= "<tr><td colspan=\"2\"></td></tr>";
-        $html2 .= "<tr><td colspan=\"2\"><b>Freigabeerklärung zu $confirm_id</b></td></tr>";
-        $html2 .= "<tr><td colspan=\"2\">Mein Datenupload ist unter der IP-Adresse $ip erfolgt.</td></tr>";
-        $html2 .= "</table>";
-
-        $html2 .= '<table border="0" cellpadding="5">';
-        $html2 .= "<tr><td>Ich habe die Hinweise zur Anmeldung heruntergeladen, gelesen und meine Daten geprüft.</td></tr>";
-        $html2 .= "<tr><td>Ich habe die aktuellen Geschäftsbedingungen heruntergeladen, gelesen und akzeptiert.</td></tr>";
-        $html2 .= "<tr><td>Ich habe die CCROIPR - Lizenzvereinbarungen heruntergeladen, gelesen und akzeptiert.</td></tr>";
-        $html2 .= "<tr><td>Ich habe mit der E-Mail-Adresse $email die Anmeldung bestätigt.</td></tr>";
-        $html2 .= "<tr><td>und erteile hiermit die Freigabe zur Langzeitarchivierung im.</td></tr>";
-        $html2 .= "<tr><td>Common Popyright Register of Intellectual Property Rights.</td></tr>";
-        $html2 .= "</table>";
-
-        if ('ccroipr-p' == $submit_type) {
-            $pdf->Image($image, '', '45', '75', '', $extension, '', '', true, 300, 'R', false, false, 1, false, false, false);
-        }
-
-        $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
-
-        $pdf->AddPage();
-        $pdf->writeHTMLCell(0, 0, '', '', $html2, 0, 1, 0, true, '', true);
-
-        $upload         = wp_upload_dir();        
-
-        $upload_dir     = $upload['basedir'];
-        $upload_dir     = $upload_dir . '/ccroipr-pdf/';
-
-        if (!is_dir($upload_dir)) {
-            mkdir($upload_dir, 0755);
-        }
-
-        $filename = $confirm_id . '.pdf';
-        $pdf->Output($upload_dir . $filename, 'F');
+        $filename = $confirm_id . '.pdf';        
         echo $upload['baseurl'] . '/ccroipr-pdf/' . $confirm_id . '.pdf';
+   
+        
+        // $surname            = $post_meta['surname'];
+        // $vorname            = $post_meta['vorname'];
+        // $strabe_nr          = $post_meta['strabe_nr'];
+        // $plz                = $post_meta['plz'];
+        // $ort                = $post_meta['ort'];
+        // $e_post_address     = $post_meta['e_post_address'];
+        // $kategorie          = $post_meta['kategorie'];
+        // $webseite           = $post_meta['webseite'];
+        // $werktitel          = $post_meta['werktitel'];
+        // $werk_beschreibung  = $post_meta['werk_beschreibung'];
+        // $inch_habe_die      = $post_meta['inch_habe_die'];
+        // $inh_habe_die_agb   = $post_meta['inh_habe_die_agb'];
+        // $ich_habe_die       = $post_meta['ich_habe_die'];
+        // $ip                 = $post_meta['user_ip'];
+        // $email              = $post_meta['email'];
+
+        // if ('ccroipr-p' == $submit_type) {
+        //     $wiener              = $post_meta['wiener'];
+        //     $locarno             = $post_meta['locarno'];
+        //     $internationale      = $post_meta['internationale'];
+        //     $nizzaklassifikation = $post_meta['nizzaklassifikation'];
+        //     $sha256              = $post_meta['sha256'];
+        //     $keywordnr1          = $post_meta['keywordnr1'];
+        //     $keywordnr2          = $post_meta['keywordnr2'];
+        //     $keywordnr3          = $post_meta['keywordnr3'];
+        //     $keywordnr4          = $post_meta['keywordnr4'];
+        //     $keywordnr5          = $post_meta['keywordnr5'];
+        // }
+
+        // if ('ccroipr-t' == $submit_type) {
+        //     $kategorie          = str_replace('ccroipr-', 'ccroipr-cat-t-', $kategorie);
+        // }
+
+        // require_once get_template_directory() . '/assets/vendor/tcpdf/tcpdf.php';
+        // //echo get_template_directory() . '/assets/vendor/tcpdf/tcpdf_include.php';
+        // // create new PDF document
+        // $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+
+        // // set document information
+        // $pdf->SetCreator(PDF_CREATOR);
+        // $pdf->SetAuthor('CCROIPR');
+        // $pdf->SetTitle($surname);
+        // $pdf->SetSubject($surname . 'profile');
+        // $pdf->SetKeywords('');
+
+        // // set default header data
+        // $pdf->SetHeaderData('', PDF_HEADER_LOGO_WIDTH, ' ', '');
+
+        // // set header and footer fonts
+        // $pdf->setHeaderFont(array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+        // $pdf->setFooterFont(array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+
+        // // set default monospaced font
+        // $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+        // // set margins
+        // $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+        // $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+        // $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+        // // set auto page breaks
+        // $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+        // // set image scale factor
+        // $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+
+        // // set some language-dependent strings (optional)
+        // if (@file_exists(dirname(__FILE__) . '/lang/eng.php')) {
+        //     require_once(dirname(__FILE__) . '/lang/eng.php');
+        //     $pdf->setLanguageArray($l);
+        // }
+        // // ---------------------------------------------------------
+
+        // // set font
+        // $pdf->SetFont('freesans', '', 11);
+
+        // $pdf->AddPage();
+
+        // if ('ccroipr-p' == $submit_type) {
+        //     //$thumb      = wp_get_attachment_image_src( $author_meta[ 'thumb_id' ], 'ccroipr' );
+        //     $thumb_src  = get_the_post_thumbnail_url( $post_id );
+        //     $image      = str_replace(' ', '', $thumb_src);
+        //     $explode    = explode('.', $image);
+        //     $extension  = strtolower(end($explode));
+        //     //$extension  = strtoupper($explode[1]);          
+        // }
+
+        // $html = '';
+        // $html .= '<h4>Common Copyright Register of Intellectual Property Rights</h4>';
+        // $html .= "<p>$confirm_id</p>";
+        // $html .= "
+        //         <table border=\"0\" width=\"355\" cellpadding=\"5\">
+        //             <tr>
+        //                 <td>Name</td>
+        //                 <td>$surname</td>
+        //             </tr>
+        //             <tr>
+        //                 <td>Vorname</td>
+        //                 <td>$vorname</td>
+        //             </tr>
+        //             <tr>
+        //                 <td>Straße / Nr</td>
+        //                 <td>$strabe_nr</td>
+        //             </tr>
+        //             <tr>
+        //                 <td>Plz</td>
+        //                 <td>$plz</td>
+        //             </tr>
+        //             <tr>
+        //                 <td>Ort / Stadt</td>
+        //                 <td>$ort</td>
+        //             </tr>
+        //             <tr>
+        //                 <td>E-Post-Address</td>
+        //                 <td>$e_post_address</td>
+        //             </tr>
+        //             ";
+
+        // if ('ccroipr_register_p' == $submit_type) {
+        //     $html .= "
+        //         <tr>
+        //             <td>SHA256 (Hashwert der Originalabbildung)</td>
+        //             <td colspan=\"2\">$sha256</td>
+        //         </tr>
+        //         <tr>
+        //             <td>Werktitel</td>
+        //             <td colspan=\"2\">$werktitel</td>
+        //         </tr>                
+        //     </table>
+        //     <table border=\"0\" cellpadding=\"5\">
+        //         <tr>
+        //             <td>Werk-Beschreibung</td>
+        //         </tr>
+        //         <tr>
+        //             <td colspan=\"3\">$werk_beschreibung</td>
+        //         </tr>    
+        //     </table>
+        //     ";
+        // } else {
+        //     $html .= "
+        //         <tr>
+        //             <td>Werktitel</td>
+        //             <td colspan=\"2\">$werktitel</td>
+        //         </tr>
+        //         <tr>
+        //             <td></td>
+        //             <td colspan=\"2\"></td>
+        //         </tr>
+        //     </table>
+        //     <table border=\"0\" width=\"355\" cellpadding=\"5\">
+        //         <tr>
+        //             <td>CCROIPR-Kategorie</td>
+        //             <td>$kategorie</td>
+        //         </tr>              
+        //     </table>
+        //     <table border=\"0\" cellpadding=\"5\">
+        //         <tr>
+        //             <td>Werk-Beschreibung</td>
+        //         </tr>
+        //         <tr>
+        //             <td colspan=\"3\">$werk_beschreibung</td>
+        //         </tr>    
+        //     </table>
+        //     ";
+        // }
+
+        // $html2 = '';
+        // $html2 .= '<table border="0" cellpadding="5">';
+        // $html2 .= "<tr><td colspan=\"2\"></td></tr>";
+        // $html2 .= "<tr><td colspan=\"2\"><b>Freigabeerklärung zu $confirm_id</b></td></tr>";
+        // $html2 .= "<tr><td colspan=\"2\">Mein Datenupload ist unter der IP-Adresse $ip erfolgt.</td></tr>";
+        // $html2 .= "</table>";
+
+        // $html2 .= '<table border="0" cellpadding="5">';
+        // $html2 .= "<tr><td>Ich habe die Hinweise zur Anmeldung heruntergeladen, gelesen und meine Daten geprüft.</td></tr>";
+        // $html2 .= "<tr><td>Ich habe die aktuellen Geschäftsbedingungen heruntergeladen, gelesen und akzeptiert.</td></tr>";
+        // $html2 .= "<tr><td>Ich habe die CCROIPR - Lizenzvereinbarungen heruntergeladen, gelesen und akzeptiert.</td></tr>";
+        // $html2 .= "<tr><td>Ich habe mit der E-Mail-Adresse $email die Anmeldung bestätigt.</td></tr>";
+        // $html2 .= "<tr><td>und erteile hiermit die Freigabe zur Langzeitarchivierung im.</td></tr>";
+        // $html2 .= "<tr><td>Common Popyright Register of Intellectual Property Rights.</td></tr>";
+        // $html2 .= "</table>";
+
+        // if ('ccroipr-p' == $submit_type) {
+        //     $pdf->Image($image, '', '45', '75', '', $extension, '', '', true, 300, 'R', false, false, 1, false, false, false);
+        // }
+
+        // $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
+
+        // $pdf->AddPage();
+        // $pdf->writeHTMLCell(0, 0, '', '', $html2, 0, 1, 0, true, '', true);
+
+        // $upload         = wp_upload_dir();        
+
+        // $upload_dir     = $upload['basedir'];
+        // $upload_dir     = $upload_dir . '/ccroipr-pdf/';
+
+        // if (!is_dir($upload_dir)) {
+        //     mkdir($upload_dir, 0755);
+        // }
+
+        // $filename = $confirm_id . '.pdf';
+        // $pdf->Output($upload_dir . $filename, 'F');
+        // echo $upload['baseurl'] . '/ccroipr-pdf/' . $confirm_id . '.pdf';
 
         //echo $upload_dir     = $upload_dir . '/ccroipr-pdf/'.$confirm_id.'.pdf';
     }
@@ -353,8 +362,10 @@ function register_confirm_action()
             $category_id = $category_id->term_id;           
             // Create post object
             $post_array = array(
-                'ID'            => $post_id,                
-                'post_status'   => 'confirmed',                
+                'ID'            => $post_id,
+                'post_title'    => $confirm_id,
+                'post_status'   => 'confirmed', 
+                'post_name'     => $confirm_id               
             ); 
 
             // Insert the post into the database
@@ -363,12 +374,12 @@ function register_confirm_action()
             if ( !is_wp_error( $post_id_updated ) ) {
                 
                 // update post meta
-                update_post_meta( $post_id, 'ccroipr_register_meta', $post_meta );
+                update_post_meta( $post_id_updated, 'ccroipr_register_meta', $post_meta );
                                           
                 // Generate PDF file
                 $pdf_data = [
                     'surname'           => $post_meta['surname'],
-                    'attachment_id'     => get_post_thumbnail_id( $post_id ),
+                    'attachment_id'     => get_post_thumbnail_id( $post_id_updated ),
                     'confirm_id'        => $confirm_id,
                     'vorname'           => $post_meta['vorname'],
                     'strabe_nr'         => $post_meta['strabe_nr'],
@@ -396,7 +407,8 @@ function register_confirm_action()
 
                 // Finally show a confirmation message
                 wp_send_json_success( [
-                    'message'   =>  '<div class="alert alert-success">Successfully Confirmed your profile data.</div>'
+                    'message'   =>  '<div class="alert alert-success">Successfully Confirmed your profile data.</div>',
+                    'permalink' =>  get_the_permalink( $post_id_updated )
                 ]);  
             }
 
@@ -474,15 +486,19 @@ function register_action()
         $keywordnr5             = isset($_POST['keywordnr5']) ? sanitize_text_field($_POST['keywordnr5']) : '';
         $slim                   = sanitize_text_field($_POST['slim']);
         $decode                 = json_decode(str_replace('\\', '', $slim));
-        $image_name             = $decode->input->name;
-        $image_size             = $decode->input->size;
-        $final_image            = $decode->output->image;
+        
+        if( $slim ) {
+            $image_name             = $decode->input->name;
+            $image_size             = $decode->input->size;
+            $final_image            = $decode->output->image;
 
-        $explode                = explode('.', $image_name);
-        $extension              = strtolower(end($explode));
+            $explode                = explode('.', $image_name);
+            $extension              = strtolower(end($explode));
 
-        $allowed_size           = 10485760;
-        $allowed_image          = ['jpg', 'png', 'gif', 'jpeg'];
+            $allowed_size           = 10485760;
+            $allowed_image          = ['jpg', 'png', 'gif', 'jpeg'];
+        }
+        
     }
 
     // Store all errors message
@@ -729,7 +745,7 @@ function register_action()
                     // Update post meta
                     update_post_meta( $post_id, 'ccroipr_register_meta', $post_meta );
                     // If, there is a new post thumbnail
-                    if( $image_name ) {                        
+                    if( isset( $image_name ) ) {                        
                         // Upload new post thumbnail
                         upload_post_thumbnail( $surname, $extension, $final_image, $post_id );
                     }

@@ -14,24 +14,31 @@ get_header();
 		<div class="col-lg">				
             <div class="section-title mb-5">                        
                 <h2>Common Copyright Register of Intellectual Property Rights / CCROIPR-CAT-P</h2>
-            </div>    
+            </div> 
+
 			<?php 
 			$category = get_category_by_slug( 'ccroipr-p' );
-			$cat_id = '';
+			$cat_id   = '';
+
 			if( $category ) {
 				$cat_id = $category->term_id;	
 			}
 			
 			$args = [
-				'post_type' => 'post',
+				'post_type'      => 'post',
 				'posts_per_page' => -1,
-				'category' => $cat_id
+				'category'       => $cat_id,
+				'post_status'	 => 'confirmed'
 			];
 
-			$posts = get_posts( $args );					
+			$posts = get_posts( $args );	
+
 			if( $posts ) {
+
 				$count = count( $posts );
+
 				echo "<table class='table table-striped table-bordered'>";
+
 				foreach ( $posts as $post ) {
 					$permalink = get_the_permalink();
 					$title = get_the_title();
@@ -42,10 +49,12 @@ get_header();
 						echo '</tr>';
 					$count--;							
 				}
-				echo "</table>"; 
+
+				echo "</table>";
 				wp_reset_postdata();
 			}
 			?>
+			
 		</div>
 	</div>
 </div>

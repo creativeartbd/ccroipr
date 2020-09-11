@@ -98,7 +98,7 @@
 						$('.confirm-wrapper').remove();		
 						$('#form_result').html( result.data.message );
 	        			setTimeout(function(){// wait for 5 secs(2)
-	                        location.reload(); // then reload the page.(3)
+	                        window.location.href = result.data.permalink;
 	                    }, 3000);	        		
 					} else {
 						$('#confirm_btn').prop('disabled', false );
