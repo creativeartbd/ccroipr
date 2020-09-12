@@ -153,31 +153,33 @@ $post_meta   	= get_post_meta( $post_id, 'ccroipr_register_meta', true );
 						<div class="col-md-12">
 							<div class="form-group">
 								<p>Der Urheber ist vollstandig fur den i nhalt der Darstellung verantworlich und drklart, dass er alle Rechte am beschriebenen Werk besitzt.</p>
-								<?php if( 'confirmed' != $post_status ) : ?>
-									<p class="text-danger">Diese Angaben zur Registeranmeldung werden nicht veroffentlicht!</p>
-								<?php endif; ?>
-		                    </div>
-		                    <div class="checkbox">
-		                        <label>
-		                        	<input type="checkbox" name="inch_habe_die" <?php if($post_meta['inch_habe_die'] == 1 ) echo 'checked="checked"'; ?> value="1" required >Ich habe die Hinweise heruntergeladen, gelesen undmeine Daten gepruft.
-		                        </label>
-		                    </div>
-		                    <div class="checkbox">
-		                        <label>
-		                        	<input type="checkbox" name="inh_habe_die_agb" <?php if( $post_meta['inh_habe_die_agb'] == 1 ) echo 'checked="checked"'; ?> value="1" required>Inh habe die AGB heruntergeladen, gelesen und akzeptiert.</label>
-		                    </div>
-		                    <div class="checkbox">
-		                        <label>
-		                        	<input type="checkbox" name="ich_habe_die" <?php if( $post_meta['ich_habe_die'] == 1 ) echo 'checked="checked"'; ?> value="1" required>Ich habe die Lizenzvereinbarung nach $30 Markengesetz uber die. Urheber-Kennzeichnug eines Werkes mit der Bezeichnung "CCROIPR" heruntergeladen, gelesen und akzeptiert.</label>
-		                    </div>
-		                    <div class="form-group">
-		                        <p>Bittle geben Sie Ihre E-Mail-Addresse ein (Eintragsbestatigung nach Art.246a $ 1 EGBGB)</p>
-		                        <input type="email" class="form-control" value="<?php echo $post_meta['email']; ?>" readonly>
-		                    </div>
-		                    <div class="form-group">
-		                        <label for="">Sie sind Eingeloggt mit der IP-Adresse: USER-IP</label>
-		                        <input type="text" name="ip" value="<?php echo $post_meta['user_ip']; ?>" class="form-control" readonly  style=" width: 25%;">
-		                    </div>         
+							</div>
+							<?php if( 'confirmed' != $post_status ) : ?>
+								<div class="form-group">								
+									<p class="text-danger">Diese Angaben zur Registeranmeldung werden nicht veroffentlicht!</p>								
+								</div>
+								<div class="checkbox">
+									<label>
+										<input type="checkbox" name="inch_habe_die" <?php if($post_meta['inch_habe_die'] == 1 ) echo 'checked="checked"'; ?> value="1" required >Ich habe die Hinweise heruntergeladen, gelesen undmeine Daten gepruft.
+									</label>
+								</div>
+								<div class="checkbox">
+									<label>
+										<input type="checkbox" name="inh_habe_die_agb" <?php if( $post_meta['inh_habe_die_agb'] == 1 ) echo 'checked="checked"'; ?> value="1" required>Inh habe die AGB heruntergeladen, gelesen und akzeptiert.</label>
+								</div>
+								<div class="checkbox">
+									<label>
+										<input type="checkbox" name="ich_habe_die" <?php if( $post_meta['ich_habe_die'] == 1 ) echo 'checked="checked"'; ?> value="1" required>Ich habe die Lizenzvereinbarung nach $30 Markengesetz uber die. Urheber-Kennzeichnug eines Werkes mit der Bezeichnung "CCROIPR" heruntergeladen, gelesen und akzeptiert.</label>
+								</div>
+								<div class="form-group">
+									<p>Bittle geben Sie Ihre E-Mail-Addresse ein (Eintragsbestatigung nach Art.246a $ 1 EGBGB)</p>
+									<input type="email" class="form-control" value="<?php echo $post_meta['email']; ?>" readonly>
+								</div>
+								<div class="form-group">
+									<label for="">Sie sind Eingeloggt mit der IP-Adresse: USER-IP</label>
+									<input type="text" name="ip" value="<?php echo $post_meta['user_ip']; ?>" class="form-control" readonly  style=" width: 25%;">
+								</div>         
+							<?php endif; ?>
 		                    <?php if( 'publish' == $post_status ) : ?>   
 		                    <div class="confirm-wrapper">
 								<div id="form_result"></div>
