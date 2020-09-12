@@ -153,7 +153,7 @@ $post_meta   	= get_post_meta( $post_id, 'ccroipr_register_meta', true );
 						<div class="col-md-12">
 							<div class="form-group">
 								<p>Der Urheber ist vollstandig fur den i nhalt der Darstellung verantworlich und drklart, dass er alle Rechte am beschriebenen Werk besitzt.</p>
-								<?php if( 'confirmed' == $post_status ) : ?>
+								<?php if( 'confirmed' != $post_status ) : ?>
 									<p class="text-danger">Diese Angaben zur Registeranmeldung werden nicht veroffentlicht!</p>
 								<?php endif; ?>
 		                    </div>
