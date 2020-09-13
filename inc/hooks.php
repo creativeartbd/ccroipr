@@ -303,7 +303,7 @@ function register_confirm_action()
                 $upload_dir  = wp_upload_dir();
                 $path        = $upload_dir['path'];
                 $path_2      = $upload_dir['basedir'];
-                $attachment  = $path_2 . '/ccroipr-pdf/' . $confirm_id . '.pdf';
+                $attachment  = $path_2 . '/ccroipr-pdf/' . $confirm_id . '_2'. '.pdf';
 
                 // Create your canvas containing both image and text
                 $canvas = imagecreatetruecolor( $orig_width, ($orig_height + 40 ) );              
