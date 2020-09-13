@@ -330,11 +330,11 @@ function generatePdfWithImage($pdf_data, $return = false, $create_txt = false, $
     }    
 
     $filename = $confirm_id . '.pdf';
-    $filename_2 = $confirm_id . '_2' . '.pdf';
+    $filename_backup = $confirm_id . '_backup' . '.pdf';
 
     
     if( $show_condition ) {
-        $pdf->Output($upload_dir . $filename_2, 'F');
+        $pdf->Output($upload_dir . $filename_backup, 'F');
     } else {
         $pdf->Output($upload_dir . $filename, 'F');
     }
