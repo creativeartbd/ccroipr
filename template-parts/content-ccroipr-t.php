@@ -63,17 +63,17 @@ $post_meta   	= get_post_meta( $post_id, 'ccroipr_register_meta', true );
 	                        <div class="form-group">
 	                            <label for="">Plz</label>
 	                            <input type="text" name="plz" value="<?php echo $post_meta['plz']; ?>" class="form-control" maxlength="10" placeholder="Plz">
-	                        </div>
-	                        <div class="form-group">
+	                        </div> 
+						</div>
+						<div class="col-md-3">	
+							<div class="form-group">
 	                            <label for="">Ort / Stadt</label>
 	                            <input type="text" name="ort" value="<?php echo $post_meta['ort']; ?>" class="form-control" maxlength="35" placeholder="Ort / Stadt">
 	                        </div>	      
 	                        <div class="form-group">
 	                            <label for="">E-Post-Address</label>
 	                            <input type="text" name="e_post_address" value="<?php echo $post_meta['e_post_address']; ?>" maxlength="50" class="form-control" placeholder="E-Post-Address">
-	                        </div>                  
-						</div>
-						<div class="col-md-3">								
+	                        </div>         							
 	                        <div class="form-group">
 	                            <label for="">Webseite</label>
 	                            <input type="text" name="webseite" value="<?php echo $post_meta['webseite']; ?>" maxlength="150" class="form-control" placeholder="Webseite">
