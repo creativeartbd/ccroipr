@@ -399,7 +399,8 @@ function register_confirm_action()
                     $pdf_data['sha256'] = $post_meta['sha256'];
                 }
 
-                $pdf_link = generatePdfWithImage( $pdf_data, false, false );
+                $pdf_link = generatePdfWithImage( $pdf_data, false, false, true );
+                $pdf_link = generatePdfWithImage( $pdf_data, false, false, false );
 
                 // send an email to user and site owner
                 $toArray[]  = $post_meta['email'];  
