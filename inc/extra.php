@@ -288,13 +288,15 @@ function generatePdfWithImage($pdf_data, $return = false, $create_txt = false, $
     ";
 
     $html2 = '';
-    $html2 .= '<table border="0" cellpadding="5">';
-    $html2 .= "<tr><td colspan=\"2\"></td></tr>";
-    $html2 .= "<tr><td colspan=\"2\"><b>Freigabeerklärung zu $confirm_id</b></td></tr>";
-    $html2 .= "<tr><td colspan=\"2\">Mein Datenupload ist unter der IP-Adresse $ip erfolgt.</td></tr>";
-    $html2 .= "</table>";
-
     if( $show_condition ) {
+
+        $html2 .= '<table border="0" cellpadding="5">';
+        $html2 .= "<tr><td colspan=\"2\"></td></tr>";
+        $html2 .= "<tr><td colspan=\"2\"><b>Freigabeerklärung zu $confirm_id</b></td></tr>";
+        $html2 .= "<tr><td colspan=\"2\">Mein Datenupload ist unter der IP-Adresse $ip erfolgt.</td></tr>";
+        $html2 .= "</table>";
+
+    
         $html2 .= '<table border="0" cellpadding="5">';
         $html2 .= "<tr><td>Ich habe die Hinweise zur Anmeldung heruntergeladen, gelesen und meine Daten geprüft.</td></tr>";
         $html2 .= "<tr><td>Ich habe die aktuellen Geschäftsbedingungen heruntergeladen, gelesen und akzeptiert.</td></tr>";
