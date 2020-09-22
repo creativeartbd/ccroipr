@@ -10,12 +10,11 @@
  */
 
 ?>
-	
 	<footer class="site-footer">
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12 text-center">
-					<h5>Zurück zum Seitenanfang von "Kunstverlag Atelier Kalai "</h5>
+					<p>Zurück zum Seitenanfang von "Kunstverlag Atelier Kalai "</p>
 					<a href="https://vcounter.de/stat.xhtml?id=1503599950871" target="_new">
 						<img src="<?php echo get_template_directory_uri() . '/assets/img/c.png'; ?>" alt="">
 					</a>

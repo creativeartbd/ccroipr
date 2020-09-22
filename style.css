@@ -57,7 +57,6 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
  */
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;1,400;1,500&display=swap');
-
 html {
 	line-height: 1.15;
 	-webkit-text-size-adjust: 100%;
@@ -85,7 +84,6 @@ main {
  * `article` contexts in Chrome, Firefox, and Safari.
  */
 h1 {
-	font-size: 2em;
 	margin: 0.67em 0;
 }
 
@@ -107,7 +105,7 @@ hr {
  * 2. Correct the odd `em` font sizing in all browsers.
  */
 pre {
-	font-family: monospace, monospace;
+	font-family: 'Roboto', sans-serif;
 	font-size: 1em;
 }
 
@@ -146,7 +144,7 @@ strong {
 code,
 kbd,
 samp {
-	font-family: monospace, monospace;
+	font-family: 'Roboto', sans-serif;
 	font-size: 1em;
 }
 
@@ -479,11 +477,13 @@ hr {
 
 ul,
 ol {
-	margin: 0 0 1.5em 3em;
+	margin: 0 0 1.5em 0;
+	padding : 0;
 }
 
 ul {
 	list-style: disc;
+	list-style-position: inside;
 }
 
 ol {
@@ -823,10 +823,6 @@ a.download {
 	display: block;
 }
 
-.post,
-.page {
-	margin: 0 0 1.5em;
-}
 
 .updated:not(.published) {
 	display: none;
@@ -969,9 +965,15 @@ object {
 /*--------------------------------------------------------------
 ## Header
 --------------------------------------------------------------*/
-.site-header .navbar{
-	padding: 20px;
-	background-color: #080808 !important;	
+.site-header {
+	margin-top : 20px;
+}
+.site-header .navbar {
+    padding: 20px;
+    background-color: #080808 !important;
+    border-bottom: 1px solid #f6691c;
+    border-top: 1px solid #f6691c;
+    margin-top: 20px;
 }
 
 .site-header a.custom-logo-link img {
@@ -986,7 +988,7 @@ object {
 }
 
 .header-menu ul li {
-	margin-right: 15px;
+	margin-right: 30px;
 }
 
 .header-menu ul li a{
@@ -1027,3 +1029,98 @@ object {
 .bg-color a:hover {
 	color : #fff;
 }
+
+/* for menu */
+.selector {
+    position: relative;
+    /* left: 50%; */
+    /* top: 50%; */
+    width: 140px;
+    height: 140px;
+    /* margin-top: -70px; */
+    /* margin-left: -70px; */   
+    margin: 150px auto;
+    /* text-align: center; */
+}
+  
+  .selector,
+  .selector button {
+	font-family: 'Roboto', sans-serif;
+	font-weight: 300;
+  }
+  
+  .selector button {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	padding: 10px;	
+	border-radius: 50%;
+	border: 0;
+	color: white;
+	font-size: 20px;
+	cursor: pointer;	
+	transition: all .1s;
+  }
+  
+  .selector button:hover { background: #3071a9; }
+  
+  .selector button:focus { outline: none; }
+  
+  .selector ul {
+	position: absolute;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	top: -20px;
+	right: -20px;
+	bottom: -20px;
+	left: -20px;
+  }
+  
+  .selector li {
+	position: absolute;
+	width: 0;
+	height: 100%;
+	margin: 0 50%;
+	-webkit-transform: rotate(-360deg);
+	transition: all 0.8s ease-in-out;
+  }
+  
+  .selector li input { display: none; }
+  
+  .selector li input + label {
+	position: absolute;
+	left: 50%;
+	bottom: 100%;
+	width: 0;
+	height: 0;
+	line-height: 10px;
+	margin-left: 0;
+	background: #fff;
+	border-radius: 50%;
+	text-align: center;
+	font-size: 1px;
+	overflow: inherit;
+	cursor: pointer;
+	box-shadow: none;
+	transition: all 0.8s ease-in-out, color 0.1s, background 0.1s;
+  }
+  
+  .selector li input + label:hover { background: #f0f0f0; }
+  
+  .selector li input:checked + label {
+	background: #5cb85c;
+	color: white;
+  }
+  
+  .selector li input:checked + label:hover { background: #449d44; }
+  
+  .selector.open li input + label {
+	width: 80px;
+	height: 80px;
+	line-height: 80px;
+	margin-left: -40px;
+	box-shadow: 0 3px 3px rgba(0, 0, 0, 0.1);
+	font-size: 14px;
+  }
+/*  for menu end */

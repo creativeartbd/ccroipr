@@ -254,34 +254,67 @@
 		}
 		
 		// For the image crop
-		var cropper = new Slim(document.getElementById('myCropper'), {
-			ratio: '3:4',
-			minSize: {
-				width: 150,
-				height: 200,
-			},
-			size: {
-				width: 250,
-				height: 300,
-			},
-			download: true,
-			instantEdit: true,
-			label: 'Upload: Click here or drag an image file onto it',
-			buttonConfirmLabel: 'Finished',
-			buttonConfirmTitle: 'Finished',
-			buttonCancelLabel: 'Cancel',
-			buttonCancelTitle: 'Cancel',
-			buttonEditTitle: 'To Edit',
-			buttonRemoveTitle: 'Remove',
-			buttonDownloadTitle: 'Download',
-			buttonRotateTitle: 'Rotate',
-			buttonUploadTitle: 'Upload',
-			statusImageTooSmall: 'This picture is too small. The minimum size is 250 X 300 pixel.'
-		});
+		// var cropper = new Slim(document.getElementById('myCropper'), {
+		// 	ratio: '3:4',
+		// 	minSize: {
+		// 		width: 150,
+		// 		height: 200,
+		// 	},
+		// 	size: {
+		// 		width: 250,
+		// 		height: 300,
+		// 	},
+		// 	download: true,
+		// 	instantEdit: true,
+		// 	label: 'Upload: Click here or drag an image file onto it',
+		// 	buttonConfirmLabel: 'Finished',
+		// 	buttonConfirmTitle: 'Finished',
+		// 	buttonCancelLabel: 'Cancel',
+		// 	buttonCancelTitle: 'Cancel',
+		// 	buttonEditTitle: 'To Edit',
+		// 	buttonRemoveTitle: 'Remove',
+		// 	buttonDownloadTitle: 'Download',
+		// 	buttonRotateTitle: 'Rotate',
+		// 	buttonUploadTitle: 'Upload',
+		// 	statusImageTooSmall: 'This picture is too small. The minimum size is 250 X 300 pixel.'
+		// });
 
-		let src = 'http://localhost:8888/ccroipr/wp-content/uploads/shibbir-8978.jpg';
+		// let src = 'http://localhost:8888/ccroipr/wp-content/uploads/shibbir-8978.jpg';
 
 		//cropper.load( src );		
+
+		// For css circle menu 
+		var nbOptions = 8;
+		var angleStart = -360;
+
+		// jquery rotate animation
+		function rotate(li,d) {
+			$({d:angleStart}).animate({d:d}, {
+				step: function(now) {
+					$(li)
+					.css({ transform: 'rotate('+now+'deg)' })
+					.find('label')
+						.css({ transform: 'rotate('+(-now)+'deg)' });
+				}, duration: 0
+			});
+		}
+
+		// show / hide the options
+		function toggleOptions(s) {
+			$(s).toggleClass('open');
+			var li = $(s).find('li');
+			var deg = $(s).hasClass('half') ? 180/(li.length-1) : 360/li.length;
+			for(var i=0; i<li.length; i++) {
+				var d = $(s).hasClass('half') ? (i*deg)-90 : i*deg;
+				$(s).hasClass('open') ? rotate(li[i],d) : rotate(li[i],angleStart);
+			}
+		}
+
+		$('.selector button').click(function(e) {
+			toggleOptions($(this).parent());
+		});
+
+		setTimeout(function() { toggleOptions('.selector'); }, 100);//@ sourceURL=pen.js
 
     });
 })( jQuery );
