@@ -207,6 +207,19 @@ textarea {
  * Show the overflow in IE.
  * 1. Show the overflow in Edge.
  */
+
+.btn-secondary {
+    color: #fff;
+    background-color: #efa020;
+    border-color: #efa020;
+}
+
+btn-secondary:hover {
+    color: #fff;
+    background-color: #181818;
+    border-color: #181818;
+}
+
 button,
 input {
 	overflow: visible;
@@ -465,7 +478,7 @@ html {
 }
 
 body {
-	background-color: #fbfbfb;
+	background-color: #fff;
 }
 
 hr {
@@ -610,7 +623,7 @@ textarea {
 ## Links
 --------------------------------------------------------------*/
 a {
-	color: #0095ff;	
+	color: #efa020;	
 }
 
 a:visited {
@@ -971,8 +984,7 @@ object {
 .site-header .navbar {
     padding: 20px;
     background-color: #080808 !important;
-    border-bottom: 1px solid #f6691c;
-    border-top: 1px solid #f6691c;
+    border-bottom: 3px solid #f6691c;
     margin-top: 20px;
 }
 
