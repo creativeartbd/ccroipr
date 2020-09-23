@@ -192,6 +192,15 @@ img {
  * 1. Change the font styles in all browsers.
  * 2. Remove the margin in Firefox and Safari.
  */
+
+.form-control:focus {
+    color: #495057;
+    background-color: #fff;
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: none;
+}
+
 button,
 input,
 optgroup,
@@ -479,6 +488,8 @@ html {
 
 body {
 	background-color: #fff;
+	background-image: url("assets/img/white-waves.png");
+	background-repeat: repeat;
 }
 
 hr {
@@ -978,6 +989,10 @@ object {
 /*--------------------------------------------------------------
 ## Header
 --------------------------------------------------------------*/
+.navbar-toggler {
+    background-color: white;   
+}
+
 .site-header {
 	margin-top : 20px;
 }
@@ -1005,6 +1020,19 @@ object {
 
 .header-menu ul li a{
 	color: #fff;
+}
+
+@media (max-width: 992px) {
+
+	.navbar-collapse ul {
+		margin-top: 15px;
+	}1
+	
+	.navbar-collapse ul li {
+		margin-bottom: 15px;
+		border-bottom: 1px solid #242323;
+		padding-bottom: 10px;
+	}	
 }
 
 /*--------------------------------------------------------------
@@ -1074,7 +1102,7 @@ object {
 	transition: all .1s;
   }
   
-  .selector button:hover { background: #3071a9; }
+  .selector button:hover { background: #080808; }
   
   .selector button:focus { outline: none; }
   
@@ -1121,16 +1149,16 @@ object {
   .selector li input + label:hover { background: #f0f0f0; }
   
   .selector li input:checked + label {
-	background: #5cb85c;
-	color: white;
+	background: #fff;
+	color: #000;
   }
   
-  .selector li input:checked + label:hover { background: #449d44; }
+  .selector li input:checked + label:hover { background: #fff; }
   
   .selector.open li input + label {
-	width: 80px;
-	height: 80px;
-	line-height: 80px;
+	width: 90px;
+	height: 90px;
+	line-height: 90px;
 	margin-left: -40px;
 	box-shadow: 0 3px 3px rgba(0, 0, 0, 0.1);
 	font-size: 14px;

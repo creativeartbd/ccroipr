@@ -12,7 +12,7 @@ get_header();
 <div class="container main-container">
 	<div class="row">
 		<div class="col-md-12 text-center">
-			<h1>Common Copyright Register <br/> of <br/> Intellectual Property Rights</h1>
+			<h1>Common Copyright Register of Intellectual Property Rights</h1>
 		</div>
 
 		<div class="col-md-12">
@@ -57,7 +57,7 @@ get_header();
 
 		<div class="col-md-6 offset-md-3">
 			<div class="input-group">
-				<input type="text" class="form-control" placeholder="Search this blog">
+				<input type="text" class="form-control" placeholder="Search..">
 				<div class="input-group-append">
 				<button class="btn btn-secondary" type="button">
 					<i class="fa fa-search"></i>
@@ -67,23 +67,22 @@ get_header();
 		</div>
 	</div>
 
-	<div class="row text-center">
-		<div class="col-md-4">Register Time</div>
-		<div class="col-md-8">2020-04-11 17:16:22</div>
+	<div class="row text-center mt-3">
+		<div class="col-md-4 offset-md-4"><b>Register Time</b> - <span>2020-04-11 17:16:22</span></div>		
 	</div>
 	
-	<div class="row text-center">
+	<div class="row text-center mt-3">
 		<div class="col-md-4">
 			<span>00000</span>
-			<p>Days Online</p>
+			<p><b>Days Online</b></p>
 		</div>
 		<div class="col-md-4">
 			<span>000001</span>
-			<p>Visitors</p>
+			<p><b>Visitors</b></p>
 		</div>
 		<div class="col-md-4">
 			<span>00007</span>
-			<p>Uploads</p>
+			<p><b>Uploads</b></p>
 		</div>
 	</div>
 
