@@ -219,8 +219,8 @@ textarea {
 
 .btn-secondary {
     color: #fff;
-    background-color: #efa020;
-    border-color: #efa020;
+    background-color: #1aa5d4;
+    border-color: #1aa5d4;
 }
 
 btn-secondary:hover {
@@ -487,9 +487,7 @@ html {
 }
 
 body {
-	background-color: #fff;
-	background-image: url("assets/img/white-waves.png");
-	background-repeat: repeat;
+	background-color: #fff;	
 }
 
 hr {
@@ -634,7 +632,7 @@ textarea {
 ## Links
 --------------------------------------------------------------*/
 a {
-	color: #efa020;	
+	color: #1aa5d4;	
 }
 
 a:visited {
@@ -998,8 +996,7 @@ object {
 }
 .site-header .navbar {
     padding: 20px;
-    background-color: #080808 !important;
-    border-bottom: 3px solid #f6691c;
+    background-color: #080808 !important;   
     margin-top: 20px;
 }
 
@@ -1020,6 +1017,10 @@ object {
 
 .header-menu ul li a{
 	color: #fff;
+}
+
+.header-menu ul li a:hover{
+	color: #1aa5d4;
 }
 
 @media (max-width: 992px) {
@@ -1161,6 +1162,6 @@ object {
 	line-height: 90px;
 	margin-left: -40px;
 	box-shadow: 0 3px 3px rgba(0, 0, 0, 0.1);
-	font-size: 14px;
+	font-size: 16px;
   }
 /*  for menu end */
