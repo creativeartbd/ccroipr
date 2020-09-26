@@ -58,3 +58,12 @@ defined( 'ABSPATH' ) || exit;
   			</div>
 		</nav>		
 	</header><!-- #masthead -->
+	
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 mt-3 mb-3">
+			<?php if (function_exists('dimox_breadcrumbs')) dimox_breadcrumbs(); ?>
+			</div>
+		</div>
+	</div>
+	
