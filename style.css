@@ -219,8 +219,8 @@ textarea {
 
 .btn-secondary {
     color: #fff;
-    background-color: #1aa5d4;
-    border-color: #1aa5d4;
+    background-color: #75030d;
+    border-color: #7a0d18;
 }
 
 btn-secondary:hover {
@@ -632,7 +632,7 @@ textarea {
 ## Links
 --------------------------------------------------------------*/
 a {
-	color: #1aa5d4;	
+	color: #40c6d1;	
 }
 
 a:visited {
@@ -1020,7 +1020,7 @@ object {
 }
 
 .header-menu ul li a:hover{
-	color: #1aa5d4;
+	color: #4be1ff;
 }
 
 @media (max-width: 992px) {
@@ -1048,7 +1048,7 @@ object {
 ## Site footer
 --------------------------------------------------------------*/
 .site-footer {
-	background-color: #1e1c18;
+	background-color: #171717;
     padding-top: 60px;
     padding-bottom: 60px;	
     color: #747474;
