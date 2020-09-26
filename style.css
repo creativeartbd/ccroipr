@@ -217,6 +217,10 @@ textarea {
  * 1. Show the overflow in Edge.
  */
 
+.bg-white {
+	background-color: #fff;
+}
+
 .btn-secondary {
     color: #fff;
     background-color: #75030d;
@@ -487,7 +491,7 @@ html {
 }
 
 body {
-	background-color: #fff;	
+	background-color: #fafafa;	
 }
 
 hr {
@@ -1008,11 +1012,11 @@ object {
 
 .header-menu ul {
 	padding: 0;
-	margin: 0;
+	margin: 0 0 0 10px;
 }
 
 .header-menu ul li {
-	margin-right: 30px;
+	margin-right: 30px;	
 }
 
 .header-menu ul li a{
@@ -1040,8 +1044,8 @@ object {
 ## Main container
 --------------------------------------------------------------*/
 .main-container {
-	margin-top: 35px;
-	margin-bottom: 35px;
+	padding: 35px 25px;	
+	background-color: #fff;	
 }
 
 /*--------------------------------------------------------------

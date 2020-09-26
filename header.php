@@ -29,7 +29,7 @@ defined( 'ABSPATH' ) || exit;
 
 	<header id="masthead" class="site-header">	
 		<div class="container">
-			<div class="row">
+			<div class="row bg-white">
 				<div class="col-md-12">	
 					<a href="<?php echo site_url('/'); ?>">			
 						<img src="<?php echo get_template_directory_uri() . '/assets/img/logoline-padp-ccroipr.jpg'; ?>" alt="">
