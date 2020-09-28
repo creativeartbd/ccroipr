@@ -1,5 +1,10 @@
 (function($){
     $( document ).ready( function() {
+		
+		$(".accordion").click( function () {
+			$(".panel").toggle('slow');
+			$("i", this).toggleClass("fa fa-chevron-up fa fa-chevron-down");
+		});
 
 		// Register and Update form for the Register Menu
 		$('#ccroipr_ru_form').submit(function(e) {
