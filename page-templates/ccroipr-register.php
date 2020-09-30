@@ -23,7 +23,7 @@ get_header();
 			<form action="" method="POST" enctype="multipart/form-data" id="ccroipr_ru_form">
 				<div class="row mt-5">	
 					<div class="col-md-12">
-					<div class="form-group">
+						<div class="form-group">
                             <label for="">Urheber - Impressum nach $55 RStV</label>
                         </div>
 					</div>				
@@ -122,9 +122,9 @@ get_header();
                         </div>
 					</div>
 					<div class="col-md-12">
-						<div class="form-group">	                        
-							<p class="text-danger">Diese Angaben zur Registeranmeldung werden nicht veröffentlicht! &nbsp;</p>
-							<p class="accordion">Optionale Bildbeschreibung <i class="fa fa-chevron-down" aria-hidden="true"></i></p>
+						<div class="form-group">	 
+							<p class="accordion">Optionale Bildbeschreibung <i class="fa fa-chevron-down" aria-hidden="true"></i></p>                       
+							<p class="text-danger">Diese Angaben zur Registeranmeldung werden nicht veröffentlicht! &nbsp;</p>							
 						</div>
 					</div>
 				</div>
