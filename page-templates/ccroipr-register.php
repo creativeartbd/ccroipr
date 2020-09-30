@@ -123,7 +123,7 @@ get_header();
 					</div>
 					<div class="col-md-12">
 						<div class="form-group">	 
-							<p class="accordion">Optionale Bildbeschreibung <i class="fa fa-chevron-down" aria-hidden="true"></i></p>                       
+							<p class="accordion">Optionale Bildbeschreibung <i class="fa fa-chevron-up" aria-hidden="true"></i></p>                       
 							<p class="text-danger">Diese Angaben zur Registeranmeldung werden nicht veröffentlicht! &nbsp;</p>							
 						</div>
 					</div>

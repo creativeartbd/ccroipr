@@ -3,7 +3,7 @@
 		
 		$(".accordion").click( function () {
 			$(".panel").toggle('slow');
-			$("i", this).toggleClass("fa fa-chevron-up fa fa-chevron-down");
+			$("i", this).toggleClass("fa fa-chevron-down fa fa-chevron-up");
 		});
 
 		// Register and Update form for the Register Menu
