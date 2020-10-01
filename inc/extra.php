@@ -16,7 +16,7 @@ function Generate_Featured_Image($image_url, $post_id)
         $file              =  $upload_dir['path'] . '/' . $filename;
     } else {
         $file              =  $upload_dir['basedir'] . '/' . $filename;
-    }        
+    }
 
     file_put_contents($file, $image_data);
 
@@ -27,7 +27,7 @@ function Generate_Featured_Image($image_url, $post_id)
         'post_content'   => '',
         'post_status'    => 'inherit'
     );
-    
+
     $attach_id           =  wp_insert_attachment($attachment, $file, $post_id);
     require_once(ABSPATH . 'wp-admin/includes/image.php');
     $attach_data         =  wp_generate_attachment_metadata($attach_id, $file);
@@ -176,7 +176,7 @@ function random($length)
 /**
  * Gnerate PDF file
  */
-function generatePdfWithImage($pdf_data, $return = false, $create_txt = false, $show_condition = false )
+function generatePdfWithImage($pdf_data, $return = false, $create_txt = false, $show_condition = false)
 {
 
     extract($pdf_data);
@@ -227,7 +227,7 @@ function generatePdfWithImage($pdf_data, $return = false, $create_txt = false, $
 
     $pdf->AddPage();
 
-    if( 'ccroipr-p' == $type ) {
+    if ('ccroipr-p' == $type) {
         $thumb      = wp_get_attachment_image_src($attachment_id, 'ccroipr');
         $thumb_src  = $thumb[0];
         $image      = $thumb_src;
@@ -266,7 +266,7 @@ function generatePdfWithImage($pdf_data, $return = false, $create_txt = false, $
             </tr>
     ";
 
-    if( 'ccroipr-p' == $type ) {
+    if ('ccroipr-p' == $type) {
         $html .= "
         <tr>
             <td>SHA256 (Hashwert der Originalabbildung)</td>
@@ -274,7 +274,7 @@ function generatePdfWithImage($pdf_data, $return = false, $create_txt = false, $
         </tr>
         ";
     }
-    
+
     $html .= "
             <tr>
                 <td>Werktitel</td>
@@ -288,7 +288,7 @@ function generatePdfWithImage($pdf_data, $return = false, $create_txt = false, $
     ";
 
     $html2 = '';
-    if( $show_condition ) {
+    if ($show_condition) {
 
         $html2 .= '<table border="0" cellpadding="5">';
         $html2 .= "<tr><td colspan=\"2\"></td></tr>";
@@ -296,7 +296,7 @@ function generatePdfWithImage($pdf_data, $return = false, $create_txt = false, $
         $html2 .= "<tr><td colspan=\"2\">Mein Datenupload ist unter der IP-Adresse $ip erfolgt.</td></tr>";
         $html2 .= "</table>";
 
-    
+
         $html2 .= '<table border="0" cellpadding="5">';
         $html2 .= "<tr><td>Ich habe die Hinweise zur Anmeldung heruntergeladen, gelesen und meine Daten geprüft.</td></tr>";
         $html2 .= "<tr><td>Ich habe die aktuellen Geschäftsbedingungen heruntergeladen, gelesen und akzeptiert.</td></tr>";
@@ -306,11 +306,11 @@ function generatePdfWithImage($pdf_data, $return = false, $create_txt = false, $
         $html2 .= "<tr><td>Common Popyright Register of Intellectual Property Rights.</td></tr>";
         $html2 .= "</table>";
     }
-    
 
-    if( 'ccroipr-p' == $type ) {
+
+    if ('ccroipr-p' == $type) {
         $pdf->Image($image, '', '45', '75', '', $extension, '', '', true, 300, 'R', false, false, 1, false, false, false);
-    }    
+    }
 
     $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
 
@@ -324,18 +324,18 @@ function generatePdfWithImage($pdf_data, $return = false, $create_txt = false, $
     if (!is_dir($upload_dir)) {
         mkdir($upload_dir, 0755);
     }
-    
+
     // create file empty .txt file 
-    if( $create_txt ) {
+    if ($create_txt) {
         $fopen = fopen($upload_dir . $confirm_id . '.txt', "w");
-        fclose( $fopen );
-    }    
+        fclose($fopen);
+    }
 
     $filename = $confirm_id . '.pdf';
     $filename_backup = $confirm_id . '_backup' . '.pdf';
 
-    
-    if( $show_condition ) {
+
+    if ($show_condition) {
         $pdf->Output($upload_dir . $filename_backup, 'F');
     } else {
         $pdf->Output($upload_dir . $filename, 'F');
@@ -348,139 +348,135 @@ function generatePdfWithImage($pdf_data, $return = false, $create_txt = false, $
     }
 }
 
-function upload_post_thumbnail( $surname, $extension, $final_image, $post_id ) {
-    
+function upload_post_thumbnail($surname, $extension, $final_image, $post_id)
+{
+
     $new_file_name = rand(1000, 9999) . '.' . $extension;
     $wp_upload_dir = wp_upload_dir();
     $path          = $wp_upload_dir['path']; // /Applications/MAMP/htdocs/ccroipr/wp-content/uploads/2020/08    
     $image_parts   = explode(";base64,", $final_image);
     $image_base64  = base64_decode($image_parts[1]);
-    $filename      = $path . '/' . $new_file_name;      
-    file_put_contents( $filename, $image_base64 );                              
-    
+    $filename      = $path . '/' . $new_file_name;
+    file_put_contents($filename, $image_base64);
+
     // Check the type of file. We'll use this as the 'post_mime_type'.
-    $filetype = wp_check_filetype( basename( $filename ), null );     
+    $filetype = wp_check_filetype(basename($filename), null);
 
     // Prepare an array of post data for the attachment.
     $attachment = array(
-        'guid'           => $path . '/' . basename( $filename ), 
+        'guid'           => $path . '/' . basename($filename),
         'post_mime_type' => $filetype['type'],
-        'post_title'     => preg_replace( '/\.[^.]+$/', '', basename( $filename ) ),
+        'post_title'     => preg_replace('/\.[^.]+$/', '', basename($filename)),
         'post_content'   => '',
         'post_status'    => 'inherit'
     );
-    
+
     // Insert the attachment.
-    $attach_id = wp_insert_attachment( $attachment, $filename, $post_id );
-    
+    $attach_id = wp_insert_attachment($attachment, $filename, $post_id);
+
     // Make sure that this file is included, as wp_generate_attachment_metadata() depends on it.
-    require_once( ABSPATH . 'wp-admin/includes/image.php' );
-    
+    require_once(ABSPATH . 'wp-admin/includes/image.php');
+
     // Generate the metadata for the attachment, and update the database record.
-    $attach_data = wp_generate_attachment_metadata( $attach_id, $filename );
-    wp_update_attachment_metadata( $attach_id, $attach_data );
+    $attach_data = wp_generate_attachment_metadata($attach_id, $filename);
+    wp_update_attachment_metadata($attach_id, $attach_data);
 
     // set the post thumbnail
-    set_post_thumbnail( $post_id, $attach_id );
+    set_post_thumbnail($post_id, $attach_id);
 }
 
-function dimox_breadcrumbs() {
-  
+function dimox_breadcrumbs()
+{
+
     $delimiter = '&raquo;';
     $name = 'Home'; //text for the 'Home' link
     $currentBefore = '<span class="current">';
     $currentAfter = '</span>';
-    
-    if ( !is_home() && !is_front_page() || is_paged() ) {
-    
-      echo '<div id="crumbs">';
-    
-      global $post;
-      $home = get_bloginfo('url');
-      echo '<a href="' . $home . '">' . $name . '</a> ' . $delimiter . ' ';
-    
-      if ( is_category() ) {
-        global $wp_query;
-        $cat_obj = $wp_query->get_queried_object();
-        $thisCat = $cat_obj->term_id;
-        $thisCat = get_category($thisCat);
-        $parentCat = get_category($thisCat->parent);
-        if ($thisCat->parent != 0) echo(get_category_parents($parentCat, TRUE, ' ' . $delimiter . ' '));
-        echo $currentBefore . 'Archive by category &#39;';
-        single_cat_title();
-        echo '&#39;' . $currentAfter;
-    
-      } elseif ( is_day() ) {
-        echo '<a href="' . get_year_link(get_the_time('Y')) . '">' . get_the_time('Y') . '</a> ' . $delimiter . ' ';
-        echo '<a href="' . get_month_link(get_the_time('Y'),get_the_time('m')) . '">' . get_the_time('F') . '</a> ' . $delimiter . ' ';
-        echo $currentBefore . get_the_time('d') . $currentAfter;
-    
-      } elseif ( is_month() ) {
-        echo '<a href="' . get_year_link(get_the_time('Y')) . '">' . get_the_time('Y') . '</a> ' . $delimiter . ' ';
-        echo $currentBefore . get_the_time('F') . $currentAfter;
-    
-      } elseif ( is_year() ) {
-        echo $currentBefore . get_the_time('Y') . $currentAfter;
-    
-      } elseif ( is_single() && !is_attachment() ) {
-        $cat = get_the_category(); $cat = $cat[0];
-        echo get_category_parents($cat, TRUE, ' ' . $delimiter . ' ');
-        echo $currentBefore;
-        the_title();
-        echo $currentAfter;
-    
-      } elseif ( is_attachment() ) {
-        $parent = get_post($post->post_parent);
-        $cat = get_the_category($parent->ID); $cat = $cat[0];
-        echo get_category_parents($cat, TRUE, ' ' . $delimiter . ' ');
-        echo '<a href="' . get_permalink($parent) . '">' . $parent->post_title . '</a> ' . $delimiter . ' ';
-        echo $currentBefore;
-        the_title();
-        echo $currentAfter;
-    
-      } elseif ( is_page() && !$post->post_parent ) {
-        echo $currentBefore;
-        the_title();
-        echo $currentAfter;
-    
-      } elseif ( is_page() && $post->post_parent ) {
-        $parent_id  = $post->post_parent;
-        $breadcrumbs = array();
-        while ($parent_id) {
-          $page = get_page($parent_id);
-          $breadcrumbs[] = '<a href="' . get_permalink($page->ID) . '">' . get_the_title($page->ID) . '</a>';
-          $parent_id  = $page->post_parent;
+
+    if (!is_home() && !is_front_page() || is_paged()) {
+
+        echo '<div id="crumbs">';
+
+        global $post;
+        $home = get_bloginfo('url');
+        echo '<a href="' . $home . '">' . $name . '</a> ' . $delimiter . ' ';
+
+        if (is_category()) {
+            global $wp_query;
+            $cat_obj = $wp_query->get_queried_object();
+            $thisCat = $cat_obj->term_id;
+            $thisCat = get_category($thisCat);
+            $parentCat = get_category($thisCat->parent);
+            if ($thisCat->parent != 0) echo (get_category_parents($parentCat, TRUE, ' ' . $delimiter . ' '));
+            echo $currentBefore . 'Archive by category &#39;';
+            single_cat_title();
+            echo '&#39;' . $currentAfter;
+        } elseif (is_day()) {
+            echo '<a href="' . get_year_link(get_the_time('Y')) . '">' . get_the_time('Y') . '</a> ' . $delimiter . ' ';
+            echo '<a href="' . get_month_link(get_the_time('Y'), get_the_time('m')) . '">' . get_the_time('F') . '</a> ' . $delimiter . ' ';
+            echo $currentBefore . get_the_time('d') . $currentAfter;
+        } elseif (is_month()) {
+            echo '<a href="' . get_year_link(get_the_time('Y')) . '">' . get_the_time('Y') . '</a> ' . $delimiter . ' ';
+            echo $currentBefore . get_the_time('F') . $currentAfter;
+        } elseif (is_year()) {
+            echo $currentBefore . get_the_time('Y') . $currentAfter;
+        } elseif (is_single() && !is_attachment()) {
+            $cat = get_the_category();
+            $cat = $cat[0];
+            echo get_category_parents($cat, TRUE, ' ' . $delimiter . ' ');
+            echo $currentBefore;
+            the_title();
+            echo $currentAfter;
+        } elseif (is_attachment()) {
+            $parent = get_post($post->post_parent);
+            $cat = get_the_category($parent->ID);
+            $cat = $cat[0];
+            echo get_category_parents($cat, TRUE, ' ' . $delimiter . ' ');
+            echo '<a href="' . get_permalink($parent) . '">' . $parent->post_title . '</a> ' . $delimiter . ' ';
+            echo $currentBefore;
+            the_title();
+            echo $currentAfter;
+        } elseif (is_page() && !$post->post_parent) {
+            echo $currentBefore;
+            the_title();
+            echo $currentAfter;
+        } elseif (is_page() && $post->post_parent) {
+            $parent_id  = $post->post_parent;
+            $breadcrumbs = array();
+            while ($parent_id) {
+                $page = get_page($parent_id);
+                $breadcrumbs[] = '<a href="' . get_permalink($page->ID) . '">' . get_the_title($page->ID) . '</a>';
+                $parent_id  = $page->post_parent;
+            }
+            $breadcrumbs = array_reverse($breadcrumbs);
+            foreach ($breadcrumbs as $crumb) echo $crumb . ' ' . $delimiter . ' ';
+            echo $currentBefore;
+            the_title();
+            echo $currentAfter;
+        } elseif (is_search()) {
+            echo $currentBefore . 'Search results for &#39;' . get_search_query() . '&#39;' . $currentAfter;
+        } elseif (is_tag()) {
+            echo $currentBefore . 'Posts tagged &#39;';
+            single_tag_title();
+            echo '&#39;' . $currentAfter;
+        } elseif (is_author()) {
+            global $author;
+            $userdata = get_userdata($author);
+            echo $currentBefore . 'Articles posted by ' . $userdata->display_name . $currentAfter;
+        } elseif (is_404()) {
+            echo $currentBefore . 'Error 404' . $currentAfter;
         }
-        $breadcrumbs = array_reverse($breadcrumbs);
-        foreach ($breadcrumbs as $crumb) echo $crumb . ' ' . $delimiter . ' ';
-        echo $currentBefore;
-        the_title();
-        echo $currentAfter;
-    
-      } elseif ( is_search() ) {
-        echo $currentBefore . 'Search results for &#39;' . get_search_query() . '&#39;' . $currentAfter;
-    
-      } elseif ( is_tag() ) {
-        echo $currentBefore . 'Posts tagged &#39;';
-        single_tag_title();
-        echo '&#39;' . $currentAfter;
-    
-      } elseif ( is_author() ) {
-         global $author;
-        $userdata = get_userdata($author);
-        echo $currentBefore . 'Articles posted by ' . $userdata->display_name . $currentAfter;
-    
-      } elseif ( is_404() ) {
-        echo $currentBefore . 'Error 404' . $currentAfter;
-      }
-    
-      if ( get_query_var('paged') ) {
-        if ( is_category() || is_day() || is_month() || is_year() || is_search() || is_tag() || is_author() ) echo ' (';
-        echo __('Page') . ' ' . get_query_var('paged');
-        if ( is_category() || is_day() || is_month() || is_year() || is_search() || is_tag() || is_author() ) echo ')';
-      }
-    
-      echo '</div>';
-    
+
+        if (get_query_var('paged')) {
+            if (is_category() || is_day() || is_month() || is_year() || is_search() || is_tag() || is_author()) echo ' (';
+            echo __('Page') . ' ' . get_query_var('paged');
+            if (is_category() || is_day() || is_month() || is_year() || is_search() || is_tag() || is_author()) echo ')';
+        }
+
+        echo '</div>';
     }
-  }
+}
+
+if (isset($_SERVER["HTTP_CF_CONNECTING_IP"])) {
+    $_SERVER['REMOTE_ADDR'] = $_SERVER["HTTP_CF_CONNECTING_IP"];
+}
