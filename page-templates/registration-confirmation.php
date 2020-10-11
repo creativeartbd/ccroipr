@@ -31,7 +31,7 @@ if( $key && $post_id  ) {
 				// If update success
 				if( ! is_wp_error( $post_id ) ) {
 					$permalink = get_the_permalink( $post_id );
-					$message .= "<div class='alert alert-success'>Congratulation! Your email has been confirmed.</div>";
+					$message .= "<div class='alert alert-success'>Congratulation! Your email has been confirmed. You will be redirect in a moment...</div>";
 					header( "refresh:5;url=$permalink" );
 				} else {
 					$message .= "<div class='alert alert-warning'>Your email address is already confirmed</div>"; 
