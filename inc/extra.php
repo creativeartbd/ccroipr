@@ -228,11 +228,11 @@ function generatePdfWithImage($pdf_data, $return = false, $create_txt = false, $
     $pdf->AddPage();
 
     if ('ccroipr-p' == $type) {
-        $thumb      = wp_get_attachment_image_src($attachment_id, 'ccroipr');
-        $thumb_src  = $thumb[0];
-        $image      = $thumb_src;
-        $explode    = explode('.', $image);
-        $extension  = strtolower(end($explode));
+        $thumb      = get_the_post_thumbnail_url( $post_id );
+        // $thumb_src  = $thumb[0];
+        // $image      = $thumb_src;
+        // $explode    = explode('.', $image);
+        // $extension  = strtolower(end($explode));
     }   
 
     $html = ''; 
@@ -251,7 +251,7 @@ function generatePdfWithImage($pdf_data, $return = false, $create_txt = false, $
             <td><p>$confirm_id</p></td>
         </tr>
         <tr>
-            <td><img src=\"$image\"></td>
+            <td><img src=\"$thumb\"></td>
         </tr>
         <tr>
             <td>Werk-Beschreibung</td>

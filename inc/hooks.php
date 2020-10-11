@@ -380,6 +380,7 @@ function register_confirm_action()
                                           
                 // Generate PDF file
                 $pdf_data = [
+                    'post_id'           => $post_id,
                     'surname'           => $post_meta['surname'],
                     'attachment_id'     => get_post_thumbnail_id( $post_id_updated ),
                     'confirm_id'        => $confirm_id,
