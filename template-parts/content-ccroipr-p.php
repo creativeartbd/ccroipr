@@ -53,7 +53,7 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
 					<input type="text" name="werktitel" value="<?php echo $post_meta['werktitel']; ?>" id="werktitel" maxlength="30" class="form-control" placeholder="Werktitel">
 				</div>	
 				<div class="form-group">
-					<?php $thumbnail_url = get_the_post_thumbnail_url( $post_id ); ?>
+					<?php $thumbnail_url = get_the_post_thumbnail_url( $post_id, 'ccroipr' ); ?>
 					<?php if( 'confirmed' == $post_status ) { ?>
 						<img src="<?php echo $thumbnail_url; ?>" alt="">	
 					<?php } else { ?>

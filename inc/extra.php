@@ -228,7 +228,7 @@ function generatePdfWithImage($pdf_data, $return = false, $create_txt = false, $
     $pdf->AddPage();
 
     if ('ccroipr-p' == $type) {
-        $thumb      = get_the_post_thumbnail_url( $post_id );
+        $thumb      = get_the_post_thumbnail_url( $post_id, 'ccroipr' );
         // $thumb_src  = $thumb[0];
         // $image      = $thumb_src;
         // $explode    = explode('.', $image);
