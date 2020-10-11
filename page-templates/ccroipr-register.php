@@ -143,10 +143,10 @@ get_header();
 							<label><input type="checkbox" required name="ich_habe_die" value="1">Ich habe die Lizenzvereinbarung nach §30 Markengesetz über die Urheber-Kennzeichnug eines Werkes mit der Bezeichnung "CCROIPR" heruntergeladen, gelesen und akzeptiert.</label>
 						</div>
 					</div>
-					<div class="col-md-6">
+					<div class="col-md-12">
 						<div class="form-group">
 							<p>Bittle geben Sie Ihre E-Mail-Addresse ein (Eintragsbestätigung nach Art.246a § 1 EGBGB)</p>
-							<input type="email" name="email" class="form-control" value="">
+							<input type="email" name="email" class="form-control" value="" placeholder="Email address">
 						</div>
 						<div class="form-group">
 							<label for="">Sie sind Eingeloggt mit der IP-Adresse: USER-IP</label>

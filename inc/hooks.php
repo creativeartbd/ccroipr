@@ -316,7 +316,7 @@ function register_confirm_action()
 
                 $font_path = get_template_directory() . '/assets/fonts/arial.ttf';
                 // Set Text to Be Printed On Image
-                $text = 'cc-by-nd-' . $confirm_id;
+                $text = '@ cc-by-nd-' . $confirm_id;
                 // Allocate A Color For The Text
                 $color = imagecolorallocate($canvas, 0, 0, 0);
                 // Print Text On Image
@@ -548,12 +548,12 @@ function register_action()
         $errors[] = 'Your E-post address must be between 2-50 characters long';
     }
 
-    if (empty($webseite)) {
-        $errors[] = 'Your webseite is required';
-    } elseif (!preg_match($pattern, $webseite)) {
-        $errors[] = 'Invalid webseite is given';
-    } elseif (strlen($webseite) > 150 || strlen($webseite) < 2) {
-        $errors[] = 'Your webseite must be between 2-150 characters long';
+    if (!empty($webseite)) {
+        if (!preg_match($pattern, $webseite)) {
+            $errors[] = 'Invalid webseite is given';
+        } elseif (strlen($webseite) > 150 || strlen($webseite) < 2) {
+            $errors[] = 'Your webseite must be between 2-150 characters long';
+        }
     }
 
     if (empty($werktitel)) {
@@ -940,11 +940,11 @@ function secret_register_action()
     }
 
     if (empty($webseite)) {
-        $errors[] = 'Your webseite is required';
-    } elseif (!preg_match($pattern, $webseite)) {
-        $errors[] = 'Invalid webseite is given';
-    } elseif (strlen($webseite) > 150 || strlen($webseite) < 2) {
-        $errors[] = 'Your webseite must be between 2-150 characters long';
+        if (!preg_match($pattern, $webseite)) {
+            $errors[] = 'Invalid webseite is given';
+        } elseif (strlen($webseite) > 150 || strlen($webseite) < 2) {
+            $errors[] = 'Your webseite must be between 2-150 characters long';
+        }
     }
 
     if (empty($werktitel)) {

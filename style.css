@@ -992,7 +992,9 @@ object {
 ## Header
 --------------------------------------------------------------*/
 .navbar-toggler {
-    background-color: white;   
+	background-color: white;   
+	padding : 5px;
+	margin-left : 15px;
 }
 
 .site-header {
@@ -1012,7 +1014,7 @@ object {
 
 .header-menu ul {
 	padding: 0;
-	margin: 0 0 0 10px;
+	margin: 0 0 0 5px;
 }
 
 .header-menu ul li {
@@ -1031,7 +1033,8 @@ object {
 
 	.navbar-collapse ul {
 		margin-top: 15px;
-	}1
+		margin-left: 15px; 
+	}
 	
 	.navbar-collapse ul li {
 		margin-bottom: 15px;
@@ -1044,7 +1047,7 @@ object {
 ## Main container
 --------------------------------------------------------------*/
 .main-container {
-	padding: 35px 25px;	
+	padding: 15px;	
 	background-color: #fff;	
 }
 

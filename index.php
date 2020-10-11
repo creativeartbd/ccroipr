@@ -13,6 +13,7 @@
  */
 
 get_header();
+
 ?>
 
 <div class="container main-container">

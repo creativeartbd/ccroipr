@@ -233,89 +233,107 @@ function generatePdfWithImage($pdf_data, $return = false, $create_txt = false, $
         $image      = $thumb_src;
         $explode    = explode('.', $image);
         $extension  = strtolower(end($explode));
-    }
+    }   
 
-    $html = '';
-    $html .= '<h4>Common Copyright Register of Intellectual Property Rights</h4>';
-    $html .= "<p>$confirm_id</p>";
+    $html = ''; 
+
+    // if ('ccroipr-p' == $type) {        
+    //     $pdf->Image($image, '', '45', '75', '', $extension, '', '', true, 300, 'L', false, false, 1, false, false, false);            
+    // }
+
+    $html .= "<table border=\"0\" width=\"100%\" cellpadding=\"5\">";
+
     $html .= "
-        <table border=\"0\" width=\"355\" cellpadding=\"5\">
-            <tr>
-                <td>Name</td>
-                <td>$surname</td>
-            </tr>
-            <tr>
-                <td>Vorname</td>
-                <td>$vorname</td>
-            </tr>
-            <tr>
-                <td>Straße / Nr</td>
-                <td>$strabe_nr</td>
-            </tr>
-            <tr>
-                <td>Plz</td>
-                <td>$plz</td>
-            </tr>
-            <tr>
-                <td>Ort / Stadt</td>
-                <td>$ort</td>
-            </tr>
-            <tr>
-                <td>E-Post-Address</td>
-                <td>$e_post_address</td>
-            </tr>
+        <tr>
+            <td><h4>Common Copyright Register of Intellectual Property Rights</h4></td>
+        </tr>
+        <tr>
+            <td><p>$confirm_id</p></td>
+        </tr>
+        <tr>
+            <td><img src=\"$image\"></td>
+        </tr>
+        <tr>
+            <td>Werk-Beschreibung</td>
+        </tr>
+        <tr>
+            <td colspan=\"3\">$werk_beschreibung</td>
+        </tr> 
+        <tr>
+            <td>Werktitel</td>
+        </tr>
+        <tr>
+            <td colspan=\"2\">$werktitel</td>
+        </tr>   
     ";
 
     if ('ccroipr-p' == $type) {
         $html .= "
         <tr>
             <td>SHA256 (Hashwert der Originalabbildung)</td>
+        </tr>
+        <tr>
             <td colspan=\"2\">$sha256</td>
         </tr>
         ";
     }
 
-    $html .= "
-            <tr>
-                <td>Werktitel</td>
-                <td colspan=\"2\">$werktitel</td>
-            </tr>
-            <tr>
-                <td>Werk-Beschreibung</td>
-                <td colspan=\"3\">$werk_beschreibung</td>
-            </tr>                            
-        </table>
+    $html .= "<tr><td><p><b>Anmelder / Urheber-Impressum nach 55RStV</b></p></td></tr>";
+    $html .= "<table>";
+
+    $html .= "<table border=\"0\" width=\"100%\" cellpadding=\"5\">";
+    $html .= "    
+        <tr>
+            <td>Name</td>
+            <td>$surname</td>
+        </tr>
+        <tr>
+            <td>Vorname</td>
+            <td>$vorname</td>
+        </tr>
+        <tr>
+            <td>Straße / Nr</td>
+            <td>$strabe_nr</td>
+        </tr>
+        <tr>
+            <td>Plz</td>
+            <td>$plz</td>
+        </tr>
+        <tr>
+            <td>Ort / Stadt</td>
+            <td>$ort</td>
+        </tr>
+        <tr>
+            <td>E-Post-Address</td>
+            <td>$e_post_address</td>
+        </tr>
     ";
 
-    $html2 = '';
-    if ($show_condition) {
+    $html .= "</table>";
 
-        $html2 .= '<table border="0" cellpadding="5">';
-        $html2 .= "<tr><td colspan=\"2\"></td></tr>";
-        $html2 .= "<tr><td colspan=\"2\"><b>Freigabeerklärung zu $confirm_id</b></td></tr>";
-        $html2 .= "<tr><td colspan=\"2\">Mein Datenupload ist unter der IP-Adresse $ip erfolgt.</td></tr>";
-        $html2 .= "</table>";
+    // echo '<pre>';
+    // print_r( $html );
 
+    // die();
+   
 
-        $html2 .= '<table border="0" cellpadding="5">';
-        $html2 .= "<tr><td>Ich habe die Hinweise zur Anmeldung heruntergeladen, gelesen und meine Daten geprüft.</td></tr>";
-        $html2 .= "<tr><td>Ich habe die aktuellen Geschäftsbedingungen heruntergeladen, gelesen und akzeptiert.</td></tr>";
-        $html2 .= "<tr><td>Ich habe die CCROIPR - Lizenzvereinbarungen heruntergeladen, gelesen und akzeptiert.</td></tr>";
-        $html2 .= "<tr><td>Ich habe mit der E-Mail-Adresse $email die Anmeldung bestätigt.</td></tr>";
-        $html2 .= "<tr><td>und erteile hiermit die Freigabe zur Langzeitarchivierung im.</td></tr>";
-        $html2 .= "<tr><td>Common Popyright Register of Intellectual Property Rights.</td></tr>";
-        $html2 .= "</table>";
-    }
+    //$html2 = '';
+    // if ($show_condition) {
+    //     $html2 .= "<tr><td colspan=\"2\"></td></tr>";
+    //     $html2 .= "<tr><td colspan=\"2\"><b>Freigabeerklärung zu $confirm_id</b></td></tr>";
+    //     $html2 .= "<tr><td colspan=\"2\">Mein Datenupload ist unter der IP-Adresse $ip erfolgt.</td></tr>";
+    //     $html2 .= "<tr><td>Ich habe die Hinweise zur Anmeldung heruntergeladen, gelesen und meine Daten geprüft.</td></tr>";
+    //     $html2 .= "<tr><td>Ich habe die aktuellen Geschäftsbedingungen heruntergeladen, gelesen und akzeptiert.</td></tr>";
+    //     $html2 .= "<tr><td>Ich habe die CCROIPR - Lizenzvereinbarungen heruntergeladen, gelesen und akzeptiert.</td></tr>";
+    //     $html2 .= "<tr><td>Ich habe mit der E-Mail-Adresse $email die Anmeldung bestätigt.</td></tr>";
+    //     $html2 .= "<tr><td>und erteile hiermit die Freigabe zur Langzeitarchivierung im.</td></tr>";
+    //     $html2 .= "<tr><td>Common Popyright Register of Intellectual Property Rights.</td></tr>";        
+    // }
 
-
-    if ('ccroipr-p' == $type) {
-        $pdf->Image($image, '', '45', '75', '', $extension, '', '', true, 300, 'R', false, false, 1, false, false, false);
-    }
 
     $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
-
-    $pdf->AddPage();
-    $pdf->writeHTMLCell(0, 0, '', '', $html2, 0, 1, 0, true, '', true);
+    ///$pdf->AddPage();
+    //$pdf->writeHTMLCell(0, 0, '', '', $html2, 0, 1, 0, true, '', true);
 
     $upload         = wp_upload_dir();
     $upload_dir     = $upload['basedir'];
