@@ -227,6 +227,7 @@ function generatePdfWithImage($pdf_data, $return = false, $create_txt = false, $
 
     $pdf->AddPage();
 
+    $thumb = '';
     if ('ccroipr-p' == $type) {
         $thumb      = get_the_post_thumbnail_url( $post_id, 'ccroipr' );
         // $thumb_src  = $thumb[0];
@@ -234,6 +235,9 @@ function generatePdfWithImage($pdf_data, $return = false, $create_txt = false, $
         // $explode    = explode('.', $image);
         // $extension  = strtolower(end($explode));
     }   
+
+    // print_r( $thumb );
+    // wp_die();
 
     $html = ''; 
 
@@ -371,7 +375,7 @@ function upload_post_thumbnail($surname, $extension, $final_image, $post_id)
 
     $new_file_name = rand(1000, 9999) . '.' . $extension;
     $wp_upload_dir = wp_upload_dir();
-    $path          = $wp_upload_dir['path']; // /Applications/MAMP/htdocs/ccroipr/wp-content/uploads/2020/08    
+    $path          = $wp_upload_dir['path'];   
     $image_parts   = explode(";base64,", $final_image);
     $image_base64  = base64_decode($image_parts[1]);
     $filename      = $path . '/' . $new_file_name;

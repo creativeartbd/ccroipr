@@ -279,7 +279,7 @@ function register_confirm_action()
             if ( 'ccroipr-p' == $register_type ) {
 
                 $post_meta['kategorie'] = 'ccroipr-cat-p-' . date('Y' . '-' . 'm' . '-' . 'd');
-                $thumb_src              = get_the_post_thumbnail_url( $post_id );
+                $thumb_src              = get_the_post_thumbnail_url( $post_id, 'ccroipr' );
                 $explode                = explode('.', $thumb_src);                
                 $extension              = strtolower( end ( $explode ) );
                 $file_name              = basename( $thumb_src );
@@ -495,10 +495,11 @@ function register_action()
         $slim                   = sanitize_text_field($_POST['slim']);
         $decode                 = json_decode(str_replace('\\', '', $slim));
         
-        if( $slim ) {
+        if( $slim ) {        
+            
             $image_name             = $decode->input->name;
             $image_size             = $decode->input->size;
-            $final_image            = $decode->output->image;
+            $final_image            = $decode->output->image; // We need this image becuase it's cropped
 
             $explode                = explode('.', $image_name);
             $extension              = strtolower(end($explode));
@@ -678,7 +679,7 @@ function register_action()
             ]);
         }
     } else {
-
+    
         $confirm_id         = 'ccroipr-' . date('Y' . 'm' . 'd' . 'H' . 'i' . 's') . randomNumber(3);
         $kategorie          = 'ccroipr-cat-p-' . date('Y' . '-' . 'm' . '-' . 'd');
         $category           = get_category_by_slug( $register_type );

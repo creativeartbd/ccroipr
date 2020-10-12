@@ -55,10 +55,10 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
 				<div class="form-group">
 					<?php $thumbnail_url = get_the_post_thumbnail_url( $post_id, 'ccroipr' ); ?>
 					<?php if( 'confirmed' == $post_status ) { ?>
-						<img src="<?php echo $thumbnail_url; ?>" alt="">	
+						<img src="<?php echo $thumbnail_url; ?>" alt="" class="img-thumbnail">	
 					<?php } else { ?>
 						<div class="slim" data-download="true" data-instant-edit="true">
-							<img src="<?php echo $thumbnail_url; ?>" alt="">		
+							<img src="<?php echo $thumbnail_url; ?>" alt="" class="img-thumbnail">		
 							<input type="file" name="slim" id="file_change"/>
 						</div>								
 					<?php } ?>
