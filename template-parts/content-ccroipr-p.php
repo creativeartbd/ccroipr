@@ -152,7 +152,8 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
 			</div>	
 		</div>				
 		<div class="row">			
-			<?php if( 'confirmed' != $post_status ) : ?>				
+			<?php if( 'confirmed' != $post_status ) : ?>	
+			<div class="col-md-12">
 				<p class="text-danger">Diese Angaben zur Registeranmeldung werden nicht veröffentlicht! &nbsp;</p>				
 				<div class="checkbox">
 					<label>
