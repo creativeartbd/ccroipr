@@ -245,15 +245,23 @@ function generatePdfWithImage($pdf_data, $return = false, $create_txt = false, $
     //     $pdf->Image($image, '', '45', '75', '', $extension, '', '', true, 300, 'L', false, false, 1, false, false, false);            
     // }
 
-    $html .= "<table border=\"0\" width=\"100%\" cellpadding=\"5\">";
+    $html .= "<table border=\"0\" width=\"100%\">";
 
     $html .= "
         <tr>
             <td><h4>Common Copyright Register of Intellectual Property Rights</h4></td>
         </tr>
+        <tr><td>&nbsp;</td></tr>
         <tr>
             <td><p>$confirm_id</p></td>
         </tr>
+        <tr>
+            <td>Werktitel</td>
+        </tr>
+        <tr>
+            <td colspan=\"2\">$werktitel</td>
+        </tr>  
+        <tr><td>&nbsp;</td></tr>
         <tr>
             <td><img src=\"$thumb\"></td>
         </tr>
@@ -262,13 +270,9 @@ function generatePdfWithImage($pdf_data, $return = false, $create_txt = false, $
         </tr>
         <tr>
             <td colspan=\"3\">$werk_beschreibung</td>
-        </tr> 
-        <tr>
-            <td>Werktitel</td>
         </tr>
-        <tr>
-            <td colspan=\"2\">$werktitel</td>
-        </tr>   
+        
+         
     ";
 
     if ('ccroipr-p' == $type) {
@@ -282,10 +286,12 @@ function generatePdfWithImage($pdf_data, $return = false, $create_txt = false, $
         ";
     }
 
+    $html .= "<tr><td>&nbsp;</td></tr>";
     $html .= "<tr><td><p><b>Anmelder / Urheber-Impressum nach 55RStV</b></p></td></tr>";
+    $html .= "<tr><td>&nbsp;</td></tr>";
     $html .= "<table>";
 
-    $html .= "<table border=\"0\" width=\"100%\" cellpadding=\"5\">";
+    $html .= "<table border=\"0\" width=\"100%\" cellspacing=\"0\">";
     $html .= "    
         <tr>
             <td>Name</td>

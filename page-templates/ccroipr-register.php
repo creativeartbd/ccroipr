@@ -127,11 +127,12 @@ get_header();
 							<input type="text" name="keywordnr5" maxlength="40" class="form-control keyword5" placeholder="Keword Nr 5" value="Stichwort / Schlagwort">
 						</div>
 					</div>
-					<div class="col-md-12 panel">
-						<p class="text-danger">Diese Angaben zur Registeranmeldung werden nicht veröffentlicht! &nbsp;</p>
-					</div>
+					
 				</div>
 				<div class="row">
+					<div class="col-md-12">
+						<p class="text-danger">Diese Angaben zur Registeranmeldung werden nicht veröffentlicht! &nbsp;</p>
+					</div>
 					<div class="col-md-12">
 						<div class="checkbox">
 							<label><input type="checkbox" required name="inch_habe_die" value="1">Ich habe die Hinweise heruntergeladen, gelesen und meine Daten geprüft.</label>

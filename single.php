@@ -16,12 +16,18 @@ get_header();
 			if( have_posts() ) {
 				while ( have_posts() ) {					
 					the_post();
+					
+					$post_status = get_post_status();
 					$categories = get_the_category();
 
 					foreach ( $categories as $category ) {
 						$slug = $category->slug;						
 						if( $slug == 'ccroipr-p' ) {
-							get_template_part( 'template-parts/content', 'ccroipr-p' );
+							if( $post_status == 'confirmed' ) {
+								get_template_part( 'template-parts/content', 'ccroipr-p-confirmed' );
+							} else {
+								get_template_part( 'template-parts/content', 'ccroipr-p' );
+							}							
 						} elseif ( $slug == 'ccroipr-t' ) {
 							get_template_part( 'template-parts/content', 'ccroipr-t' );
 						} else {

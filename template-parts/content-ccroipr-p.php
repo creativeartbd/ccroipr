@@ -18,10 +18,6 @@ $category_name = $category[0]->name;
 $data_type     = hashMe( $category_name, 'e' );
 $post_meta   	= get_post_meta( $post_id, 'ccroipr_register_meta', true );
 
-// echo '<pre>';
-// print_r( $post_meta );
-// echo '</pre>';
-
 if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
 	echo "<div class='alert alert-warning'><strong>Your account is not confirmed or activated. Please contact administrator.</strong></div>";				
 } else {
@@ -154,13 +150,10 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
 					<input type="text" name="keywordnr5" value="<?php echo $post_meta['keywordnr5']; ?>" maxlength="40" class="form-control keyword5"  placeholder="Keword Nr 5"  value="Stichwort / Schlagwort">
 				</div>
 			</div>	
-			<div class="col-md-12 panel">
-				<p class="text-danger">Diese Angaben zur Registeranmeldung werden nicht veröffentlicht! &nbsp;</p>
-			</div>							
 		</div>				
 		<div class="row">			
-			<?php if( 'confirmed' != $post_status ) : ?>
-			<div class="col-md-12">				
+			<?php if( 'confirmed' != $post_status ) : ?>				
+				<p class="text-danger">Diese Angaben zur Registeranmeldung werden nicht veröffentlicht! &nbsp;</p>				
 				<div class="checkbox">
 					<label>
 						<input type="checkbox" name="inch_habe_die" <?php if($post_meta['inch_habe_die'] == 1 ) echo 'checked="checked"'; ?> value="1" required >Ich habe die Hinweise heruntergeladen, gelesen undmeine Daten gepruft.
