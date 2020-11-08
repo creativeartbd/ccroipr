@@ -25,11 +25,11 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
 	?>	
 	
     <img src="http://ccroipr.org/wp-content/uploads/2020/10/copyrights-zeichen.jpg" alt="<?php echo $post_meta['confirm_id']; ?>" data-submit-type="<?php echo $data_type; ?>" id="download_profile" data-id="<?php echo hashMe( $post_id, 'e' ); ?>" data-nonce="<?php echo $nonce; ?>">		    
-    <h2 class="mt-3">Common Copyright Register of Intellectual Property Rights</h2>   
+    <h2 class="mt-3">Copyrights</h2>   
     
     <table class="table table-bordered">
         <tr>
-            <td><?php echo $post_meta['confirm_id'];  ?></td>
+            <td>Copyrightzeichen <?php echo $post_meta['confirm_id'];  ?></td>
         </tr>        
         <tt>
             <td><b>Werktitel</b></td>
@@ -39,9 +39,6 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
         </tr>
         <tr>
             <td><img src="<?php echo $thumbnail_url; ?>" alt="" class="img-thumbnail"></td>
-        </tr>
-        <tr>
-            <td><b>Werk-Beschreibung</b></td>
         </tr>
         <tr>
             <td><?php echo $post_meta['werk_beschreibung']; ?></td>
@@ -81,6 +78,21 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
         <tr>
             <td>E-Post-Address</td>
             <td><?php echo $post_meta['e_post_address']; ?></td>
+        </tr>
+    </table>
+
+    <table class="text-center">
+        <tr>
+            <td>
+Der Urheber ist vollst‰ndig f¸r den Inhalt der Darstellung verantworlich und erkl‰rt, dass er alle Rechte am beschriebenen Werk besitzt.</td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>
+                <img src="<?php echo get_template_directory_uri() . '/assets/img/ccroipr-circle-logo-red.png' ?>" alt="">
+            </td>
         </tr>
     </table>
 <?php } ?>

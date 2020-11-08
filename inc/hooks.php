@@ -316,7 +316,7 @@ function register_confirm_action()
 
                 $font_path = get_template_directory() . '/assets/fonts/arial.ttf';
                 // Set Text to Be Printed On Image
-                $text = '@ cc-by-nd-' . $confirm_id;
+                $text = '&#169; cc-by-nd-' . $confirm_id;
                 // Allocate A Color For The Text
                 $color = imagecolorallocate($canvas, 0, 0, 0);
                 // Print Text On Image

@@ -417,7 +417,7 @@ function dimox_breadcrumbs()
 {
 
     $delimiter = '&raquo;';
-    $name = 'Home'; //text for the 'Home' link
+    $name = get_site_url(); //text for the 'Home' link
     $currentBefore = '<span class="current">';
     $currentAfter = '</span>';
 
