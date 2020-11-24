@@ -84,7 +84,8 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
     <table class="text-center">
         <tr>
             <td>
-Der Urheber ist vollst‰ndig f¸r den Inhalt der Darstellung verantworlich und erkl‰rt, dass er alle Rechte am beschriebenen Werk besitzt.</td>
+            Der Urheber ist vollständig für den Inhalt der Darstellung verantwortlich und erklärt, dass er alle Rechte am beschriebenen Werk besitzt.
+            </td>
         </tr>
         <tr>
             <td>&nbsp;</td>

@@ -219,3 +219,8 @@ require get_template_directory() . '/inc/custom-post.php';
 if ( defined( 'JETPACK__VERSION' ) ) {
 	require get_template_directory() . '/inc/jetpack.php';
 }
+
+/**
+ * Bootstrap nav walker
+ */
+require get_template_directory() . '/inc/class-wp-bootstrap-navwalker.php';

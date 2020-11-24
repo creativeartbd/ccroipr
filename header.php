@@ -39,19 +39,15 @@ defined( 'ABSPATH' ) || exit;
 		</div>
 		<nav class="navbar navbar-expand-lg navbar-light bg-light">
 			<div class="container">
-				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-		    		<span class="navbar-toggler-icon"></span>
-		  		</button>
-	  			
   				<?php
 				wp_nav_menu(
 					array(
 						'container_class' => 'collapse navbar-collapse header-menu',
-						'container_id'    => 'navbarSupportedContent',
-						'theme_location' => 'menu-1',
-						'menu_id'        => 'primary-menu',
-						'menu_class'	=>	'navbar-nav',
-
+						'container_id'    => 'cssmenu',
+						'depth'           => 10,
+						'theme_location'  => 'menu-1',
+						'menu_id'         => 'primary-menu',
+						'menu_class'	     => 'navbar-nav',
 					)
 				);
 				?>	    		
