@@ -13,6 +13,26 @@
 	<footer class="site-footer">
 		<div class="container">
 			<div class="row">
+				<div class="col-4">
+					<h3>CCROIPR</h3>
+					<p>About ccroipr details will goes to here. About ccroipr details will goes to here. </p>
+				</div>
+				<div class="col-4">
+					<ul>
+						<li><a href="#">Footer Link</a></li>
+						<li><a href="#">Footer Link</a></li>
+						<li><a href="#">Footer Link</a></li>
+					</ul>
+				</div>
+				<div class="col-4">
+					<ul>
+						<li><a href="#">Footer Link</a></li>
+						<li><a href="#">Footer Link</a></li>
+						<li><a href="#">Footer Link</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="row">
 				<div class="col-md-12 text-center">
 					<p>Zurück zum Seitenanfang von "Kunstverlag Atelier Kalai "</p>
 					<a href="https://vcounter.de/stat.xhtml?id=1503599950871" target="_new">

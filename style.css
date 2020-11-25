@@ -762,14 +762,6 @@ ul ul ul {
     margin-left: 1px;
 }
 
-li:hover {
-    background-color: #95B4CA;
-}
-
-.sub-menu li:hover {
-    background-color: #F0F0F0;
-}
-
 .expand {
     font-size: 12px;
     float: right;
@@ -1272,8 +1264,10 @@ object {
     color: #747474;
 }
 
-.site-footer a {
+.site-footer a,
+p {
     color: #747474;
+    font-size: 14px;
 }
 
 #uploaded_img {
