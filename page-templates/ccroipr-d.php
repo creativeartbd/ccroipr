@@ -21,7 +21,7 @@ get_header();
 				}
 			}
 			?>
-			<form action="" method="POST" enctype="multipart/form-data" id="ccroipr_ru_form">
+			<form action="" method="POST" enctype="multipart/form-data" id="ccroipr_d_ru_form">
 				<div class="row mt-5">
 					<div class="col-md-12">
 						<div class="form-group">
@@ -34,23 +34,37 @@ get_header();
 							<input type="text" name="werktitel" id="werktitel" maxlength="30" class="form-control" placeholder="Werktitel">
 						</div>
 						<div class="form-group">
-							<div class="slim" data-instant-edit="true">
-								<input type="file" name="slim[]" id="file_change" multiple />
-                            </div>
-                            <div class="slim" data-instant-edit="true">
-								<input type="file" name="slim[]" id="file_change1" multiple />
-                            </div>
-                            <div class="slim" data-instant-edit="true">
-								<input type="file" name="slim[]" id="file_change2" multiple />
-                            </div>
-                            <div class="slim" data-instant-edit="true">
-								<input type="file" name="slim[]" id="file_change3" multiple />
-                            </div>
-                            <div class="slim" data-instant-edit="true">
-								<input type="file" name="slim[]" id="file_change4" multiple />
-                            </div>
-                            <div class="slim" data-instant-edit="true">
-								<input type="file" name="slim[]" id="file_change5" multiple />
+							<div class="row">
+								<div class="col-md-6 mb-4">
+									<div class="slim" data-instant-edit="true">
+										<input type="file" name="slims[]" id="file_change" multiple />
+									</div>	
+								</div>
+								<div class="col-md-6 mb-4">
+									<div class="slim" data-instant-edit="true">
+										<input type="file" name="slims[]" id="file_change" multiple />
+									</div>	
+								</div>
+								<div class="col-md-6 mb-4">
+									<div class="slim" data-instant-edit="true">
+										<input type="file" name="slims[]" id="file_change" multiple />
+									</div>	
+								</div>
+								<div class="col-md-6 mb-4">
+									<div class="slim" data-instant-edit="true">
+										<input type="file" name="slims[]" id="file_change" multiple />
+									</div>	
+								</div>
+								<div class="col-md-6 mb-4">
+									<div class="slim" data-instant-edit="true">
+										<input type="file" name="slims[]" id="file_change" multiple />
+									</div>	
+								</div>
+								<div class="col-md-6 mb-4">
+									<div class="slim" data-instant-edit="true">
+										<input type="file" name="slims[]" id="file_change" multiple />
+									</div>	
+								</div>
                             </div>
 						</div>
 					</div>
@@ -171,10 +185,10 @@ get_header();
 						<div class="form-group">
 							<div id="form_result"></div>
 							<?php wp_nonce_field('register_action'); ?>
-							<!-- <input type="hidden" name="action" value="register_action">
+							<input type="hidden" name="action" value="register_action">
 							<input type="submit" name="submit" value="Register" class="btn btn-primary" id="btn">
-							<input type="hidden" name="register_type" value="<?php echo hashMe('ccroipr-p', 'e'); ?>">
-							<input type="hidden" name="submit_type" value="<?php echo hashMe('register', 'e'); ?>"> -->
+							<input type="hidden" name="register_type" value="<?php echo hashMe('ccroipr-d', 'e'); ?>">
+							<input type="hidden" name="submit_type" value="<?php echo hashMe('register', 'e'); ?>">
 						</div>
 					</div>
 				</div>

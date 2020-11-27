@@ -18,11 +18,39 @@
                 data: form_data,
                 dataType: 'json',
                 beforeSend: function() {
-                    $('#btn').prop('disabled', true);
+                    // $('#btn').prop('disabled', true);
                     $('#btn').val('Please Wait...');
                 },
                 success: function(result) {
-                    $('#btn').prop('disabled', false);
+                    // $('#btn').prop('disabled', false);
+                    $('#btn').val(btn_label);
+                    $('#form_result').html(result.data.message)
+                    if (result.success) {
+                        if (result.data.type == 'update') {
+                            $('#btn').prop('disabled', false);
+                        }
+                    }
+                }
+            });
+        });
+
+        // Register and Update form for the ccroipr D
+        $('#ccroipr_d_ru_form').submit(function(e) {
+            e.preventDefault();
+            var btn_label = $('#btn').val();
+            var form_data = $(this).serialize();
+
+            $.ajax({
+                type: 'POST',
+                url: settings.ajaxurl,
+                data: form_data,
+                dataType: 'json',
+                beforeSend: function() {
+                    // $('#btn').prop('disabled', true);
+                    $('#btn').val('Please Wait...');
+                },
+                success: function(result) {
+                    // $('#btn').prop('disabled', false);
                     $('#btn').val(btn_label);
                     $('#form_result').html(result.data.message)
                     if (result.success) {

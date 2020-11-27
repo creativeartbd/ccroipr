@@ -376,7 +376,7 @@ function generatePdfWithImage($pdf_data, $return = false, $create_txt = false, $
     }
 }
 
-function upload_post_thumbnail($surname, $extension, $final_image, $post_id)
+function upload_post_thumbnail($surname, $extension, $final_image, $post_id, $cat_d = null )
 {
 
     $new_file_name = rand(1000, 9999) . '.' . $extension;
@@ -409,8 +409,13 @@ function upload_post_thumbnail($surname, $extension, $final_image, $post_id)
     $attach_data = wp_generate_attachment_metadata($attach_id, $filename);
     wp_update_attachment_metadata($attach_id, $attach_data);
 
-    // set the post thumbnail
-    set_post_thumbnail($post_id, $attach_id);
+    if( ! $cat_d ) {
+        // set the post thumbnail
+        set_post_thumbnail($post_id, $attach_id);
+        return;
+    }
+    return $attach_id;
+    
 }
 
 function dimox_breadcrumbs()

@@ -35,7 +35,7 @@ get_header();
 						</div>
 						<div class="form-group">
 							<div class="slim" data-instant-edit="true">
-								<input type="file" name="slim" id="file_change" />
+								<input type="file" name="slims[]" id="file_change" />
 							</div>
 						</div>
 						<div class="form-group">

@@ -442,6 +442,36 @@ function register_slim_file_action()
     wp_die();
 }
 
+// ======================================================
+// Registration and Update process for the "Register D" 
+// ======================================================
+add_action('wp_ajax_register_action_d', 'register_action_d');
+add_action('wp_ajax_nopriv_register_action_d', 'register_action_d');
+
+function register_action_d() {
+    // Verify nonce
+    wp_verify_nonce('_wpnoncne', 'register_action');
+
+    // Check register form type. Must be ccroipr-p or ccroipr-t
+    $register_type = isset($_POST['register_type']) ? hashMe(sanitize_text_field($_POST['register_type']), 'd'): '';      
+    
+    if ( $register_type !== 'ccroipr-d' ) {
+        return false;
+    }
+
+    $slims                   = $_POST['slim'];
+
+    foreach( $slims as $slim ) {
+        $decode                 = json_decode(str_replace('\\', '', $slim));
+        $image_name             = $decode->input->name;
+        $image_size             = $decode->input->size;
+        $final_image            = $decode->output->image; // We need this image becuase it's cropped
+    }
+
+    
+    wp_die();
+}
+
 // ========================================================================
 // Registration and Update process for the "Register" and "Register T" form
 // ========================================================================
@@ -457,7 +487,7 @@ function register_action()
     // Check register form type. Must be ccroipr-p or ccroipr-t
     $register_type = isset($_POST['register_type']) ? hashMe(sanitize_text_field($_POST['register_type']), 'd'): '';      
     
-    if ( !in_array ( $register_type, ['ccroipr-t', 'ccroipr-p'] ) ) {
+    if ( !in_array ( $register_type, ['ccroipr-t', 'ccroipr-p', 'ccroipr-d'] ) ) {
         return false;
     }
 
@@ -480,7 +510,7 @@ function register_action()
     $pattern            = '/(?:https?:\/\/)?(?:[a-zA-Z0-9.-]+?\.(?:[a-zA-Z])|\d+\.\d+\.\d+\.\d+)/';
 
     // Following data needed for the "Register P" form process
-    if ('ccroipr-p' == $register_type) {
+    if ( in_array( $register_type, ['ccroipr-p', 'ccroipr-d'] ) ) {
 
         $wiener                 = isset($_POST['wiener']) ? sanitize_text_field($_POST['wiener']) : '';
         $locarno                = isset($_POST['locarno']) ? sanitize_text_field($_POST['locarno']) : '';
@@ -492,22 +522,26 @@ function register_action()
         $keywordnr3             = isset($_POST['keywordnr3']) ? sanitize_text_field($_POST['keywordnr3']) : '';
         $keywordnr4             = isset($_POST['keywordnr4']) ? sanitize_text_field($_POST['keywordnr4']) : '';
         $keywordnr5             = isset($_POST['keywordnr5']) ? sanitize_text_field($_POST['keywordnr5']) : '';
-        $slim                   = sanitize_text_field($_POST['slim']);
-        $decode                 = json_decode(str_replace('\\', '', $slim));
-        
-        if( $slim ) {        
-            
-            $image_name             = $decode->input->name;
-            $image_size             = $decode->input->size;
-            $final_image            = $decode->output->image; // We need this image becuase it's cropped
+        $slims                  = $_POST['slims'];
 
-            $explode                = explode('.', $image_name);
-            $extension              = strtolower(end($explode));
+        $image_names         = [];
+        $image_sizes         = [];
+        $final_images        = [];
+        $extensions          = [];
 
-            $allowed_size           = 10485760;
-            $allowed_image          = ['jpg', 'png', 'gif', 'jpeg'];
+        if( $slims ) {        
+            foreach( $slims as $slim ) {
+                $decode                 = json_decode(str_replace('\\', '', sanitize_text_field( $slim ) ) );
+                $image_names[]  = $decode->input->name;
+                $image_sizes[]  = $decode->input->size;
+                $final_images[] = $decode->output->image; // We need this image becuase it's cropped
+                $image_name     = $decode->input->name;
+                $explode        = explode('.', $image_name);
+                $extensions[]   = strtolower(end($explode));
+                $allowed_size   = 10485760;
+                $allowed_image  = ['jpg', 'png', 'gif', 'jpeg'];
+            }
         }
-        
     }
 
     // Store all errors message
@@ -606,26 +640,36 @@ function register_action()
         $errors[] = 'ich habe die is required';
     }
 
-    if ( 'ccroipr-p' == $register_type ) {
+    if ( in_array( $register_type, [ 'ccroipr-p', 'ccroipr-d' ] ) ) {
         if ('register' == $submit_type) {
-            if (empty($image_name)) {
-                $errors[] = 'Please upload image';
-            } elseif (!in_array($extension, $allowed_image)) {
-                $errors[] = 'Only jpg, png and gif images are allowed';
-            } elseif ($image_size > $allowed_size) {
-                $errors[] = 'Maximum 10 MB image are allowd';
+
+            if (empty($image_names)) {
+                $errors[] = 'Please upload an image';
             }
-        } elseif( 'update' == $submit_type ) {
-            if (!empty($image_name)) {
-                if (!in_array($extension, $allowed_image)) {
+
+            foreach( $image_names as $key => $image_name ) {
+                if (empty($image_name)) {
+                    $errors[] = 'Please upload image';
+                } elseif (!in_array($extensions[$key], $allowed_image)) {
                     $errors[] = 'Only jpg, png and gif images are allowed';
-                } elseif ($image_size > $allowed_size) {
+                } elseif ($image_sizes[$key] > $allowed_size) {
                     $errors[] = 'Maximum 10 MB image are allowd';
+                } 
+            }
+            
+        } elseif( 'update' == $submit_type ) {
+            foreach( $image_names as $key => $image_name ) {
+                if (!empty($image_name)) {
+                    if (!in_array($extensions[$key], $allowed_image)) {
+                        $errors[] = 'Only jpg, png and gif images are allowed';
+                    } elseif ($image_sizes[$key] > $allowed_size) {
+                        $errors[] = 'Maximum 10 MB image are allowd';
+                    }
                 }
             }
         }
 
-        if ('ccroipr-p' == $register_type) {
+        if ( in_array( $register_type, [ 'ccroipr-p', 'ccroipr-d' ] ) ) {
             if (empty($sha256)) {
                 $errors[] = 'SHA256 (Hashwert der Originalabbildung) is required, please upload the image again';
             } elseif (strlen($sha256) > 64 || strlen($sha256) < 64) {
@@ -727,7 +771,7 @@ function register_action()
             }
         }
 
-        if ('ccroipr-p' == $register_type) {
+        if ( in_array( $register_type, [ 'ccroipr-p', 'ccroipr-d' ] ) ) {
 
             $post_meta['wiener']              = $wiener;
             $post_meta['locarno']             = $locarno;
@@ -744,21 +788,46 @@ function register_action()
         // Update form data
         if ( 'update' == $submit_type ) { 
             
-            if ( 'ccroipr-p' == $register_type ) { 
+            if ( in_array( $register_type, [ 'ccroipr-p', 'ccroipr-d' ] ) ) { 
 
                 // get the post id from the input hidden field
                 $post_id = hashMe( $_POST['post_id'], 'd' );
                 $post    = get_post( $post_id );
                
                 if( $post ) {
-                  
+                   
+                    $post_meta          = get_post_meta( $post_id, 'ccroipr_register_meta', true );   
+                    $cat_d_images       = $post_meta['cat_d_image'];
+                    $processed_images   = [];
+
+                    // If, there is a new post thumbnail
+                    foreach( $image_names as $key => $image_name ) {
+                        if( isset( $image_name ) ) {                        
+                            // Upload new post thumbnail
+                            $processed_images[] = upload_post_thumbnail( $surname, $extensions[$key], $final_images[$key], $post_id, true );
+                        } else {
+                            $processed_images[] = '';
+                        }
+                    }
+                    
+                    foreach( $processed_images as $key => $process ) {
+                        if( empty( $process ) ) {
+                            $processed_images[$key] = $cat_d_images[$key];
+                        }
+                    }
+
+                    // foreach( $processed_images as $process_2 ) {
+                    //     $post_meta['cat_d_image'][] = $process_2;
+                    // }
+
+                    $post_meta['cat_d_image'] = $processed_images;
+                    // echo '<pre>';
+                    //     print_r(  $post_meta );
+                    // echo '</pre>';
+
                     // Update post meta
                     update_post_meta( $post_id, 'ccroipr_register_meta', $post_meta );
-                    // If, there is a new post thumbnail
-                    if( isset( $image_name ) ) {                        
-                        // Upload new post thumbnail
-                        upload_post_thumbnail( $surname, $extension, $final_image, $post_id );
-                    }
+                    
                     // Successfully uddated
                     wp_send_json_success( [
                         'message'   =>  '<div class="alert alert-success">Successfully updated the data.</div>',
@@ -797,13 +866,19 @@ function register_action()
 
             // If the post is successfully craeted
             if( ! is_wp_error( $post_id ) ) {
+                
+                // if( isset( $image_names[0] ) ) {
+                //     // Insert new post thumbnail
+                //     upload_post_thumbnail( $surname, $extensions[$key], $final_images[$key], $post_id, false );
+                // }
+                foreach( $image_names as $key => $image_name ) {
+                    $attach_id = upload_post_thumbnail( $surname, $extensions[$key], $final_images[$key], $post_id, true );
+                    $post_meta['cat_d_image'][] = $attach_id;
+                }
 
                 // Insert post meta
                 add_post_meta( $post_id, 'ccroipr_register_meta', $post_meta );
-
-                // Insert new post thumbnail
-                upload_post_thumbnail( $surname, $extension, $final_image, $post_id );
-
+                
                 // Generate activation link
                 $activation_link = add_query_arg(
                     array(

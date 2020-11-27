@@ -295,6 +295,16 @@ button,
 [type="reset"],
 [type="submit"] {
     -webkit-appearance: button;
+    color: #fff;
+    background-color: #39b1c8;
+    border-color: #39b1c8;
+}
+
+.btn-primary.disabled,
+.btn-primary:disabled {
+    color: #fff;
+    background-color: #39b1c8;
+    border-color: #39b1c8;
 }
 
 
@@ -643,9 +653,8 @@ button:hover,
 input[type="button"]:hover,
 input[type="reset"]:hover,
 input[type="submit"]:hover {
-    border-color: #ccc #bbb #aaa;
-    border-radius: 5px;
-    text-shadow: 1px 1px 1px #000;
+    background-color: #2f9cb1;
+    border-color: #2f9cb1;
 }
 
 button:active,

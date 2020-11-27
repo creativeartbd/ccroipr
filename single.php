@@ -30,6 +30,8 @@ get_header();
 							}							
 						} elseif ( $slug == 'ccroipr-t' ) {
 							get_template_part( 'template-parts/content', 'ccroipr-t' );
+						} elseif( $slug == 'ccroipr-d' ) {
+							get_template_part( 'template-parts/content', 'ccroipr-d' );
 						} else {
 							get_template_part( 'template-parts/content', get_post_type() );
 						}
