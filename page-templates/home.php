@@ -15,7 +15,7 @@ get_header();
 			<h1>Common Copyright Register of Intellectual Property Rights</h1>
 		</div>
 		
-		<div class="col-md-12 text-center"><b>Register Time</b> - <span>2020-04-11 17:16:22</span></div>		
+		<div class="col-md-12 text-center" id="timestamp"></div>		
 	
 		<div class="col-md-12">
 			<div class='selector'>
