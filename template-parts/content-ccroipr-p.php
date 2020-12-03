@@ -49,15 +49,23 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
 					<input type="text" name="werktitel" value="<?php echo $post_meta['werktitel']; ?>" id="werktitel" maxlength="30" class="form-control" placeholder="Werktitel">
 				</div>	
 				<div class="form-group">
-					<?php $thumbnail_url = get_the_post_thumbnail_url( $post_id, 'ccroipr' ); ?>
+					<?php 
+					$thumbnail_url = get_the_post_thumbnail_url( $post_id, 'ccroipr' ); 
+					?>
 					<?php if( 'confirmed' == $post_status ) { ?>
-						<img src="<?php echo $thumbnail_url; ?>" alt="" class="img-thumbnail">	
-					<?php } else { ?>
-						<div class="slim" data-download="true" data-instant-edit="true">
-							<img src="<?php echo $thumbnail_url; ?>" alt="" class="img-thumbnail">		
-							<input type="file" name="slim" id="file_change"/>
-						</div>								
-					<?php } ?>
+						<img src="<?php echo $thumbnail_url; ?>" alt="" class="img-thumbnail">		
+					<?php } else { 
+						foreach( $post_meta['cat_d_image'] as $key => $id ) {
+							$thumb_src = wp_get_attachment_image_src( $id )[0];
+							?>
+							<div class="slim" data-download="true" data-instant-edit="true">
+								<img src="<?php echo $thumb_src; ?>" alt="" class="img-thumbnail"">		
+								<input type="file" name="slims[]" id="file_change" value="<?php echo $id; ?>"/>
+							</div>
+							<?php
+						}
+					}
+					?>
 				</div>
 				<div class="form-group">
 					<label for="">SHA256 (Hashwert der Originalabbildung)</label>

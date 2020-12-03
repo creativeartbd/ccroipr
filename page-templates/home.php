@@ -14,42 +14,32 @@ get_header();
 		<div class="col-md-12 text-center">
 			<h1>Common Copyright Register of Intellectual Property Rights</h1>
 		</div>
-
+		
+		<div class="col-md-12 text-center"><b>Register Time</b> - <span>2020-04-11 17:16:22</span></div>		
+	
 		<div class="col-md-12">
 			<div class='selector'>
 				<ul>
 					<li>
-					<input id='c1' type='checkbox'>
-					<label for='c1'>Menu 1</label>
+						<input id='c1' type='checkbox'>
+						<label for='c1'>T <span class="tooltiptext tooltip-left">Tooltip text</span></label>						
 					</li>
 					<li>
-					<input id='c2' type='checkbox'>
-					<label for='c2'>Menu 2</label>
+						<input id='c2' type='checkbox'>
+						<label for='c2'>P <span class="tooltiptext">Tooltip text</span></label>
 					</li>
 					<li>
-					<input id='c3' type='checkbox'>
-					<label for='c3'>Menu 3</label>
+						<input id='c3' type='checkbox'>
+						<label for='c3'>R <span class="tooltiptext">Some kind of info bubble text</span></label>
 					</li>
 					<li>
-					<input id='c4' type='checkbox'>
-					<label for='c4'>Menu 4</label>
+						<input id='c4' type='checkbox'>
+						<label for='c4'>I <span class="tooltiptext tooltip-left">Tooltip text</span></label>
 					</li>
 					<li>
-					<input id='c5' type='checkbox'>
-					<label for='c5'>Menu 5</label>
-					</li>
-					<li>
-					<input id='c6' type='checkbox'>
-					<label for='c6'>Menu 6</label>
-					</li>
-					<li>
-					<input id='c7' type='checkbox'>
-					<label for='c7'>Menu 7</label>
-					</li>
-					<li>
-					<input id='c8' type='checkbox'>
-					<label for='c8'>Menu 8</label>
-					</li>
+						<input id='c5' type='checkbox'>
+						<label for='c5'>D <span class="tooltiptext tooltip-left">Tooltip text</span></label>
+					</li>					
 				</ul>
 				<button><img src="<?php echo get_template_directory_uri() . '/assets/img/ccroipr-circle-logo-red.png'; ?>" alt=""></button>
 			</div>
@@ -67,9 +57,7 @@ get_header();
 		</div>
 	</div>
 
-	<div class="row text-center mt-3">
-		<div class="col-md-4 offset-md-4"><b>Register Time</b> - <span>2020-04-11 17:16:22</span></div>		
-	</div>
+	
 	
 	<div class="row text-center mt-3">
 		<div class="col-md-4">
@@ -90,41 +78,7 @@ get_header();
 		<div class="col-lg-12 text-center mb-5 mt-5 bg-color p-5">
 			<h2 class="text-light"><a href="https://www.atelier-kalai.de/index.htm#Anker-11">Der Kunstverlag Atelier Kalai Ihr Fachverlag für Rasterzeichnung Vorlagen & Zählmuster</a></h2>
 		</div>
-	</div>
-
-	<div class="row bg-color p-5">
-		<div class="col-md-4">
-			<h2 class="">Extern</h2>
-			<ul>
-				<li><a href="https://www.atelier-kalai.de/index.htm" title="Startseite Kunstverlag Atelier Kalai"><b>Startseite Kunstverlag </b></a> </li>
-				<li><a href="https://www.atelier-kalai.de/literaturportal.htm" title="PADP Medien und Literaturportal"><b>Medien &amp; Literaturportal</b></a></li>
-				<li><a href="https://www.atelier-kalai.de/infoportal.htm" title="Infoportal"><b>Themen- &amp; Infoportal</b></a></li>
-				<li><a href="https://www.atelier-kalai.de/bilderportal.htm" title="PADP Gemlde und Bilderportal"><b>Gemlde &amp; Bilderportal </b></a></li>
-				<li><a href="https://www.atelier-kalai.de/softwareportal.htm" title="Softwareportal fr freie Software"><b>Softwareportal</b></a></li>
-				<li><a href="https://www.atelier-kalai.de/urheberschutz-portal.htm" title="Copyright Register CCROIPR"><b>Copyright Register</b> </a></li>
-			</ul>
-		</div>	
-		<div class="col-md-4">
-			<img src="<?php echo get_template_directory_uri() . '/assets/img/logo-footer.jpg'; ?>" class="mx-auto d-block">
-		</div>
-		<div class="col-md-4">
-			<h2 class="">Intern</h2>
-			<ul>
-				<li><a href="https://www.atelier-kalai.de/verlagsportal.htm" title="Verlagsportal"><b>Verlagsprogramm </b></a></li>
-				<li><a href="https://www.atelier-kalai.de/ideenreise-papeterie.htm" title="Ideenreise Papeterie"><b>Papeterie Ideenreise </b></a></li>
-				<li><a href="https://www.atelier-kalai.de/agb.htm" title="AGB"><b>AGB</b></a></li>
-				<li><a href="https://www.atelier-kalai.de/datenschutz.htm" title="Datenschutzerklrung"><b>Datenschutzerklrung</b></a></li>
-				<li><a href="https://www.atelier-kalai.de/padp.htm" title="PADP das Public Art &amp; Design Project"><b>Public Art &amp; Design Project</b></a></li>
-				<li><a href="https://www.atelier-kalai.de/presseportal.htm" title="Presseportal"><b>Pressemeldungen</b></a></li>
-			</ul>
-		</div>
-		<div class="col-md-8 offset-md-2 mt-5 text-center">
-			<p class="mb-5">Impressum Kunstverlag Atelier Kalai<br/> Fachverlag fr Rasterzeichnung Vorlagen und Malschablonen<<br/> Kunstverlag Atelier Kalai Kerstin Winter Kirchengasse 12 91245 Simmelsdorf Telefon Ortsvorwahl: 09155 Rufnummer 927 420 eMail: info (at) atelier-kalai (.) de Umsatzsteuer-Identifikationsnummer DE 239 876 301</p>
-			<p>Plattform der EU-Kommission zur <a href="https://ec.europa.eu/consumers/odr/main/index.cfm?event=main.home.show&lng=DE">Online-Streitbeilegung</a></p>
-			<p>Public Art & Design Project © Atelier Kalai 2018</p>
-		</div>
-	</div>
-</div> <!-- container div close -->
+	</div>		
 
 <?php 
 get_footer();

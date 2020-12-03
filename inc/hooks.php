@@ -258,7 +258,7 @@ function register_confirm_action()
 
     // Check register type
     $register_type      = isset($_POST['register_type']) ? hashMe(sanitize_text_field($_POST['register_type']), 'd') : '';
-    if (!in_array($register_type, ['ccroipr-t', 'ccroipr-p'])) {
+    if (!in_array($register_type, ['ccroipr-t', 'ccroipr-p', 'ccroipr-d'])) {
         return false;
     }
 
@@ -276,62 +276,73 @@ function register_confirm_action()
             $confirm_id                 = 'ccroipr-' . date('Y' . 'm' . 'd' . 'H' . 'i' . 's') . randomNumber(3);
             $post_meta['confirm_id']    = $confirm_id;
 
-            if ( 'ccroipr-p' == $register_type ) {
+            if ( in_array( $register_type, [ 'ccroipr-p', 'ccroipr-d' ] ) ) {
 
-                $post_meta['kategorie'] = 'ccroipr-cat-p-' . date('Y' . '-' . 'm' . '-' . 'd');
-                $thumb_src              = get_the_post_thumbnail_url( $post_id, 'ccroipr' );
-                $explode                = explode('.', $thumb_src);                
-                $extension              = strtolower( end ( $explode ) );
-                $file_name              = basename( $thumb_src );
-
-                //image_resize_base_width( $relative_url, $relative_url, 350, $extension);
-                if ( $extension == 'jpg' ) {
-                    $jpg_image = imagecreatefromjpeg( $thumb_src );
-                } elseif( $extension == 'png') {
-                    $jpg_image = imagecreatefrompng( $thumb_src );
-                } elseif( $extension == 'gif' ) {
-                    $jpg_image = imagecreatefromgif( $thumb_src );
+                if( 'ccroipr-p' == $register_type ) {
+                    $post_meta['kategorie'] = 'ccroipr-cat-p-' . date('Y' . '-' . 'm' . '-' . 'd');
+                } elseif ( 'ccroipr-d' == $register_type ) {
+                    $post_meta['kategorie'] = 'ccroipr-cat-p-' . date('Y' . '-' . 'm' . '-' . 'd');
                 }
+                
+                // start the loop because of multiple image of cat-d page
+                
+                // get all cat-d loop
+                foreach( $post_meta['cat_d_image'] as $key => $id ) {
 
-                // set font size
-                $font        = @imageloadfont($jpg_image);
-                $fontSize    = imagefontwidth($font);
-
-                $orig_width  = imagesx($jpg_image);
-                $orig_height = imagesy($jpg_image);
-
-                $upload_dir  = wp_upload_dir();
-                $path        = $upload_dir['path'];
-                $path_2      = $upload_dir['basedir'];
-                $attachment  = $path_2 . '/ccroipr-pdf/' . $confirm_id . '_backup' . '.pdf';
-
-                // Create your canvas containing both image and text
-                $canvas = imagecreatetruecolor( $orig_width, ($orig_height + 40 ) );              
-                // Allocate A Color For The background
-                $bcolor = imagecolorallocate( $canvas, 255, 255, 255 );
-                // Add background colour into the canvas
-                imagefilledrectangle( $canvas, 0, 0, $orig_width, ($orig_height + 40), $bcolor );
-                // Save image to the new canvas
-                imagecopyresampled( $canvas, $jpg_image, 0, 0, 0, 0, $orig_width, $orig_height, $orig_width, $orig_height );
-
-                $font_path = get_template_directory() . '/assets/fonts/arial.ttf';
-                // Set Text to Be Printed On Image
-                $text = '&#169; cc-by-nd-' . $confirm_id;
-                // Allocate A Color For The Text
-                $color = imagecolorallocate($canvas, 0, 0, 0);
-                // Print Text On Image
-                imagettftext( $canvas, 13, 0, 10, $orig_height + 25, $color, $font_path, $text) ;
-                // Send Image to Browser
-                if ($extension == 'jpg') {
-                    imagejpeg( $canvas, $path . '/' . $file_name );
-                } elseif ($extension == 'png') {
-                    imagepng( $canvas, $path  . '/' . $file_name );
-                } elseif ( $extension == 'gif') {
-                    imagegif( $canvas, $path . '/' . $file_name );
+                    $thumb_src              = wp_get_attachment_image_src( $id )[0];
+                    $explode                = explode('.', $thumb_src);                
+                    $extension              = strtolower( end ( $explode ) );
+                    $file_name              = basename( $thumb_src );
+    
+                    //image_resize_base_width( $relative_url, $relative_url, 350, $extension);
+                    if ( $extension == 'jpg' ) {
+                        $jpg_image = imagecreatefromjpeg( $thumb_src );
+                    } elseif( $extension == 'png') {
+                        $jpg_image = imagecreatefrompng( $thumb_src );
+                    } elseif( $extension == 'gif' ) {
+                        $jpg_image = imagecreatefromgif( $thumb_src );
+                    }
+    
+                    // set font size
+                    $font        = @imageloadfont($jpg_image);
+                    $fontSize    = imagefontwidth($font);
+    
+                    $orig_width  = imagesx($jpg_image);
+                    $orig_height = imagesy($jpg_image);
+    
+                    $upload_dir  = wp_upload_dir();
+                    $path        = $upload_dir['path'];
+                    $path_2      = $upload_dir['basedir'];
+                    $attachment  = $path_2 . '/ccroipr-pdf/' . $confirm_id . '_backup' . '.pdf';
+    
+                    // Create your canvas containing both image and text
+                    $canvas = imagecreatetruecolor( $orig_width, ($orig_height + 40 ) );              
+                    // Allocate A Color For The background
+                    $bcolor = imagecolorallocate( $canvas, 255, 255, 255 );
+                    // Add background colour into the canvas
+                    imagefilledrectangle( $canvas, 0, 0, $orig_width, ($orig_height + 40), $bcolor );
+                    // Save image to the new canvas
+                    imagecopyresampled( $canvas, $jpg_image, 0, 0, 0, 0, $orig_width, $orig_height, $orig_width, $orig_height );
+    
+                    $font_path = get_template_directory() . '/assets/fonts/arial.ttf';
+                    // Set Text to Be Printed On Image
+                    $text = '&#169; cc-by-nd-' . $confirm_id;
+                    // Allocate A Color For The Text
+                    $color = imagecolorallocate($canvas, 0, 0, 0);
+                    // Print Text On Image
+                    imagettftext( $canvas, 13, 0, 10, $orig_height + 25, $color, $font_path, $text) ;
+                    // Send Image to Browser
+                    if ($extension == 'jpg') {
+                        imagejpeg( $canvas, $path . '/' . $file_name );
+                    } elseif ($extension == 'png') {
+                        imagepng( $canvas, $path  . '/' . $file_name );
+                    } elseif ( $extension == 'gif') {
+                        imagegif( $canvas, $path . '/' . $file_name );
+                    }
+                    // Clear Memory
+                    imagedestroy($canvas);
+                    $category_id = get_category_by_slug('ccroipr-p'); //
                 }
-                // Clear Memory
-                imagedestroy($canvas);
-                $category_id = get_category_by_slug('ccroipr-p'); //  
 
             } elseif ( 'ccroipr-t' == $register_type) {
 

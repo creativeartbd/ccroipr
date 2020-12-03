@@ -228,8 +228,15 @@ function generatePdfWithImage($pdf_data, $return = false, $create_txt = false, $
     $pdf->AddPage();
 
     $thumb = '';
-    if ('ccroipr-p' == $type) {
-        $thumb      = get_the_post_thumbnail_url( $post_id, 'ccroipr' );
+    if ( in_array( $type, [ 'ccroipr-p', 'ccroipr-d'] ) ) {
+
+        $thumb_array = [];
+        $post_meta     = get_post_meta( $post_id, 'ccroipr_register_meta', true );
+        foreach( $post_meta['cat_d_image'] as $key => $id ) {
+            $thumb_array[] = wp_get_attachment_image( $id ); // get only the image not url
+        }
+
+        //$thumb      = get_the_post_thumbnail_url( $post_id, 'ccroipr' );
         // $thumb_src  = $thumb[0];
         // $image      = $thumb_src;
         // $explode    = explode('.', $image);
@@ -260,18 +267,40 @@ function generatePdfWithImage($pdf_data, $return = false, $create_txt = false, $
         </tr>
         <tr>
             <td colspan=\"2\">$werktitel</td>
-        </tr>  
-        <tr><td>&nbsp;</td></tr>
-        <tr>
-            <td><img src=\"$thumb\"></td>
         </tr>
+        </table>
+    ";
+        
+    $html .= "<table border=\"0\" width=\"100%\">";
+        $html .= "<tr>";
+        $x = 0;
+        foreach( $thumb_array as $thumb ) {
+            if($x!=0 && $x%3==0){  // if not first iteration and iteration divided by 3 has no remainder...
+                $html .= "</tr>\n<tr>";
+            }
+            $html .= "<td>$thumb</td>";
+            ++$x;
+
+            
+        }
+            
+    $html .="    </tr>
+        </table>
+    ";
+
+    // echo '<pre>';
+    //     print_r( $thumb_array );
+    // echo '</pre>';
+    // die();
+        
+    $html .= "  
+        <table border=\"0\" width=\"100%\">
         <tr>
             <td>Werk-Beschreibung</td>
         </tr>
         <tr>
             <td colspan=\"3\">$werk_beschreibung</td>
         </tr>
-        
          
     ";
 
@@ -289,7 +318,7 @@ function generatePdfWithImage($pdf_data, $return = false, $create_txt = false, $
     $html .= "<tr><td>&nbsp;</td></tr>";
     $html .= "<tr><td><p><b>Anmelder / Urheber-Impressum nach 55RStV</b></p></td></tr>";
     $html .= "<tr><td>&nbsp;</td></tr>";
-    $html .= "<table>";
+    $html .= "</table>";
 
     $html .= "<table border=\"0\" width=\"100%\" cellspacing=\"0\">";
     $html .= "    
