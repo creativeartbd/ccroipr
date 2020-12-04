@@ -139,6 +139,51 @@ function ccroipr_widgets_init() {
 			'after_title'   => '</h2>',
 		)
 	);
+
+	register_sidebar(
+		array(
+			'name'          => esc_html__( 'Left footer', 'ccroipr' ),
+			'id'            => 'left-footer',
+			'description'   => esc_html__( 'Add widgets here.', 'ccroipr' ),
+			'before_widget' => '<section id="%1$s" class="widget %2$s">',
+			'after_widget'  => '</section>',
+			'before_title'  => '<h2 class="widget-title">',
+			'after_title'   => '</h2>',
+		)
+	);
+
+	register_sidebar( 
+		array(
+			'name'          => esc_html__( 'Middle footer', 'ccroipr' ),
+			'id'            => 'middle-footer',
+			'description'   => esc_html__( 'Add widgets here.', 'ccroipr' ),
+			'before_widget' => '<section id="%1$s" class="widget %2$s">',
+			'after_widget'  => '</section>',
+			'before_title'  => '<h2 class="widget-title">',
+		)
+	);
+
+	register_sidebar(
+		array(
+			'name'          => esc_html__( 'Right footer', 'ccroipr' ),
+			'id'            => 'right-footer',
+			'description'   => esc_html__( 'Add widgets here.', 'ccroipr' ),
+			'before_widget' => '<section id="%1$s" class="widget %2$s">',
+			'after_widget'  => '</section>',
+			'before_title'  => '<h2 class="widget-title">',
+		)
+	);
+
+	register_sidebar( 
+		array(
+			'name'          => esc_html__( 'Copyright Text', 'ccroipr' ),
+			'id'            => 'copyright',
+			'description'   => esc_html__( 'Add widgets here.', 'ccroipr' ),
+			'before_widget' => '<section id="%1$s" class="widget %2$s">',
+			'after_widget'  => '</section>',
+			'before_title'  => '<h2 class="widget-title">',
+		)
+	);
 }
 add_action( 'widgets_init', 'ccroipr_widgets_init' );
 
@@ -149,13 +194,13 @@ function ccroipr_scripts() {
 
 	wp_enqueue_style( 'slim', get_template_directory_uri() . '/slim/slim.min.css', null, _S_VERSION );
 	wp_enqueue_style( 'font-awesome', '//stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css', null, null, 'all');			
-	wp_enqueue_style( 'boostrap', '//stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css', null, _S_VERSION );		
+	wp_enqueue_style( 'boostrap', get_template_directory_uri() . '/assets/css/bootstrap.min.css', null, _S_VERSION );		
 	wp_enqueue_style( 'ccroipr-style', get_stylesheet_uri(), array(), _S_VERSION );		
 	wp_style_add_data( 'ccroipr-style', 'rtl', 'replace' );
 	
 	wp_enqueue_script( 'slim', get_template_directory_uri() . '/slim/slim.kickstart.min.js', array( 'jquery' ), _S_VERSION, true );
 	wp_enqueue_script( 'popper-min', '//cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js', array( 'jquery' ), _S_VERSION, true );
-	wp_enqueue_script( 'bootstrap-min', '//stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js', array( 'jquery' ), _S_VERSION, true );	
+	wp_enqueue_script( 'bootstrap-min', get_template_directory_uri() . '/assets/js/bootstrap.min.js', array( 'jquery' ), _S_VERSION, true );	
 
 	wp_enqueue_script( 'ccroipr-js', get_template_directory_uri() . '/assets/js/ccroipr.js', array( 'jquery' ), _S_VERSION, true );
 	// set variables for script

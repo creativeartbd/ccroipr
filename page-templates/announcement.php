@@ -13,7 +13,7 @@ get_header();
 	<div class="row">
 		<div class="col-lg">				
             <div class="section-title mb-5">                        
-                <h2>Common Copyright Register of Intellectual Property Rights / CCROIPR-CAT-P</h2>
+                <h2><?php _e('Common Copyright Register of Intellectual Property Rights / CCROIPR-CAT-P', 'ccroipr'); ?></h2>
             </div> 
 
 			<?php 

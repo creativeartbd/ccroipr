@@ -269,6 +269,23 @@ btn-secondary:hover {
     border-color: #181818;
 }
 
+.btn-primary.active,
+.btn-primary:active,
+.open>.dropdown-toggle.btn-primary {
+    color: #fff;
+    background-color: #181818;
+    border-color: #000000;
+    outline: 0;
+}
+
+.btn-primary.focus,
+.btn-primary:focus {
+    color: #fff;
+    background-color: #181818;
+    border-color: #181818;
+    outline: 0;
+}
+
 button,
 input {
     overflow: visible;
@@ -631,6 +648,10 @@ table {
     width: 100%;
 }
 
+.mb-3 {
+    margin-bottom: 15px;
+}
+
 
 /*--------------------------------------------------------------
 # Forms
@@ -655,6 +676,7 @@ input[type="reset"]:hover,
 input[type="submit"]:hover {
     background-color: #2f9cb1;
     border-color: #2f9cb1;
+    outline: 0;
 }
 
 button:active,
@@ -666,6 +688,7 @@ input[type="reset"]:focus,
 input[type="submit"]:active,
 input[type="submit"]:focus {
     border-color: #aaa #bbb #bbb;
+    outline: 0;
 }
 
 input[type="text"],
@@ -715,6 +738,21 @@ select {
 
 textarea {
     width: 100%;
+}
+
+btn-primary.active.focus,
+.btn-primary.active:focus,
+.btn-primary.active:hover,
+.btn-primary:active.focus,
+.btn-primary:active:focus,
+.btn-primary:active:hover,
+.open>.dropdown-toggle.btn-primary.focus,
+.open>.dropdown-toggle.btn-primary:focus,
+.open>.dropdown-toggle.btn-primary:hover {
+    color: #fff;
+    background-color: #204d74;
+    border-color: #122b40;
+    outline: 0;
 }
 
 
@@ -1195,6 +1233,10 @@ object {
 ## Header
 --------------------------------------------------------------*/
 
+#crumbs {
+    margin-bottom: 15px;
+}
+
 .navbar {
     padding: 0;
 }
@@ -1259,6 +1301,7 @@ object {
 .main-container {
     padding: 15px;
     background-color: #fff;
+    margin-bottom: 15px;
 }
 
 
@@ -1271,6 +1314,12 @@ object {
     padding-top: 60px;
     padding-bottom: 60px;
     color: #747474;
+}
+
+@media screen and (max-width: 767px) {
+    .footer {
+        text-align: center;
+    }
 }
 
 .site-footer a,

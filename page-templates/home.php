@@ -12,11 +12,11 @@ get_header();
 <div class="container main-container">
 	<div class="row">
 		<div class="col-md-12 text-center">
-			<h1>Common Copyright Register of Intellectual Property Rights</h1>
+			<h1><?php _e('Common Copyright Register of Intellectual Property Rights', 'ccroipr'); ?></h1>
 		</div>
-		
-		<div class="col-md-12 text-center" id="timestamp"></div>		
-	
+
+		<div class="col-md-12 text-center" id="timestamp"></div>
+
 		<div class="col-md-12">
 			<div class='selector'>
 				<ul>
@@ -49,36 +49,33 @@ get_header();
 			<div class="input-group">
 				<input type="text" class="form-control" placeholder="Search..">
 				<div class="input-group-append">
-				<button class="btn btn-secondary" type="button">
-					<i class="fa fa-search"></i>
-				</button>
+					<button class="btn btn-secondary" type="button">
+						<i class="fa fa-search"></i>
+					</button>
 				</div>
 			</div>
 		</div>
 	</div>
-
-	
 	
 	<div class="row text-center mt-3">
 		<div class="col-md-4">
 			<span>00000</span>
-			<p><b>Days Online</b></p>
+			<p><b><?php _e('Days Online', 'ccroipr'); ?></b></p>
 		</div>
 		<div class="col-md-4">
 			<span>000001</span>
-			<p><b>Visitors</b></p>
+			<p><b><?php _e('Visitors', 'ccroipr'); ?></b></p>
 		</div>
 		<div class="col-md-4">
 			<span>00007</span>
-			<p><b>Uploads</b></p>
+			<p><b><?php _e('Uploads', 'ccroipr'); ?></b></p>
 		</div>
 	</div>
 
 	<div class="row">
 		<div class="col-lg-12 text-center mb-5 mt-5 bg-color p-5">
-			<h2 class="text-light"><a href="https://www.atelier-kalai.de/index.htm#Anker-11">Der Kunstverlag Atelier Kalai Ihr Fachverlag für Rasterzeichnung Vorlagen & Zählmuster</a></h2>
+			<h2 class="text-light"><a href="https://www.atelier-kalai.de/index.htm#Anker-11"><?php _e('Der Kunstverlag Atelier Kalai Ihr Fachverlag für Rasterzeichnung Vorlagen & Zählmuster', 'ccroipr'); ?></a></h2>
 		</div>
-	</div>		
-
+	</div>
 <?php 
 get_footer();
