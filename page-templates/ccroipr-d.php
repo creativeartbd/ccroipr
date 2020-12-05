@@ -75,39 +75,35 @@ get_header();
 					<div class="col-sm-6 col-md-6 col-lg-6">
 						<div class="form-group">
 							
-								<div class="col-md-12 mb-3">
+								<div class="col-md-6 mb-3">
 									<div class="slim" data-instant-edit="true">
 										<input type="file" name="slims[]" id="file_change" multiple />
 									</div>	
 								</div>
-								<div class="col-md-12 mb-3">
+								<div class="col-md-6 mb-3">
 									<div class="slim" data-instant-edit="true">
 										<input type="file" name="slims[]" id="file_change" multiple />
 									</div>	
 								</div>
 						
 							
-								<div class="col-md-12 mb-3">
+								<div class="col-md-6 mb-3">
 									<div class="slim" data-instant-edit="true">
 										<input type="file" name="slims[]" id="file_change" multiple />
 									</div>	
 								</div>
-								<div class="col-md-12 mb-3">
+								<div class="col-md-6 mb-3">
 									<div class="slim" data-instant-edit="true">
 										<input type="file" name="slims[]" id="file_change" multiple />
 									</div>	
 								</div>
 							
-								<div class="col-md-12 mb-3">
+								<div class="col-md-6 mb-3">
 									<div class="slim" data-instant-edit="true">
 										<input type="file" name="slims[]" id="file_change" multiple />
 									</div>	
 								</div>
-								<div class="col-md-12 mb-3">
-									<div class="slim" data-instant-edit="true">
-										<input type="file" name="slims[]" id="file_change" multiple />
-									</div>	
-								</div>
+					
                             
 						</div>
                         
