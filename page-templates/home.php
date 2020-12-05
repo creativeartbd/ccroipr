@@ -77,5 +77,6 @@ get_header();
 			<h2 class="text-light"><a href="https://www.atelier-kalai.de/index.htm#Anker-11"><?php _e('Der Kunstverlag Atelier Kalai Ihr Fachverlag für Rasterzeichnung Vorlagen & Zählmuster', 'ccroipr'); ?></a></h2>
 		</div>
 	</div>
+</div>
 <?php 
 get_footer();
