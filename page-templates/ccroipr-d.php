@@ -29,30 +29,54 @@ get_header();
 						</div>
 					</div>
 					<div class="col-sm-6 col-md-6 col-lg-6">
-						<div class="form-group">
-							<label for=""><?php _e('Surname', 'ccroipr'); ?></label>
-							<input type="text" name="surname" class="form-control" placeholder="Surname">
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for=""><?php _e('Surname', 'ccroipr'); ?></label>
+									<input type="text" name="surname" class="form-control" placeholder="Surname">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for=""><?php _e('Vorname', 'ccroipr'); ?></label>
+									<input type="text" name="vorname" maxlength="25" class="form-control" placeholder="Vorname">
+								</div>
+							</div>
 						</div>
-						<div class="form-group">
-							<label for=""><?php _e('Vorname', 'ccroipr'); ?></label>
-							<input type="text" name="vorname" maxlength="25" class="form-control" placeholder="Vorname">
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for=""><?php _e('Straße / Nr', 'ccroipr'); ?></label>
+									<input type="text" name="strabe_nr" maxlength="55" class="form-control" placeholder="Straße / Nr">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for=""><?php _e('Plz', 'ccroipr'); ?></label>
+									<input type="text" name="plz" class="form-control" maxlength="10" placeholder="Plz">
+								</div>
+							</div>
 						</div>
-						<div class="form-group">
-							<label for=""><?php _e('Straße / Nr', 'ccroipr'); ?></label>
-							<input type="text" name="strabe_nr" maxlength="55" class="form-control" placeholder="Straße / Nr">
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for=""><?php _e('Ort / Stadt', 'ccroipr'); ?></label>
+									<input type="text" name="ort" class="form-control" maxlength="35" placeholder="Ort / Stadt">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for=""><?php _e('E-Post-Address', 'ccroipr'); ?></label>
+									<input type="text" name="e_post_address" maxlength="50" class="form-control" placeholder="E-Post-Address">
+								</div>
+							</div>
 						</div>
-						<div class="form-group">
-							<label for=""><?php _e('Plz', 'ccroipr'); ?></label>
-							<input type="text" name="plz" class="form-control" maxlength="10" placeholder="Plz">
-						</div>
-						<div class="form-group">
-							<label for=""><?php _e('Ort / Stadt', 'ccroipr'); ?></label>
-							<input type="text" name="ort" class="form-control" maxlength="35" placeholder="Ort / Stadt">
-						</div>
-						<div class="form-group">
-							<label for=""><?php _e('E-Post-Address', 'ccroipr'); ?></label>
-							<input type="text" name="e_post_address" maxlength="50" class="form-control" placeholder="E-Post-Address">
-						</div>
+						
+						
+						
+						
+						
+						
 						<div class="form-group">
 							<label for=""><?php _e('Werktitel', 'ccroipr'); ?></label>
 							<input type="text" name="werktitel" id="werktitel" maxlength="30" class="form-control" placeholder="Werktitel">
