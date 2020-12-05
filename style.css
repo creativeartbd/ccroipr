@@ -652,6 +652,14 @@ table {
     margin-bottom: 15px;
 }
 
+.mt-3 {
+    margin-top: 30px;
+}
+
+.p-3 {
+    padding: 30px;
+}
+
 
 /*--------------------------------------------------------------
 # Forms
@@ -1316,10 +1324,19 @@ object {
     color: #747474;
 }
 
-@media screen and (max-width: 767px) {
-    .footer {
-        text-align: center;
-    }
+footer {
+    padding-top: 25px;
+    text-align: center;
+    background-color: #181818;
+}
+
+footer h2 {
+    color: #fff;
+}
+
+footer .footer-bottom {
+    background-color: #1d1d1d;
+    padding-top: 25px;
 }
 
 .site-footer a,
@@ -1442,7 +1459,6 @@ p {
     width: 90px;
     height: 90px;
     line-height: 90px;
-    margin-left: -40px;
     box-shadow: 0 3px 3px rgba(0, 0, 0, 0.1);
     font-size: 30px;
     color: #590001;
