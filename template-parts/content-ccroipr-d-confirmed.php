@@ -19,6 +19,8 @@ $data_type          = hashMe( $category_name, 'e' );
 $post_meta   	    = get_post_meta( $post_id, 'ccroipr_register_meta', true );
 $thumbnail_url      = get_the_post_thumbnail_url( $post_id, 'ccroipr' );
 
+print_r( $post_status );
+
 if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
 	echo "<div class='alert alert-warning'><strong>Your account is not confirmed or activated. Please contact administrator.</strong></div>";				
 } else {

@@ -233,7 +233,7 @@ function generatePdfWithImage($pdf_data, $return = false, $create_txt = false, $
         $thumb_array = [];
         $post_meta     = get_post_meta( $post_id, 'ccroipr_register_meta', true );
         foreach( $post_meta['cat_d_image'] as $key => $id ) {
-            $thumb_array[] = wp_get_attachment_image( $id ); // get only the image not url
+            $thumb_array[] = wp_get_attachment_image( $id, 'medium' ); // get only the image not url
         }
 
         //$thumb      = get_the_post_thumbnail_url( $post_id, 'ccroipr' );
@@ -271,7 +271,7 @@ function generatePdfWithImage($pdf_data, $return = false, $create_txt = false, $
         </table>
     ";
         
-    $html .= "<table border=\"0\" width=\"100%\">";
+    $html .= "<table border=\"0\" width=\"100%\" cellpadding=\"5\">";
         $html .= "<tr>";
         $x = 0;
         foreach( $thumb_array as $thumb ) {

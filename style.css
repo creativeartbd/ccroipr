@@ -794,6 +794,7 @@ ul ul ul {
 
 a {
     color: #40c6d1;
+    cursor: pointer;
 }
 
 a:visited {
