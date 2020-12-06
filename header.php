@@ -37,23 +37,23 @@ defined( 'ABSPATH' ) || exit;
 				</div>	
 			</div>
 		</div>
-		<nav class="navbar navbar-expand-lg navbar-light bg-light">
-			<div class="container">
-  				<?php
-				wp_nav_menu(
-					array(
-						'container_class' => 'collapse navbar-collapse header-menu',
-						'container_id'    => 'cssmenu',
-						'depth'           => 10,
-						'theme_location'  => 'menu-1',
-						'menu_id'         => 'primary-menu',
-						'menu_class'	     => 'navbar-nav',
-					)
-				);
-				?>	    		
-  			</div>
-		</nav>		
-	</header><!-- #masthead -->
+		<nav class="navbar navbar-inverse">
+			<?php
+			wp_nav_menu(
+				array(
+					'container_class' => 'container',
+					'container_id'    => '',
+					'depth'           => 4,
+					'theme_location'  => 'menu-1',
+					'menu_id'         => 'primary-menu',
+					'menu_class'	     => 'nav navbar-nav',
+					'fallback_cb'       => 'wp_bootstrap_navwalker::fallback',
+					'walker'    => new wp_bootstrap_navwalker()
+				)
+			);
+			?>	  
+		</nav>
+	</header>
 	
 	<div class="container">
 		<div class="row">
