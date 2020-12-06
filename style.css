@@ -1223,8 +1223,13 @@ footer {
     background-color: #181818;
 }
 
+footer a:hover {
+    color: #fff;
+}
+
 footer h2 {
     color: #fff;
+    font-weight: normal;
 }
 
 footer .footer-bottom {
