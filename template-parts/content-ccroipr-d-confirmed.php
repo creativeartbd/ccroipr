@@ -28,7 +28,7 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
     <img src="http://ccroipr.org/wp-content/uploads/2020/10/copyrights-zeichen.jpg" alt="<?php echo $post_meta['confirm_id']; ?>" data-submit-type="<?php echo $data_type; ?>" id="download_profile" data-id="<?php echo hashMe( $post_id, 'e' ); ?>" data-nonce="<?php echo $nonce; ?>">	
     <div class="text-center mb-30">
         <h2 class="mt-3">Design Copyrights</h2>   
-        <p>Copyrightzeichen <?php $post_meta['confirm_id']; ?></p>
+        <p>Copyrightzeichen <?php echo $post_meta['confirm_id']; ?></p>
     </div>	    
     
     
