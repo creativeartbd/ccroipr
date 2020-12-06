@@ -43,7 +43,7 @@ defined( 'ABSPATH' ) || exit;
 				array(
 					'container_class' => 'container',
 					'container_id'    => '',
-					'depth'           => 4,
+					'depth'           => 10,
 					'theme_location'  => 'menu-1',
 					'menu_id'         => 'primary-menu',
 					'menu_class'	     => 'nav navbar-nav',
