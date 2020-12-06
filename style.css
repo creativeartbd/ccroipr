@@ -652,6 +652,10 @@ table {
     margin-bottom: 15px;
 }
 
+.mb-30 {
+    margin-bottom: 30px;
+}
+
 .mt-3 {
     margin-top: 30px;
 }
@@ -1188,6 +1192,10 @@ object {
     background-color: #fff;
 }
 
+.site-header img {
+    padding-bottom: 20px;
+}
+
 .site-header a.custom-logo-link img {
     max-width: 300px;
     width: 100%;
@@ -1220,7 +1228,16 @@ object {
 footer {
     padding-top: 25px;
     text-align: center;
+}
+
+footer .info-card,
+.footer-nav {
     background-color: #181818;
+}
+
+.footer-nav {
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 footer a:hover {
@@ -1417,6 +1434,14 @@ p {
     z-index: 1;
     top: -5px;
     right: 110%;
+}
+
+.selector ul li a {
+    color: #000;
+}
+
+.selector ul li a:hover {
+    color: #40c6d1;
 }
 
 

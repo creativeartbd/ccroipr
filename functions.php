@@ -184,6 +184,28 @@ function ccroipr_widgets_init() {
 			'before_title'  => '<h2 class="widget-title">',
 		)
 	);
+
+	register_sidebar( 
+		array(
+			'name'          => esc_html__( 'Footer info card', 'ccroipr' ),
+			'id'            => 'footer-info-card',
+			'description'   => esc_html__( 'Add widgets here.', 'ccroipr' ),
+			'before_widget' => '<section id="%1$s" class="widget %2$s">',
+			'after_widget'  => '</section>',
+			'before_title'  => '<h2 class="widget-title">',
+		)
+	);
+
+	register_sidebar( 
+		array(
+			'name'          => esc_html__( 'Bottom footer', 'ccroipr' ),
+			'id'            => 'bottom-footer',
+			'description'   => esc_html__( 'Add widgets here.', 'ccroipr' ),
+			'before_widget' => '<section id="%1$s" class="widget %2$s">',
+			'after_widget'  => '</section>',
+			'before_title'  => '<h2 class="widget-title">',
+		)
+	);
 }
 add_action( 'widgets_init', 'ccroipr_widgets_init' );
 

@@ -18,7 +18,7 @@ get_header();
 
 <div class="container main-container">
 	<div class="row">
-		<div class="col-lg">		
+		<div class="col-lg-12">		
 			<?php
 			if ( have_posts() ) :
 				if ( is_home() && ! is_front_page() ) :

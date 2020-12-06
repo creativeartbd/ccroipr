@@ -23,11 +23,11 @@ get_header();
 				<ul>
 					<li>
 						<input id='c1' type='checkbox'>
-						<label for='c1'>T <span class="tooltiptext tooltip-left">Tooltip text</span></label>						
+						<label for='c1'><a href="<?php echo site_url('/cat-t/'); ?>">T</a> <span class="tooltiptext tooltip-left">Tooltip text</span></label>						
 					</li>
 					<li>
 						<input id='c2' type='checkbox'>
-						<label for='c2'>P <span class="tooltiptext">Tooltip text</span></label>
+						<label for='c2'><a href="<?php echo site_url('/cat-p/'); ?>">P</a> <span class="tooltiptext">Tooltip text</span></label>
 					</li>
 					<li>
 						<input id='c3' type='checkbox'>
@@ -39,7 +39,7 @@ get_header();
 					</li>
 					<li>
 						<input id='c5' type='checkbox'>
-						<label for='c5'>D <span class="tooltiptext tooltip-left">Tooltip text</span></label>
+						<label for='c5'><a href="<?php echo site_url('/cat-d/'); ?>">D</a> <span class="tooltiptext tooltip-left">Tooltip text</span></label>
 					</li>				
 				</ul>
 				<button><img src="<?php echo get_template_directory_uri() . '/assets/img/ccroipr-circle-logo-red.png'; ?>" alt=""></button>
@@ -69,16 +69,6 @@ get_header();
 					<p><b><?php _e('Uploads', 'ccroipr'); ?></b></p>
 				</div>
 			</div>
-		</div>
-	</div>
-
-	<div class="row mt-3">
-		<div class="col-lg-12">
-			<h2 class="text-light text-center bg-color p-3">
-				<a href="https://www.atelier-kalai.de/index.htm#Anker-11">
-					<?php _e('Der Kunstverlag Atelier Kalai Ihr Fachverlag für Rasterzeichnung Vorlagen & Zählmuster', 'ccroipr'); ?>
-				</a>
-			</h2>
 		</div>
 	</div>
 </div>
