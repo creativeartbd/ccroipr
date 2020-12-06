@@ -71,12 +71,6 @@ get_header();
 								</div>
 							</div>
 						</div>
-						
-						
-						
-						
-						
-						
 						<div class="form-group">
 							<label for=""><?php _e('Werktitel', 'ccroipr'); ?></label>
 							<input type="text" name="werktitel" id="werktitel" maxlength="30" class="form-control" placeholder="Werktitel">
@@ -94,43 +88,35 @@ get_header();
 							<label for=""><?php _e('SHA256 (Hashwert der Originalabbildung)', 'ccroipr'); ?></label>
 							<input type="text" id="sha256" name="sha256" maxlength="64" class="form-control" placeholder="SHA256 (Hashwert der Originalabbildung)" readonly>
 						</div>
-						
 					</div>
 					<div class="col-sm-6 col-md-6 col-lg-6">
 						<div class="form-group">
-							
-								<div class="col-md-6 mb-3">
-									<div class="slim" data-instant-edit="true">
-										<input type="file" name="slims[]" id="file_change" multiple />
-									</div>	
-								</div>
-								<div class="col-md-6 mb-3">
-									<div class="slim" data-instant-edit="true">
-										<input type="file" name="slims[]" id="file_change" multiple />
-									</div>	
-								</div>
-						
-							
-								<div class="col-md-6 mb-3">
-									<div class="slim" data-instant-edit="true">
-										<input type="file" name="slims[]" id="file_change" multiple />
-									</div>	
-								</div>
-								<div class="col-md-6 mb-3">
-									<div class="slim" data-instant-edit="true">
-										<input type="file" name="slims[]" id="file_change" multiple />
-									</div>	
-								</div>
-							
-								<div class="col-md-6 mb-3">
-									<div class="slim" data-instant-edit="true">
-										<input type="file" name="slims[]" id="file_change" multiple />
-									</div>	
-								</div>
-					
-                            
+							<div class="col-md-6 mb-3">
+								<div class="slim" data-instant-edit="true">
+									<input type="file" name="slims[]" id="file_change" multiple />
+								</div>	
+							</div>
+							<div class="col-md-6 mb-3">
+								<div class="slim" data-instant-edit="true">
+									<input type="file" name="slims[]" id="file_change" multiple />
+								</div>	
+							</div>
+							<div class="col-md-6 mb-3">
+								<div class="slim" data-instant-edit="true">
+									<input type="file" name="slims[]" id="file_change" multiple />
+								</div>	
+							</div>
+							<div class="col-md-6 mb-3">
+								<div class="slim" data-instant-edit="true">
+									<input type="file" name="slims[]" id="file_change" multiple />
+								</div>	
+							</div>
+							<div class="col-md-6 mb-3">
+								<div class="slim" data-instant-edit="true">
+									<input type="file" name="slims[]" id="file_change" multiple />
+								</div>	
+							</div>
 						</div>
-                        
 					</div>
 				</div>
 

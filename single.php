@@ -11,7 +11,7 @@ get_header();
 ?>
 <div class="container main-container">
 	<div class="row">
-		<div class="col-lg">			
+		<div class="col-lg-12">			
 			<?php		
 			if( have_posts() ) {
 				while ( have_posts() ) {					
@@ -31,7 +31,11 @@ get_header();
 						} elseif ( $slug == 'ccroipr-t' ) {
 							get_template_part( 'template-parts/content', 'ccroipr-t' );
 						} elseif( $slug == 'ccroipr-d' ) {
-							get_template_part( 'template-parts/content', 'ccroipr-d' );
+							if( $post_status == 'confirmed' ) {
+								get_template_part( 'template-parts/content', 'ccroipr-d-confirmed' );
+							} else {
+								get_template_part( 'template-parts/content', 'ccroipr-d' );
+							}
 						} else {
 							get_template_part( 'template-parts/content', get_post_type() );
 						}

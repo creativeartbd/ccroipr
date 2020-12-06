@@ -44,10 +44,52 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
 				</div>
 			</div>
 			<div class="col-sm-6 col-md-6 col-lg-6">
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="">Surename</label>
+							<input type="text" name="surname" value="<?php echo $post_meta['surname']; ?>" maxlength="25" class="form-control" placeholder="Surname">
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="">Vorname</label>
+							<input type="text" name="vorname" value="<?php echo $post_meta['vorname']; ?>" maxlength="25" class="form-control" placeholder="Vorname">
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="">Straße / Nr</label>
+							<input type="text" name="strabe_nr" value="<?php echo $post_meta['strabe_nr']; ?>" maxlength="55" class="form-control" placeholder="Straße / Nr">
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="">Plz</label>
+							<input type="text" name="plz" value="<?php echo $post_meta['plz']; ?>" class="form-control" maxlength="10" placeholder="Plz">
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="">Ort / Stadt</label>
+							<input type="text" name="ort" value="<?php echo $post_meta['ort']; ?>" class="form-control" maxlength="35" placeholder="Ort / Stadt">
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="">E-Post-Address</label>
+							<input type="text" name="e_post_address" value="<?php echo $post_meta['e_post_address']; ?>" maxlength="50" class="form-control" placeholder="E-Post-Address">
+						</div>
+					</div>
+				</div>
 				<div class="form-group">
 					<label for="">Werktitel</label>
 					<input type="text" name="werktitel" value="<?php echo $post_meta['werktitel']; ?>" id="werktitel" maxlength="30" class="form-control" placeholder="Werktitel">
-				</div>	
+				</div>
 				<div class="form-group">
                     <div class="row">
                         <?php 
@@ -59,65 +101,71 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
                             </div>
                         <?php } else { 
                             foreach( $post_meta['cat_d_image'] as $key => $id ) {
-                                $thumb_src = wp_get_attachment_image_src( $id )[0];
-                                ?>
-                                <div class="col-md-6 mb-4">
-                                    <div class="slim" data-download="true" data-instant-edit="true">
-                                        <img src="<?php echo $thumb_src; ?>" alt="" class="img-thumbnail"">		
-                                        <input type="file" name="slims[]" id="file_change" value="<?php echo $id; ?>"/>
-                                    </div>
-                                </div>
-                                <?php
+								if( 0 == $key) {
+									$thumb_src = wp_get_attachment_image_src( $id )[0];
+									?>
+									<div class="col-md-12">
+										<div class="slim" data-download="true" data-instant-edit="true">
+											<img src="<?php echo $thumb_src; ?>" alt="" class="img-thumbnail"">		
+											<input type="file" name="slims[]" id="file_change" value="<?php echo $id; ?>"/>
+										</div>
+									</div>
+									<?php
+								}
                             }
                         }
                         ?>
                     </div> 							
 				</div>
-			</div>
-			<div class="col-sm-6 col-md-6 col-lg-6">
-                <div class="form-group">
+				<div class="form-group">
 					<label for="">SHA256 (Hashwert der Originalabbildung)</label>
 					<input type="text" id="sha256" name="sha256" value="<?php echo $post_meta['sha256']; ?>" maxlength="64" class="form-control" placeholder="SHA256 (Hashwert der Originalabbildung)" readonly>
 				</div>
+			</div>
+			<div class="col-sm-6 col-md-6 col-lg-6">
+				<div class="form-group">
+					<div class="row">
+						<?php 
+						$thumbnail_url = get_the_post_thumbnail_url( $post_id, 'ccroipr' ); 
+						?>
+						<?php if( 'confirmed' == $post_status ) { ?>
+							<div class="col-sm-6">
+								<img src="<?php echo $thumbnail_url; ?>" alt="" class="img-thumbnail">	
+							</div>
+						<?php } else { 
+							foreach( $post_meta['cat_d_image'] as $key => $id ) {
+								if( 0 !== $key) {
+									$thumb_src = wp_get_attachment_image_src( $id )[0];
+									?>
+									<div class="col-sm-6">
+										<div class="slim" data-download="true" data-instant-edit="true">
+											<img src="<?php echo $thumb_src; ?>" alt="" class="img-thumbnail"">		
+											<input type="file" name="slims[]" id="file_change" value="<?php echo $id; ?>"/>
+										</div>
+									</div>
+									<?php
+								}
+							}
+						}
+						?>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-12">
 				<div class="form-group">
 					<label for="">Werk-Beschreibung</label>
 					<textarea id="limit" name="werk_beschreibung" cols="30" rows="10" class="form-control" placeholder="Werk-Beschreibung"><?php echo $post_meta['werk_beschreibung']; ?></textarea><span class="counter"></span>
-				</div>					
-				<div class="form-group">
-					<label for="">Surename</label>
-					<input type="text" name="surname" value="<?php echo $post_meta['surname']; ?>" maxlength="25" class="form-control" placeholder="Surname">
 				</div>
-				<div class="form-group">
-					<label for="">Vorname</label>
-					<input type="text" name="vorname" value="<?php echo $post_meta['vorname']; ?>" maxlength="25" class="form-control" placeholder="Vorname">
-				</div>
-					<div class="form-group">
-					<label for="">Straße / Nr</label>
-					<input type="text" name="strabe_nr" value="<?php echo $post_meta['strabe_nr']; ?>" maxlength="55" class="form-control" placeholder="Straße / Nr">
-				</div>
-				<div class="form-group">
-					<label for="">Plz</label>
-					<input type="text" name="plz" value="<?php echo $post_meta['plz']; ?>" class="form-control" maxlength="10" placeholder="Plz">
-				</div>
-				<div class="form-group">
-					<label for="">Ort / Stadt</label>
-					<input type="text" name="ort" value="<?php echo $post_meta['ort']; ?>" class="form-control" maxlength="35" placeholder="Ort / Stadt">
-				</div>	      
-				<div class="form-group">
-					<label for="">E-Post-Address</label>
-					<input type="text" name="e_post_address" value="<?php echo $post_meta['e_post_address']; ?>" maxlength="50" class="form-control" placeholder="E-Post-Address">
-				</div>                  
 			</div>
-			<div class="row">
-				<div class="col-md-12">
-					<div class="col-md-12">
-						<p>Der Urheber ist vollständig fur den Inhalt der Darstellung verantworlich und erklärt, dass er alle Rechte am beschriebenen Werk besitzt.</p>
-					</div>
-					<div class="col-md-12">
-						<div class="form-group">
-							<p class="accordion">Optionale Bildbeschreibung <i class="fa fa-chevron-down" aria-hidden="true"></i></p>
-						</div>
-					</div>
+			<div class="col-md-12">
+				<p>Der Urheber ist vollständig fur den Inhalt der Darstellung verantworlich und erklärt, dass er alle Rechte am beschriebenen Werk besitzt.</p>
+			</div>
+			<div class="col-md-12">
+				<div class="form-group">
+					<p class="accordion">Optionale Bildbeschreibung <i class="fa fa-chevron-down" aria-hidden="true"></i></p>
 				</div>
 			</div>
 			<div class="col-sm-6 col-md-6 col-lg-6 panel">							
@@ -164,7 +212,8 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
 					<input type="text" name="keywordnr5" value="<?php echo $post_meta['keywordnr5']; ?>" maxlength="40" class="form-control keyword5"  placeholder="Keword Nr 5"  value="Stichwort / Schlagwort">
 				</div>
 			</div>	
-		</div>				
+		</div>
+
 		<div class="row">			
 			<?php if( 'confirmed' != $post_status ) : ?>	
 			<div class="col-md-12">
@@ -195,20 +244,19 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
 			</div> 				     
 			<?php endif; ?>
 			<?php if( 'publish' == $post_status ) : ?> 
-			<div class="col-md-12">
-				<div class="confirm-wrapper">
+				<div class="col-sm-6">
 					<?php wp_nonce_field( 'register_action' ); ?>		
 					<input type="hidden" name="action" value="register_action">                    	
 					<input type="submit" name="submit" value="Update Data" class="btn btn-primary" id="btn">
 					<input type="hidden" name="register_type" value="<?php echo hashMe('ccroipr-p', 'e'); ?>">
 					<input type="hidden" name="submit_type" value="<?php echo hashMe('update', 'e'); ?>">
 					<input type="hidden" name="post_id" value="<?php echo hashMe( get_the_ID(), 'e'); ?>" id="post_id">
-					<input type="submit" name="submit" value="Confirm Data" class="btn btn-success float-right" id="confirm_btn" data-nonce="<?php echo wp_create_nonce( 'register_confirm_action' ); ?>" data-register-type="<?php echo $data_type; ?>" >
 				</div>
-				<div class="form-group">
+				<div class="col-sm-6 text-right">
+					<input type="submit" name="submit" value="Confirm Data" class="btn btn-success float-right" id="confirm_btn" data-nonce="<?php echo wp_create_nonce( 'register_confirm_action' ); ?>" data-register-type="<?php echo $data_type; ?>" >
 					<div class="text text-danger text-right">Note: If you confirm the data then you are not be able to edit/update the data anymore.</div>
 				</div>
-				      
+			<div class="col-md-12">
 				<div id="form_result"></div>			
 			</div>
 			<?php endif; ?>

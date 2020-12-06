@@ -31,7 +31,7 @@ get_header();
 					</li>
 					<li>
 						<input id='c3' type='checkbox'>
-						<label for='c3'>R <span class="tooltiptext">Some kind of info bubble text</span></label>
+						<label for='c3'><a href="<?php echo site_url('/announcement/'); ?>">R</a> <span class="tooltiptext">Some kind of info bubble text</span></label>
 					</li>
 					<li>
 						<input id='c4' type='checkbox'>
