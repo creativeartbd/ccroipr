@@ -1,23 +1,14 @@
 /*!
 Theme Name: ccroipr
-Theme URI: http://underscores.me/
-Author: Underscores.me
-Author URI: http://underscores.me/
-Description: Description
+Theme URI: http://www.shibbir.me
+Author: Shibbir Ahmed
+Author URI: http://www.shibbir.me
+Description: Ccroipr WordPress Theme
 Version: 1.0.0
 License: GNU General Public License v2 or later
 License URI: LICENSE
 Text Domain: ccroipr
 Tags: custom-background, custom-logo, custom-menu, featured-images, threaded-comments, translation-ready
-
-This theme, like WordPress, is licensed under the GPL.
-Use it to make something cool, have fun, and share what you've learned.
-
-ccroipr is based on Underscores https://underscores.me/, (C) 2012-2020 Automattic, Inc.
-Underscores is distributed under the terms of the GNU GPL v2 or later.
-
-Normalizing styles have been helped along thanks to the fine work of
-Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 */
 
 
@@ -799,6 +790,7 @@ ul ul ul {
 a {
     color: #40c6d1;
     cursor: pointer;
+    position: relative;
 }
 
 a:visited {
@@ -1468,8 +1460,13 @@ p {
     border-radius: 0;
 }
 
+.navbar-inverse .navbar-nav>li>a {
+    color: #fff;
+}
+
 .dropdown-menu {
     margin-top: 0;
+    border-radius: 0;
 }
 
 .dropdown-menu>li>a {
@@ -1490,7 +1487,7 @@ p {
 }
 
 .dropdown-submenu:active>.dropdown-menu,
-.dropdown-submenu:hover>.dropdown-menu {
+{
     display: block;
     /* right: 162px; */
 }

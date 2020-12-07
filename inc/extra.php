@@ -6,6 +6,18 @@
  * @package ccroipr
  */
 
+if(!current_user_can('manage_options')) {
+    // Remove contextual help 
+	add_filter( 'contextual_help', 'mytheme_remove_help_tabs', 999, 3 );
+    // Remove screen options 
+    add_filter('screen_options_show_screen', '__return_false');
+	function mytheme_remove_help_tabs($old_help, $screen_id, $screen){
+		$screen->remove_help_tabs();
+		return $old_help;
+	}
+}
+
+
 function Generate_Featured_Image($image_url, $post_id)
 {
     $upload_dir          =  wp_upload_dir();
