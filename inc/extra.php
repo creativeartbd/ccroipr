@@ -7,6 +7,18 @@
  */
 
 if(!current_user_can('manage_options')) {
+    // Hide left side widget
+    add_action( 'admin_head', 'hide_left_side_widget' );
+    function hide_left_side_widget( ) {
+        echo '<style>
+        .widget-liquid-left {
+            display: none;
+        } 
+        </style>';
+    }
+}
+
+if(!current_user_can('manage_options')) {
     // Remove contextual help 
 	add_filter( 'contextual_help', 'mytheme_remove_help_tabs', 999, 3 );
     // Remove screen options 

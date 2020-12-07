@@ -1521,3 +1521,7 @@ p {
     -moz-border-radius: 0;
     border-radius: 0;
 }
+
+.widget-liquid-left {
+    display: none;
+}
