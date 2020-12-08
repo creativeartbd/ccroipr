@@ -24,8 +24,10 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
 	echo "<div class='alert alert-warning'><strong>Your account is not confirmed or activated. Please contact administrator.</strong></div>";				
 } else {
 	?>	
-	
-    <img src="http://ccroipr.org/wp-content/uploads/2020/10/copyrights-zeichen.jpg" alt="<?php echo $post_meta['confirm_id']; ?>" data-submit-type="<?php echo $data_type; ?>" id="download_profile" data-id="<?php echo hashMe( $post_id, 'e' ); ?>" data-nonce="<?php echo $nonce; ?>">	
+    
+    <a href="javascript:void(0);" data-id="<?php echo hashMe( $post_id, 'e' ); ?>" data-nonce="<?php echo $nonce; ?>" data-submit-type="<?php echo $data_type; ?>" id="download_profile">
+        <img src="http://ccroipr.org/wp-content/uploads/2020/10/copyrights-zeichen.jpg" alt="<?php echo $post_meta['confirm_id']; ?>" >	
+    </a>
     <div class="text-center mb-30">
         <h1 class="mt-3">Design Copyrights</h1>   
         <h3>Copyrightzeichen <?php echo $post_meta['confirm_id']; ?></h3>
