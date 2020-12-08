@@ -286,7 +286,6 @@ function register_confirm_action()
                 
                 // start the loop because of multiple image of cat-d page
                 
-                // get all cat-d loop
                 foreach( $post_meta['cat_d_image'] as $key => $id ) {
 
                     $thumb_src              = wp_get_attachment_image_src( $id, 'medium' )[0];
@@ -330,7 +329,7 @@ function register_confirm_action()
                     // Allocate A Color For The Text
                     $color = imagecolorallocate($canvas, 0, 0, 0);
                     // Print Text On Image
-                    imagettftext( $canvas, 13, 0, 10, $orig_height + 25, $color, $font_path, $text) ;
+                    imagettftext( $canvas, 13, 0, 0, $orig_height + 25, $color, $font_path, $text) ;
                     // Send Image to Browser
                     if ($extension == 'jpg') {
                         imagejpeg( $canvas, $path . '/' . $file_name );
@@ -450,36 +449,6 @@ function register_slim_file_action()
 
     wp_verify_nonce('_wpnoncne', 'register_slim_file_action');
     echo hash('sha256', uniqid());
-    wp_die();
-}
-
-// ======================================================
-// Registration and Update process for the "Register D" 
-// ======================================================
-add_action('wp_ajax_register_action_d', 'register_action_d');
-add_action('wp_ajax_nopriv_register_action_d', 'register_action_d');
-
-function register_action_d() {
-    // Verify nonce
-    wp_verify_nonce('_wpnoncne', 'register_action');
-
-    // Check register form type. Must be ccroipr-p or ccroipr-t
-    $register_type = isset($_POST['register_type']) ? hashMe(sanitize_text_field($_POST['register_type']), 'd'): '';      
-    
-    if ( $register_type !== 'ccroipr-d' ) {
-        return false;
-    }
-
-    $slims                   = $_POST['slim'];
-
-    foreach( $slims as $slim ) {
-        $decode                 = json_decode(str_replace('\\', '', $slim));
-        $image_name             = $decode->input->name;
-        $image_size             = $decode->input->size;
-        $final_image            = $decode->output->image; // We need this image becuase it's cropped
-    }
-
-    
     wp_die();
 }
 
@@ -827,14 +796,7 @@ function register_action()
                         }
                     }
 
-                    // foreach( $processed_images as $process_2 ) {
-                    //     $post_meta['cat_d_image'][] = $process_2;
-                    // }
-
                     $post_meta['cat_d_image'] = $processed_images;
-                    // echo '<pre>';
-                    //     print_r(  $post_meta );
-                    // echo '</pre>';
 
                     // Update post meta
                     update_post_meta( $post_id, 'ccroipr_register_meta', $post_meta );
@@ -877,11 +839,7 @@ function register_action()
 
             // If the post is successfully craeted
             if( ! is_wp_error( $post_id ) ) {
-                
-                // if( isset( $image_names[0] ) ) {
-                //     // Insert new post thumbnail
-                //     upload_post_thumbnail( $surname, $extensions[$key], $final_images[$key], $post_id, false );
-                // }
+              
                 foreach( $image_names as $key => $image_name ) {
                     $attach_id = upload_post_thumbnail( $surname, $extensions[$key], $final_images[$key], $post_id, true );
                     $post_meta['cat_d_image'][] = $attach_id;

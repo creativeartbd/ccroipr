@@ -248,27 +248,16 @@ function generatePdfWithImage($pdf_data, $return = false, $create_txt = false, $
 
     // set font
     $pdf->SetFont('freesans', '', 11);
-
     $pdf->AddPage();
-
     $thumb = '';
-    if ( in_array( $type, [ 'ccroipr-p', 'ccroipr-d'] ) ) {
 
+    if ( in_array( $type, [ 'ccroipr-p', 'ccroipr-d'] ) ) {
         $thumb_array = [];
         $post_meta     = get_post_meta( $post_id, 'ccroipr_register_meta', true );
         foreach( $post_meta['cat_d_image'] as $key => $id ) {
             $thumb_array[] = wp_get_attachment_image( $id, 'medium' ); // get only the image not url
         }
-
-        //$thumb      = get_the_post_thumbnail_url( $post_id, 'ccroipr' );
-        // $thumb_src  = $thumb[0];
-        // $image      = $thumb_src;
-        // $explode    = explode('.', $image);
-        // $extension  = strtolower(end($explode));
     }   
-
-    // print_r( $thumb );
-    // wp_die();
 
     $html = ''; 
 
@@ -276,19 +265,18 @@ function generatePdfWithImage($pdf_data, $return = false, $create_txt = false, $
     //     $pdf->Image($image, '', '45', '75', '', $extension, '', '', true, 300, 'L', false, false, 1, false, false, false);            
     // }
 
-    $html .= "<table border=\"0\" width=\"100%\">";
-
     $html .= "
-        <tr>
-            <td><h4>Common Copyright Register of Intellectual Property Rights</h4><p>Certificate of Registration</p></td>
-        </tr>
-        <tr><td>&nbsp;</td></tr>
-        <tr>
-            <td><p>$confirm_id</p></td>
-        </tr>
-        <tr>
-            <td colspan=\"2\">$werktitel</td>
-        </tr>
+        <table border=\"0\" width=\"100%\">
+            <tr>
+                <td><h4>Common Copyright Register of Intellectual Property Rights<br/>Certificate of Registration</h4></td>
+            </tr>
+            <tr><td>&nbsp;</td></tr>
+            <tr>
+                <td><p>$confirm_id</p></td>
+            </tr>
+            <tr>
+                <td colspan=\"2\">$werktitel</td>
+            </tr>
         </table>
     ";
         
@@ -301,19 +289,12 @@ function generatePdfWithImage($pdf_data, $return = false, $create_txt = false, $
             }
             $html .= "<td>$thumb</td>";
             ++$x;
-
-            
         }
             
-    $html .="    </tr>
-        </table>
-    ";
+    $html .="</tr>
+        </table> ";
 
-    // echo '<pre>';
-    //     print_r( $thumb_array );
-    // echo '</pre>';
-    // die();
-        
+   
     $html .= "  
         <table border=\"0\" width=\"100%\">
         <tr>
@@ -322,7 +303,6 @@ function generatePdfWithImage($pdf_data, $return = false, $create_txt = false, $
         <tr>
             <td colspan=\"3\">$werk_beschreibung</td>
         </tr>
-         
     ";
 
     if ('ccroipr-p' == $type) {
@@ -344,32 +324,46 @@ function generatePdfWithImage($pdf_data, $return = false, $create_txt = false, $
     $html .= "<table border=\"0\" width=\"100%\" cellspacing=\"0\">";
     $html .= "    
         <tr>
-            <td>Name</td>
-            <td>$surname</td>
+            <td width=\"30%\">Name</td>
+            <td width=\"70%\">$surname</td>
         </tr>
         <tr>
-            <td>Vorname</td>
-            <td>$vorname</td>
+            <td width=\"30%\">Vorname</td>
+            <td width=\"70%\">$vorname</td>
         </tr>
         <tr>
-            <td>Straße / Nr</td>
-            <td>$strabe_nr</td>
+            <td width=\"30%\">Straße / Nr</td>
+            <td width=\"70%\">$strabe_nr</td>
         </tr>
         <tr>
-            <td>Plz</td>
-            <td>$plz</td>
+            <td width=\"30%\">Plz</td>
+            <td width=\"70%\">$plz</td>
         </tr>
         <tr>
-            <td>Ort / Stadt</td>
-            <td>$ort</td>
+            <td width=\"30%\">Ort / Stadt</td>
+            <td width=\"70%\">$ort</td>
         </tr>
         <tr>
-            <td>E-Post-Address</td>
-            <td>$e_post_address</td>
+            <td width=\"30%\">E-Post-Address</td>
+            <td width=\"70%\">$e_post_address</td>
         </tr>
+        </table>
     ";
 
-    $html .= "</table>";
+    if ($show_condition) {
+        $ip = $post_meta['user_ip'];
+        $html .= "
+            <h4>Freigabeerklärung zu $confirm_id</h4>
+            <ul>
+                <li>Mein Datenupload ist unter der IP-Adresse $ip erfolgt.</li>
+                <li>Ich habe die Hinweise zur Anmeldung heruntergeladen, gelesen und meine Daten geprüft.<li>
+                <li>Ich habe die aktuellen Geschäftsbedingungen heruntergeladen, gelesen und akzeptiert.</li>
+                <li>Ich habe die CCROIPR - Lizenzvereinbarungen heruntergeladen, gelesen und akzeptiert.</li>
+                <li>Ich habe mit der E-Mail-Adresse info@arwedwinter.de die Anmeldung bestätigt.</li>
+                <li>Ich habe die Freigabe zur Langzeitarchivierung im.Common Popyright Register of Intellectual Property Rights erteilt.</li>
+            </ul>
+        ";
+    }
 
 
     $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);

@@ -89,7 +89,7 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
     </div>
 
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-12">
             <table class="table table-bordered">
                 <tr>
                     <td colspan="2"><?php echo $post_meta['werk_beschreibung']; ?></td>
@@ -100,11 +100,9 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
                 <tr>
                     <td colspan="2"><?php echo $post_meta['sha256']; ?></td>
                 </tr>
-                <tr><td colspan="2">&nbsp;</td></tr>
                 <tr>
                     <td colspan="2"><b>Anmelder / Urheber-Impressum nach 55RStV</b></td>
                 </tr>
-                <tr><td colspan="2">&nbsp;</td></tr>
                 <tr>
                     <td>Name</td>
                     <td><?php echo $post_meta['surname']; ?></td>
