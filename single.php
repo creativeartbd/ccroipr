@@ -22,15 +22,15 @@ get_header();
 
 					foreach ( $categories as $category ) {
 						$slug = $category->slug;						
-						if( $slug == 'ccroipr-p' ) {
+						if( $slug == 'photo' ) {
 							if( $post_status == 'confirmed' ) {
 								get_template_part( 'template-parts/content', 'ccroipr-p-confirmed' );
 							} else {
 								get_template_part( 'template-parts/content', 'ccroipr-p' );
 							}							
-						} elseif ( $slug == 'ccroipr-t' ) {
+						} elseif ( $slug == 'title' ) {
 							get_template_part( 'template-parts/content', 'ccroipr-t' );
-						} elseif( $slug == 'ccroipr-d' ) {
+						} elseif( $slug == 'design' ) {
 							if( $post_status == 'confirmed' ) {
 								get_template_part( 'template-parts/content', 'ccroipr-d-confirmed' );
 							} else {

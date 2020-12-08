@@ -17,8 +17,8 @@ get_header();
             </div> 
 
 			<?php 
-			$category = get_category_by_slug( 'ccroipr-p' );
-			$category2 = get_category_by_slug( 'ccroipr-d' );
+			$category = get_category_by_slug( 'photo' );
+			$category2 = get_category_by_slug( 'design' );
 			$cat_id   = '';
 			$cat_id2   = '';
 

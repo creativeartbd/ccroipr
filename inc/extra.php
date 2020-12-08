@@ -475,7 +475,7 @@ function dimox_breadcrumbs()
 {
 
     $delimiter = '&raquo;';
-    $name = get_site_url(); //text for the 'Home' link
+    $name = 'Start'; //get_site_url(); //text for the 'Home' link
     $currentBefore = '<span class="current">';
     $currentAfter = '</span>';
 
@@ -495,7 +495,7 @@ function dimox_breadcrumbs()
             $parentCat = get_category($thisCat->parent);
             if ($thisCat->parent != 0) echo (get_category_parents($parentCat, TRUE, ' ' . $delimiter . ' '));
             echo $currentBefore . 'Archive by category &#39;';
-            single_cat_title();
+            //single_cat_title();
             echo '&#39;' . $currentAfter;
         } elseif (is_day()) {
             echo '<a href="' . get_year_link(get_the_time('Y')) . '">' . get_the_time('Y') . '</a> ' . $delimiter . ' ';
@@ -509,7 +509,8 @@ function dimox_breadcrumbs()
         } elseif (is_single() && !is_attachment()) {
             $cat = get_the_category();
             $cat = $cat[0];
-            echo get_category_parents($cat, TRUE, ' ' . $delimiter . ' ');
+            //echo get_category_parents($cat, false, ' ' . $delimiter . ' ');
+            echo ucfirst($cat->slug) . ' ' . $delimiter . ' ';
             echo $currentBefore;
             the_title();
             echo $currentAfter;
