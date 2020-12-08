@@ -46,9 +46,9 @@ defined( 'ABSPATH' ) || exit;
 					'depth'           => 10,
 					'theme_location'  => 'menu-1',
 					'menu_id'         => 'primary-menu',
-					'menu_class'	     => 'nav navbar-nav',
-					'fallback_cb'       => 'wp_bootstrap_navwalker::fallback',
-					'walker'    => new wp_bootstrap_navwalker()
+					'menu_class'	  => 'nav navbar-nav',
+					'fallback_cb'     => 'wp_bootstrap_navwalker::fallback',
+					'walker'          => new wp_bootstrap_navwalker()
 				)
 			);
 			?>	  
@@ -58,7 +58,7 @@ defined( 'ABSPATH' ) || exit;
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12 mt-3 mb-3">
-			<?php if (function_exists('dimox_breadcrumbs')) dimox_breadcrumbs(); ?>
+				<?php if (function_exists('dimox_breadcrumbs')) dimox_breadcrumbs(); ?>
 			</div>
 		</div>
 	</div>

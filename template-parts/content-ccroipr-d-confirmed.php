@@ -17,28 +17,29 @@ $category           = get_the_category();
 $category_name      = $category[0]->name;
 $data_type          = hashMe( $category_name, 'e' );
 $post_meta   	    = get_post_meta( $post_id, 'ccroipr_register_meta', true );
-$thumbnail_url      = get_the_post_thumbnail_url( $post_id, 'ccroipr' );
 
 
 if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
-	echo "<div class='alert alert-warning'><strong>Your account is not confirmed or activated. Please contact administrator.</strong></div>";				
+	echo "<div class='alert alert-warning'><strong>Your account is not confirmed or activated. Please contact administrator.</strong></div>";
 } else {
 	?>	
     
     <a href="javascript:void(0);" data-id="<?php echo hashMe( $post_id, 'e' ); ?>" data-nonce="<?php echo $nonce; ?>" data-submit-type="<?php echo $data_type; ?>" id="download_profile">
         <img src="http://ccroipr.org/wp-content/uploads/2020/10/copyrights-zeichen.jpg" alt="<?php echo $post_meta['confirm_id']; ?>" >	
     </a>
+
     <div class="text-center mb-30">
         <h1 class="mt-3">Design Copyrights</h1>   
         <h3>Copyrightzeichen <?php echo $post_meta['confirm_id']; ?></h3>
-    </div>	    
+    </div>
     
-    
-    <div class="row mt-5">					
-        <div class="col-sm-6 col-md-6 col-lg-6">
+    <div class="row mt-5">		
+        <div class="col-md-12">
             <div class="form-group">
                 <h3><?php echo $post_meta['werktitel']; ?></h3>
             </div>
+        </div>			
+        <div class="col-sm-6 col-md-6 col-lg-6">
             <div class="form-group">
                 <div class="row mb-3">
                     <?php 
@@ -66,7 +67,6 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
                 <div class="row mb-3">
                     <?php 
                     $x = 0;
-                    $thumbnail_url = get_the_post_thumbnail_url( $post_id, 'ccroipr' ); 
                     foreach( $post_meta['cat_d_image'] as $key => $id ) {
                        
                         if($x!=0 && $x%2==0){  // if not first iteration and iteration divided by 3 has no remainder...
@@ -136,7 +136,7 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
     <table class="text-center mt-3">
         <tr>
             <td>
-            <h4>Der Urheber ist vollständig für den Inhalt der Darstellung verantwortlich und erklärt, dass er alle Rechte am beschriebenen Werk besitzt.</h4>
+                <h4>Der Urheber ist vollständig für den Inhalt der Darstellung verantwortlich und erklärt, dass er alle Rechte am beschriebenen Werk besitzt.</h4>
             </td>
         </tr>
         <tr>

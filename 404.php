@@ -16,9 +16,9 @@ get_header();
 				<section class="error-404 not-found">
 					<header class="page-header text-center">
 						<h1 class="page-title"><?php esc_html_e( 'Oops! That page can&rsquo;t be found.', 'ccroipr' ); ?></h1>
-					</header><!-- .page-header -->
-				</section><!-- .error-404 -->
-			</main><!-- #main -->
+					</header>
+				</section>
+			</main>
 		</div>		
 	</div>
 </div>

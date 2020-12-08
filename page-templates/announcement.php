@@ -40,11 +40,8 @@ get_header();
 			$posts = get_posts( $args );	
 
 			if( $posts ) {
-
 				$count = count( $posts );
-
 				echo "<table class='table table-striped table-bordered'>";
-
 				foreach ( $posts as $post ) {
 					$permalink = get_the_permalink();
 					$title = get_the_title();
@@ -55,7 +52,6 @@ get_header();
 						echo '</tr>';
 					$count--;							
 				}
-
 				echo "</table>";
 				wp_reset_postdata();
 			}

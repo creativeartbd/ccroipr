@@ -7,8 +7,8 @@
  * @package ccroipr
  */
 
-$post_id  = get_the_ID();
-$post = get_post( $post_id );
+$post_id = get_the_ID();
+$post    = get_post( $post_id );
 
 if( ! $post ) return;
 
@@ -35,7 +35,6 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
 	<p>Antrag auf kostenlose Eintragung und Veroffentlichung eines Urheberanspruchs nach Prioritatsprinzip</p>  
 	<h2>Common Copyright Register of Intellectual Property Rights / CCROIPR-CAT-P</h2>   
 	
-
 	<form action="" class="form" method="POST" id="ccroipr_ru_form" enctype="multipart/form-data">
 		<div class="row mt-5">					
 			<div class="col-md-12">
@@ -49,21 +48,15 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
 					<input type="text" name="werktitel" value="<?php echo $post_meta['werktitel']; ?>" id="werktitel" maxlength="30" class="form-control" placeholder="Werktitel">
 				</div>	
 				<div class="form-group">
-					<?php 
-					$thumbnail_url = get_the_post_thumbnail_url( $post_id, 'ccroipr' ); 
-					?>
-					<?php if( 'confirmed' == $post_status ) { ?>
-						<img src="<?php echo $thumbnail_url; ?>" alt="" class="img-thumbnail">		
-					<?php } else { 
-						foreach( $post_meta['cat_d_image'] as $key => $id ) {
-							$thumb_src = wp_get_attachment_image_src( $id )[0];
-							?>
-							<div class="slim" data-download="true" data-instant-edit="true">
-								<img src="<?php echo $thumb_src; ?>" alt="" class="img-thumbnail"">		
-								<input type="file" name="slims[]" id="file_change" value="<?php echo $id; ?>"/>
-							</div>
-							<?php
-						}
+					<?php
+					foreach( $post_meta['cat_d_image'] as $key => $id ) {
+						$thumb_src = wp_get_attachment_image_src( $id )[0];
+						?>
+						<div class="slim" data-download="true" data-instant-edit="true">
+							<img src="<?php echo $thumb_src; ?>" alt="" class="img-thumbnail"">		
+							<input type="file" name="slims[]" id="file_change" value="<?php echo $id; ?>"/>
+						</div>
+						<?php
 					}
 					?>
 				</div>

@@ -7,8 +7,8 @@
  * @package ccroipr
  */
 
-$post_id  = get_the_ID();
-$post = get_post( $post_id );
+$post_id = get_the_ID();
+$post    = get_post( $post_id );
 
 if( ! $post ) return;
 
@@ -34,7 +34,6 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
 
 	<p>Antrag auf kostenlose Eintragung und Veroffentlichung eines Urheberanspruchs nach Prioritatsprinzip</p>  
 	<h2>Common Copyright Register of Intellectual Property Rights / CCROIPR-CAT-P</h2>   
-	
 
 	<form action="" class="form" method="POST" id="ccroipr_ru_form" enctype="multipart/form-data">
 		<div class="row mt-5">					

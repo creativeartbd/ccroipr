@@ -280,14 +280,11 @@ function generatePdfWithImage($pdf_data, $return = false, $create_txt = false, $
 
     $html .= "
         <tr>
-            <td><h4>Common Copyright Register of Intellectual Property Rights</h4></td>
+            <td><h4>Common Copyright Register of Intellectual Property Rights</h4><p>Certificate of Registration</p></td>
         </tr>
         <tr><td>&nbsp;</td></tr>
         <tr>
             <td><p>$confirm_id</p></td>
-        </tr>
-        <tr>
-            <td>Werktitel</td>
         </tr>
         <tr>
             <td colspan=\"2\">$werktitel</td>
@@ -373,25 +370,6 @@ function generatePdfWithImage($pdf_data, $return = false, $create_txt = false, $
     ";
 
     $html .= "</table>";
-
-    // echo '<pre>';
-    // print_r( $html );
-
-    // die();
-   
-
-    //$html2 = '';
-    // if ($show_condition) {
-    //     $html2 .= "<tr><td colspan=\"2\"></td></tr>";
-    //     $html2 .= "<tr><td colspan=\"2\"><b>Freigabeerklärung zu $confirm_id</b></td></tr>";
-    //     $html2 .= "<tr><td colspan=\"2\">Mein Datenupload ist unter der IP-Adresse $ip erfolgt.</td></tr>";
-    //     $html2 .= "<tr><td>Ich habe die Hinweise zur Anmeldung heruntergeladen, gelesen und meine Daten geprüft.</td></tr>";
-    //     $html2 .= "<tr><td>Ich habe die aktuellen Geschäftsbedingungen heruntergeladen, gelesen und akzeptiert.</td></tr>";
-    //     $html2 .= "<tr><td>Ich habe die CCROIPR - Lizenzvereinbarungen heruntergeladen, gelesen und akzeptiert.</td></tr>";
-    //     $html2 .= "<tr><td>Ich habe mit der E-Mail-Adresse $email die Anmeldung bestätigt.</td></tr>";
-    //     $html2 .= "<tr><td>und erteile hiermit die Freigabe zur Langzeitarchivierung im.</td></tr>";
-    //     $html2 .= "<tr><td>Common Popyright Register of Intellectual Property Rights.</td></tr>";        
-    // }
 
 
     $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);

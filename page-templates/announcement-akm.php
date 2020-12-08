@@ -16,7 +16,7 @@ get_header();
                 <h2><?php _e('Common Copyright Register of Intellectual Property Rights / CCROIPR-CAT-P', 'ccroipr'); ?></h2>
             </div>    
 			<?php 
-			$category = get_category_by_slug( 'cat_p' );
+			$category = get_category_by_slug( 'photo' );
 			$cat_id = '';
 			if( $category ) {
 				$cat_id = $category->term_id;	
