@@ -78,7 +78,7 @@ get_header();
 						<div class="form-group">
 							<div class="row">
 								<div class="col-md-12">
-									<div class="slim" data-instant-edit="true">
+									<div class="slim" data-instant-edit="true" data-ratio="1:1"  data-max-file-size="10" data-min-size="300, 300">
 										<input type="file" name="slims[]" id="file_change" multiple />
 									</div>	
 								</div>
@@ -91,30 +91,36 @@ get_header();
 					</div>
 					<div class="col-sm-6 col-md-6 col-lg-6">
 						<div class="form-group">
-							<div class="col-md-6 mb-3">
-								<div class="slim" data-instant-edit="true">
-									<input type="file" name="slims[]" id="file_change" multiple />
-								</div>	
+							<div class="row mb-3">
+								<div class="col-md-6">
+									<div class="slim" data-instant-edit="true" data-ratio="1:1" data-max-file-size="10"  data-min-size="300, 300">
+										<input type="file" name="slims[]" id="file_change" multiple />
+									</div>	
+								</div>
+								<div class="col-md-6">
+									<div class="slim" data-instant-edit="true" data-ratio="1:1" data-max-file-size="10"  data-min-size="300, 300">
+										<input type="file" name="slims[]" id="file_change" multiple />
+									</div>	
+								</div>
 							</div>
-							<div class="col-md-6 mb-3">
-								<div class="slim" data-instant-edit="true">
-									<input type="file" name="slims[]" id="file_change" multiple />
-								</div>	
+							<div class="row mb-3">
+								<div class="col-md-6">
+									<div class="slim" data-instant-edit="true" data-ratio="1:1" data-max-file-size="10"  data-min-size="300, 300">
+										<input type="file" name="slims[]" id="file_change" multiple />
+									</div>	
+								</div>
+								<div class="col-md-6">
+									<div class="slim" data-instant-edit="true" data-ratio="1:1" data-max-file-size="10"  data-min-size="300, 300">
+										<input type="file" name="slims[]" id="file_change" multiple />
+									</div>	
+								</div>
 							</div>
-							<div class="col-md-6 mb-3">
-								<div class="slim" data-instant-edit="true">
-									<input type="file" name="slims[]" id="file_change" multiple />
-								</div>	
-							</div>
-							<div class="col-md-6 mb-3">
-								<div class="slim" data-instant-edit="true">
-									<input type="file" name="slims[]" id="file_change" multiple />
-								</div>	
-							</div>
-							<div class="col-md-6 mb-3">
-								<div class="slim" data-instant-edit="true">
-									<input type="file" name="slims[]" id="file_change" multiple />
-								</div>	
+							<div class="row mb-3">
+								<div class="col-md-6">
+									<div class="slim" data-instant-edit="true" data-ratio="1:1" data-max-file-size="10"  data-min-size="300, 300">
+										<input type="file" name="slims[]" id="file_change" multiple />
+									</div>	
+								</div>
 							</div>
 						</div>
 					</div>

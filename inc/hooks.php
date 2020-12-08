@@ -289,7 +289,7 @@ function register_confirm_action()
                 // get all cat-d loop
                 foreach( $post_meta['cat_d_image'] as $key => $id ) {
 
-                    $thumb_src              = wp_get_attachment_image_src( $id )[0];
+                    $thumb_src              = wp_get_attachment_image_src( $id, 'medium' )[0];
                     $explode                = explode('.', $thumb_src);                
                     $extension              = strtolower( end ( $explode ) );
                     $file_name              = basename( $thumb_src );

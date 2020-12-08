@@ -47,7 +47,7 @@ get_header();
 		</div>
 
 		<div class="col-md-6 col-md-offset-3">
-			<div class="input-group mb-3">
+			<div class="input-group mb-3 display-none">
 				<input type="text" class="form-control" placeholder="Search">
 				<div class="input-group-btn">
 					<button class="btn btn-default" type="submit">

@@ -27,8 +27,8 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
 	
     <img src="http://ccroipr.org/wp-content/uploads/2020/10/copyrights-zeichen.jpg" alt="<?php echo $post_meta['confirm_id']; ?>" data-submit-type="<?php echo $data_type; ?>" id="download_profile" data-id="<?php echo hashMe( $post_id, 'e' ); ?>" data-nonce="<?php echo $nonce; ?>">	
     <div class="text-center mb-30">
-        <h2 class="mt-3">Design Copyrights</h2>   
-        <p>Copyrightzeichen <?php echo $post_meta['confirm_id']; ?></p>
+        <h1 class="mt-3">Design Copyrights</h1>   
+        <h3>Copyrightzeichen <?php echo $post_meta['confirm_id']; ?></h3>
     </div>	    
     
     
@@ -40,15 +40,19 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
             <div class="form-group">
                 <div class="row mb-3">
                     <?php 
-                    $thumbnail_url = get_the_post_thumbnail_url( $post_id, 'ccroipr' ); 
+                    $x = 0;
                     foreach( $post_meta['cat_d_image'] as $key => $id ) {
                         if( 0 == $key) {
-                            $thumb_src = wp_get_attachment_image_src( $id, 'full' )[0];
+                            if($x!=0 && $x%2==0){  // if not first iteration and iteration divided by 3 has no remainder...
+                                echo "</div><div class='row mb-3'>";
+                            }
+                            $thumb_src = wp_get_attachment_image_src( $id, 'medium'  )[0];
                             ?>
                             <div class="col-md-12">
                                 <img src="<?php echo $thumb_src; ?>" alt="" class="img-thumbnail" style="width: 100%;">	
                             </div>
                             <?php
+                            ++$x;
                         }
                     }
                     ?>
@@ -68,7 +72,7 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
                         }
                         $thumb_src = wp_get_attachment_image_src( $id, 'medium' )[0];
                         ?>
-                        <div class="col-sm-6">
+                        <div class="col-sm-6 full-img">
                             <img src="<?php echo $thumb_src; ?>" alt="" class="img-thumbnail"">
                         </div>
                         <?php

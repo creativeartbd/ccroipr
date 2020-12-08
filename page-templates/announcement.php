@@ -18,16 +18,22 @@ get_header();
 
 			<?php 
 			$category = get_category_by_slug( 'ccroipr-p' );
+			$category2 = get_category_by_slug( 'ccroipr-d' );
 			$cat_id   = '';
+			$cat_id2   = '';
 
 			if( $category ) {
 				$cat_id = $category->term_id;	
+			}
+
+			if( $category2 ) {
+				$cat_id2 = $category2->term_id;	
 			}
 			
 			$args = [
 				'post_type'      => 'post',
 				'posts_per_page' => -1,
-				'category'       => $cat_id,
+				'category'       => [$cat_id, $cat_id2],
 				'post_status'	 => 'confirmed'
 			];
 
