@@ -190,7 +190,7 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
 					<input type="hidden" name="submit_type" value="<?php echo hashMe('update', 'e'); ?>">
 					<input type="hidden" name="post_id" value="<?php echo hashMe( get_the_ID(), 'e'); ?>" id="post_id">
 				</div>
-				<div class="col-md-6">
+				<div class="col-md-6 text-right">
 					<input type="submit" name="submit" value="Confirm Data" class="btn btn-success float-right" id="confirm_btn" data-nonce="<?php echo wp_create_nonce( 'register_confirm_action' ); ?>" data-register-type="<?php echo $data_type; ?>" >
 					<div class="form-group">
 						<div class="text text-danger text-right">Note: If you confirm the data then you are not be able to edit/update the data anymore.</div>
