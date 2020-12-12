@@ -263,14 +263,13 @@ function generatePdfWithImage($pdf_data, $return = false, $create_txt = false, $
     $html .= "
         <table border=\"0\" width=\"100%\">
             <tr>
-                <td><h4>Common Copyright Register of Intellectual Property Rights<br/>Certificate of Registration</h4></td>
+                <td style=\"text-align: center;\">
+                    <h2 style=\"padding-bottom: 0; margin-bottom: 0;\">Common Copyright Register of Intellectual Property Rights</h2>
+                    <h4>Certificate of Registration <br/> $confirm_id</h4>
+                </td>
             </tr>
-            <tr><td>&nbsp;</td></tr>
             <tr>
-                <td><p>$confirm_id</p></td>
-            </tr>
-            <tr>
-                <td colspan=\"2\">$werktitel</td>
+                <td>$werktitel</td>
             </tr>
         </table>
     ";
