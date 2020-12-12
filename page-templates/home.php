@@ -23,11 +23,11 @@ get_header();
 				<ul>
 					<li>
 						<input id='c1' type='checkbox'>
-						<label for='c1'><a href="<?php echo site_url('/cat-t/'); ?>">T</a> <span class="tooltiptext tooltip-left">Tooltip text</span></label>						
+						<label for='c1'><a href="<?php echo site_url('/title/'); ?>">T</a> <span class="tooltiptext tooltip-left">Tooltip text</span></label>						
 					</li>
 					<li>
 						<input id='c2' type='checkbox'>
-						<label for='c2'><a href="<?php echo site_url('/cat-p/'); ?>">P</a> <span class="tooltiptext">Tooltip text</span></label>
+						<label for='c2'><a href="<?php echo site_url('/photo/'); ?>">P</a> <span class="tooltiptext">Tooltip text</span></label>
 					</li>
 					<li>
 						<input id='c3' type='checkbox'>
@@ -39,15 +39,15 @@ get_header();
 					</li>
 					<li>
 						<input id='c5' type='checkbox'>
-						<label for='c5'><a href="<?php echo site_url('/cat-d/'); ?>">D</a> <span class="tooltiptext tooltip-left">Tooltip text</span></label>
+						<label for='c5'><a href="<?php echo site_url('/design/'); ?>">D</a> <span class="tooltiptext tooltip-left">Tooltip text</span></label>
 					</li>				
 				</ul>
 				<button><img src="<?php echo get_template_directory_uri() . '/assets/img/ccroipr-circle-logo-red.png'; ?>" alt=""></button>
 			</div>
 		</div>
 
-		<div class="col-md-6 col-md-offset-3">
-			<div class="input-group mb-3 display-none">
+		<div class="col-md-6 col-md-offset-3 display-none">
+			<div class="input-group mb-3">
 				<input type="text" class="form-control" placeholder="Search">
 				<div class="input-group-btn">
 					<button class="btn btn-default" type="submit">

@@ -111,25 +111,27 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
 				<div class="form-group">
 					<label for="">Sie sind Eingeloggt mit der IP-Adresse: USER-IP</label>
 					<input type="text" name="ip" value="<?php echo $post_meta['user_ip']; ?>" class="form-control" readonly  style=" width: 25%;">
-				</div>         
-				<?php if( 'publish' == $post_status ) : ?>   
-				<div class="confirm-wrapper">
-					<div id="form_result"></div>
-						<?php wp_nonce_field( 'register_action' ); ?>		
-						<input type="hidden" name="action" value="register_action">                    	
-						<input type="submit" name="submit" value="Update Data" class="btn btn-primary" id="btn">
-						<input type="hidden" name="register_type" value="<?php echo hashMe('ccroipr-t', 'e'); ?>">
-						<input type="hidden" name="submit_type" value="<?php echo hashMe('update', 'e'); ?>">
-						<input type="hidden" name="post_id" value="<?php echo hashMe( get_the_ID(), 'e'); ?>" id="post_id">
-						<input type="submit" name="submit" value="Confirm Data" class="btn btn-success float-right" id="confirm_btn" data-nonce="<?php echo wp_create_nonce( 'register_confirm_action' ); ?>" data-register-type="<?php echo $data_type; ?>" >
-					</div>
-					<div class="form-group">
-						<div class="text text-danger text-right">Note: If you confirm the data then you are not be able to edit/update the data anymore.</div>
-					</div>
-				</div>       
-				<div id="form_result"></div>
-				<?php endif; ?>		                	
+				</div> 
+			</div>        
+			<?php if( 'publish' == $post_status ) : ?>  
+			<div class="col-md-6">
+				<?php wp_nonce_field( 'register_action' ); ?>		
+				<input type="hidden" name="action" value="register_action">                    	
+				<input type="submit" name="submit" value="Update Data" class="btn btn-primary" id="btn">
+				<input type="hidden" name="register_type" value="<?php echo hashMe('title', 'e'); ?>">
+				<input type="hidden" name="submit_type" value="<?php echo hashMe('update', 'e'); ?>">
+				<input type="hidden" name="post_id" value="<?php echo hashMe( get_the_ID(), 'e'); ?>" id="post_id">
 			</div>
+			<div class="col-md-6 text-right">
+				<div class="form-group">
+					<input type="submit" name="submit" value="Confirm Data" class="btn btn-success float-right" id="confirm_btn" data-nonce="<?php echo wp_create_nonce( 'register_confirm_action' ); ?>" data-register-type="<?php echo $data_type; ?>" >
+					<div class="text text-danger text-right">Note: If you confirm the data then you are not be able to edit/update the data anymore.</div>
+				</div>
+			</div>
+			<div class="col-md-12">
+				<div id="form_result"></div>
+			</div>	
+			<?php endif; ?>		
 		</div>
 	</form>
 <?php } ?>

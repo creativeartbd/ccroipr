@@ -158,7 +158,7 @@ get_header();
 							<?php wp_nonce_field('register_action'); ?>
 							<input type="hidden" name="action" value="register_action">
 							<input type="submit" name="submit" value="Register" class="btn btn-primary" id="btn">
-							<input type="hidden" name="register_type" value="<?php echo hashMe('ccroipr-p', 'e'); ?>">
+							<input type="hidden" name="register_type" value="<?php echo hashMe('photo', 'e'); ?>">
 							<input type="hidden" name="submit_type" value="<?php echo hashMe('register', 'e'); ?>">
 						</div>
 					</div>

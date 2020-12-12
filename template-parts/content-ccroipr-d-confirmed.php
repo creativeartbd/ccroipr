@@ -90,44 +90,46 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
 
     <div class="row">
         <div class="col-md-12">
-            <table class="table table-bordered">
-                <tr>
-                    <td colspan="2"><?php echo $post_meta['werk_beschreibung']; ?></td>
-                </tr>
-                <tr>
-                    <td colspan="2">SHA256 (Hashwert der Originalabbildung)</td>
-                </tr>
-                <tr>
-                    <td colspan="2"><?php echo $post_meta['sha256']; ?></td>
-                </tr>
-                <tr>
-                    <td colspan="2"><b>Anmelder / Urheber-Impressum nach 55RStV</b></td>
-                </tr>
-                <tr>
-                    <td>Name</td>
-                    <td><?php echo $post_meta['surname']; ?></td>
-                </tr>
-                <tr>
-                    <td>Vorname</td>
-                    <td><?php echo $post_meta['vorname']; ?></td>
-                </tr>
-                <tr>
-                    <td>Straße / Nr</td>
-                    <td><?php echo $post_meta['strabe_nr']; ?></td>
-                </tr>
-                <tr>
-                    <td>Plz</td>
-                    <td><?php echo $post_meta['plz']; ?></td>
-                </tr>
-                <tr>
-                    <td>Ort / Stadt</td>
-                    <td><?php echo $post_meta['ort']; ?></td>
-                </tr>
-                <tr>
-                    <td>E-Post-Address</td>
-                    <td><?php echo $post_meta['e_post_address']; ?></td>
-                </tr>
-            </table>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <tr>
+                        <td colspan="2"><?php echo $post_meta['werk_beschreibung']; ?></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">SHA256 (Hashwert der Originalabbildung)</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><?php echo $post_meta['sha256']; ?></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><b>Anmelder / Urheber-Impressum nach 55RStV</b></td>
+                    </tr>
+                    <tr>
+                        <td>Name</td>
+                        <td><?php echo $post_meta['surname']; ?></td>
+                    </tr>
+                    <tr>
+                        <td>Vorname</td>
+                        <td><?php echo $post_meta['vorname']; ?></td>
+                    </tr>
+                    <tr>
+                        <td>Straße / Nr</td>
+                        <td><?php echo $post_meta['strabe_nr']; ?></td>
+                    </tr>
+                    <tr>
+                        <td>Plz</td>
+                        <td><?php echo $post_meta['plz']; ?></td>
+                    </tr>
+                    <tr>
+                        <td>Ort / Stadt</td>
+                        <td><?php echo $post_meta['ort']; ?></td>
+                    </tr>
+                    <tr>
+                        <td>E-Post-Address</td>
+                        <td><?php echo $post_meta['e_post_address']; ?></td>
+                    </tr>
+                </table>
+            </div>
         </div>
     </div>
 

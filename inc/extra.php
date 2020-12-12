@@ -251,7 +251,7 @@ function generatePdfWithImage($pdf_data, $return = false, $create_txt = false, $
     $pdf->AddPage();
     $thumb = '';
 
-    if ( in_array( $type, [ 'ccroipr-p', 'ccroipr-d'] ) ) {
+    if ( in_array( $type, [ 'photo', 'design'] ) ) {
         $thumb_array = [];
         $post_meta     = get_post_meta( $post_id, 'ccroipr_register_meta', true );
         foreach( $post_meta['cat_d_image'] as $key => $id ) {
@@ -260,11 +260,6 @@ function generatePdfWithImage($pdf_data, $return = false, $create_txt = false, $
     }   
 
     $html = ''; 
-
-    // if ('ccroipr-p' == $type) {        
-    //     $pdf->Image($image, '', '45', '75', '', $extension, '', '', true, 300, 'L', false, false, 1, false, false, false);            
-    // }
-
     $html .= "
         <table border=\"0\" width=\"100%\">
             <tr>
@@ -497,6 +492,7 @@ function dimox_breadcrumbs()
             echo $currentAfter;
         } elseif (is_page() && !$post->post_parent) {
             echo $currentBefore;
+            //echo ucfirst($post->post_name); // slug
             the_title();
             echo $currentAfter;
         } elseif (is_page() && $post->post_parent) {

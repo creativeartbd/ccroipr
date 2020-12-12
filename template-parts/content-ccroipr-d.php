@@ -15,6 +15,7 @@ if( ! $post ) return;
 $post_status   = $post->post_status;
 $category      = get_the_category();
 $category_name = $category[0]->name;
+
 $data_type     = hashMe( $category_name, 'e' );
 $post_meta     = get_post_meta( $post_id, 'ccroipr_register_meta', true );
 
@@ -236,7 +237,7 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
 					<?php wp_nonce_field( 'register_action' ); ?>		
 					<input type="hidden" name="action" value="register_action">                    	
 					<input type="submit" name="submit" value="Update Data" class="btn btn-primary" id="btn">
-					<input type="hidden" name="register_type" value="<?php echo hashMe('ccroipr-p', 'e'); ?>">
+					<input type="hidden" name="register_type" value="<?php echo hashMe('design', 'e'); ?>">
 					<input type="hidden" name="submit_type" value="<?php echo hashMe('update', 'e'); ?>">
 					<input type="hidden" name="post_id" value="<?php echo hashMe( get_the_ID(), 'e'); ?>" id="post_id">
 				</div>

@@ -21,7 +21,7 @@ get_header();
 					$categories = get_the_category();
 
 					foreach ( $categories as $category ) {
-						$slug = $category->slug;						
+						$slug = $category->slug;				
 						if( $slug == 'photo' ) {
 							if( $post_status == 'confirmed' ) {
 								get_template_part( 'template-parts/content', 'ccroipr-p-confirmed' );

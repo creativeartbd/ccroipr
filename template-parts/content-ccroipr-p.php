@@ -182,22 +182,23 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
 			</div> 				     
 			<?php endif; ?>
 			<?php if( 'publish' == $post_status ) : ?> 
-			<div class="col-md-12">
-				<div class="confirm-wrapper">
+				<div class="col-md-6">
 					<?php wp_nonce_field( 'register_action' ); ?>		
 					<input type="hidden" name="action" value="register_action">                    	
 					<input type="submit" name="submit" value="Update Data" class="btn btn-primary" id="btn">
-					<input type="hidden" name="register_type" value="<?php echo hashMe('ccroipr-p', 'e'); ?>">
+					<input type="hidden" name="register_type" value="<?php echo hashMe('photo', 'e'); ?>">
 					<input type="hidden" name="submit_type" value="<?php echo hashMe('update', 'e'); ?>">
 					<input type="hidden" name="post_id" value="<?php echo hashMe( get_the_ID(), 'e'); ?>" id="post_id">
+				</div>
+				<div class="col-md-6">
 					<input type="submit" name="submit" value="Confirm Data" class="btn btn-success float-right" id="confirm_btn" data-nonce="<?php echo wp_create_nonce( 'register_confirm_action' ); ?>" data-register-type="<?php echo $data_type; ?>" >
+					<div class="form-group">
+						<div class="text text-danger text-right">Note: If you confirm the data then you are not be able to edit/update the data anymore.</div>
+					</div>
 				</div>
-				<div class="form-group">
-					<div class="text text-danger text-right">Note: If you confirm the data then you are not be able to edit/update the data anymore.</div>
-				</div>
-				      
-				<div id="form_result"></div>			
-			</div>
+				<div class="col-md-12">
+					<div id="form_result"></div>
+				</div>	
 			<?php endif; ?>
 		</div>
 	</form>
