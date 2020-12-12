@@ -51,7 +51,7 @@ function register_confirm_action()
     wp_verify_nonce('_wpnoncne', 'register_confirm_action');
 
     // Check register type
-    $register_type      = isset($_POST['register_type']) ? hashMe(sanitize_text_field($_POST['register_type']), 'd') : '';
+    $register_type      = isset($_POST['register_type']) ? hashMe(sanitize_text_field(strtolower($_POST['register_type'])), 'd') : '';
     
     if (!in_array($register_type, ['title', 'photo', 'design'])) {
         return false;
