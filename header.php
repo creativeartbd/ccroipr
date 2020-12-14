@@ -16,8 +16,7 @@ defined( 'ABSPATH' ) || exit;
 <html <?php language_attributes(); ?>>
 <head>
 	<meta charset="<?php bloginfo( 'charset' ); ?>">
-	<meta name="viewport" content="width=device-width, initial-scale=1">	
-	<meta name="description" content="Free registration and publication of a copyright claim according to the priority principle - a free service from ATELIER.KALAI.MEDIA">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="profile" href="https://gmpg.org/xfn/11">
 	<?php wp_head(); ?>
 </head>

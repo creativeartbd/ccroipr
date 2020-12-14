@@ -119,8 +119,15 @@ function register_confirm_action()
                     imagecopyresampled( $canvas, $jpg_image, 0, 0, 0, 0, $orig_width, $orig_height, $orig_width, $orig_height );
     
                     $font_path = get_template_directory() . '/assets/fonts/arial.ttf';
-                    // Set Text to Be Printed On Image
-                    $text = '&#169; cc-by-nd-' . $confirm_id;
+
+                    if( 'photo' == $register_type ) { 
+                        // Set Text to Be Printed On Image
+                        $text = '&#169; cc-by-nd-' . $confirm_id;
+                    } elseif( 'design' == $register_type ) {
+                        // Set Text to Be Printed On Image
+                        $text = '&#169; cc-by-nd-' . $confirm_id . "-d".$key;
+                    }
+
                     // Allocate A Color For The Text
                     $color = imagecolorallocate($canvas, 0, 0, 0);
                     // Print Text On Image
