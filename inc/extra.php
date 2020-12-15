@@ -273,20 +273,22 @@ function generatePdfWithImage($pdf_data, $return = false, $create_txt = false, $
             </tr>
         </table>
     ";
-        
-    $html .= "<table border=\"0\" width=\"100%\" cellpadding=\"5\">";
-        $html .= "<tr>";
-        $x = 0;
-        foreach( $thumb_array as $thumb ) {
-            if($x!=0 && $x%3==0){  // if not first iteration and iteration divided by 3 has no remainder...
-                $html .= "</tr>\n<tr>";
+    
+    if ( in_array( $type, [ 'photo', 'design'] ) ) {
+        $html .= "<table border=\"0\" width=\"100%\" cellpadding=\"5\">";
+            $html .= "<tr>";
+            $x = 0;
+            foreach( $thumb_array as $thumb ) {
+                if($x!=0 && $x%3==0){  // if not first iteration and iteration divided by 3 has no remainder...
+                    $html .= "</tr>\n<tr>";
+                }
+                $html .= "<td>$thumb</td>";
+                ++$x;
             }
-            $html .= "<td>$thumb</td>";
-            ++$x;
-        }
-            
-    $html .="</tr>
-        </table> ";
+                
+        $html .="</tr>
+            </table> ";
+    }
 
    
     $html .= "  
@@ -295,7 +297,7 @@ function generatePdfWithImage($pdf_data, $return = false, $create_txt = false, $
             <td>Werk-Beschreibung</td>
         </tr>
         <tr>
-            <td colspan=\"3\">$werk_beschreibung</td>
+            <td>$werk_beschreibung</td>
         </tr>
     ";
 
@@ -358,6 +360,9 @@ function generatePdfWithImage($pdf_data, $return = false, $create_txt = false, $
             </ul>
         ";
     }
+
+    // echo $html;
+    // wp_die();
 
 
     $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);

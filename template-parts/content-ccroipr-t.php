@@ -22,16 +22,6 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
 	echo "<div class='alert alert-warning'><strong>Your account is not confirmed or activated. Please contact administrator.</strong></div>";				
 } else {
 	?>
-	<div id="download"></div>
-	<h1>Profile 
-		<?php 
-		if( 'confirmed' == $post_status ) { 
-			$nonce = wp_create_nonce( 'download-nonce' );
-			echo "<input type='button' value='Download' data-submit-type='$data_type' class='download btn btn-success float-right' id='download_profile' data-id='".hashMe($post_id, 'e')."' data-nonce='$nonce'>"; 
-		} 
-		?>
-	</h1>          
-
 	<p>Antrag auf kostenlose Eintragung und Veroffentlichung eines Urheberanspruchs nach Prioritatsprinzip</p>  
 	<h2>Common Copyright Register of Intellectual Property Rights / CCROIPR-CAT-T</h2>	           
 
@@ -78,7 +68,7 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
 					<input type="text" name="werktitel" value="<?php echo $post_meta['werktitel']; ?>" id="werktitel" maxlength="30" class="form-control" placeholder="Werktitel">
 				</div>	                        				
 			</div>
-			<div class="col-md-3">
+			<div class="col-md-6">
 				<div class="form-group">
 					<label for="">Werk-Beschreibung</label>
 					<textarea id="limit" name="werk_beschreibung" cols="30" rows="10" class="form-control" placeholder="Werk-Beschreibung"><?php echo $post_meta['werk_beschreibung']; ?></textarea><span class="counter"></span>

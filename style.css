@@ -512,6 +512,10 @@ h6 {
     clear: both;
 }
 
+h2 {
+    font-size: 28px;
+}
+
 p {
     margin-bottom: 1.5em;
 }
@@ -1532,4 +1536,15 @@ p {
 
 .widget-liquid-left {
     display: none;
+}
+
+.confirmed-headline {
+    margin-top: 25px;
+    margin-bottom: 35px;
+}
+
+.confirmed-headline h1,
+h2 {
+    padding: 0;
+    margin-bottom: 2px;
 }

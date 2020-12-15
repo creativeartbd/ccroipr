@@ -30,7 +30,7 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
 
     <div class="text-center mb-30">
         <h1 class="mt-3">Design Copyrights</h1>   
-        <h3>Copyrightzeichen <?php echo $post_meta['confirm_id']; ?></h3>
+        <h2>Copyrightzeichen <?php echo $post_meta['confirm_id']; ?></h2>
     </div>
     
     <div class="row mt-5">		
@@ -136,7 +136,7 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
     <table class="text-center mt-3">
         <tr>
             <td>
-                <h4>Der Urheber ist vollständig für den Inhalt der Darstellung verantwortlich und erklärt, dass er alle Rechte am beschriebenen Werk besitzt.</h4>
+                Der Urheber ist vollständig für den Inhalt der Darstellung verantwortlich und erklärt, dass er alle Rechte am beschriebenen Werk besitzt.
             </td>
         </tr>
         <tr>

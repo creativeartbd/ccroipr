@@ -29,7 +29,11 @@ get_header();
 								get_template_part( 'template-parts/content', 'ccroipr-p' );
 							}							
 						} elseif ( $slug == 'title' ) {
-							get_template_part( 'template-parts/content', 'ccroipr-t' );
+							if( $post_status == 'confirmed' ) {
+								get_template_part( 'template-parts/content', 'ccroipr-t-confirmed' );
+							} else {
+								get_template_part( 'template-parts/content', 'ccroipr-t');
+							}
 						} elseif( $slug == 'design' ) {
 							if( $post_status == 'confirmed' ) {
 								get_template_part( 'template-parts/content', 'ccroipr-d-confirmed' );

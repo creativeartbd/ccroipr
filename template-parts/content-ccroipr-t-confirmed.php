@@ -12,30 +12,31 @@ $post = get_post( $post_id );
 
 if( ! $post ) return;
 
-$post_status        = $post->post_status;
-$category           = get_the_category();
-$category_name      = $category[0]->name;
-$data_type          = hashMe( $category_name, 'e' );
-$post_meta   	    = get_post_meta( $post_id, 'ccroipr_register_meta', true );
-$thumbnail_id       = $post_meta['cat_d_image'][0];
-$thumbnail_url      = wp_get_attachment_image_url( $thumbnail_id, 'full' );
+$post_status   = $post->post_status;
+$category      = get_the_category();
+$category_name = $category[0]->name;
+$data_type     = hashMe( $category_name, 'e' );
+$post_meta   	 = get_post_meta( $post_id, 'ccroipr_register_meta', true );
+$upload        = wp_upload_dir();
+$upload_dir    = $upload['baseurl'];
+$upload_dir    = $upload_dir . '/ccroipr-t/';  
+$thumbnail_url = $upload_dir . $post_meta['thumb_id_t'].'.jpg';
 
 if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
 	echo "<div class='alert alert-warning'><strong>Your account is not confirmed or activated. Please contact administrator.</strong></div>";				
 } else {
-	?>	
-    
-    <a href="javascript:void(0)" data-submit-type="<?php echo $data_type; ?>" id="download_profile" data-id="<?php echo hashMe( $post_id, 'e' ); ?>" data-nonce="<?php echo $nonce; ?>">
-        <img src="http://ccroipr.org/wp-content/uploads/2020/10/copyrights-zeichen.jpg" alt="<?php echo $post_meta['confirm_id']; ?>" >
-    </a>
-    	
+	?>
+	
+	<a href="javascript:void(0);" id="download_profile" data-submit-type="<?php echo $data_type; ?>" class="download" data-id="<?php echo hashMe($post_id, 'e'); ?>" data-nonce="<?php echo $nonce; ?>">
+		<img src="http://ccroipr.org/wp-content/uploads/2020/10/copyrights-zeichen.jpg" alt="<?php echo $post_meta['confirm_id']; ?>" >
+	</a>
 
-    <div class="confirmed-headline text-center mb-30">
+	<div class="confirmed-headline text-center mb-30">
         <h1>Design Copyrights</h1>  	    
         <h2>Copyrightzeichen <?php echo $post_meta['confirm_id']; ?></h2>  
-    </div> 
-    
-    <table class="table">
+    </div>
+
+    <table class="table table-bordered">
         <tr>
             <td>Copyrightzeichen <?php echo $post_meta['confirm_id'];  ?></td>
         </tr>        
@@ -46,17 +47,14 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
             <td><?php echo $post_meta['werktitel']; ?></td>            
         </tr>
         <tr>
-            <td><img src="<?php echo $thumbnail_url; ?>" alt="" class="img-thumbnail"></td>
+            <td><img src="<?php echo $thumbnail_url; ?>" alt="<?php echo $post_meta['werktitel']; ?>" title="<?php echo $post_meta['werktitel']; ?>"></td>
         </tr>
         <tr>
             <td><?php echo $post_meta['werk_beschreibung']; ?></td>
         </tr>
         <tr>
             <td><b>SHA256 (Hashwert der Originalabbildung)</b></td>
-        </tr>
-        <tr>
-            <td><?php echo $post_meta['sha256']; ?></td>
-        </tr>                
+        </tr>             
     </table>
 
     <table class="table table-bordered">

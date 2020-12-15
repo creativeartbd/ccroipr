@@ -35,7 +35,7 @@ get_header();
 					</li>
 					<li>
 						<input id='c4' type='checkbox'>
-						<label for='c4'>I <span class="tooltiptext tooltip-left">Tooltip text</span></label>
+						<label for='c4'><a href="<?php echo site_url('/info/'); ?>">I</a> <span class="tooltiptext tooltip-left">Tooltip text</span></label>
 					</li>
 					<li>
 						<input id='c5' type='checkbox'>
