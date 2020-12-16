@@ -83,7 +83,7 @@ function register_confirm_action()
                 
                 foreach( $post_meta['cat_d_image'] as $key => $id ) {
 
-                    $thumb_src              = wp_get_attachment_image_src( $id, 'medium' )[0];
+                    $thumb_src              = wp_get_attachment_image_src( $id, 'full' )[0];
                     $explode                = explode('.', $thumb_src);                
                     $extension              = strtolower( end ( $explode ) );
                     $file_name              = basename( $thumb_src );
@@ -592,7 +592,12 @@ function register_action()
                     foreach( $image_names as $key => $image_name ) {
                         if( isset( $image_name ) ) {                        
                             // Upload new post thumbnail
-                            $processed_images[] = upload_post_thumbnail( $surname, $extensions[$key], $final_images[$key], $post_id, true );
+                            if( $register_type == 'design' ) {
+                                $increment_id = $key + 1;
+                            } elseif( $register_type == 'photo' ) {
+                                $increment_id = '';
+                            }
+                            $processed_images[] = upload_post_thumbnail( $surname, $extensions[$key], $final_images[$key], $post_id, true, $confirm_id, $increment_id );
                         } else {
                             $processed_images[] = '';
                         }
@@ -649,7 +654,13 @@ function register_action()
             if( ! is_wp_error( $post_id ) ) {
               
                 foreach( $image_names as $key => $image_name ) {
-                    $attach_id = upload_post_thumbnail( $surname, $extensions[$key], $final_images[$key], $post_id, true );
+                    if( $register_type == 'design' ) {
+                        $increment_id = $key + 1;
+                    } elseif( $register_type == 'photo' ) {
+                        $increment_id = '';
+                    }
+
+                    $attach_id = upload_post_thumbnail( $surname, $extensions[$key], $final_images[$key], $post_id, true, $confirm_id, $increment_id );
                     $post_meta['cat_d_image'][] = $attach_id;
                 }
 
@@ -680,7 +691,7 @@ function register_action()
                 // Send email to user for activate the account 
                 if ( wp_mail ( $toArray, $subject, $body, $headers ) ) {                    
                     wp_send_json_success( [
-                        'message'   =>  '<div class="alert alert-success"><b>please confirm your email addresss for CCROIPR-Registration von Werktitel.</b></div>',
+                        'message'   =>  '<div class="alert alert-success"><b>please confirm your email addresss for CCROIPR-Registration.</b></div>',
                         'type'      =>  'register'
                     ] );
                 } else {

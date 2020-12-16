@@ -228,9 +228,9 @@ function generatePdfWithImage($pdf_data, $return = false, $create_txt = false, $
     $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
 
     // set margins
-    $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
-    $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
-    $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+    $pdf->SetMargins(PDF_MARGIN_LEFT, 5, PDF_MARGIN_RIGHT);
+    $pdf->SetHeaderMargin(0);
+    $pdf->SetFooterMargin(10);
 
     // set auto page breaks
     $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
@@ -247,15 +247,25 @@ function generatePdfWithImage($pdf_data, $return = false, $create_txt = false, $
     // ---------------------------------------------------------
 
     // set font
-    $pdf->SetFont('freesans', '', 11);
+    $pdf->SetFont('freesans', '', 10);
+    $pdf->SetPrintHeader(false);
+    $pdf->SetPrintFooter(false);
     $pdf->AddPage();
     $thumb = '';
 
     if ( in_array( $type, [ 'photo', 'design'] ) ) {
         $thumb_array = [];
         $post_meta     = get_post_meta( $post_id, 'ccroipr_register_meta', true );
+
         foreach( $post_meta['cat_d_image'] as $key => $id ) {
-            $thumb_array[] = wp_get_attachment_image( $id, 'medium' ); // get only the image not url
+            if( 'design' == $type ) {
+                if( $key > 0 ) {
+                    $thumb_array[] = wp_get_attachment_image( $id, 'full' ); // get only the image not url
+                }
+            } else {
+                $thumb_array[] = wp_get_attachment_image( $id, 'full' ); // get only the image not url
+            }   
+            
         }
     }   
 
@@ -400,10 +410,18 @@ function generatePdfWithImage($pdf_data, $return = false, $create_txt = false, $
     }
 }
 
-function upload_post_thumbnail($surname, $extension, $final_image, $post_id, $cat_d = null )
+function upload_post_thumbnail($surname, $extension, $final_image, $post_id, $cat_d = null, $confirm_id, $increment_id = null )
 {
+    if( $confirm_id ) {
+        $new_file_id = $confirm_id;
+    } else {
+        $new_file_id = rand(1000, 9999);
+    }
 
-    $new_file_name = rand(1000, 9999) . '.' . $extension;
+    if( $increment_id ) {
+        $increment_id = '-d'.$increment_id;
+    }
+    $new_file_name = $new_file_id . $increment_id . '.' . $extension;
     $wp_upload_dir = wp_upload_dir();
     $path          = $wp_upload_dir['path'];   
     $image_parts   = explode(";base64,", $final_image);

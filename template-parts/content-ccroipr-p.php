@@ -50,7 +50,7 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
 				<div class="form-group">
 					<?php
 					foreach( $post_meta['cat_d_image'] as $key => $id ) {
-						$thumb_src = wp_get_attachment_image_src( $id )[0];
+						$thumb_src = wp_get_attachment_image_src( $id, 'full' )[0];
 						?>
 						<div class="slim" data-download="true" data-instant-edit="true">
 							<img src="<?php echo $thumb_src; ?>" alt="" class="img-thumbnail"">		

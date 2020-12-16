@@ -29,8 +29,8 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
     </a>
 
     <div class="text-center mb-30">
-        <h1 class="mt-3">Design Copyrights</h1>   
-        <h2>Copyrightzeichen <?php echo $post_meta['confirm_id']; ?></h2>
+        <h1 class="mt-3"><?php _e('Design Copyrights', 'ccroipr'); ?></h1>   
+        <h2><?php _e('Copyrightzeichen', 'ccroipr'); ?> <?php echo $post_meta['confirm_id']; ?></h2>
     </div>
     
     <div class="row mt-5">		
@@ -45,11 +45,11 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
                     <?php 
                     $x = 0;
                     foreach( $post_meta['cat_d_image'] as $key => $id ) {
-                        if( 0 == $key) {
+                        if( 1 == $key) {
                             if($x!=0 && $x%2==0){  // if not first iteration and iteration divided by 3 has no remainder...
                                 echo "</div><div class='row mb-3'>";
                             }
-                            $thumb_src = wp_get_attachment_image_src( $id, 'medium'  )[0];
+                            $thumb_src = wp_get_attachment_image_src( $id, 'full'  )[0];
                             ?>
                             <div class="col-md-12">
                                 <img src="<?php echo $thumb_src; ?>" alt="" class="img-thumbnail" style="width: 100%;">	
@@ -68,19 +68,18 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
                     <?php 
                     $x = 0;
                     foreach( $post_meta['cat_d_image'] as $key => $id ) {
-                       
-                        if($x!=0 && $x%2==0){  // if not first iteration and iteration divided by 3 has no remainder...
-                            echo "</div>\n<div class='row mb-3'>";
+                        if( $key > 0 ) {
+                            if($x!=0 && $x%2==0){  // if not first iteration and iteration divided by 3 has no remainder...
+                                echo "</div>\n<div class='row mb-3'>";
+                            }
+                            $thumb_src = wp_get_attachment_image_src( $id, 'full' )[0];
+                            ?>
+                            <div class="col-sm-6 full-img">
+                                <img src="<?php echo $thumb_src; ?>" alt="" class="img-thumbnail"">
+                            </div>
+                            <?php
+                            ++$x;
                         }
-                        $thumb_src = wp_get_attachment_image_src( $id, 'medium' )[0];
-                        ?>
-                        <div class="col-sm-6 full-img">
-                            <img src="<?php echo $thumb_src; ?>" alt="" class="img-thumbnail"">
-                        </div>
-                        <?php
-                        
-                        ++$x;
-                       
                     }
                     ?>
                 </div>
@@ -96,36 +95,36 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
                         <td colspan="2"><?php echo $post_meta['werk_beschreibung']; ?></td>
                     </tr>
                     <tr>
-                        <td colspan="2">SHA256 (Hashwert der Originalabbildung)</td>
+                        <td colspan="2"><?php _e('SHA256 (Hashwert der Originalabbildung)', 'ccroipr'); ?></td>
                     </tr>
                     <tr>
                         <td colspan="2"><?php echo $post_meta['sha256']; ?></td>
                     </tr>
                     <tr>
-                        <td colspan="2"><b>Anmelder / Urheber-Impressum nach 55RStV</b></td>
+                        <td colspan="2"><b><?php _e('Anmelder / Urheber-Impressum nach 55RStV', 'ccroipr'); ?></b></td>
                     </tr>
                     <tr>
-                        <td>Name</td>
+                        <td><?php _e('Name', 'ccroipr'); ?></td>
                         <td><?php echo $post_meta['surname']; ?></td>
                     </tr>
                     <tr>
-                        <td>Vorname</td>
+                        <td><?php _e('Vorname', 'ccroipr'); ?></td>
                         <td><?php echo $post_meta['vorname']; ?></td>
                     </tr>
                     <tr>
-                        <td>Straße / Nr</td>
+                        <td><?php _e('Straße / Nr', 'ccroipr'); ?></td>
                         <td><?php echo $post_meta['strabe_nr']; ?></td>
                     </tr>
                     <tr>
-                        <td>Plz</td>
+                        <td><?php _e('Plz', 'ccroipr'); ?></td>
                         <td><?php echo $post_meta['plz']; ?></td>
                     </tr>
                     <tr>
-                        <td>Ort / Stadt</td>
+                        <td><?php _e('Ort / Stadt', 'ccroipr'); ?></td>
                         <td><?php echo $post_meta['ort']; ?></td>
                     </tr>
                     <tr>
-                        <td>E-Post-Address</td>
+                        <td><?php _e('E-Post-Address', 'ccroipr'); ?></td>
                         <td><?php echo $post_meta['e_post_address']; ?></td>
                     </tr>
                 </table>
@@ -133,18 +132,58 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
         </div>
     </div>
 
-    <table class="text-center mt-3">
+    <table class="table table-bordered mt-3">
         <tr>
-            <td>
-                Der Urheber ist vollständig für den Inhalt der Darstellung verantwortlich und erklärt, dass er alle Rechte am beschriebenen Werk besitzt.
+            <td class="text-center" colspan="2">
+                <?php _e('Der Urheber ist vollständig für den Inhalt der Darstellung verantwortlich und erklärt, dass er alle Rechte am beschriebenen Werk besitzt.', 'ccroipr'); ?>
             </td>
         </tr>
         <tr>
-            <td>&nbsp;</td>
+            <td><?php _e('Webseite', 'ccroipr'); ?></td>
+            <td><?php echo $post_meta['webseite']; ?></td>
         </tr>
         <tr>
-            <td>
-                <img src="<?php echo get_template_directory_uri() . '/assets/img/ccroipr-circle-logo-red.png' ?>" alt="">
+            <td><?php _e('Wiener Klassifikation', 'ccroipr'); ?></td>
+            <td><?php echo $post_meta['wiener']; ?></td>
+        </tr>
+        <tr>
+            <td><?php _e('Locarno Klassifikatio', 'ccroipr'); ?></td>
+            <td><?php echo $post_meta['vorname']; ?></td>
+        </tr>
+        <tr>
+            <td><?php _e('Internationale Patentklassifikation', 'ccroipr'); ?></td>
+            <td><?php echo $post_meta['internationale']; ?></td>
+        </tr>
+        <tr>
+            <td><?php _e('Nizzaklassifikation', 'ccroipr'); ?></td>
+            <td><?php echo $post_meta['nizzaklassifikation']; ?></td>
+        </tr>
+        <tr>
+            <td><?php _e('Keword Nr 1', 'ccroipr'); ?></td>
+            <td><?php echo $post_meta['keywordnr1']; ?></td>
+        </tr>
+        <tr>
+            <td><?php _e('Keword Nr 2', 'ccroipr'); ?></td>
+            <td><?php echo $post_meta['keywordnr2']; ?></td>
+        </tr>
+        <tr>
+            <td><?php _e('Keword Nr 3', 'ccroipr'); ?></td>
+            <td><?php echo $post_meta['keywordnr3']; ?></td>
+        </tr>
+        <tr>
+            <td><?php _e('Keword Nr 4', 'ccroipr'); ?></td>
+            <td><?php echo $post_meta['keywordnr4']; ?></td>
+        </tr>
+        <tr>
+            <td><?php _e('Keword Nr 5', 'ccroipr'); ?></td>
+            <td><?php echo $post_meta['keywordnr5']; ?></td>
+        </tr>
+        <tr>
+            <td colspan="2">&nbsp;</td>
+        </tr>
+        <tr>
+            <td colspan="2" class="text-center">
+                <img src="<?php echo get_template_directory_uri() . '/assets/img/copyright-symbol.jpg' ?>" alt="">
             </td>
         </tr>
     </table>

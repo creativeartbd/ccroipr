@@ -13,37 +13,40 @@ get_header();
 
 	<div class="row">
 		<div class="col-md-12 text-center">
-			<h1><?php _e('Common Copyright Register of Intellectual Property Rights', 'ccroipr'); ?></h1>
+			<h1><?php _e('Common Copyright Register<br/> of<br/> Intellectual Property Rights', 'ccroipr'); ?></h1>
 		</div>
-
-		<div class="col-md-12 text-center" id="timestamp"></div>
 
 		<div class="col-md-12">
 			<div class='selector'>
 				<ul>
 					<li>
 						<input id='c1' type='checkbox'>
-						<label for='c1'><a href="<?php echo site_url('/title/'); ?>">T</a> <span class="tooltiptext tooltip-left">Tooltip text</span></label>						
+						<label for='c1'><a href="<?php echo site_url('/title/'); ?>">T</a> <span class="tooltiptext tooltip-left">TITEL / TITLE / TITRE / TITULO</span></label>						
 					</li>
 					<li>
 						<input id='c2' type='checkbox'>
-						<label for='c2'><a href="<?php echo site_url('/photo/'); ?>">P</a> <span class="tooltiptext">Tooltip text</span></label>
+						<label for='c2'><a href="<?php echo site_url('/photo/'); ?>">P</a> <span class="tooltiptext">PHOTO / FOTO</span></label>
 					</li>
 					<li>
 						<input id='c3' type='checkbox'>
-						<label for='c3'><a href="<?php echo site_url('/register/'); ?>">R</a> <span class="tooltiptext">Some kind of info bubble text</span></label>
+						<label for='c3'><a href="<?php echo site_url('/register/'); ?>">R</a> <span class="tooltiptext">REGISTER / REGISTRE / REGISTRO</span></label>
 					</li>
 					<li>
 						<input id='c4' type='checkbox'>
-						<label for='c4'><a href="<?php echo site_url('/info/'); ?>">I</a> <span class="tooltiptext tooltip-left">Tooltip text</span></label>
+						<label for='c4'><a href="<?php echo site_url('/info/'); ?>">I</a> <span class="tooltiptext tooltip-left">INFO</span></label>
 					</li>
 					<li>
 						<input id='c5' type='checkbox'>
-						<label for='c5'><a href="<?php echo site_url('/design/'); ?>">D</a> <span class="tooltiptext tooltip-left">Tooltip text</span></label>
+						<label for='c5'><a href="<?php echo site_url('/design/'); ?>">D</a> <span class="tooltiptext tooltip-left">DESIGN / DISEÑO</span></label>
 					</li>				
 				</ul>
 				<button><img src="<?php echo get_template_directory_uri() . '/assets/img/ccroipr-circle-logo-red.png'; ?>" alt=""></button>
 			</div>
+		</div>
+
+		<div class="col-md-12 text-center">
+			<h2 class="color-red">COPYRIGHT REGISTRIEREN - SICHERN & SCHÜTZEN</h2>
+			<h3 id="timestamp"></h3>
 		</div>
 
 		<div class="col-md-6 col-md-offset-3 display-none">

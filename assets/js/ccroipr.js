@@ -274,7 +274,7 @@
                 var s = today.getUTCSeconds();
                 m = checkTime(m);
                 s = checkTime(s);
-                document.getElementById('timestamp').innerHTML = '<b>Register Time:</b> ' + year + '-' + month + '-' + day + ' ' + h + ":" + m + ":" + s;
+                document.getElementById('timestamp').innerHTML = '<b>Register Time:</b> ' + year + '-' + month + '-' + day + ' ' + h + ":" + m + ":" + s + ' (UTC±0)';
                 var t = setTimeout(startTime, 500);
             }
 

@@ -21,6 +21,8 @@ get_header();
 				}
 			}
 			?>
+
+			<h1 class="text-center"><?php _e('Copyrights Sichern<br/> Designrechte schützen & Prioritätsnachweis erstellen', 'ccroipr'); ?></h1>
 			<form action="" method="POST" enctype="multipart/form-data" id="ccroipr_d_ru_form">
 				<div class="row mt-5">
 					<div class="col-md-12">
@@ -78,7 +80,7 @@ get_header();
 						<div class="form-group">
 							<div class="row">
 								<div class="col-md-12">
-									<div class="slim" data-instant-edit="true" data-ratio="1:1"  data-max-file-size="10" data-min-size="300, 300">
+									<div class="slim" data-instant-edit="true" data-max-file-size="10" data-min-size="300, 300">
 										<input type="file" name="slims[]" id="file_change" multiple />
 									</div>	
 								</div>
@@ -93,31 +95,36 @@ get_header();
 						<div class="form-group">
 							<div class="row mb-3">
 								<div class="col-md-6">
-									<div class="slim" data-instant-edit="true" data-ratio="1:1" data-max-file-size="10"  data-min-size="300, 300">
+									<div class="slim" data-instant-edit="true" data-max-file-size="10"  data-min-size="300, 300">
 										<input type="file" name="slims[]" id="file_change" multiple />
 									</div>	
 								</div>
 								<div class="col-md-6">
-									<div class="slim" data-instant-edit="true" data-ratio="1:1" data-max-file-size="10"  data-min-size="300, 300">
-										<input type="file" name="slims[]" id="file_change" multiple />
-									</div>	
-								</div>
-							</div>
-							<div class="row mb-3">
-								<div class="col-md-6">
-									<div class="slim" data-instant-edit="true" data-ratio="1:1" data-max-file-size="10"  data-min-size="300, 300">
-										<input type="file" name="slims[]" id="file_change" multiple />
-									</div>	
-								</div>
-								<div class="col-md-6">
-									<div class="slim" data-instant-edit="true" data-ratio="1:1" data-max-file-size="10"  data-min-size="300, 300">
+									<div class="slim" data-instant-edit="true" data-max-file-size="10"  data-min-size="300, 300">
 										<input type="file" name="slims[]" id="file_change" multiple />
 									</div>	
 								</div>
 							</div>
 							<div class="row mb-3">
 								<div class="col-md-6">
-									<div class="slim" data-instant-edit="true" data-ratio="1:1" data-max-file-size="10"  data-min-size="300, 300">
+									<div class="slim" data-instant-edit="true" data-max-file-size="10"  data-min-size="300, 300">
+										<input type="file" name="slims[]" id="file_change" multiple />
+									</div>	
+								</div>
+								<div class="col-md-6">
+									<div class="slim" data-instant-edit="true" data-max-file-size="10"  data-min-size="300, 300">
+										<input type="file" name="slims[]" id="file_change" multiple />
+									</div>	
+								</div>
+							</div>
+							<div class="row mb-3">
+								<div class="col-md-6">
+									<div class="slim" data-instant-edit="true" data-max-file-size="10"  data-min-size="300, 300">
+										<input type="file" name="slims[]" id="file_change" multiple />
+									</div>	
+								</div>
+								<div class="col-md-6">
+									<div class="slim" data-instant-edit="true" data-max-file-size="10"  data-min-size="300, 300">
 										<input type="file" name="slims[]" id="file_change" multiple />
 									</div>	
 								</div>
@@ -218,6 +225,7 @@ get_header();
 							<input type="submit" name="submit" value="Register" class="btn btn-primary" id="btn">
 							<input type="hidden" name="register_type" value="<?php echo hashMe('design', 'e'); ?>">
 							<input type="hidden" name="submit_type" value="<?php echo hashMe('register', 'e'); ?>">
+							<p class="help"><?php _e('Ich besitze alle Rechte am beschriebenen Werk  und stelle den Antrag auf kostenlose Eintragung und Veröffentlichung eines Urheberanspruchs nach dem Prioritätsprinzip.','ccroipr'); ?></p>
 						</div>
 					</div>
 				</div>

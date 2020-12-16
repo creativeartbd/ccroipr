@@ -34,7 +34,7 @@ get_header();
 							<input type="text" name="werktitel" id="werktitel" maxlength="30" class="form-control" placeholder="Werktitel">
 						</div>
 						<div class="form-group">
-							<div class="slim" data-instant-edit="true">
+							<div class="slim" data-instant-edit="true" data-instant-edit="true" data-max-file-size="10" data-min-size="300, 300">
 								<input type="file" name="slims[]" id="file_change" />
 							</div>
 						</div>

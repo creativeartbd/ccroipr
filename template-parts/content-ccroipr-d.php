@@ -94,11 +94,11 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
                     <div class="row">
 						<?php
 						foreach( $post_meta['cat_d_image'] as $key => $id ) {
-							if( 0 == $key) {
+							if( 1 == $key) {
 								$thumb_src = wp_get_attachment_image_src( $id, 'full' )[0];
 								?>
 								<div class="col-md-12">
-									<div class="slim" data-download="true" data-instant-edit="true" data-ratio="1:1" data-max-file-size="10" data-min-size="300, 300">
+									<div class="slim" data-download="true" data-instant-edit="true" data-max-file-size="10" data-min-size="300, 300">
 										<img src="<?php echo $thumb_src; ?>" alt="" class="img-thumbnail"">		
 										<input type="file" name="slims[]" id="file_change" value="<?php echo $id; ?>"/>
 									</div>
@@ -120,14 +120,14 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
 						<?php
 						$x = 0;
 						foreach( $post_meta['cat_d_image'] as $key => $id ) {
-							if( 0 !== $key) {
+							if( $key > 0 ) {
 								if($x!=0 && $x%2==0){  // if not first iteration and iteration divided by 3 has no remainder...
 									echo "</div><div class='row mb-3'>";
 								}
-								$thumb_src = wp_get_attachment_image_src( $id, 'medium' )[0];
+								$thumb_src = wp_get_attachment_image_src( $id, 'full' )[0];
 								?>
 								<div class="col-sm-6 full-img">
-									<div class="slim" data-download="true" data-instant-edit="true" data-ratio="1:1" data-max-file-size="10" data-min-size="300, 300">
+									<div class="slim" data-download="true" data-instant-edit="true" data-max-file-size="10" data-min-size="300, 300">
 										<img src="<?php echo $thumb_src; ?>" alt="" class="img-thumbnail"">		
 										<input type="file" name="slims[]" id="file_change" value="<?php echo $id; ?>"/>
 									</div>

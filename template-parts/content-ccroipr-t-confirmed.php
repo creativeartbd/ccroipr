@@ -51,10 +51,7 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
         </tr>
         <tr>
             <td><?php echo $post_meta['werk_beschreibung']; ?></td>
-        </tr>
-        <tr>
-            <td><b>SHA256 (Hashwert der Originalabbildung)</b></td>
-        </tr>             
+        </tr>        
     </table>
 
     <table class="table table-bordered">

@@ -28,14 +28,13 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
     <a href="javascript:void(0)" data-submit-type="<?php echo $data_type; ?>" id="download_profile" data-id="<?php echo hashMe( $post_id, 'e' ); ?>" data-nonce="<?php echo $nonce; ?>">
         <img src="http://ccroipr.org/wp-content/uploads/2020/10/copyrights-zeichen.jpg" alt="<?php echo $post_meta['confirm_id']; ?>" >
     </a>
-    	
 
     <div class="confirmed-headline text-center mb-30">
-        <h1>Design Copyrights</h1>  	    
+        <h1><?php _e('Design Copyrights', 'ccroipr'); ?></h1>  	    
         <h2>Copyrightzeichen <?php echo $post_meta['confirm_id']; ?></h2>  
     </div> 
     
-    <table class="table">
+    <table class="table table-bordered">
         <tr>
             <td>Copyrightzeichen <?php echo $post_meta['confirm_id'];  ?></td>
         </tr>        
