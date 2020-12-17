@@ -274,7 +274,7 @@
                 var s = today.getUTCSeconds();
                 m = checkTime(m);
                 s = checkTime(s);
-                document.getElementById('timestamp').innerHTML = '<b>Register Time:</b> ' + year + '-' + month + '-' + day + ' ' + h + ":" + m + ":" + s + ' (UTC±0)';
+                document.getElementById('timestamp').innerHTML = '<b>Register Time:</b> ' + year + '-' + month + '-' + day + ' ' + h + ":" + m + ":" + s + ' <span class="color-red">(UTC±0)</span>';
                 var t = setTimeout(startTime, 500);
             }
 
@@ -365,7 +365,8 @@
             });
         }
 
-        $("dropdown-toggle")
+
+        $('[data-toggle="tooltip"]').tooltip();
 
     });
 })(jQuery);

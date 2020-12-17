@@ -96,36 +96,31 @@ get_header();
 							<div class="row mb-3">
 								<div class="col-md-6">
 									<div class="slim" data-instant-edit="true" data-max-file-size="10"  data-min-size="300, 300">
-										<input type="file" name="slims[]" id="file_change" multiple />
+										<input type="file" name="slims[]" multiple />
 									</div>	
 								</div>
 								<div class="col-md-6">
 									<div class="slim" data-instant-edit="true" data-max-file-size="10"  data-min-size="300, 300">
-										<input type="file" name="slims[]" id="file_change" multiple />
-									</div>	
-								</div>
-							</div>
-							<div class="row mb-3">
-								<div class="col-md-6">
-									<div class="slim" data-instant-edit="true" data-max-file-size="10"  data-min-size="300, 300">
-										<input type="file" name="slims[]" id="file_change" multiple />
-									</div>	
-								</div>
-								<div class="col-md-6">
-									<div class="slim" data-instant-edit="true" data-max-file-size="10"  data-min-size="300, 300">
-										<input type="file" name="slims[]" id="file_change" multiple />
+										<input type="file" name="slims[]" multiple />
 									</div>	
 								</div>
 							</div>
 							<div class="row mb-3">
 								<div class="col-md-6">
 									<div class="slim" data-instant-edit="true" data-max-file-size="10"  data-min-size="300, 300">
-										<input type="file" name="slims[]" id="file_change" multiple />
+										<input type="file" name="slims[]" multiple />
 									</div>	
 								</div>
 								<div class="col-md-6">
 									<div class="slim" data-instant-edit="true" data-max-file-size="10"  data-min-size="300, 300">
-										<input type="file" name="slims[]" id="file_change" multiple />
+										<input type="file" name="slims[]" multiple />
+									</div>	
+								</div>
+							</div>
+							<div class="row mb-3">
+								<div class="col-md-6">
+									<div class="slim" data-instant-edit="true" data-max-file-size="10"  data-min-size="300, 300">
+										<input type="file" name="slims[]" multiple />
 									</div>	
 								</div>
 							</div>

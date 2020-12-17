@@ -24,8 +24,8 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
 } else {
 	?>	
     
-    <a href="javascript:void(0);" data-id="<?php echo hashMe( $post_id, 'e' ); ?>" data-nonce="<?php echo $nonce; ?>" data-submit-type="<?php echo $data_type; ?>" id="download_profile">
-        <img src="http://ccroipr.org/wp-content/uploads/2020/10/copyrights-zeichen.jpg" alt="<?php echo $post_meta['confirm_id']; ?>" >	
+    <a href="#" data-id="<?php echo hashMe( $post_id, 'e' ); ?>" data-nonce="<?php echo $nonce; ?>" data-submit-type="<?php echo $data_type; ?>" id="download_profile">
+        <img src="<?php echo get_template_directory_uri() . '/assets/img/copyrightszeichen.jpg'; ?>" alt="copyright-zeichen" title="copyrights-zeichen">	
     </a>
 
     <div class="text-center mb-30">

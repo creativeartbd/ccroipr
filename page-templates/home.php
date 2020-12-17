@@ -21,23 +21,33 @@ get_header();
 				<ul>
 					<li>
 						<input id='c1' type='checkbox'>
-						<label for='c1'><a href="<?php echo site_url('/title/'); ?>">T</a> <span class="tooltiptext tooltip-left">TITEL / TITLE / TITRE / TITULO</span></label>						
+						<label for='c1'>
+							<a href="<?php echo site_url('/title/'); ?>" data-toggle="tooltip" data-placement="left" title="TITEL / TITLE / TITRE / TITULO">T</a>
+						</label>						
 					</li>
 					<li>
 						<input id='c2' type='checkbox'>
-						<label for='c2'><a href="<?php echo site_url('/photo/'); ?>">P</a> <span class="tooltiptext">PHOTO / FOTO</span></label>
+						<label for='c2'>
+							<a href="<?php echo site_url('/photo/'); ?>" data-toggle="tooltip" data-placement="right" title="PHOTO / FOTO">P</a>
+						</label>
 					</li>
 					<li>
 						<input id='c3' type='checkbox'>
-						<label for='c3'><a href="<?php echo site_url('/register/'); ?>">R</a> <span class="tooltiptext">REGISTER / REGISTRE / REGISTRO</span></label>
+						<label for='c3'>
+							<a href="<?php echo site_url('/register/'); ?>" data-toggle="tooltip" data-placement="right" title="REGISTER / REGISTRE / REGISTRO">R</a> 
+						</label>
 					</li>
 					<li>
 						<input id='c4' type='checkbox'>
-						<label for='c4'><a href="<?php echo site_url('/info/'); ?>">I</a> <span class="tooltiptext tooltip-left">INFO</span></label>
+						<label for='c4'>
+							<a href="<?php echo site_url('/info/'); ?>" data-toggle="tooltip" data-placement="left" title="INFO">I</a> 
+						</label>
 					</li>
 					<li>
 						<input id='c5' type='checkbox'>
-						<label for='c5'><a href="<?php echo site_url('/design/'); ?>">D</a> <span class="tooltiptext tooltip-left">DESIGN / DISEÑO</span></label>
+						<label for='c5'>
+							<a href="<?php echo site_url('/design/upload/'); ?>" data-toggle="tooltip" data-placement="left" title="DESIGN / DISEÑO">D</a> 
+						</label>
 					</li>				
 				</ul>
 				<button><img src="<?php echo get_template_directory_uri() . '/assets/img/ccroipr-circle-logo-red.png'; ?>" alt=""></button>
@@ -46,7 +56,7 @@ get_header();
 
 		<div class="col-md-12 text-center">
 			<h2 class="color-red">COPYRIGHT REGISTRIEREN - SICHERN & SCHÜTZEN</h2>
-			<h3 id="timestamp"></h3>
+			<h4 id="timestamp"></h4>
 		</div>
 
 		<div class="col-md-6 col-md-offset-3 display-none">
