@@ -129,7 +129,7 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
 								<div class="col-sm-6 full-img">
 									<div class="slim" data-download="true" data-instant-edit="true" data-max-file-size="10" data-min-size="300, 300">
 										<img src="<?php echo $thumb_src; ?>" alt="" class="img-thumbnail"">		
-										<input type="file" name="slims[]" id="file_change" value="<?php echo $id; ?>"/>
+										<input type="file" name="slims[]" value="<?php echo $id; ?>"/>
 									</div>
 								</div>
 								<?php
