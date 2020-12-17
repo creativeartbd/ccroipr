@@ -50,7 +50,7 @@ get_header();
 						</label>
 					</li>				
 				</ul>
-				<button><img src="<?php echo get_template_directory_uri() . '/assets/img/ccroipr-circle-logo-red.png'; ?>" alt=""></button>
+				<button><img src="<?php echo get_template_directory_uri() . '/assets/img/copyright-symbol.jpg'; ?>" alt=""></button>
 			</div>
 		</div>
 
