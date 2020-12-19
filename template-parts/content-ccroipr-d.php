@@ -98,7 +98,7 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
 								$thumb_src = wp_get_attachment_image_src( $id, 'full' )[0];
 								?>
 								<div class="col-md-12">
-									<div class="slim" data-download="true" data-instant-edit="true" data-max-file-size="10" data-min-size="300, 300">
+									<div class="slim" data-instant-edit="false" data-edit="false" data-min-size="300, 300" data-min-size="500, 500">
 										<img src="<?php echo $thumb_src; ?>" alt="" class="img-thumbnail"">		
 										<input type="file" name="slims[]" id="file_change" value="<?php echo $id; ?>"/>
 									</div>
@@ -127,7 +127,7 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
 								$thumb_src = wp_get_attachment_image_src( $id, 'full' )[0];
 								?>
 								<div class="col-sm-6 full-img">
-									<div class="slim" data-download="true" data-instant-edit="true" data-max-file-size="10" data-min-size="300, 300">
+									<div class="slim" data-instant-edit="false" data-edit="false" data-min-size="300, 300" data-min-size="500, 500">
 										<img src="<?php echo $thumb_src; ?>" alt="" class="img-thumbnail"">		
 										<input type="file" name="slims[]" value="<?php echo $id; ?>"/>
 									</div>

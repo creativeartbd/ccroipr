@@ -80,7 +80,7 @@ get_header();
 						<div class="form-group">
 							<div class="row">
 								<div class="col-md-12">
-									<div class="slim" data-instant-edit="true" data-max-file-size="10" data-min-size="300, 300">
+										<div class="slim" data-instant-edit="false" data-edit="false" data-min-size="300, 300" data-min-size="500, 500">
 										<input type="file" name="slims[]" id="file_change" multiple />
 									</div>	
 								</div>
@@ -95,31 +95,31 @@ get_header();
 						<div class="form-group">
 							<div class="row mb-3">
 								<div class="col-md-6">
-									<div class="slim" data-instant-edit="true" data-max-file-size="10"  data-min-size="300, 300">
+									<div class="slim" data-instant-edit="false" data-edit="false" data-min-size="300, 300" data-min-size="500, 500">
 										<input type="file" name="slims[]" multiple />
 									</div>	
 								</div>
 								<div class="col-md-6">
-									<div class="slim" data-instant-edit="true" data-max-file-size="10"  data-min-size="300, 300">
-										<input type="file" name="slims[]" multiple />
-									</div>	
-								</div>
-							</div>
-							<div class="row mb-3">
-								<div class="col-md-6">
-									<div class="slim" data-instant-edit="true" data-max-file-size="10"  data-min-size="300, 300">
-										<input type="file" name="slims[]" multiple />
-									</div>	
-								</div>
-								<div class="col-md-6">
-									<div class="slim" data-instant-edit="true" data-max-file-size="10"  data-min-size="300, 300">
+									<div class="slim" data-instant-edit="false" data-edit="false" data-min-size="300, 300" data-min-size="500, 500">
 										<input type="file" name="slims[]" multiple />
 									</div>	
 								</div>
 							</div>
 							<div class="row mb-3">
 								<div class="col-md-6">
-									<div class="slim" data-instant-edit="true" data-max-file-size="10"  data-min-size="300, 300">
+									<div class="slim" data-instant-edit="false" data-edit="false" data-min-size="300, 300" data-min-size="500, 500">
+										<input type="file" name="slims[]" multiple />
+									</div>	
+								</div>
+								<div class="col-md-6">
+									<div class="slim" data-instant-edit="false" data-edit="false" data-min-size="300, 300" data-min-size="500, 500">
+										<input type="file" name="slims[]" multiple />
+									</div>	
+								</div>
+							</div>
+							<div class="row mb-3">
+								<div class="col-md-6">
+									<div class="slim" data-instant-edit="false" data-edit="false" data-min-size="300, 300" data-min-size="500, 500">
 										<input type="file" name="slims[]" multiple />
 									</div>	
 								</div>
