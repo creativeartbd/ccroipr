@@ -26,7 +26,7 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
 	?>	
     
     <a href="#" data-id="<?php echo hashMe( $post_id, 'e' ); ?>" data-nonce="<?php echo $nonce; ?>" data-submit-type="<?php echo $data_type; ?>" id="download_profile">
-        <img src="<?php echo get_template_directory_uri() . '/assets/img/copyrightszeichen.jpg'; ?>" alt="copyright-zeichen" title="copyrights-zeichen">	
+        <img src="<?php echo get_template_directory_uri() . '/assets/img/copyrightzeichen.jpg'; ?>" alt="copyright-zeichen" title="copyrights-zeichen">	
     </a>
 
     <div class="text-center mb-30">
@@ -46,7 +46,6 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
                     <?php 
                     $x = 0;
                     foreach( $post_meta['cat_d_image'] as $key => $id ) {
-                       
                             if($x!=0 && $x%3==0){  // if not first iteration and iteration divided by 3 has no remainder...
                                 echo "</div>\n<div class='row mb-3'>";
                             }
@@ -58,7 +57,6 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
                             <?php
                             ++$x;
                         }
-                   
                     ?>
                 </div>
             </div>
@@ -73,49 +71,49 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
                 <p><?php echo $post_meta['werk_beschreibung']; ?></p>
             </div>
             <div class="form-group">
-                <h2 class="accordion"><?php _e('Copyright-Regiser-Details', 'ccroipr'); ?> <i class="fa fa-chevron-down" aria-hidden="true"></i></h2>
+                <h2 class="accordion"><?php _e('Copyright-Register-Details', 'ccroipr'); ?> <i class="fa fa-chevron-down" aria-hidden="true"></i></h2>
             </div>
         </div>
         <div class="col-md-12 panel">	
             <table class="table table-bordered">
                 <tr>
-                    <td>Webseite</td>
+                    <td><?php _e('Webseite', 'ccroipr'); ?></td>
                     <td><?php echo $post_meta['webseite']; ?></td>
                 </tr>
                 <tr>
-                    <td>Wiener Klassifikation</td>
+                    <td><?php _e('Wiener Klassifikation', 'ccroipr'); ?></td>
                     <td><?php echo $post_meta['wiener']; ?></td>
                 </tr>
                 <tr>
-                    <td>Locarno Klassifikation</td>
+                    <td><?php _e('Locarno Klassifikation', 'ccroipr'); ?></td>
                     <td><?php echo $post_meta['locarno']; ?></td>
                 </tr>
                 <tr>
-                    <td>Internationale Patentklassifikation</td>
+                    <td><?php _e('Internationale Patentklassifikation', 'ccroipr'); ?></td>
                     <td><?php echo $post_meta['internationale']; ?></td>
                 </tr>
                 <tr>
-                    <td>Nizzaklassifikation</td>
+                    <td><?php _e('Nizzaklassifikation', 'ccroipr'); ?></td>
                     <td><?php echo $post_meta['nizzaklassifikation']; ?></td>
                 </tr>
                 <tr>
-                    <td>Keword Nr 1</td>
+                    <td><?php _e('Keword Nr 1', 'ccroipr'); ?></td>
                     <td><?php echo $post_meta['keywordnr1']; ?></td>
                 </tr>
                 <tr>
-                    <td>Keword Nr 2</td>
+                    <td><?php _e('Keword Nr 2', 'ccroipr'); ?></td>
                     <td><?php echo $post_meta['keywordnr2']; ?></td>
                 </tr>
                 <tr>
-                    <td>Keword Nr 3</td>
+                    <td><?php _e('Keword Nr 3', 'ccroipr'); ?></td>
                     <td><?php echo $post_meta['keywordnr3']; ?></td>
                 </tr>
                 <tr>
-                    <td>Keword Nr 4</td>
+                    <td><?php _e('Keword Nr 4', 'ccroipr'); ?></td>
                     <td><?php echo $post_meta['keywordnr4']; ?></td>
                 </tr>
                 <tr>
-                    <td>Keword Nr 5</td>
+                    <td><?php _e('Keword Nr 5', 'ccroipr'); ?></td>
                     <td><?php echo $post_meta['keywordnr5']; ?></td>
                 </tr>
             </table>
@@ -155,13 +153,15 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
                     </table>   
                 </div>
                 <div class="col-md-6 text-center">
-                    <p><?php echo $post_meta['werktitel']; ?></p>
-                    <img src="<?php echo get_template_directory_uri() . '/assets/img/copyright-symbol.jpg' ?>" alt="">
-                    <div class="mb-3"></div>
-                    <p><?php echo $post_meta['confirm_id']; ?></p>
+                    <?php 
+                    $sym_upload_dir = wp_upload_dir();                   
+                    $sym_path       = $sym_upload_dir['url']; 
+                    ?>
+                    <h2 class="mb-3"><?php _e('Copyright Symbol', 'ccroipr'); ?></h2>
+                    <img src="<?php echo $sym_path . '/' . $post_meta['confirm_id'] . '.png'; ?>" alt="<?php _e('Copyright Symbol', 'ccroipr'); ?>" title="<?php _e('Copyright Symbol', 'ccroipr'); ?>">
+                    <div class="mb-3"></div>                   
                 </div>
             </div>
-            
         </div>
         <div class="col-md-12 text-center">
             <p>Der Urheber ist nach §55 RStV & §6 MDStV vollständig für den Inhalt der Darstellung verantwortlich und erklärt, dass er alle Rechte am beschriebenen Werk besitzt. Mit dem Registereintrag wird ausschließlich das Datum der Anmeldung als Prioritätsnachweis bestätigt. Die Urheberangaben sowie Schutzvoraussetzungen werden bei der Eintragung nicht geprüft und müssen im Streitfall vom zuständigen Gericht bestätigt werden. Ein Widerspruch ist an die Anschrift des Urhebers zu richten.</p>

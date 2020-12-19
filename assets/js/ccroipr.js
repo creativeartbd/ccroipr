@@ -18,11 +18,11 @@
                 data: form_data,
                 dataType: 'json',
                 beforeSend: function() {
-                    // $('#btn').prop('disabled', true);
+                    $('#btn').prop('disabled', true);
                     $('#btn').val('Please Wait...');
                 },
                 success: function(result) {
-                    // $('#btn').prop('disabled', false);
+                    $('#btn').prop('disabled', false);
                     $('#btn').val(btn_label);
                     $('#form_result').html(result.data.message)
                     if (result.success) {
@@ -46,11 +46,11 @@
                 data: form_data,
                 dataType: 'json',
                 beforeSend: function() {
-                    // $('#btn').prop('disabled', true);
+                    $('#btn').prop('disabled', true);
                     $('#btn').val('Please Wait...');
                 },
                 success: function(result) {
-                    // $('#btn').prop('disabled', false);
+                    $('#btn').prop('disabled', false);
                     $('#btn').val(btn_label);
                     $('#form_result').html(result.data.message)
                     if (result.success) {
@@ -197,35 +197,6 @@
                     }
                 }
             });
-
-            // e.preventDefault();      
-            // var btn_label 	= $('#button_t').val();
-            // var data 		=  new FormData($('#register_t')[0]);
-            // data.append("action", "register_t_action");			
-
-            // $.ajax({
-            // 	type: 'POST',
-            // 	url : settings.ajaxurl,
-            // 	data : data,
-            // 	dataType: 'json',	        	
-            // 	cache: false,				
-            // 	processData: false,
-            // 	contentType: false,
-            // 	beforeSend : function () {
-            // 		//$('#button_t').prop('disabled', true );
-            //        	$('#button_t').val('Please Wait...');
-            //     }, 
-            // 	success: function( result ) {
-            // 		//$('#button_t').prop('disabled', false );
-            // 		$('#button_t').val( btn_label );	        			        		
-            // 		$('#form_result').html( result.data )
-            // 		if( result.success == true ) {
-            // 			 setTimeout(function(){// wait for 5 secs(2)
-            //                 location.reload(); // then reload the page.(3)
-            //             }, 3000);
-            // 		}
-            // 	}
-            // });
         })
 
         // Generate hash value when file is upload
@@ -253,7 +224,6 @@
         function readURL(input) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
-
                 reader.onload = function(e) {
                     $('#uploaded_img').attr('src', e.target.result);
                 }
@@ -286,36 +256,6 @@
             }
             startTime();
         }
-
-        // For the image crop
-        // var cropper = new Slim(document.getElementById('myCropper'), {
-        // 	ratio: '3:4',
-        // 	minSize: {
-        // 		width: 150,
-        // 		height: 200,
-        // 	},
-        // 	size: {
-        // 		width: 250,
-        // 		height: 300,
-        // 	},
-        // 	download: true,
-        // 	instantEdit: true,
-        // 	label: 'Upload: Click here or drag an image file onto it',
-        // 	buttonConfirmLabel: 'Finished',
-        // 	buttonConfirmTitle: 'Finished',
-        // 	buttonCancelLabel: 'Cancel',
-        // 	buttonCancelTitle: 'Cancel',
-        // 	buttonEditTitle: 'To Edit',
-        // 	buttonRemoveTitle: 'Remove',
-        // 	buttonDownloadTitle: 'Download',
-        // 	buttonRotateTitle: 'Rotate',
-        // 	buttonUploadTitle: 'Upload',
-        // 	statusImageTooSmall: 'This picture is too small. The minimum size is 250 X 300 pixel.'
-        // });
-
-        // let src = 'http://localhost:8888/ccroipr/wp-content/uploads/shibbir-8978.jpg';
-
-        //cropper.load( src );		
 
         // For css circle menu 
         var nbOptions = 8;
@@ -364,7 +304,6 @@
                 })
             });
         }
-
 
         $('[data-toggle="tooltip"]').tooltip();
 

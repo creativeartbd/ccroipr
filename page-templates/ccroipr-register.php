@@ -160,6 +160,8 @@ get_header();
 							<input type="submit" name="submit" value="Register" class="btn btn-primary" id="btn">
 							<input type="hidden" name="register_type" value="<?php echo hashMe('photo', 'e'); ?>">
 							<input type="hidden" name="submit_type" value="<?php echo hashMe('register', 'e'); ?>">
+							<p class="help"><?php _e('Ich besitze alle Rechte am beschriebenen Werk und stelle den Antrag auf kostenlose Eintragung und Veröffentlichung 
+eines Urheberanspruchs nach dem Prioritätsprinzip.', 'ccroipr'); ?></p>
 						</div>
 					</div>
 				</div>

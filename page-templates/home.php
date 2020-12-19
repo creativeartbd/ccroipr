@@ -55,7 +55,7 @@ get_header();
 		</div>
 
 		<div class="col-md-12 text-center">
-			<h2 class="color-red">COPYRIGHT REGISTRIEREN - SICHERN & SCHÜTZEN</h2>
+			<h2 class="color-red"><?php _e('Copyright Registrieren - Sichern & Schützen','ccroipr'); ?></h2>
 			<h4 id="timestamp"></h4>
 		</div>
 

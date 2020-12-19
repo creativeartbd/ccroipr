@@ -244,8 +244,6 @@ function generatePdfWithImage($pdf_data, $return = false, $create_txt = false, $
         $pdf->setLanguageArray($l);
     }
 
-    // ---------------------------------------------------------
-
     // set font
     $pdf->SetFont('freesans', '', 10);
     $pdf->SetPrintHeader(false);
@@ -254,58 +252,59 @@ function generatePdfWithImage($pdf_data, $return = false, $create_txt = false, $
     $thumb = '';
 
     if ( in_array( $type, [ 'photo', 'design'] ) ) {
-        $thumb_array = [];
-        $post_meta     = get_post_meta( $post_id, 'ccroipr_register_meta', true );
 
-        foreach( $post_meta['cat_d_image'] as $key => $id ) {
-            
-                $thumb_array[] = wp_get_attachment_image( $id, 'full' ); // get only the image not url
-           
-            
+        $thumb_array = [];
+        $post_meta   = get_post_meta( $post_id, 'ccroipr_register_meta', true );
+
+        foreach( $post_meta['cat_d_image'] as $key => $id ) {            
+            $thumb_array[] = wp_get_attachment_image( $id, 'full' ); // get only the image not url
         }
     }   
 
+    // Cat d title for the PDF 
+    $cat_d_date = '';
+    if( 'design' == $type ) {
+        $cat_d_date =  'ccroipr-cat-d-' . date('Y-m-d');
+    }
+
     $html = ''; 
     $html .= "
-        <table border=\"0\" width=\"100%\">
-            <tr>
-                <td style=\"text-align: center;\">
-                    <h2 style=\"padding-bottom: 0; margin-bottom: 0;\">Common Copyright Register of Intellectual Property Rights</h2>
-                    <h4>Certificate of Registration <br/> $confirm_id</h4>
-                </td>
-            </tr>
-            <tr>
-                <td>$werktitel</td>
-            </tr>
-        </table>
-    ";
+    <table border=\"0\" width=\"100%\">
+        <tr>
+            <td style=\"text-align: center;\">
+                <h2 style=\"line-height:50%;\">Common Copyright Register of Intellectual Property Rights</h2>
+                <h2 style=\"line-height:50%;\">Certificate of Registration</h2>
+                <h4 style=\"line-height:100%;\">$cat_d_date $confirm_id</h4>
+                <h4 style=\"line-height:50%;\">$werktitel</h4>
+            </td>
+        </tr>    
+        <tr><td>&nbsp;</td></tr>        
+        <tr><td>&nbsp;</td></tr>        
+    </table>";
+  
     
     if ( in_array( $type, [ 'photo', 'design'] ) ) {
         $html .= "<table border=\"0\" width=\"100%\" cellpadding=\"5\">";
             $html .= "<tr>";
             $x = 0;
             foreach( $thumb_array as $thumb ) {
-                if($x!=0 && $x%3==0){  // if not first iteration and iteration divided by 3 has no remainder...
+                if($x!=0 && $x%6==0){  // if not first iteration and iteration divided by 3 has no remainder...
                     $html .= "</tr>\n<tr>";
                 }
                 $html .= "<td>$thumb</td>";
                 ++$x;
-            }
-                
-        $html .="</tr>
-            </table> ";
+            }                
+        $html .="</tr></table> ";
     }
-
    
     $html .= "  
         <table border=\"0\" width=\"100%\">
         <tr>
-            <td>Werk-Beschreibung</td>
+            <td><b>Copyright Text</b></td>
         </tr>
         <tr>
             <td>$werk_beschreibung</td>
-        </tr>
-    ";
+        </tr>";
 
     if ('ccroipr-p' == $type) {
         $html .= "
@@ -314,62 +313,51 @@ function generatePdfWithImage($pdf_data, $return = false, $create_txt = false, $
         </tr>
         <tr>
             <td colspan=\"2\">$sha256</td>
-        </tr>
-        ";
+        </tr>";
     }
 
     $html .= "<tr><td>&nbsp;</td></tr>";
     $html .= "<tr><td><p><b>Anmelder / Urheber-Impressum nach 55RStV</b></p></td></tr>";
     $html .= "<tr><td>&nbsp;</td></tr>";
     $html .= "</table>";
-
-    $html .= "<table border=\"0\" width=\"100%\" cellspacing=\"0\">";
+    
     $html .= "    
-        <tr>
-            <td width=\"30%\">Name</td>
-            <td width=\"70%\">$surname</td>
-        </tr>
-        <tr>
-            <td width=\"30%\">Vorname</td>
-            <td width=\"70%\">$vorname</td>
-        </tr>
-        <tr>
-            <td width=\"30%\">Straße / Nr</td>
-            <td width=\"70%\">$strabe_nr</td>
-        </tr>
-        <tr>
-            <td width=\"30%\">Plz</td>
-            <td width=\"70%\">$plz</td>
-        </tr>
-        <tr>
-            <td width=\"30%\">Ort / Stadt</td>
-            <td width=\"70%\">$ort</td>
-        </tr>
-        <tr>
-            <td width=\"30%\">E-Post-Address</td>
-            <td width=\"70%\">$e_post_address</td>
-        </tr>
-        </table>
-    ";
+        <table border=\"0\" width=\"100%\" cellspacing=\"0\">
+            <tr>
+                <td width=\"30%\">Name</td>
+                <td width=\"70%\">$surname</td>
+            </tr>
+            <tr>
+                <td width=\"30%\">Vorname</td>
+                <td width=\"70%\">$vorname</td>
+            </tr>
+            <tr>
+                <td width=\"30%\">Straße / Nr</td>
+                <td width=\"70%\">$strabe_nr</td>
+            </tr>
+            <tr>
+                <td width=\"30%\">Plz</td>
+                <td width=\"70%\">$plz</td>
+            </tr>
+            <tr>
+                <td width=\"30%\">Ort / Stadt</td>
+                <td width=\"70%\">$ort</td>
+            </tr>
+            <tr>
+                <td width=\"30%\">E-Post-Address</td>
+                <td width=\"70%\">$e_post_address</td>
+            </tr>
+        </table>";
 
     if ($show_condition) {
-        $ip = $post_meta['user_ip'];
+        $ip               = $post_meta['user_ip'];
+        $copyright_symble = get_template_directory_uri() . '/assets/img/copyright-symbol.jpg';
         $html .= "
-            <h4>Freigabeerklärung zu $confirm_id</h4>
-            <ul>
-                <li>Mein Datenupload ist unter der IP-Adresse $ip erfolgt.</li>
-                <li>Ich habe die Hinweise zur Anmeldung heruntergeladen, gelesen und meine Daten geprüft.<li>
-                <li>Ich habe die aktuellen Geschäftsbedingungen heruntergeladen, gelesen und akzeptiert.</li>
-                <li>Ich habe die CCROIPR - Lizenzvereinbarungen heruntergeladen, gelesen und akzeptiert.</li>
-                <li>Ich habe mit der E-Mail-Adresse info@arwedwinter.de die Anmeldung bestätigt.</li>
-                <li>Ich habe die Freigabe zur Langzeitarchivierung im.Common Popyright Register of Intellectual Property Rights erteilt.</li>
-            </ul>
-        ";
-    }
-
-    // echo $html;
-    // wp_die();
-
+            <h4>Freigabeerklärung zum Certificate of Registration $confirm_id</h4>
+            <p>* Mein Datenupload ist unter der $ip erfolgt.<br/>* Ich habe die Hinweise zur Anmeldung heruntergeladen, gelesen und meine Daten geprüft.<br/>* Ich habe die aktuellen Geschäftsbedingungen heruntergeladen, gelesen und akzeptiert.<br/>* Ich habe die CCROIPR - Lizenzvereinbarungen heruntergeladen, gelesen und akzeptiert.<br/>* Ich habe mit der E-Mail-Adresse $email die Anmeldung bestätigt.<br/>* Ich habe die Freigabe zur Veröffentlichung & Langzeitarchivierung im Common Copyright Register of Intellectual Property Rights erteilt.</p>";            
+        $html .= "<p style=\"text-align:center;\"><img src=\"$copyright_symble\"></p>";
+        $html .= "<p>Eine zusätzliche, bezeugte und besiegelte Urkunde kann gegen Gebühr bei certificate@ccroipr.org angefordert werden. Informationen unter ccroipr.org/info.</p>";
+    }    
 
     $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
     ///$pdf->AddPage();

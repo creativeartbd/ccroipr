@@ -65,7 +65,7 @@ function register_confirm_action()
         $domain      = get_site_url();
         $post_status = $post->post_status;        
 
-        if ( 'publish' == $post_status ) {
+       if ( 'publish' == $post_status ) {
 
             $post_meta                  = get_post_meta( $post_id, 'ccroipr_register_meta', true );
             $confirm_id                 = 'ccroipr-' . date('Y' . 'm' . 'd' . 'H' . 'i' . 's') . randomNumber(3);
@@ -78,9 +78,12 @@ function register_confirm_action()
                 } elseif ( 'design' == $register_type ) {
                     $post_meta['kategorie'] = 'ccroipr-cat-p-' . date('Y' . '-' . 'm' . '-' . 'd');
                 }
+
+                $upload_dir  = wp_upload_dir();
+                $path        = $upload_dir['path'];
+                $path_2      = $upload_dir['basedir'];
                 
-                // start the loop because of multiple image of cat-d page
-                
+                // start the loop because of multiple image of cat-d page                
                 foreach( $post_meta['cat_d_image'] as $key => $id ) {
 
                     $thumb_src              = wp_get_attachment_image_src( $id, 'full' )[0];
@@ -103,11 +106,6 @@ function register_confirm_action()
     
                     $orig_width  = imagesx($jpg_image);
                     $orig_height = imagesy($jpg_image);
-    
-                    $upload_dir  = wp_upload_dir();
-                    $path        = $upload_dir['path'];
-                    $path_2      = $upload_dir['basedir'];
-                    // $attachment  = $path_2 . '/ccroipr-pdf/' . $confirm_id . '_backup' . '.pdf';
     
                     // Create your canvas containing both image and text
                     $canvas = imagecreatetruecolor( $orig_width, ($orig_height + 40 ) );              
@@ -148,9 +146,43 @@ function register_confirm_action()
                         $category_id = get_category_by_slug('photo');
                     } elseif( 'design' == $register_type ) {
                         $category_id = get_category_by_slug('design');
-                    }
-                    
+                    }                    
                 }
+
+                // generate the copyright symbol
+                $copyright_symbol = get_template_directory_uri() . '/assets/img/copyright-symbol.png';
+                $sym_explode      = explode('.', $copyright_symbol);                
+                $sym_extension    = strtolower( end ( $sym_explode ) );
+                $sym_file_name    = basename( $copyright_symbol );
+                //image_resize_base_width( $relative_url, $relative_url, 350, $extension);
+                $sym_jpg_image = imagecreatefrompng( $copyright_symbol );
+                // set font size
+                $sym_font        = @imageloadfont($sym_jpg_image);
+                $sym_fontSize    = imagefontwidth($sym_font);
+                $sym_orig_width  = imagesx($sym_jpg_image);
+                $sym_orig_height = imagesy($sym_jpg_image);
+                // Create your canvas containing both image and text
+                $sym_canvas = imagecreatetruecolor( $sym_orig_width, ($sym_orig_height + 40 ) );              
+                // Allocate A Color For The background
+                $sym_bcolor = imagecolorallocate( $sym_canvas, 255, 255, 255 );
+                // Add background colour into the canvas
+                imagefilledrectangle( $sym_canvas, 0, 0, $sym_orig_width, ($sym_orig_height + 40), $sym_bcolor );
+                // Save image to the new canvas
+                imagecopyresampled( $sym_canvas, $sym_jpg_image, 0, 0, 0, 0, $sym_orig_width, $sym_orig_height, $sym_orig_width, $sym_orig_height );
+
+                $sym_font_path  = get_template_directory() . '/assets/fonts/arial.ttf';
+                $sym_upload_dir = wp_upload_dir();
+                $sym_path       = $sym_upload_dir['path'];                
+                $sym_text       = $confirm_id;
+
+                // Allocate A Color For The Text
+                $sym_color = imagecolorallocate($sym_canvas, 0, 0, 0);
+                // Print Text On Image
+                imagettftext( $sym_canvas, 15, 0, 25, 155, $sym_color, $sym_font_path, $sym_text) ;
+                // Send Image to Browser
+                imagepng( $sym_canvas, $sym_path  . '/' . $confirm_id . '.png' );
+                // Clear Memory
+                imagedestroy($sym_canvas);
 
             } elseif ( 'title' == $register_type) {
 
@@ -166,9 +198,7 @@ function register_confirm_action()
 
                 $upload                 = wp_upload_dir();
                 $upload_dir             = $upload['basedir'];
-                $upload_dir             = $upload_dir . '/ccroipr-t/';               
-             
-                // $attachment             = $upload['basedir'] . '/ccroipr-pdf/' . $confirm_id . '.pdf';
+                $upload_dir             = $upload_dir . '/ccroipr-t/';
 
                 if (!is_dir($upload_dir)) {
                     mkdir($upload_dir, 0755);
@@ -250,7 +280,6 @@ function register_confirm_action()
             }
 
         } else {
-
             wp_send_json_error( [
                 'message' => '<div class="alert alert-danger">You already confirmed your data.</div>'
             ]);

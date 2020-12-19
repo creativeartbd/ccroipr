@@ -154,7 +154,7 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
 			</div>
 			<div class="col-md-12">
 				<div class="form-group">
-					<p class="accordion">Optionale Bildbeschreibung <i class="fa fa-chevron-down" aria-hidden="true"></i></p>
+					<p class="accordion">Optionale Bildbeschreibung </p>
 				</div>
 			</div>
 			<div class="col-sm-6 col-md-6 col-lg-6 panel">							

@@ -27,14 +27,14 @@ get_header();
 				<div class="row mt-5">
 					<div class="col-md-12">
 						<div class="form-group">
-							<label for=""><?php _e('Urheber - Impressum nach $55 RStV', 'ccroipr'); ?></label>
+							<h2 class="text-center"><?php _e('Urheber - Impressum (§55 RStV) & Designschutz Offenbarung nach (EG) Nr. 6/2002 ', 'ccroipr'); ?></h2>
 						</div>
 					</div>
 					<div class="col-sm-6 col-md-6 col-lg-6">
 						<div class="row">
 							<div class="col-md-6">
 								<div class="form-group">
-									<label for=""><?php _e('Surname', 'ccroipr'); ?></label>
+									<label for=""><?php _e('Name', 'ccroipr'); ?></label>
 									<input type="text" name="surname" class="form-control" placeholder="Surname">
 								</div>
 							</div>
@@ -131,7 +131,7 @@ get_header();
 				<div class="row">
 					<div class="col-md-12">
 						<div class="form-group">
-							<label for=""><?php _e('Werk-Beschreibung', 'ccroipr'); ?></label>
+							<label for=""><?php _e('Copyright-Text', 'ccroipr'); ?></label>
 							<textarea id="limit" name="werk_beschreibung" cols="30" rows="10" class="form-control" placeholder="Werk-Beschreibung"></textarea><span class="counter"></span>
 						</div>
 					</div>
@@ -140,7 +140,7 @@ get_header();
 					</div>
 					<div class="col-md-12">
 						<div class="form-group">
-							<p class="accordion"><?php _e('Optionale Bildbeschreibung', 'ccroipr'); ?> <i class="fa fa-chevron-down" aria-hidden="true"></i></p>
+							<h2 class="accordion"><?php _e('Copyright-Register-Details', 'ccroipr'); ?> <i class="fa fa-chevron-down" aria-hidden="true"></i></h2>
 						</div>
 					</div>
 					<div class="col-sm-6 col-md-6 col-lg-6 panel">
@@ -220,7 +220,8 @@ get_header();
 							<input type="submit" name="submit" value="Register" class="btn btn-primary" id="btn">
 							<input type="hidden" name="register_type" value="<?php echo hashMe('design', 'e'); ?>">
 							<input type="hidden" name="submit_type" value="<?php echo hashMe('register', 'e'); ?>">
-							<p class="help"><?php _e('Ich besitze alle Rechte am beschriebenen Werk  und stelle den Antrag auf kostenlose Eintragung und Veröffentlichung eines Urheberanspruchs nach dem Prioritätsprinzip.','ccroipr'); ?></p>
+							<p class="help"><?php _e('Ich besitze alle Rechte am beschriebenen Werk und stelle den Antrag auf kostenlose Eintragung und Veröffentlichung 
+eines Urheberanspruchs nach dem Prioritätsprinzip.', 'ccroipr'); ?></p>
 						</div>
 					</div>
 				</div>
