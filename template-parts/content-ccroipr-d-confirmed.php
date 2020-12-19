@@ -40,7 +40,7 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
                 <h3><?php echo $post_meta['werktitel']; ?></h3>
             </div>
         </div>			
-        <div class="col-sm-6 col-md-6 col-lg-6">
+        <!-- <div class="col-sm-6 col-md-6 col-lg-6">
             <div class="form-group">
                 <div class="row mb-3">
                     <?php 
@@ -62,26 +62,26 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
                     ?>
                 </div> 							
             </div>
-        </div>
-        <div class="col-sm-6 col-md-6 col-lg-6">
+        </div> -->
+        <div class="col-sm-12 col-md-12 col-lg-12">
             <div class="form-group">
                 <div class="row mb-3">
                     <?php 
                     $x = 0;
                     foreach( $post_meta['cat_d_image'] as $key => $id ) {
-                        if( $key > 0 ) {
-                            if($x!=0 && $x%2==0){  // if not first iteration and iteration divided by 3 has no remainder...
+                       
+                            if($x!=0 && $x%3==0){  // if not first iteration and iteration divided by 3 has no remainder...
                                 echo "</div>\n<div class='row mb-3'>";
                             }
                             $thumb_src = wp_get_attachment_image_src( $id, 'full' )[0];
                             ?>
-                            <div class="col-sm-6 full-img">
+                            <div class="col-sm-4 full-img">
                                 <img src="<?php echo $thumb_src; ?>" alt="" class="img-thumbnail"">
                             </div>
                             <?php
                             ++$x;
                         }
-                    }
+                   
                     ?>
                 </div>
             </div>
