@@ -258,13 +258,9 @@ function generatePdfWithImage($pdf_data, $return = false, $create_txt = false, $
         $post_meta     = get_post_meta( $post_id, 'ccroipr_register_meta', true );
 
         foreach( $post_meta['cat_d_image'] as $key => $id ) {
-            if( 'design' == $type ) {
-                if( $key > 0 ) {
-                    $thumb_array[] = wp_get_attachment_image( $id, 'full' ); // get only the image not url
-                }
-            } else {
+            
                 $thumb_array[] = wp_get_attachment_image( $id, 'full' ); // get only the image not url
-            }   
+           
             
         }
     }   

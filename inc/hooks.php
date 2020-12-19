@@ -107,7 +107,7 @@ function register_confirm_action()
                     $upload_dir  = wp_upload_dir();
                     $path        = $upload_dir['path'];
                     $path_2      = $upload_dir['basedir'];
-                    $attachment  = $path_2 . '/ccroipr-pdf/' . $confirm_id . '_backup' . '.pdf';
+                    // $attachment  = $path_2 . '/ccroipr-pdf/' . $confirm_id . '_backup' . '.pdf';
     
                     // Create your canvas containing both image and text
                     $canvas = imagecreatetruecolor( $orig_width, ($orig_height + 40 ) );              
@@ -125,6 +125,7 @@ function register_confirm_action()
                         $text = '&#169; cc-by-nd-' . $confirm_id;
                     } elseif( 'design' == $register_type ) {
                         // Set Text to Be Printed On Image
+                        $key =  $key + 1;
                         $text = '&#169; cc-by-nd-' . $confirm_id . "-d".$key;
                     }
 
@@ -167,7 +168,7 @@ function register_confirm_action()
                 $upload_dir             = $upload['basedir'];
                 $upload_dir             = $upload_dir . '/ccroipr-t/';               
              
-                $attachment             = $upload['basedir'] . '/ccroipr-pdf/' . $confirm_id . '.pdf';
+                // $attachment             = $upload['basedir'] . '/ccroipr-pdf/' . $confirm_id . '.pdf';
 
                 if (!is_dir($upload_dir)) {
                     mkdir($upload_dir, 0755);
@@ -222,14 +223,24 @@ function register_confirm_action()
                 $pdf_link = generatePdfWithImage( $pdf_data, false, false, false );
 
                 // send an email to user and site owner
-                $toArray[]  = $post_meta['email'];  
+                $toUser     = $post_meta['email'];  
                 $toArray[]  = 'backup@ccroipr.org';              
                 $toArray[]  = 'backup@atelier-kalai.de';              
                 $subject    = 'Copy of your document from ccroipr';
                 $body       = 'Please download the PDF version of your document from ccroipr';
                 $headers    = 'From: My Name <support@ccroipr.org>' . "\r\n";
+
+
+                $upload_dir        = wp_upload_dir();
+                $path              = $upload_dir['path'];
+                $path_2            = $upload_dir['basedir'];
+                $attachment_backup = $path_2 . '/ccroipr-pdf/' . $confirm_id . '_backup' . '.pdf';
+                $attachment        = $path_2 . '/ccroipr-pdf/' . $confirm_id . '.pdf';
                 
-                wp_mail( $toArray, $subject, $body, $headers, $attachment );                  
+                // Send email to user
+                wp_mail( $toUser, $subject, $body, $headers, $attachment );     
+                // Send email to backup             
+                wp_mail( $toArray, $subject, $body, $headers, $attachment_backup );                  
 
                 // Finally show a confirmation message
                 wp_send_json_success( [
@@ -653,17 +664,20 @@ function register_action()
             // If the post is successfully craeted
             if( ! is_wp_error( $post_id ) ) {
               
-                foreach( $image_names as $key => $image_name ) {
-                    if( $register_type == 'design' ) {
-                        $increment_id = $key + 1;
-                    } elseif( $register_type == 'photo' ) {
-                        $increment_id = '';
+                if( $image_names ) {
+                    foreach( $image_names as $key => $image_name ) {
+                        if( $register_type == 'design' ) {
+                            $increment_id = $key + 1;
+                        } elseif( $register_type == 'photo' ) {
+                            $increment_id = '';
+                        }
+    
+                        $attach_id = upload_post_thumbnail( $surname, $extensions[$key], $final_images[$key], $post_id, true, $confirm_id, $increment_id );
+                        $post_meta['cat_d_image'][] = $attach_id;
                     }
-
-                    $attach_id = upload_post_thumbnail( $surname, $extensions[$key], $final_images[$key], $post_id, true, $confirm_id, $increment_id );
-                    $post_meta['cat_d_image'][] = $attach_id;
+    
                 }
-
+                
                 // Insert post meta
                 add_post_meta( $post_id, 'ccroipr_register_meta', $post_meta );
                 

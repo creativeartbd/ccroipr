@@ -17,6 +17,7 @@ $category           = get_the_category();
 $category_name      = $category[0]->name;
 $data_type          = hashMe( $category_name, 'e' );
 $post_meta   	    = get_post_meta( $post_id, 'ccroipr_register_meta', true );
+$nonce              = wp_create_nonce();
 
 
 if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
@@ -45,7 +46,7 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
                     <?php 
                     $x = 0;
                     foreach( $post_meta['cat_d_image'] as $key => $id ) {
-                        if( 1 == $key) {
+                        if( 0 == $key) {
                             if($x!=0 && $x%2==0){  // if not first iteration and iteration divided by 3 has no remainder...
                                 echo "</div><div class='row mb-3'>";
                             }
