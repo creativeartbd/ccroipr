@@ -495,10 +495,14 @@ function dimox_breadcrumbs()
             $cat = get_the_category();
             $cat = $cat[0];
             //echo get_category_parents($cat, false, ' ' . $delimiter . ' ');
-            echo ucfirst($cat->slug) . ' ' . $delimiter . ' ';
-            echo $currentBefore;
+            //echo ucfirst($cat->slug) . ' ' . $delimiter . ' ';
+            //echo $currentBefore;
+            
+            echo 'Register';
+            echo ' '. $delimiter .' Copyrightszeichen ';
             the_title();
-            echo $currentAfter;
+            //echo $currentAfter;
+            //echo $currentAfter;
         } elseif (is_attachment()) {
             $parent = get_post($post->post_parent);
             $cat = get_the_category($parent->ID);
