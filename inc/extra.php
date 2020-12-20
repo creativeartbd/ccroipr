@@ -262,9 +262,11 @@ function generatePdfWithImage($pdf_data, $return = false, $create_txt = false, $
     }   
 
     // Cat d title for the PDF 
-    $cat_d_date = '';
+    $date_title = '';
     if( 'design' == $type ) {
-        $cat_d_date =  'ccroipr-cat-d-' . date('Y-m-d');
+        $date_title =  'ccroipr-cat-d-' . date('Y-m-d');
+    } elseif ( 'photo' == $type ) {
+        $date_title =  'ccroipr-cat-p-' . date('Y-m-d');
     }
 
     $html = ''; 
@@ -272,15 +274,44 @@ function generatePdfWithImage($pdf_data, $return = false, $create_txt = false, $
     <table border=\"0\" width=\"100%\">
         <tr>
             <td style=\"text-align: center;\">
-                <h2 style=\"line-height:50%;\">Common Copyright Register of Intellectual Property Rights</h2>
-                <h2 style=\"line-height:50%;\">Certificate of Registration</h2>
-                <h4 style=\"line-height:100%;\">$cat_d_date $confirm_id</h4>
-                <h4 style=\"line-height:50%;\">$werktitel</h4>
+                <h2 style=\"line-height:50%;\">Common Copyright Register of Intellectual Property Rights</h2>";
+
+                if( 'title' == $type ) {
+                    $html .= "<h2 style=\"line-height:50%;\">Certifikate of Registration</h2>";
+                } else {
+                    $html .= "<h2 style=\"line-height:50%;\">Certificate of Registration</h2>";   
+                }
+                
+                $html .= "<h4 style=\"line-height:100%;\">$date_title $confirm_id</h4>";
+
+                if( 'title' != $type ) {
+                    $html .= "<h4 style=\"line-height:50%;\">$werktitel</h4>";
+                } else {
+                    $titelschutzanzeigen =  get_template_directory_uri() . '/assets/img/titelschutzanzeigen.jpg';
+                    $html .= "<img src=\"{$titelschutzanzeigen}\"><br/><br/>https://www.ccroipr.org/titelschutzanzeigen.jpg";                    
+                }
+                
+                $html .="
             </td>
         </tr>    
         <tr><td>&nbsp;</td></tr>        
         <tr><td>&nbsp;</td></tr>        
     </table>";
+
+    if( 'title' == $type ) {
+        $html .= "
+        <table border=\"0\" width=\"100%\">            
+            <tr>
+                <td>
+                    <h2>Titelschutzanzeigen-Text</h2>
+                    <p><b>Unter  Hinweis  auf</b></p>
+                    <p>* §80  UrhG,  §9  UWG  (Österreich) sowie. <br/>* §5  Abs.3 MarkenG (Deutschland) und. <br/> * Art. 2 Abs. 4 URG (Schweiz).</p>
+                    <p><b>nehme ich Titelschutz in Anspruch für.</b></p>
+                </td>
+            </tr>
+            <tr><td>&nbsp;</td></tr>
+        </table>";
+    }
   
     
     if ( in_array( $type, [ 'photo', 'design'] ) ) {
@@ -302,11 +333,22 @@ function generatePdfWithImage($pdf_data, $return = false, $create_txt = false, $
         <tr>
             <td><b>Copyright Text</b></td>
         </tr>
+        <tr><td>&nbsp;</td></tr>
         <tr>
             <td>$werk_beschreibung</td>
-        </tr>";
+        </tr>
+        <tr><td>&nbsp;</td></tr>";
 
-    if ('ccroipr-p' == $type) {
+    if( 'title' == $type ) {
+        $html .= "
+            <tr>
+                <td>in allen Darstellungsformen, Wortkombinationen, Schreibweisen, Abwandlungen, Erzeugnissen und Medien oder sonstigen vergleichbaren Werken und Anwendungen.
+                </td>
+            </tr>           
+        ";
+    }
+
+    if ('photo' == $type) {
         $html .= "
         <tr>
             <td>SHA256 (Hashwert der Originalabbildung)</td>
@@ -315,14 +357,18 @@ function generatePdfWithImage($pdf_data, $return = false, $create_txt = false, $
             <td colspan=\"2\">$sha256</td>
         </tr>";
     }
-
-    $html .= "<tr><td>&nbsp;</td></tr>";
-    $html .= "<tr><td><p><b>Anmelder / Urheber-Impressum nach 55RStV</b></p></td></tr>";
     $html .= "<tr><td>&nbsp;</td></tr>";
     $html .= "</table>";
     
-    $html .= "    
-        <table border=\"0\" width=\"100%\" cellspacing=\"0\">
+    $html .= "<table border=\"0\" width=\"100%\" cellspacing=\"0\">";
+    if( 'title' == $type ) {    
+        $html .= "<tr><td colspan=\"2\"><p><b>Urheber - Impressum (§55 RStV) für</b></p></td></tr>";
+        $html .= "<tr><td>&nbsp;</td></tr>";
+    } else {
+        $html .= "<tr><td colspan=\"2\"><p><b>Anmelder / Urheber-Impressum nach 55RStV</b></p></td></tr>";
+        $html .= "<tr><td>&nbsp;</td></tr>";
+    }    
+    $html .= "
             <tr>
                 <td width=\"30%\">Name</td>
                 <td width=\"70%\">$surname</td>
@@ -481,13 +527,13 @@ function dimox_breadcrumbs()
             echo $currentBefore . get_the_time('Y') . $currentAfter;
         } elseif (is_single() && !is_attachment()) {
             $cat = get_the_category();
-            $cat = $cat[0];
+            $cat = $cat[0];            
             //echo get_category_parents($cat, false, ' ' . $delimiter . ' ');
             //echo ucfirst($cat->slug) . ' ' . $delimiter . ' ';
             //echo $currentBefore;
             
             echo 'Register';
-            echo ' '. $delimiter .' Copyrightszeichen ';
+            echo ' '. $delimiter .' Copyright-Zeichen  ';
             the_title();
             //echo $currentAfter;
             //echo $currentAfter;
@@ -545,3 +591,39 @@ function dimox_breadcrumbs()
 if (isset($_SERVER["HTTP_CF_CONNECTING_IP"])) {
     $_SERVER['REMOTE_ADDR'] = $_SERVER["HTTP_CF_CONNECTING_IP"];
 }
+
+// Change post page title for title category post 
+function custom_title($title_parts) {    
+    if( is_single() ) {
+        $category      = get_the_category();
+        $category_name = $category[0]->slug;
+        if( 'title' == $category_name ) {
+            $title_parts['title'] = "► COPYRIGHT - ZEICHEN » ccroipr-[ccroipr-nr] [CCROIPR]";
+            return $title_parts;
+        }
+        return $title_parts;        
+    }    
+}
+add_filter( 'document_title_parts', 'custom_title' );
+
+// Disable Yoast SEO for single post page
+function change_post_page_title( $title ) {
+    if( is_single() ) {
+        return false;
+    }
+    return $title;
+}
+add_filter( 'wpseo_title', 'change_post_page_title' );
+
+// Change Yoast meta description of single post page from title category
+function change_post_page_meta_description( $meta_descriptin ) {
+    if( is_single() ) {
+        $category      = get_the_category();
+        $category_name = $category[0]->slug;
+        if( 'title' == $category_name ) {
+            return 'Titelschutzanzeige mit Prioritätsnachweis & Registerurkunde nach dem Prioritätsprinzip - ein kostenloser Service von ATELIER•KALAI•MEDIA';
+        }
+    }
+    return $meta_descriptin;
+}
+add_filter( 'wpseo_metadesc', 'change_post_page_meta_description' );

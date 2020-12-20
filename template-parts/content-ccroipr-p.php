@@ -32,16 +32,11 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
 		?>
 	</h1>          
 
-	<p>Antrag auf kostenlose Eintragung und Veroffentlichung eines Urheberanspruchs nach Prioritatsprinzip</p>  
-	<h2>Common Copyright Register of Intellectual Property Rights / CCROIPR-CAT-P</h2>   
+	<h1 class="text-center"><?php _e('Copyrights Sichern <br/> Bildrechte schützen & Prioritätsnachweis erstellen', 'ccroipr'); ?></h1>
+	<h2 class="text-center"><?php _e('Urheber - Impressum (§55 RStV) für Bildrechte nach §1 URHG', 'ccroipr'); ?></h2>
 	
 	<form action="" class="form" method="POST" id="ccroipr_ru_form" enctype="multipart/form-data">
-		<div class="row mt-5">					
-			<div class="col-md-12">
-				<div class="form-group">
-					<label for="">Urheber - Impressum nach $55 RStV</label>
-				</div>
-			</div>
+		<div class="row mt-5">
 			<div class="col-sm-6 col-md-6 col-lg-6">
 				<div class="form-group">
 					<label for="">Werktitel</label>
@@ -65,13 +60,13 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
 					<input type="text" id="sha256" name="sha256" value="<?php echo $post_meta['sha256']; ?>" maxlength="64" class="form-control" placeholder="SHA256 (Hashwert der Originalabbildung)" readonly>
 				</div>
 				<div class="form-group">
-					<label for="">Werk-Beschreibung</label>
+					<label for="">Copyright-Text</label>
 					<textarea id="limit" name="werk_beschreibung" cols="30" rows="10" class="form-control" placeholder="Werk-Beschreibung"><?php echo $post_meta['werk_beschreibung']; ?></textarea><span class="counter"></span>
 				</div>
 			</div>
 			<div class="col-sm-6 col-md-6 col-lg-6">					
 				<div class="form-group">
-					<label for="">Surename</label>
+					<label for="">Name</label>
 					<input type="text" name="surname" value="<?php echo $post_meta['surname']; ?>" maxlength="25" class="form-control" placeholder="Surname">
 				</div>
 				<div class="form-group">
@@ -102,7 +97,7 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
 					</div>
 					<div class="col-md-12">
 						<div class="form-group">
-							<p class="accordion">Optionale Bildbeschreibung <i class="fa fa-chevron-down" aria-hidden="true"></i></p>
+							<h2 class="accordion">Copyright-Register-Details <i class="fa fa-chevron-down" aria-hidden="true"></i></h2>
 						</div>
 					</div>
 				</div>
@@ -189,6 +184,8 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
 					<input type="hidden" name="register_type" value="<?php echo hashMe('photo', 'e'); ?>">
 					<input type="hidden" name="submit_type" value="<?php echo hashMe('update', 'e'); ?>">
 					<input type="hidden" name="post_id" value="<?php echo hashMe( get_the_ID(), 'e'); ?>" id="post_id">
+					<p class="help"><?php _e('Ich besitze alle Rechte am beschriebenen Werk und stelle den Antrag auf kostenlose Eintragung und Veröffentlichung 
+eines Urheberanspruchs nach dem Prioritätsprinzip.', 'ccroipr'); ?></p>
 				</div>
 				<div class="col-md-6 text-right">
 					<input type="submit" name="submit" value="Confirm Data" class="btn btn-success float-right" id="confirm_btn" data-nonce="<?php echo wp_create_nonce( 'register_confirm_action' ); ?>" data-register-type="<?php echo $data_type; ?>" >

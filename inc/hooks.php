@@ -147,42 +147,7 @@ function register_confirm_action()
                     } elseif( 'design' == $register_type ) {
                         $category_id = get_category_by_slug('design');
                     }                    
-                }
-
-                // generate the copyright symbol
-                $copyright_symbol = get_template_directory_uri() . '/assets/img/copyright-symbol.png';
-                $sym_explode      = explode('.', $copyright_symbol);                
-                $sym_extension    = strtolower( end ( $sym_explode ) );
-                $sym_file_name    = basename( $copyright_symbol );
-                //image_resize_base_width( $relative_url, $relative_url, 350, $extension);
-                $sym_jpg_image = imagecreatefrompng( $copyright_symbol );
-                // set font size
-                $sym_font        = @imageloadfont($sym_jpg_image);
-                $sym_fontSize    = imagefontwidth($sym_font);
-                $sym_orig_width  = imagesx($sym_jpg_image);
-                $sym_orig_height = imagesy($sym_jpg_image);
-                // Create your canvas containing both image and text
-                $sym_canvas = imagecreatetruecolor( $sym_orig_width, ($sym_orig_height + 40 ) );              
-                // Allocate A Color For The background
-                $sym_bcolor = imagecolorallocate( $sym_canvas, 255, 255, 255 );
-                // Add background colour into the canvas
-                imagefilledrectangle( $sym_canvas, 0, 0, $sym_orig_width, ($sym_orig_height + 40), $sym_bcolor );
-                // Save image to the new canvas
-                imagecopyresampled( $sym_canvas, $sym_jpg_image, 0, 0, 0, 0, $sym_orig_width, $sym_orig_height, $sym_orig_width, $sym_orig_height );
-
-                $sym_font_path  = get_template_directory() . '/assets/fonts/arial.ttf';
-                $sym_upload_dir = wp_upload_dir();
-                $sym_path       = $sym_upload_dir['path'];                
-                $sym_text       = $confirm_id;
-
-                // Allocate A Color For The Text
-                $sym_color = imagecolorallocate($sym_canvas, 0, 0, 0);
-                // Print Text On Image
-                imagettftext( $sym_canvas, 15, 0, 25, 155, $sym_color, $sym_font_path, $sym_text) ;
-                // Send Image to Browser
-                imagepng( $sym_canvas, $sym_path  . '/' . $confirm_id . '.png' );
-                // Clear Memory
-                imagedestroy($sym_canvas);
+                }                
 
             } elseif ( 'title' == $register_type) {
 
@@ -218,6 +183,41 @@ function register_confirm_action()
                 'post_status'   => 'confirmed', 
                 'post_name'     => $confirm_id               
             ); 
+
+            // generate the copyright symbol
+            $copyright_symbol = get_template_directory_uri() . '/assets/img/copyright-symbol.png';
+            $sym_explode      = explode('.', $copyright_symbol);                
+            $sym_extension    = strtolower( end ( $sym_explode ) );
+            $sym_file_name    = basename( $copyright_symbol );
+            //image_resize_base_width( $relative_url, $relative_url, 350, $extension);
+            $sym_jpg_image = imagecreatefrompng( $copyright_symbol );
+            // set font size
+            $sym_font        = @imageloadfont($sym_jpg_image);
+            $sym_fontSize    = imagefontwidth($sym_font);
+            $sym_orig_width  = imagesx($sym_jpg_image);
+            $sym_orig_height = imagesy($sym_jpg_image);
+            // Create your canvas containing both image and text
+            $sym_canvas = imagecreatetruecolor( $sym_orig_width, ($sym_orig_height + 40 ) );              
+            // Allocate A Color For The background
+            $sym_bcolor = imagecolorallocate( $sym_canvas, 255, 255, 255 );
+            // Add background colour into the canvas
+            imagefilledrectangle( $sym_canvas, 0, 0, $sym_orig_width, ($sym_orig_height + 40), $sym_bcolor );
+            // Save image to the new canvas
+            imagecopyresampled( $sym_canvas, $sym_jpg_image, 0, 0, 0, 0, $sym_orig_width, $sym_orig_height, $sym_orig_width, $sym_orig_height );
+
+            $sym_font_path  = get_template_directory() . '/assets/fonts/arial.ttf';
+            $sym_upload_dir = wp_upload_dir();
+            $sym_path       = $sym_upload_dir['path'];                
+            $sym_text       = $confirm_id;
+
+            // Allocate A Color For The Text
+            $sym_color = imagecolorallocate($sym_canvas, 0, 0, 0);
+            // Print Text On Image
+            imagettftext( $sym_canvas, 15, 0, 25, 155, $sym_color, $sym_font_path, $sym_text) ;
+            // Send Image to Browser
+            imagepng( $sym_canvas, $sym_path  . '/' . $confirm_id . '.png' );
+            // Clear Memory
+            imagedestroy($sym_canvas);
 
             // Insert the post into the database
             $post_id_updated = wp_update_post( $post_array );

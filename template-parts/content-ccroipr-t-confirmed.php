@@ -27,76 +27,75 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
 } else {
 	?>
 	
-	<a href="javascript:void(0);" id="download_profile" data-submit-type="<?php echo $data_type; ?>" class="download" data-id="<?php echo hashMe($post_id, 'e'); ?>" data-nonce="<?php echo $nonce; ?>">
+	<a href="#" id="download_profile" data-submit-type="<?php echo $data_type; ?>" class="download" data-id="<?php echo hashMe($post_id, 'e'); ?>" data-nonce="<?php echo $nonce; ?>">
 		<img src="http://ccroipr.org/wp-content/uploads/2020/10/copyrights-zeichen.jpg" alt="<?php echo $post_meta['confirm_id']; ?>" >
 	</a>
 
 	<div class="confirmed-headline text-center mb-30">
-        <h1>Design Copyrights</h1>  	    
-        <h2>Copyrightzeichen <?php echo $post_meta['confirm_id']; ?></h2>  
+        <h1><?php _e('Copyrights-Zeichen-Register', 'ccroipr');?></h1>  	    
+        <h2><?php echo $post_meta['confirm_id']; ?></h2>          
+        <div class="mb-30"></div>
+        <h4>Unter  Hinweis  auf</h4>
+        <ul>
+            <li>* §80  UrhG,  §9  UWG  (Österreich) sowie </li>
+            <li>* §5  Abs.3 MarkenG (Deutschland) und</li>
+            <li>* Art. 2 Abs. 4 URG (Schweiz) </li>            
+        </ul>
+        <h4>nehme ich Titelschutz in Anspruch für</h4>
     </div>
 
-    <table class="table table-bordered">
-        <tr>
-            <td>Copyrightzeichen <?php echo $post_meta['confirm_id'];  ?></td>
-        </tr>        
-        <tt>
-            <td><b>Werktitel</b></td>
-        </tt>
-        <tr>
-            <td><?php echo $post_meta['werktitel']; ?></td>            
-        </tr>
-        <tr>
-            <td><img src="<?php echo $thumbnail_url; ?>" alt="<?php echo $post_meta['werktitel']; ?>" title="<?php echo $post_meta['werktitel']; ?>"></td>
-        </tr>
-        <tr>
-            <td><?php echo $post_meta['werk_beschreibung']; ?></td>
-        </tr>        
-    </table>
+    <div class="col-md-12">
+        <p><?php echo $post_meta['werk_beschreibung']; ?></p>
+        <p><?php _e('in allen Darstellungsformen, Wortkombinationen, Schreibweisen, Abwandlungen, Erzeugnissen und Medien oder sonstigen vergleichbaren Werken und Anwendungen.', 'ccroipr'); ?></p>
+    </div>
 
-    <table class="table table-bordered">
-        <tr>
-            <td colspan="2"><b>Anmelder / Urheber-Impressum nach 55RStV</b></td>
-        </tr>
-        <tr>
-            <td>Name</td>
-            <td><?php echo $post_meta['surname']; ?></td>
-        </tr>
-        <tr>
-            <td>Vorname</td>
-            <td><?php echo $post_meta['vorname']; ?></td>
-        </tr>
-        <tr>
-            <td>Straße / Nr</td>
-            <td><?php echo $post_meta['strabe_nr']; ?></td>
-        </tr>
-        <tr>
-            <td>Plz</td>
-            <td><?php echo $post_meta['plz']; ?></td>
-        </tr>
-        <tr>
-            <td>Ort / Stadt</td>
-            <td><?php echo $post_meta['ort']; ?></td>
-        </tr>
-        <tr>
-            <td>E-Post-Address</td>
-            <td><?php echo $post_meta['e_post_address']; ?></td>
-        </tr>
-    </table>
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-6">
+                <table class="table">
+                    <tr>
+                        <td>Name</td>
+                        <td><?php echo $post_meta['surname']; ?></td>
+                    </tr>                    
+                    <tr>
+                        <td>Vorname</td>
+                        <td><?php echo $post_meta['vorname']; ?></td>
+                    </tr>
+                    <tr>
+                        <td>Straße / Nr</td>
+                        <td><?php echo $post_meta['strabe_nr']; ?></td>
+                    </tr>
+                    <tr>
+                        <td>Plz</td>
+                        <td><?php echo $post_meta['plz']; ?></td>
+                    </tr>
+                    <tr>
+                        <td>Ort / Stadt</td>
+                        <td><?php echo $post_meta['ort']; ?></td>
+                    </tr>
+                    <tr>
+                        <td>E-Post-Address</td>
+                        <td><?php echo $post_meta['e_post_address']; ?></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-md-6 text-center">
+                <?php 
+                $sym_upload_dir = wp_upload_dir();                   
+                $sym_path       = $sym_upload_dir['url']; 
+                ?>
+                <h2 class="mb-3"><?php _e('Copyright Symbol', 'ccroipr'); ?></h2>
+                <img style="width: 300px;" src="<?php echo $sym_path . '/' . $post_meta['confirm_id'] . '.png'; ?>" alt="<?php _e('Copyright Symbol', 'ccroipr'); ?>" title="<?php _e('Copyright Symbol', 'ccroipr'); ?>">
+                <div class="mb-3"></div>    
+                </div>
+        </div>
+    </div>
 
-    <table class="text-center">
-        <tr>
-            <td>
-            Der Urheber ist vollständig für den Inhalt der Darstellung verantwortlich und erklärt, dass er alle Rechte am beschriebenen Werk besitzt.
-            </td>
-        </tr>
-        <tr>
-            <td>&nbsp;</td>
-        </tr>
-        <tr>
-            <td>
-                <img src="<?php echo get_template_directory_uri() . '/assets/img/ccroipr-circle-logo-red.png' ?>" alt="">
-            </td>
-        </tr>
-    </table>
+    <div class="col-md-12 text-center">
+        <p><?php _e('Der Urheber ist nach §55 RStV & §6 MDStV vollständig für den Inhalt der Darstellung verantwortlich und erklärt, dass er alle Rechte am beschriebenen Werk besitzt. Mit dem Registereintrag wird ausschließlich das Datum der Anmeldung als Prioritätsnachweis bestätigt. Die Urheberangaben sowie Schutzvoraussetzungen werden bei der Eintragung nicht geprüft und müssen im Streitfall vom zuständigen Gericht bestätigt werden. Ein Widerspruch ist an die Anschrift des Urhebers zu richten.', 'ccroipr'); ?></p>
+
+        <p><?php _e('Ist nach Ablauf der dreimonatigen Widerspruchsfrist (nach §42 MarkenG) kein Widerspruch erhoben worden, wird der Copyright 
+        Vermerk zur Langzeitarchivierung  dauerhaft in das Print-Register aufgenommen.', 'ccroipr'); ?></p>
+    </div>
+
 <?php } ?>

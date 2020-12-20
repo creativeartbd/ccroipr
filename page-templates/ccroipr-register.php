@@ -21,13 +21,11 @@ get_header();
 				}
 			}
 			?>
+			<h1 class="text-center"><?php _e('Copyrights Sichern <br/> Bildrechte schützen & Prioritätsnachweis erstellen', 'ccroipr'); ?></h1>
+			<h2 class="text-center"><?php _e('Urheber - Impressum (§55 RStV) für Bildrechte nach §1 URHG', 'ccroipr'); ?></h2>
+			
 			<form action="" method="POST" enctype="multipart/form-data" id="ccroipr_ru_form">
-				<div class="row mt-5">
-					<div class="col-md-12">
-						<div class="form-group">
-							<label for="">Urheber - Impressum nach $55 RStV</label>
-						</div>
-					</div>
+				<div class="row mt-5">					
 					<div class="col-sm-6 col-md-6 col-lg-6">
 						<div class="form-group">
 							<label for="">Werktitel</label>
@@ -43,13 +41,13 @@ get_header();
 							<input type="text" id="sha256" name="sha256" maxlength="64" class="form-control" placeholder="SHA256 (Hashwert der Originalabbildung)" readonly>
 						</div>
 						<div class="form-group">
-							<label for="">Werk-Beschreibung</label>
+							<label for="">Copyright-Text</label>
 							<textarea id="limit" name="werk_beschreibung" cols="30" rows="10" class="form-control" placeholder="Werk-Beschreibung"></textarea><span class="counter"></span>
 						</div>
 					</div>
 					<div class="col-sm-6 col-md-6 col-lg-6">
 						<div class="form-group">
-							<label for="">Surname</label>
+							<label for="">Name</label>
 							<input type="text" name="surname" class="form-control" placeholder="Surname">
 						</div>
 						<div class="form-group">
@@ -80,7 +78,7 @@ get_header();
 					</div>
 					<div class="col-md-12">
 						<div class="form-group">
-							<p class="accordion">Optionale Bildbeschreibung <i class="fa fa-chevron-down" aria-hidden="true"></i></p>
+							<h2 class="accordion">Copyright-Register-Details <i class="fa fa-chevron-down" aria-hidden="true"></i></h2>
 						</div>
 					</div>
 					<div class="col-sm-6 col-md-6 col-lg-6 panel">
