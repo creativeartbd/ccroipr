@@ -264,11 +264,11 @@ function generatePdfWithImage($pdf_data, $return = false, $create_txt = false, $
     // Cat d title for the PDF 
     $date_title = '';
     if( 'design' == $type ) {
-        $date_title =  'ccroipr-cat-d-' . date('Y-m-d') . '/ ';
+        $date_title =  'ccroipr-cat-d-' . date('Y-m-d') . ' / ';
     } elseif ( 'photo' == $type ) {
-        $date_title =  'ccroipr-cat-p-' . date('Y-m-d') . '/ ';
+        $date_title =  'ccroipr-cat-p-' . date('Y-m-d') . ' / ';
     } elseif( 'title' == $type ) {
-        $date_title =  'ccroipr-cat-t-' . date('Y-m-d') . '/ ';
+        $date_title =  'ccroipr-cat-t-' . date('Y-m-d') . ' / ';
     }
 
     $html = ''; 
