@@ -22,14 +22,19 @@ get_header();
 			}
 			?>
 
-			<h1 class="text-center"><?php _e('Copyrights Sichern<br/> Designrechte schützen & Prioritätsnachweis erstellen', 'ccroipr'); ?></h1>
+			<div class="heading text-center">
+				<h1><?php _e('Common Copyright Register of Intellectual Property Rights', 'ccroipr'); ?></h1>
+				<h2 class="color-red"><?php _e('Kostenlose-Designschutz-Anmeldung', 'ccroipr'); ?></h2>
+
+				<h1><?php _e('Copyrights Sichern<br/> Designrechte schützen & Prioritätsnachweis erstellen', 'ccroipr'); ?></h1>
+				<h2><?php _e('Urheber - Impressum (§55 RStV) & Designschutz Offenbarung nach (EG) Nr. 6/2002 ', 'ccroipr'); ?></h2>
+				<div class="mb-30"></div>
+			</div>
+			
+			
+
 			<form action="" method="POST" enctype="multipart/form-data" id="ccroipr_d_ru_form">
-				<div class="row mt-5">
-					<div class="col-md-12">
-						<div class="form-group">
-							<h2 class="text-center"><?php _e('Urheber - Impressum (§55 RStV) & Designschutz Offenbarung nach (EG) Nr. 6/2002 ', 'ccroipr'); ?></h2>
-						</div>
-					</div>
+				<div class="row mt-5">					
 					<div class="col-sm-6 col-md-6 col-lg-6">
 						<div class="row">
 							<div class="col-md-6">
@@ -80,7 +85,7 @@ get_header();
 						<div class="form-group">
 							<div class="row">
 								<div class="col-md-12">
-										<div class="slim" data-instant-edit="false" data-edit="false" data-min-size="300, 300" data-min-size="500, 500">
+										<div class="slim" data-label="IMAGE <br/> 500pix X 500pix" data-instant-edit="false" data-edit="false" data-min-size="300, 300">
 										<input type="file" name="slims[]" id="file_change" multiple />
 									</div>	
 								</div>
@@ -95,31 +100,31 @@ get_header();
 						<div class="form-group">
 							<div class="row mb-3">
 								<div class="col-md-6">
-									<div class="slim" data-instant-edit="false" data-edit="false" data-min-size="300, 300" data-min-size="500, 500">
+									<div class="slim" data-label="IMAGE <br/> 500pix X 500pix" data-instant-edit="false" data-edit="false" data-min-size="300, 300" data-min-size="500, 500">
 										<input type="file" name="slims[]" multiple />
 									</div>	
 								</div>
 								<div class="col-md-6">
-									<div class="slim" data-instant-edit="false" data-edit="false" data-min-size="300, 300" data-min-size="500, 500">
-										<input type="file" name="slims[]" multiple />
-									</div>	
-								</div>
-							</div>
-							<div class="row mb-3">
-								<div class="col-md-6">
-									<div class="slim" data-instant-edit="false" data-edit="false" data-min-size="300, 300" data-min-size="500, 500">
-										<input type="file" name="slims[]" multiple />
-									</div>	
-								</div>
-								<div class="col-md-6">
-									<div class="slim" data-instant-edit="false" data-edit="false" data-min-size="300, 300" data-min-size="500, 500">
+									<div class="slim" data-label="IMAGE <br/> 500pix X 500pix" data-instant-edit="false" data-edit="false" data-min-size="300, 300" data-min-size="500, 500">
 										<input type="file" name="slims[]" multiple />
 									</div>	
 								</div>
 							</div>
 							<div class="row mb-3">
 								<div class="col-md-6">
-									<div class="slim" data-instant-edit="false" data-edit="false" data-min-size="300, 300" data-min-size="500, 500">
+									<div class="slim" data-label="IMAGE <br/> 500pix X 500pix" data-instant-edit="false" data-edit="false" data-min-size="300, 300" data-min-size="500, 500">
+										<input type="file" name="slims[]" multiple />
+									</div>	
+								</div>
+								<div class="col-md-6">
+									<div class="slim" data-label="IMAGE <br/> 500pix X 500pix" data-instant-edit="false" data-edit="false" data-min-size="300, 300" data-min-size="500, 500">
+										<input type="file" name="slims[]" multiple />
+									</div>	
+								</div>
+							</div>
+							<div class="row mb-3">
+								<div class="col-md-6">
+									<div class="slim" data-label="IMAGE <br/> 500pix X 500pix" data-instant-edit="false" data-edit="false" data-min-size="300, 300" data-min-size="500, 500">
 										<input type="file" name="slims[]" multiple />
 									</div>	
 								</div>

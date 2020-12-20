@@ -22,27 +22,19 @@ $post_meta     = get_post_meta( $post_id, 'ccroipr_register_meta', true );
 if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
 	echo "<div class='alert alert-warning'><strong>Your account is not confirmed or activated. Please contact administrator.</strong></div>";				
 } else {
-	?>
-	<div id="download"></div>
-	<h1>Profile 
-		<?php 
-		if( 'confirmed' == $post_status ) { 
-			$nonce = wp_create_nonce( 'download-nonce' );
-			echo "<input type='button' value='Download' data-submit-type='$data_type' class='download btn btn-success float-right' id='download_profile' data-id='".hashMe($post_id, 'e')."' data-nonce='$nonce'>"; 
-		} 
-		?>
-	</h1>          
+	?>	
+	   
+	<a href="https://ccroipr.org/wp-content/uploads/2020/12/designschutz.pdf" target="_blank">
+        <img src="<?php echo get_template_directory_uri() . '/assets/img/copyrightzeichen.jpg'; ?>" alt="copyright-zeichen" title="copyrights-zeichen">	
+    </a>
 
-	<p>Antrag auf kostenlose Eintragung und Veroffentlichung eines Urheberanspruchs nach Prioritatsprinzip</p>  
-	<h2>Common Copyright Register of Intellectual Property Rights / CCROIPR-CAT-P</h2>   
+	<div class="heading text-center mb-30">
+		<h1><?php _e('Copyright-Vermerk prüfen<br/> Angaben korrigieren & Freigabe erteilen', 'ccroipr'); ?></h1>
+		<h2><?php _e('Urheber - Impressum (§55 RStV) & Designschutz Offenbarung nach (EG) Nr. 6/2002', 'ccroipr'); ?></h2>
+	</div>
 
 	<form action="" class="form" method="POST" id="ccroipr_ru_form" enctype="multipart/form-data">
-		<div class="row mt-5">					
-			<div class="col-md-12">
-				<div class="form-group">
-					<label for="">Urheber - Impressum nach $55 RStV</label>
-				</div>
-			</div>
+		<div class="row mt-5">
 			<div class="col-sm-6 col-md-6 col-lg-6">
 				<div class="row">
 					<div class="col-md-6">
@@ -240,10 +232,16 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
 					<input type="hidden" name="register_type" value="<?php echo hashMe('design', 'e'); ?>">
 					<input type="hidden" name="submit_type" value="<?php echo hashMe('update', 'e'); ?>">
 					<input type="hidden" name="post_id" value="<?php echo hashMe( get_the_ID(), 'e'); ?>" id="post_id">
+					<p><?php _e('Ich habe meine Daten korrigiert.', 'ccroipr'); ?></p>					
 				</div>
-				<div class="col-sm-6 text-right">
+				<div class="col-md-6 text-right">
+					<input type="submit" name="submit" value="Delete" class="btn btn-danger" id="btn">
+					<p><?php _e('Escape Abbruch', 'ccroipr'); ?></p>
+				</div>
+				<div class="col-sm-12">
 					<input type="submit" name="submit" value="Confirm Data" class="btn btn-success float-right" id="confirm_btn" data-nonce="<?php echo wp_create_nonce( 'register_confirm_action' ); ?>" data-register-type="<?php echo $data_type; ?>" >
-					<div class="text text-danger text-right">Note: If you confirm the data then you are not be able to edit/update the data anymore.</div>
+					<p><?php _e('Ich habe meine Daten kontrolliert und gebe sie zur Veröffentlichung frei.', 'ccroipr'); ?></p>					
+					<p class="help color-red"><?php _e('HINWEIS: Nach der Freigabe können die Angaben nicht mehr geändert werden!', 'ccroipr'); ?></p>
 				</div>
 			<div class="col-md-12">
 				<div id="form_result"></div>			

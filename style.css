@@ -303,9 +303,6 @@ button,
 [type="reset"],
 [type="submit"] {
     -webkit-appearance: button;
-    color: #fff;
-    background-color: #39b1c8;
-    border-color: #39b1c8;
 }
 
 .btn-primary.disabled,
@@ -1198,6 +1195,10 @@ object {
 /*--------------------------------------------------------------
 ## Header
 --------------------------------------------------------------*/
+
+.heading * {
+    line-height: 100%;
+}
 
 #crumbs {
     margin-bottom: 15px;
