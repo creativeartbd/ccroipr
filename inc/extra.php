@@ -264,9 +264,11 @@ function generatePdfWithImage($pdf_data, $return = false, $create_txt = false, $
     // Cat d title for the PDF 
     $date_title = '';
     if( 'design' == $type ) {
-        $date_title =  'ccroipr-cat-d-' . date('Y-m-d');
+        $date_title =  'ccroipr-cat-d-' . date('Y-m-d') . '/ ';
     } elseif ( 'photo' == $type ) {
-        $date_title =  'ccroipr-cat-p-' . date('Y-m-d');
+        $date_title =  'ccroipr-cat-p-' . date('Y-m-d') . '/ ';
+    } elseif( 'title' == $type ) {
+        $date_title =  'ccroipr-cat-t-' . date('Y-m-d') . '/ ';
     }
 
     $html = ''; 
@@ -288,7 +290,8 @@ function generatePdfWithImage($pdf_data, $return = false, $create_txt = false, $
                     $html .= "<h4 style=\"line-height:50%;\">$werktitel</h4>";
                 } else {
                     $titelschutzanzeigen =  get_template_directory_uri() . '/assets/img/titelschutzanzeigen.jpg';
-                    $html .= "<img src=\"{$titelschutzanzeigen}\"><br/><br/>https://www.ccroipr.org/titelschutzanzeigen.jpg";                    
+                    $html .= "<img src=\"{$titelschutzanzeigen}\">";        
+                    $html .="<p>https://www.ccroipr.org/titelschutzanzeigen.jpg</p>";
                 }
                 
                 $html .="
