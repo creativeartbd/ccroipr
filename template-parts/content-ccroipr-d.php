@@ -235,7 +235,7 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
 					<p><?php _e('Ich habe meine Daten korrigiert.', 'ccroipr'); ?></p>					
 				</div>
 				<div class="col-md-6 text-right">
-					<input type="submit" name="submit" value="Delete" class="btn btn-danger" id="btn">
+					<input type="submit" name="submit" value="Delete" class="btn btn-danger" id="delete_btn" data-nonce="<?php echo wp_create_nonce( 'register_delete_action' ); ?>" data-register-type="<?php echo $data_type; ?>" >
 					<p><?php _e('Escape Abbruch', 'ccroipr'); ?></p>
 				</div>
 				<div class="col-sm-12">

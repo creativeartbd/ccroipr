@@ -534,10 +534,20 @@ function dimox_breadcrumbs()
             //echo get_category_parents($cat, false, ' ' . $delimiter . ' ');
             //echo ucfirst($cat->slug) . ' ' . $delimiter . ' ';
             //echo $currentBefore;
-            
-            echo 'Register';
-            echo ' '. $delimiter .' Copyright-Zeichen  ';
-            the_title();
+            $post_meta     = get_post_meta( get_the_ID( ), 'ccroipr_register_meta', true );
+            $post_status   = $post_meta['is_confirm'];
+            if( 0 == $post_status ) {
+                echo ucfirst($cat->slug);
+            } else {    
+                echo 'Register';
+            }
+
+            if( 'design' == $cat->slug ) {                
+                echo ' '. $delimiter .' Copyrightzeichen überprüfen  ';
+            } else {                
+                echo ' '. $delimiter .' Copyright-Zeichen  ';
+                the_title();
+            }             
             //echo $currentAfter;
             //echo $currentAfter;
         } elseif (is_attachment()) {
@@ -598,11 +608,22 @@ if (isset($_SERVER["HTTP_CF_CONNECTING_IP"])) {
 // Change post page title for title category post 
 function custom_title($title_parts) {    
     if( is_single() ) {
+        
         $category      = get_the_category();
         $category_name = $category[0]->slug;
-        if( 'title' == $category_name ) {
-            $title_parts['title'] = "► COPYRIGHT - ZEICHEN » ccroipr-[ccroipr-nr] [CCROIPR]";
+        
+        $post_meta     = get_post_meta( get_the_ID( ), 'ccroipr_register_meta', true );
+        $post_status   = $post_meta['is_confirm'];
+        $confirm_id     = $post_meta['confirm_id'];
+       
+        if( 'title' == $category_name ) {            
+            $title_parts['title'] = "► COPYRIGHT - ZEICHEN » {$confirm_id} [CCROIPR]";
             return $title_parts;
+        } elseif( 'design' == $category_name ) {
+            if( 0 == $post_status ) {
+                $title_parts['title'] = "► Designschutz » prüfen & offenbaren [CCROIPR]";
+                return $title_parts;
+            }
         }
         return $title_parts;        
     }    
@@ -621,12 +642,62 @@ add_filter( 'wpseo_title', 'change_post_page_title' );
 // Change Yoast meta description of single post page from title category
 function change_post_page_meta_description( $meta_descriptin ) {
     if( is_single() ) {
+
         $category      = get_the_category();
         $category_name = $category[0]->slug;
+
+        $post_meta     = get_post_meta( get_the_ID( ), 'ccroipr_register_meta', true );
+        $post_status   = $post_meta['is_confirm'];
+        $confirm_id     = $post_meta['confirm_id'];
+
         if( 'title' == $category_name ) {
             return 'Titelschutzanzeige mit Prioritätsnachweis & Registerurkunde nach dem Prioritätsprinzip - ein kostenloser Service von ATELIER•KALAI•MEDIA';
+        } elseif( 'design' == $category_name ) {
+            if( 0 == $post_status ) {
+                return 'Designschutz nach (EG) Nr. 6/2002 - Prioritätsnachweis für nicht eingetragene Gemeinschaftsgeschmacksmuster der EU - ein kostenloser Service von ATELIER•KALAI•MEDIA';
+            }
         }
     }
     return $meta_descriptin;
 }
 add_filter( 'wpseo_metadesc', 'change_post_page_meta_description' );
+
+function change_opengraph_desc() {
+    if( is_single() ) {
+
+        $category      = get_the_category();
+        $category_name = $category[0]->slug;
+
+        $post_meta     = get_post_meta( get_the_ID( ), 'ccroipr_register_meta', true );
+        $post_status   = $post_meta['is_confirm'];
+        $confirm_id     = $post_meta['confirm_id'];
+
+        if( 'design' == $category_name ) {
+            if( 0 == $post_status ) {
+                return 'Designschutz nach (EG) Nr. 6/2002 - Prioritätsnachweis für nicht eingetragene Gemeinschaftsgeschmacksmuster der EU - ein kostenloser Service von ATELIER•KALAI•MEDIA';
+            }
+        }
+    }
+}
+add_filter( 'wpseo_opengraph_desc', 'change_opengraph_desc' );
+
+function change_opengraph_title() {
+    if( is_single() ) {
+
+        $category      = get_the_category();
+        $category_name = $category[0]->slug;
+
+        $post_meta     = get_post_meta( get_the_ID( ), 'ccroipr_register_meta', true );
+        $post_status   = $post_meta['is_confirm'];
+        $confirm_id     = $post_meta['confirm_id'];
+
+        if( 'design' == $category_name ) {
+            if( 0 == $post_status ) {
+                return '► Designschutz » prüfen & offenbaren [CCROIPR]';
+            }
+        }
+    }
+}
+add_filter( 'wpseo_opengraph_title', 'change_opengraph_title' );
+
+
