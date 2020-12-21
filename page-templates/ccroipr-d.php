@@ -22,16 +22,14 @@ get_header();
 			}
 			?>
 
-			<div class="heading text-center">
-				<h1><?php _e('Common Copyright Register of Intellectual Property Rights', 'ccroipr'); ?></h1>
-				<h2 class="color-red"><?php _e('Kostenlose-Designschutz-Anmeldung', 'ccroipr'); ?></h2>
+			<a href="https://ccroipr.org/wp-content/uploads/2020/12/designschutz.pdf" target="_blank">
+				<img src="<?php echo get_template_directory_uri() . '/assets/img/copyrightzeichen.jpg'; ?>" alt="copyright-zeichen" title="copyrights-zeichen">	
+			</a>
 
+			<div class="heading text-center">
 				<h1><?php _e('Copyrights Sichern<br/> Designrechte schützen & Prioritätsnachweis erstellen', 'ccroipr'); ?></h1>
 				<h2><?php _e('Urheber - Impressum (§55 RStV) & Designschutz Offenbarung nach (EG) Nr. 6/2002 ', 'ccroipr'); ?></h2>
-				<div class="mb-30"></div>
 			</div>
-			
-			
 
 			<form action="" method="POST" enctype="multipart/form-data" id="ccroipr_d_ru_form">
 				<div class="row mt-5">					
@@ -85,7 +83,7 @@ get_header();
 						<div class="form-group">
 							<div class="row">
 								<div class="col-md-12">
-										<div class="slim" data-label="IMAGE <br/> 500pix X 500pix" data-instant-edit="false" data-edit="false" data-min-size="300, 300">
+										<div class="slim" data-instant-edit="false" data-edit="false" data-min-size="300, 300">
 										<input type="file" name="slims[]" id="file_change" multiple />
 									</div>	
 								</div>
@@ -100,31 +98,31 @@ get_header();
 						<div class="form-group">
 							<div class="row mb-3">
 								<div class="col-md-6">
-									<div class="slim" data-label="IMAGE <br/> 500pix X 500pix" data-instant-edit="false" data-edit="false" data-min-size="300, 300" data-min-size="500, 500">
+									<div class="slim" data-instant-edit="false" data-edit="false" data-min-size="300, 300" data-min-size="500, 500">
 										<input type="file" name="slims[]" multiple />
 									</div>	
 								</div>
 								<div class="col-md-6">
-									<div class="slim" data-label="IMAGE <br/> 500pix X 500pix" data-instant-edit="false" data-edit="false" data-min-size="300, 300" data-min-size="500, 500">
-										<input type="file" name="slims[]" multiple />
-									</div>	
-								</div>
-							</div>
-							<div class="row mb-3">
-								<div class="col-md-6">
-									<div class="slim" data-label="IMAGE <br/> 500pix X 500pix" data-instant-edit="false" data-edit="false" data-min-size="300, 300" data-min-size="500, 500">
-										<input type="file" name="slims[]" multiple />
-									</div>	
-								</div>
-								<div class="col-md-6">
-									<div class="slim" data-label="IMAGE <br/> 500pix X 500pix" data-instant-edit="false" data-edit="false" data-min-size="300, 300" data-min-size="500, 500">
+									<div class="slim" data-instant-edit="false" data-edit="false" data-min-size="300, 300" data-min-size="500, 500">
 										<input type="file" name="slims[]" multiple />
 									</div>	
 								</div>
 							</div>
 							<div class="row mb-3">
 								<div class="col-md-6">
-									<div class="slim" data-label="IMAGE <br/> 500pix X 500pix" data-instant-edit="false" data-edit="false" data-min-size="300, 300" data-min-size="500, 500">
+									<div class="slim" data-instant-edit="false" data-edit="false" data-min-size="300, 300" data-min-size="500, 500">
+										<input type="file" name="slims[]" multiple />
+									</div>	
+								</div>
+								<div class="col-md-6">
+									<div class="slim" data-instant-edit="false" data-edit="false" data-min-size="300, 300" data-min-size="500, 500">
+										<input type="file" name="slims[]" multiple />
+									</div>	
+								</div>
+							</div>
+							<div class="row mb-3">
+								<div class="col-md-6">
+									<div class="slim" data-instant-edit="false" data-edit="false" data-min-size="300, 300" data-min-size="500, 500">
 										<input type="file" name="slims[]" multiple />
 									</div>	
 								</div>
@@ -141,7 +139,7 @@ get_header();
 						</div>
 					</div>
 					<div class="col-md-12">
-						<p><?php _e('Der Urheber ist vollständig fur den Inhalt der Darstellung verantworlich und erklärt, dass er alle Rechte am beschriebenen Werk besitzt.', 'ccroipr'); ?></p>
+						<p class="text-center"><?php _e('Der Urheber ist vollständig fur den Inhalt der Darstellung verantworlich und erklärt, dass er alle Rechte am beschriebenen Werk besitzt.', 'ccroipr'); ?></p>
 					</div>
 					<div class="col-md-12">
 						<div class="form-group">
@@ -221,12 +219,14 @@ get_header();
 						<div class="form-group">
 							<div id="form_result"></div>
 							<?php wp_nonce_field('register_action'); ?>
-							<input type="hidden" name="action" value="register_action">
-							<input type="submit" name="submit" value="Register" class="btn btn-primary" id="btn">
-							<input type="hidden" name="register_type" value="<?php echo hashMe('design', 'e'); ?>">
-							<input type="hidden" name="submit_type" value="<?php echo hashMe('register', 'e'); ?>">
-							<p class="help"><?php _e('Ich besitze alle Rechte am beschriebenen Werk und stelle den Antrag auf kostenlose Eintragung und Veröffentlichung 
-eines Urheberanspruchs nach dem Prioritätsprinzip.', 'ccroipr'); ?></p>
+							<div class="button-help-group">
+								<input type="hidden" name="action" value="register_action">
+								<input type="submit" name="submit" value="Register" class="btn btn-primary" id="btn">
+								<input type="hidden" name="register_type" value="<?php echo hashMe('design', 'e'); ?>">
+								<input type="hidden" name="submit_type" value="<?php echo hashMe('register', 'e'); ?>">
+								<p class="help"><?php _e('Ich besitze alle Rechte am beschriebenen Werk und stelle den Antrag auf kostenlose Eintragung und Veröffentlichung 
+	eines Urheberanspruchs nach dem Prioritätsprinzip.', 'ccroipr'); ?></p>
+							</div>							
 						</div>
 					</div>
 				</div>

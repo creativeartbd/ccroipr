@@ -536,8 +536,6 @@ function dimox_breadcrumbs()
             //echo $currentBefore;
             $post_meta     = get_post_meta( get_the_ID( ), 'ccroipr_register_meta', true );
             $post_status   = $post_meta['is_confirm'];
-
-            print_r( $post_status );
             
             if( 0 == $post_status ) {
                 echo ucfirst($cat->slug);

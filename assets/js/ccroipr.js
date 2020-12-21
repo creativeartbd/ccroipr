@@ -9,7 +9,7 @@
         // Register and Update form for the Register Menu
         $('#ccroipr_ru_form').submit(function(e) {
             e.preventDefault();
-            var btn_label = $('#btn').val();
+            var btn_label = $('#update_btn').val();
             var form_data = $(this).serialize();
 
             $.ajax({
@@ -18,16 +18,16 @@
                 data: form_data,
                 dataType: 'json',
                 beforeSend: function() {
-                    $('#btn').prop('disabled', true);
-                    $('#btn').val('Please Wait...');
+                    $('#update_btn, #confirm_btn, #delete_btn').prop('disabled', true);
+                    $('#update_btn').val('Please Wait...');
                 },
                 success: function(result) {
-                    $('#btn').prop('disabled', false);
-                    $('#btn').val(btn_label);
+                    $('#update_btn, #confirm_btn, #delete_btn').prop('disabled', false);
+                    $('#update_btn').val(btn_label);
                     $('#form_result').html(result.data.message)
                     if (result.success) {
                         if (result.data.type == 'update') {
-                            $('#btn').prop('disabled', false);
+                            $('#update_btn').prop('disabled', false);
                         }
                     }
                 }
@@ -121,12 +121,12 @@
                 },
                 dataType: 'json',
                 beforeSend: function() {
-                    $('#confirm_btn').prop('disabled', true);
+                    $('#confirm_btn, #delete_btn, #update_btn').prop('disabled', true);
                     $('#confirm_btn').val('Please Wait...');
                 },
                 success: function(result) {
                     if (result.success) {
-                        $('#confirm_btn, #register_btn').prop('disabled', true);
+                        $('#confirm_btn, #delete_btn, #update_btn').prop('disabled', true);
                         $('#confirm_btn').val(btn_label);
                         $('.confirm-wrapper').remove();
                         $('#form_result').html(result.data.message);
@@ -162,12 +162,12 @@
                 },
                 dataType: 'json',
                 beforeSend: function() {
-                    $('#delete_btn').prop('disabled', true);
+                    $('#confirm_btn, #delete_btn, #update_btn').prop('disabled', true);
                     $('#delete_btn').val('Please Wait...');
                 },
                 success: function(result) {
                     if (result.success) {
-                        $('#confirm_btn, #register_btn, #delete_btn').prop('disabled', true);
+                        $('#confirm_btn, #delete_btn, #update_btn').prop('disabled', true);
                         $('#delete_btn').val(btn_label);
                         $('.confirm-wrapper').remove();
                         $('#form_result').html(result.data.message);

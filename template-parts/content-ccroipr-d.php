@@ -28,7 +28,7 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
         <img src="<?php echo get_template_directory_uri() . '/assets/img/copyrightzeichen.jpg'; ?>" alt="copyright-zeichen" title="copyrights-zeichen">	
     </a>
 
-	<div class="heading text-center mb-30">
+	<div class="heading text-center">
 		<h1><?php _e('Copyright-Vermerk prüfen<br/> Angaben korrigieren & Freigabe erteilen', 'ccroipr'); ?></h1>
 		<h2><?php _e('Urheber - Impressum (§55 RStV) & Designschutz Offenbarung nach (EG) Nr. 6/2002', 'ccroipr'); ?></h2>
 	</div>
@@ -137,16 +137,16 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
 		<div class="row">
 			<div class="col-md-12">
 				<div class="form-group">
-					<label for="">Werk-Beschreibung</label>
+					<label for=""><?php _e('Copyright-Text', 'ccroipr'); ?></label>
 					<textarea id="limit" name="werk_beschreibung" cols="30" rows="10" class="form-control" placeholder="Werk-Beschreibung"><?php echo $post_meta['werk_beschreibung']; ?></textarea><span class="counter"></span>
 				</div>
 			</div>
 			<div class="col-md-12">
-				<p>Der Urheber ist vollständig fur den Inhalt der Darstellung verantworlich und erklärt, dass er alle Rechte am beschriebenen Werk besitzt.</p>
+				<p class="text-center"><?php _e('Der Urheber ist vollständig fur den Inhalt der Darstellung verantworlich und erklärt, dass er alle Rechte am beschriebenen Werk besitzt.', 'ccroipr'); ?></p>
 			</div>
 			<div class="col-md-12">
 				<div class="form-group">
-					<p class="accordion">Optionale Bildbeschreibung </p>
+					<h2 class="accordion"><?php _e('Copyright-Register-Details', 'ccroipr'); ?> <i class="fa fa-chevron-down" aria-hidden="true"></i></h2>
 				</div>
 			</div>
 			<div class="col-sm-6 col-md-6 col-lg-6 panel">							
@@ -225,10 +225,13 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
 			</div> 				     
 			<?php endif; ?>
 			<?php if( 'publish' == $post_status ) : ?> 
+				<div class="col-md-12">
+					<div id="form_result"></div>			
+				</div>
 				<div class="col-sm-6">
 					<?php wp_nonce_field( 'register_action' ); ?>		
 					<input type="hidden" name="action" value="register_action">                    	
-					<input type="submit" name="submit" value="Update Data" class="btn btn-primary" id="btn">
+					<input type="submit" name="submit" value="Update Data" class="btn btn-primary" id="update_btn">
 					<input type="hidden" name="register_type" value="<?php echo hashMe('design', 'e'); ?>">
 					<input type="hidden" name="submit_type" value="<?php echo hashMe('update', 'e'); ?>">
 					<input type="hidden" name="post_id" value="<?php echo hashMe( get_the_ID(), 'e'); ?>" id="post_id">
@@ -243,9 +246,6 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
 					<p><?php _e('Ich habe meine Daten kontrolliert und gebe sie zur Veröffentlichung frei.', 'ccroipr'); ?></p>					
 					<p class="help color-red"><?php _e('HINWEIS: Nach der Freigabe können die Angaben nicht mehr geändert werden!', 'ccroipr'); ?></p>
 				</div>
-			<div class="col-md-12">
-				<div id="form_result"></div>			
-			</div>
 			<?php endif; ?>
 		</div>
 	</form>

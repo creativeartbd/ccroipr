@@ -303,6 +303,7 @@ button,
 [type="reset"],
 [type="submit"] {
     -webkit-appearance: button;
+    border: none;
 }
 
 .btn-primary.disabled,
@@ -800,8 +801,15 @@ ul ul ul {
     margin-right: 5px;
 }
 
-.help {
-    margin-top: 5px;
+.button-help-group {
+    display: flex;
+    align-items: start;
+}
+
+.button-help-group .help {
+    margin-left: 15px;
+    color: red;
+    width: 50%;
 }
 
 .color-red {
@@ -1200,6 +1208,10 @@ object {
 /*--------------------------------------------------------------
 ## Header
 --------------------------------------------------------------*/
+
+.heading {
+    margin-bottom: 50px;
+}
 
 .heading * {
     line-height: 100%;
