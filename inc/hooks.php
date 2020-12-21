@@ -279,10 +279,10 @@ function register_confirm_action()
                     'werk_beschreibung' => $post_meta['werk_beschreibung'],
                     'ip'                => $post_meta['user_ip'],
                     'email'             => $post_meta['email'],
-                    'type'              => $register_type
+                    'type'              => $register_type,                     
                 ];        
                 
-                if( 'photo' == $register_type ) {
+                if( in_array( $register_type , [ 'photo', 'design' ] ) ) {
                     $pdf_data['sha256'] = $post_meta['sha256'];
                 }
 

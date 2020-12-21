@@ -351,10 +351,10 @@ function generatePdfWithImage($pdf_data, $return = false, $create_txt = false, $
         ";
     }
 
-    if ('photo' == $type) {
+    if ( in_array( $type, ['photo', 'design' ] ) ) {
         $html .= "
         <tr>
-            <td>SHA256 (Hashwert der Originalabbildung)</td>
+            <td><b>SHA256 (Hashwert der Originalabbildung)</b></td>
         </tr>
         <tr>
             <td colspan=\"2\">$sha256</td>
@@ -368,7 +368,7 @@ function generatePdfWithImage($pdf_data, $return = false, $create_txt = false, $
         $html .= "<tr><td colspan=\"2\"><p><b>Urheber - Impressum (§55 RStV) für</b></p></td></tr>";
         $html .= "<tr><td>&nbsp;</td></tr>";
     } else {
-        $html .= "<tr><td colspan=\"2\"><p><b>Anmelder / Urheber-Impressum nach 55RStV</b></p></td></tr>";
+        $html .= "<tr><td colspan=\"2\"><p><b>Anmelder / Urheber-Impressum nach §55RStV</b></p></td></tr>";
         $html .= "<tr><td>&nbsp;</td></tr>";
     }    
     $html .= "
@@ -536,7 +536,7 @@ function dimox_breadcrumbs()
             //echo $currentBefore;
             $post_meta     = get_post_meta( get_the_ID( ), 'ccroipr_register_meta', true );
             $post_status   = $post_meta['is_confirm'];
-            
+
             if( 0 == $post_status ) {
                 echo ucfirst($cat->slug);
             } else {    
