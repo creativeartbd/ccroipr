@@ -46,9 +46,31 @@ function register_delete_action()
     // verify nonce first 
     wp_verify_nonce('_wpnoncne', 'register_confirm_action');
 
-    echo '<pre>';
-        print_r( $_REQUEST );
-    echo '</pre>';
+    // Check register type
+    $register_type      = isset($_POST['register_type']) ? strtolower(hashMe(sanitize_text_field($_POST['register_type']), 'd')) : '';
+    
+    if (!in_array($register_type, ['title', 'photo', 'design'])) {
+        return false;
+    }
+
+    $post_id = hashMe(sanitize_text_field( $_POST['post_id']), 'd');
+    $post    = get_post( $post_id );
+    
+    if ( $post ) {
+        // Delete the post
+        $delete_post = wp_delete_post( $post_id );
+
+        if( ! is_wp_error( $delete_post ) ) {
+            wp_send_json_success( [
+                'message'   =>  '<div class="alert alert-success"><b>Successfully deleted your data.</b></div>',      
+                'permalink' =>  get_site_url(),
+            ] );  
+        } else {
+            wp_send_json_error( [
+                'message'   =>  '<div class="alert alert-error"><b>Opps, Something is wrong to delete your data.</b></div>',            
+            ]);
+        }
+    }
 
     wp_die();
 }

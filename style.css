@@ -686,7 +686,9 @@ input[type="submit"] {
     border-radius: 5px;
     color: #fff;
     transition: all .3s ease-in;
-    padding: 10px 20px;
+    padding: 8px 20px;
+    width: 150px;
+    max-width: 100%;
 }
 
 button:hover,
@@ -1228,7 +1230,7 @@ object {
 --------------------------------------------------------------*/
 
 .main-container {
-    padding: 30px;
+    padding: 20px;
     background-color: #fff;
     margin-bottom: 15px;
 }

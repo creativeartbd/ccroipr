@@ -172,12 +172,12 @@
                         $('.confirm-wrapper').remove();
                         $('#form_result').html(result.data.message);
                         setTimeout(function() {
-                            window.location.href = '/';
-                        }, 3000);
+                            window.location.href = result.data.permalink;
+                        }, 5000);
                     } else {
                         $('#delete_btn').prop('disabled', false);
+                        $('#form_result').html(result.data.message);
                     }
-                    $('#form_result').html(result.data.message);
                 }
             });
 
