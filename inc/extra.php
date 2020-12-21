@@ -403,7 +403,7 @@ function generatePdfWithImage($pdf_data, $return = false, $create_txt = false, $
         $copyright_symble = get_template_directory_uri() . '/assets/img/copyright-symbol.jpg';
         $html .= "
             <h4>Freigabeerklärung zum Certificate of Registration $confirm_id</h4>
-            <p>* Mein Datenupload ist unter der $ip erfolgt.<br/>* Ich habe die Hinweise zur Anmeldung heruntergeladen, gelesen und meine Daten geprüft.<br/>* Ich habe die aktuellen Geschäftsbedingungen heruntergeladen, gelesen und akzeptiert.<br/>* Ich habe die CCROIPR - Lizenzvereinbarungen heruntergeladen, gelesen und akzeptiert.<br/>* Ich habe mit der E-Mail-Adresse $email die Anmeldung bestätigt.<br/>* Ich habe die Freigabe zur Veröffentlichung & Langzeitarchivierung im Common Copyright Register of Intellectual Property Rights erteilt.</p>";            
+            <p>* Mein Datenupload ist unter der $ip erfolgt.<br/>* Ich habe die Hinweise zur Anmeldung heruntergeladen, gelesen und meine Daten geprüft.<br/>* Ich habe die aktuellen Geschäftsbedingungen heruntergeladen, gelesen und akzeptiert.<br/>* •	Ich habe die CCROIPR - Lizenzvereinbarungen heruntergeladen, gelesen und akzeptiert.<br/>* Ich habe mit der E-Mail-Adresse  $email die Anmeldung bestätigt.<br/>* Ich habe die Freigabe zur Veröffentlichung & Langzeitarchivierung im Common Copyright Register of Intellectual Property Rights erteilt.</p>";            
         $html .= "<p style=\"text-align:center;\"><img src=\"$copyright_symble\"></p>";
         $html .= "<p>Eine zusätzliche, bezeugte und besiegelte Urkunde kann gegen Gebühr bei certificate@ccroipr.org angefordert werden. Informationen unter ccroipr.org/info.</p>";
     }    
