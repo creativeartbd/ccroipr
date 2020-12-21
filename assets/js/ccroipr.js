@@ -142,6 +142,47 @@
 
         });
 
+
+        // Delete cat d form
+        $("#delete_btn").on('click', function(e) {
+
+            e.preventDefault();
+
+            var post_id = $("#post_id").val();
+            var btn_label = $('#delete_btn').val();
+            var register_type = $(this).data('register-type');
+
+            $.ajax({
+                type: 'POST',
+                url: settings.ajaxurl,
+                data: {
+                    post_id: post_id,
+                    register_type: register_type,
+                    action: 'register_delete_action'
+                },
+                dataType: 'json',
+                beforeSend: function() {
+                    $('#delete_btn').prop('disabled', true);
+                    $('#delete_btn').val('Please Wait...');
+                },
+                success: function(result) {
+                    if (result.success) {
+                        $('#confirm_btn, #register_btn, #delete_btn').prop('disabled', true);
+                        $('#delete_btn').val(btn_label);
+                        $('.confirm-wrapper').remove();
+                        $('#form_result').html(result.data.message);
+                        setTimeout(function() {
+                            window.location.href = '/';
+                        }, 3000);
+                    } else {
+                        $('#delete_btn').prop('disabled', false);
+                    }
+                    $('#form_result').html(result.data.message);
+                }
+            });
+
+        });
+
         // Download profile
         $("#download_profile").on('click', function(e) {
             e.preventDefault();

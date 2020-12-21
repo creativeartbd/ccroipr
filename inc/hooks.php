@@ -38,6 +38,21 @@ function download_profile_action()
 }
 
 
+// Delete cat d form 
+add_action('wp_ajax_register_delete_action', 'register_delete_action');
+add_action('wp_ajax_nopriv_register_delete_action', 'register_delete_action');
+function register_delete_action()
+{
+    // verify nonce first 
+    wp_verify_nonce('_wpnoncne', 'register_confirm_action');
+
+    echo '<pre>';
+        print_r( $_REQUEST );
+    echo '</pre>';
+
+    wp_die();
+}
+
 // ====================================================================
 // Confirm Register T data
 // ===================================================================

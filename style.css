@@ -596,6 +596,7 @@ html {
 
 body {
     background-color: #fafafa;
+    font-size: 14px;
 }
 
 hr {
@@ -682,16 +683,18 @@ button,
 input[type="button"],
 input[type="reset"],
 input[type="submit"] {
-    border-radius: 0;
+    border-radius: 5px;
     color: #fff;
+    transition: all .3s ease-in;
+    padding: 10px 20px;
 }
 
 button:hover,
 input[type="button"]:hover,
 input[type="reset"]:hover,
 input[type="submit"]:hover {
-    background-color: #2f9cb1;
-    border-color: #2f9cb1;
+    background-color: #333;
+    border-color: #333;
     outline: 0;
 }
 
@@ -1225,7 +1228,7 @@ object {
 --------------------------------------------------------------*/
 
 .main-container {
-    padding: 15px;
+    padding: 30px;
     background-color: #fff;
     margin-bottom: 15px;
 }
@@ -1483,6 +1486,8 @@ p {
     background-color: #181818;
     color: #fff;
     padding: 2px 5px;
+    font-size: 15px;
+    vertical-align: middle;
 }
 
 .navbar {
@@ -1506,7 +1511,7 @@ p {
 }
 
 .dropdown-submenu {
-    position: relative;
+    /* position: relative; */
 }
 
 .dropdown-submenu>.dropdown-menu {
@@ -1517,10 +1522,9 @@ p {
     border-radius: 0;
 }
 
-.dropdown-submenu:active>.dropdown-menu,
-{
+.dropdown-submenu:hover>.dropdown-menu {
     display: block;
-    right: 162px;
+    /* right: 162px; */
 }
 
 .dropdown-submenu>a:after {
@@ -1537,7 +1541,7 @@ p {
     margin-right: -10px;
 }
 
-.dropdown-submenu:active>a:after {
+.dropdown-submenu:hover>a:after {
     border-left-color: #ffffff;
 }
 
