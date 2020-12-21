@@ -21,8 +21,10 @@ get_header();
 				}
 			}
 			?>
-			<h1 class="text-center"><?php _e('Copyrights Sichern <br/> Bildrechte schützen & Prioritätsnachweis erstellen', 'ccroipr'); ?></h1>
-			<h2 class="text-center"><?php _e('Urheber - Impressum (§55 RStV) für Bildrechte nach §1 URHG', 'ccroipr'); ?></h2>
+			<div class="heading text-center">
+				<h1><?php _e('Copyrights Sichern <br/> Bildrechte schützen & Prioritätsnachweis erstellen', 'ccroipr'); ?></h1>
+				<h2><?php _e('Urheber - Impressum (§55 RStV) für Bildrechte nach §1 URHG', 'ccroipr'); ?></h2>
+			</div>			
 			
 			<form action="" method="POST" enctype="multipart/form-data" id="ccroipr_ru_form">
 				<div class="row mt-5">					
@@ -32,7 +34,7 @@ get_header();
 							<input type="text" name="werktitel" id="werktitel" maxlength="30" class="form-control" placeholder="Werktitel">
 						</div>
 						<div class="form-group">
-							<div class="slim" data-instant-edit="true" data-instant-edit="true" data-max-file-size="10" data-min-size="300, 300">
+							<div class="slim"  data-instant-edit="false" data-edit="false" data-min-size="300, 300">
 								<input type="file" name="slims[]" id="file_change" />
 							</div>
 						</div>
@@ -155,7 +157,7 @@ get_header();
 							<div id="form_result"></div>
 							<?php wp_nonce_field('register_action'); ?>
 							<input type="hidden" name="action" value="register_action">
-							<input type="submit" name="submit" value="Register" class="btn btn-primary" id="btn">
+							<input type="submit" name="submit" value="Register" class="btn btn-primary" id="update_btn">
 							<input type="hidden" name="register_type" value="<?php echo hashMe('photo', 'e'); ?>">
 							<input type="hidden" name="submit_type" value="<?php echo hashMe('register', 'e'); ?>">
 							<p class="help"><?php _e('Ich besitze alle Rechte am beschriebenen Werk und stelle den Antrag auf kostenlose Eintragung und Veröffentlichung 

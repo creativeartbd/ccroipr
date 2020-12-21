@@ -22,18 +22,10 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
 	echo "<div class='alert alert-warning'><strong>Your account is not confirmed or activated. Please contact administrator.</strong></div>";				
 } else {
 	?>
-	<div id="download"></div>
-	<h1>Profile 
-		<?php 
-		if( 'confirmed' == $post_status ) { 
-			$nonce = wp_create_nonce( 'download-nonce' );
-			echo "<input type='button' value='Download' data-submit-type='$data_type' class='download btn btn-success float-right' id='download_profile' data-id='".hashMe($post_id, 'e')."' data-nonce='$nonce'>"; 
-		} 
-		?>
-	</h1>          
-
-	<h1 class="text-center"><?php _e('Copyrights Sichern <br/> Bildrechte schützen & Prioritätsnachweis erstellen', 'ccroipr'); ?></h1>
-	<h2 class="text-center"><?php _e('Urheber - Impressum (§55 RStV) für Bildrechte nach §1 URHG', 'ccroipr'); ?></h2>
+	<div class="heading text-center">
+		<h1><?php _e('Copyrights Sichern <br/> Bildrechte schützen & Prioritätsnachweis erstellen', 'ccroipr'); ?></h1>
+		<h2><?php _e('Urheber - Impressum (§55 RStV) für Bildrechte nach §1 URHG', 'ccroipr'); ?></h2>
+	</div>	
 	
 	<form action="" class="form" method="POST" id="ccroipr_ru_form" enctype="multipart/form-data">
 		<div class="row mt-5">
@@ -47,7 +39,7 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
 					foreach( $post_meta['cat_d_image'] as $key => $id ) {
 						$thumb_src = wp_get_attachment_image_src( $id, 'full' )[0];
 						?>
-						<div class="slim" data-download="true" data-instant-edit="true">
+						<div class="slim"  data-instant-edit="false" data-edit="false" data-min-size="300, 300">
 							<img src="<?php echo $thumb_src; ?>" alt="" class="img-thumbnail"">		
 							<input type="file" name="slims[]" id="file_change" value="<?php echo $id; ?>"/>
 						</div>
@@ -177,10 +169,13 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
 			</div> 				     
 			<?php endif; ?>
 			<?php if( 'publish' == $post_status ) : ?> 
+				<div class="col-md-12">
+					<div id="form_result"></div>
+				</div>
 				<div class="col-md-6">
 					<?php wp_nonce_field( 'register_action' ); ?>		
 					<input type="hidden" name="action" value="register_action">                    	
-					<input type="submit" name="submit" value="Update Data" class="btn btn-primary" id="btn">
+					<input type="submit" name="submit" value="Update Data" class="btn btn-primary" id="update_btn">
 					<input type="hidden" name="register_type" value="<?php echo hashMe('photo', 'e'); ?>">
 					<input type="hidden" name="submit_type" value="<?php echo hashMe('update', 'e'); ?>">
 					<input type="hidden" name="post_id" value="<?php echo hashMe( get_the_ID(), 'e'); ?>" id="post_id">
@@ -190,12 +185,9 @@ eines Urheberanspruchs nach dem Prioritätsprinzip.', 'ccroipr'); ?></p>
 				<div class="col-md-6 text-right">
 					<input type="submit" name="submit" value="Confirm Data" class="btn btn-success float-right" id="confirm_btn" data-nonce="<?php echo wp_create_nonce( 'register_confirm_action' ); ?>" data-register-type="<?php echo $data_type; ?>" >
 					<div class="form-group">
-						<div class="text text-danger text-right">Note: If you confirm the data then you are not be able to edit/update the data anymore.</div>
+						<div class="text text-danger text-right"><?php _e('Note: If you confirm the data then you are not be able to edit/update the data anymore.', 'ccroipr'); ?></div>
 					</div>
 				</div>
-				<div class="col-md-12">
-					<div id="form_result"></div>
-				</div>	
 			<?php endif; ?>
 		</div>
 	</form>
