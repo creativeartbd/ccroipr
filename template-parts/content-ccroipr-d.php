@@ -242,10 +242,8 @@ if( 'publish' != $post_status && 'confirmed' != $post_status  ) {
 					<p><?php _e('Escape Abbruch', 'ccroipr'); ?></p>
 				</div>
 				<div class="col-sm-12">
-					<div class="button-help-group">
-						<input type="submit" name="submit" value="Confirm Data" class="btn btn-success float-right" id="confirm_btn" data-nonce="<?php echo wp_create_nonce( 'register_confirm_action' ); ?>" data-register-type="<?php echo $data_type; ?>" >
-						<p class="help color-red"><?php _e('HINWEIS: Nach der Freigabe können die Angaben nicht mehr geändert werden!', 'ccroipr'); ?></p>
-					</div>					
+					<p class="help color-red"><?php _e('HINWEIS: Nach der Freigabe können die Angaben nicht mehr geändert werden!', 'ccroipr'); ?></p>
+					<input type="submit" name="submit" value="Confirm Data" class="btn btn-success float-right" id="confirm_btn" data-nonce="<?php echo wp_create_nonce( 'register_confirm_action' ); ?>" data-register-type="<?php echo $data_type; ?>" >
 					<p><?php _e('Ich habe meine Daten kontrolliert und gebe sie zur Veröffentlichung frei.', 'ccroipr'); ?></p>
 				</div>
 			<?php endif; ?>
